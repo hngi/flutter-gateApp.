@@ -7,14 +7,14 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   charcode:
     dependency: transitive
     description:
@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.11"
+  cookie_jar:
+    dependency: transitive
+    description:
+      name: cookie_jar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -36,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.16"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -46,6 +60,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.0"
+  intro_slider:
+    dependency: "direct main"
+    description:
+      name: intro_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.8"
   matcher:
     dependency: transitive
     description:
@@ -53,13 +81,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.5"
+  material_design_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: material_design_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.4096"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.6"
+    version: "1.1.7"
   path:
     dependency: transitive
     description:
@@ -73,7 +108,14 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0+1"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   quiver:
     dependency: transitive
     description:
@@ -144,3 +186,4 @@ packages:
     version: "2.0.8"
 sdks:
   dart: ">=2.2.2 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"
