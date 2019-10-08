@@ -28,7 +28,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,11 +37,12 @@ class CustomTextFormField extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
             child: Text(labelName,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
           ),
           TextFormField(
             maxLines: maxLines,
             onSaved: onSaved,
+            
             validator: validator,
             initialValue: initialValue ?? '',
             obscureText: isPassword ? true : false,
@@ -50,8 +51,9 @@ class CustomTextFormField extends StatelessWidget {
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
+              hintText: '',
               suffix: suffix ?? SizedBox(),
-              contentPadding: EdgeInsets.all(14.0),
+              contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
               enabledBorder: GateManHelpers.textFieldBorder,
               border: GateManHelpers.textFieldBorder,
