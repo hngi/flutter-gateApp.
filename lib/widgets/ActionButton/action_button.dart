@@ -28,7 +28,7 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Container(
-          height: 55.0,
+          height: 50.0,
           alignment: Alignment.center,
           child: Text(
             buttonText,
