@@ -12,8 +12,8 @@ class ActionButton extends StatelessWidget {
     @required this.buttonText,
     @required this.onPressed,
     this.color,
-    this.horizontalPadding = 8.0,
-    this.verticalPadding = 6.0,
+    this.horizontalPadding = 15.0,
+    this.verticalPadding = 8.0,
   });
 
   @override

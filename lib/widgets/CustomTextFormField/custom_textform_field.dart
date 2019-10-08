@@ -27,12 +27,15 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
+      // alignment: Alignment.center,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: 7.0),
             child: Text(labelName,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
           ),
@@ -43,15 +46,15 @@ class CustomTextFormField extends StatelessWidget {
             initialValue: initialValue ?? '',
             obscureText: isPassword ? true : false,
             style: TextStyle(
-              color: GateManColors.primaryColor,
+              color: GateManColors.textColor,
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
               suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(14.0),
-              focusedBorder: GateMapHelpers.textFieldBorder,
-              enabledBorder: GateMapHelpers.textFieldBorder,
-              border: GateMapHelpers.textFieldBorder,
+              focusedBorder: GateManHelpers.textFieldBorder,
+              enabledBorder: GateManHelpers.textFieldBorder,
+              border: GateManHelpers.textFieldBorder,
               // labelText: labelName,
               // labelStyle: TextStyle(color: GateManColors.primaryColor),
             ),

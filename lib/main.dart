@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/routes/routes.dart';
 
 import 'pages/SplashScreen.dart';
 
@@ -21,6 +23,8 @@ class GateMan extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GateMan App',
+        initialRoute: '/splash',
+        onGenerateRoute: Routes.generateRoute,
         theme: ThemeData(
           primarySwatch: GateManColors.primarySwatchColor,
           textTheme: Theme.of(context).textTheme.apply(
@@ -29,7 +33,7 @@ class GateMan extends StatelessWidget {
               ),
           fontFamily: 'OpenSans',
         ),
-        home: SplashScreen(),
+        // home: ManageAddress(),
         debugShowCheckedModeBanner: false,
       ),
     );
