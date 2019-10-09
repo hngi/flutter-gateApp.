@@ -5,6 +5,7 @@ import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:material_design_icons_flutter/icon_map.dart';
 
 class ManageAddress extends StatefulWidget {
   @override
@@ -84,28 +85,16 @@ class _ManageAddressState extends State<ManageAddress> {
               }).toList(),
             ),
 
-            //Select Estate
-            CustomDropdownButton(
-              label: 'Select your Estate',
-              prefixIcon: Icon(Icons.search),
-              hintText: _estates.first,
-              value: estate ?? _estates.first,
-              onChanged: _onEstatesChanged,
-              items: _estates.map((String estate) {
-                return DropdownMenuItem(
-                  child: Text(estate),
-                  value: estate,
-                );
-              }).toList(),
+           
+            CustomTextFormField(
+              labelName: ' Select your Estate',
+               hintText: 'Enter Estate Address',
+               suffixIcon: Icon(Icons.arrow_drop_down),
+               prefixIcon: Icon(Icons.search),
+              onSaved: (str) => estateAddress = str,
+              validator: (str) =>
+                  str.isEmpty ? 'Estate Address is Required' : null,
             ),
-            // CustomTextFormField(
-            //   labelName: ' Select your Estate',
-            //    hintText: 'Enter Estate Address',
-            //    icon: Icons.search,
-            //   onSaved: (str) => estateAddress = str,
-            //   validator: (str) =>
-            //       str.isEmpty ? 'Estate Address is Required' : null,
-            // ),
             Stack(children: <Widget>[
               InkWell(
                 child: Padding(
