@@ -151,7 +151,7 @@ class _MainPagerState extends State<MainPager> {
                       Spacer(),
                       FlatButton(
                         onPressed: () => Navigator.pushReplacementNamed(
-                            context, '/manage-address'),
+                            context, '/edit-profile'),
                         child: Text(
                           'SKIP',
                           style: TextStyle(color: Colors.white),

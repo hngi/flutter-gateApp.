@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
+import 'package:gateapp/pages/edit_profile.dart';
 import 'package:gateapp/pages/manage_address.dart';
+import 'package:gateapp/pages/register.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 
 class Routes {
@@ -19,6 +21,12 @@ class Routes {
 
       case '/manage-address':
         return MaterialPageRoute(builder: (context) => ManageAddress());
+
+      case '/edit-profile':
+        return MaterialPageRoute(builder: (context) => EditProfile());
+
+      case '/register':
+        return MaterialPageRoute(builder: (context) => Register());
 
       default:
         return MaterialPageRoute(

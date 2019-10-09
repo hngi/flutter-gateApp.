@@ -9,8 +9,10 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String) onSaved;
   final String Function(String) validator;
   final Widget suffix;
+  final Widget prefix;
   final bool isPassword;
   final int maxLines;
+  final String hint;
 
   const CustomTextFormField({
     Key key,
@@ -20,6 +22,8 @@ class CustomTextFormField extends StatelessWidget {
     @required this.onSaved,
     @required this.validator,
     this.suffix,
+    this.prefix,
+    this.hint = '',
     this.isPassword = false,
     this.maxLines = 1,
   }) : super(key: key);
@@ -50,7 +54,9 @@ class CustomTextFormField extends StatelessWidget {
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              suffix: suffix ?? SizedBox(),
+              hintText: hint,
+              suffix: suffix,
+              prefix: prefix,
               contentPadding: EdgeInsets.all(14.0),
               focusedBorder: GateManHelpers.textFieldBorder,
               enabledBorder: GateManHelpers.textFieldBorder,

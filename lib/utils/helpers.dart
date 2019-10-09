@@ -4,6 +4,17 @@ import 'package:gateapp/utils/colors.dart';
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class
 
+  static Widget bigText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 42.0,
+        fontWeight: FontWeight.w700,
+        color: GateManColors.primaryColor,
+      ),
+    );
+  }
+
   // This is used to calculate the size of component based on the current height of the screen
   static double screenAwareSize(double percent, BuildContext context) {
     return percent / 100 * MediaQuery.of(context).size.height;
@@ -24,7 +35,7 @@ class GateManHelpers {
           )),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.more_vert),
           onPressed: () {},
           color: Colors.white,
         ),
