@@ -5,6 +5,7 @@ import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/splash_screen.dart';
+import 'package:gateapp/pages/user_type.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,6 +24,9 @@ class Routes {
 
       case '/add-location':
         return MaterialPageRoute(builder: (context) => AddPermission());
+
+      case '/user-type':
+        return MaterialPageRoute(builder: (context) => UserType());
 
       default:
         return MaterialPageRoute(

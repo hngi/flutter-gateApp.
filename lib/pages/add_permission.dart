@@ -33,8 +33,7 @@ class _AddPermissionState extends State<AddPermission> {
           width: double.infinity,
 
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+
             children: <Widget>[
               Text(
                 'Location permission required',
@@ -50,8 +49,8 @@ class _AddPermissionState extends State<AddPermission> {
                 'Your location permission will be required for easy accessibility ',
                   style: TextStyle(
                     fontSize: 15.0,
-                    color: GateManColors.textColor,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+//                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.left,
                 ),
@@ -61,9 +60,10 @@ class _AddPermissionState extends State<AddPermission> {
 
 
         Container(
+          padding: EdgeInsets.all(20.0),
             child: ActionButton(
               buttonText: 'Ok, turn on permission',
-              onPressed: () {},
+              onPressed: () => Navigator.pushReplacementNamed(context, '/user-type'),
             )
         ),
       ],
