@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
+import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 
@@ -19,6 +20,9 @@ class Routes {
 
       case '/manage-address':
         return MaterialPageRoute(builder: (context) => ManageAddress());
+
+      case '/add-location':
+        return MaterialPageRoute(builder: (context) => AddPermission());
 
       default:
         return MaterialPageRoute(
