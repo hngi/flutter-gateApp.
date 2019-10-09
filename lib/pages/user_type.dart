@@ -4,12 +4,20 @@ import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
 
 
-class UserType extends StatefulWidget {
+class UserType extends StatelessWidget {
   @override
-  _UserType createState() => _UserType();
+  Widget build(BuildContext context) {
+    return Scaffold(backgroundColor: Colors.white, body: TypeOfUser());
+  }
+
 }
 
-class _UserType extends State<UserType> {
+class TypeOfUser extends StatefulWidget {
+  @override
+  _TypeOfUser createState() => _TypeOfUser();
+}
+
+class _TypeOfUser extends State<TypeOfUser> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class _UserType extends State<UserType> {
             child: Padding(
               padding: EdgeInsets.only(top: 120.0),
               child: Text(
-                'How do you intend to use\n\t\t\t\t\t\t\t\t\t\t\t\t\t GatePass?',
+                'How do you intend to use\n\t\t\t\t\t\t\t\t\t\t\t GatePass?',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 18.0,
@@ -111,7 +119,7 @@ class _UserType extends State<UserType> {
             child: Padding(
               padding: EdgeInsets.only(top: 20.0, left: 20, right: 20),
               child: Text(
-                'Sign in as a resident to enjoy unlimited \t\t\t\t\t\t\t\t\t\t\t\t\taccess in managing your visitor',
+                'Sign in as a resident to enjoy unlimited access in \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t managing your visitor',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                     fontSize: 14.0,
@@ -126,7 +134,7 @@ class _UserType extends State<UserType> {
               padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Continue',
-                onPressed: () {},
+                onPressed: () => Navigator.pushReplacementNamed(context, '/add-location'),
               )
           ),
         ],

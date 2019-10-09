@@ -3,12 +3,20 @@ import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
 
 
-class AddPermission extends StatefulWidget {
+class AddPermission extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(backgroundColor: Colors.white, body: Location());
+  }
+}
+
+class Location extends StatefulWidget {
   @override
   _AddPermissionState createState() => _AddPermissionState();
 }
 
-class _AddPermissionState extends State<AddPermission> {
+
+class _AddPermissionState extends State<Location> {
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,8 @@ class _AddPermissionState extends State<AddPermission> {
           padding: EdgeInsets.all(20.0),
             child: ActionButton(
               buttonText: 'Ok, turn on permission',
-              onPressed: () => Navigator.pushReplacementNamed(context, '/user-type'),
+              onPressed: () => Navigator.pushReplacementNamed(
+                  context, '/manage-address'),
             )
         ),
       ],
