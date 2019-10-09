@@ -72,7 +72,7 @@ class _AddPermissionState extends State<Location> {
             child: ActionButton(
               buttonText: 'Ok, turn on permission',
               onPressed: () => Navigator.pushReplacementNamed(
-                  context, '/manage-address'),
+                  context, '/select-estate'),
             )
         ),
       ],

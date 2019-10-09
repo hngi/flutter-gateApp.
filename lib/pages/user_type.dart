@@ -119,7 +119,7 @@ class _TypeOfUser extends State<TypeOfUser> {
             child: Padding(
               padding: EdgeInsets.only(top: 20.0, left: 20, right: 20),
               child: Text(
-                'Sign in as a resident to enjoy unlimited access in \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t managing your visitor',
+                'Sign in as a resident to enjoy unlimited access in \n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t managing your visitor',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                     fontSize: 14.0,
