@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/manage_address.dart';
+import 'package:gateapp/pages/Select_Estate.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
 
-import 'pages/SplashScreen.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class GateMan extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GateMan App',
-        initialRoute: '/splash',
+        initialRoute: '/manage-address',
         onGenerateRoute: Routes.generateRoute,
         theme: ThemeData(
           primarySwatch: GateManColors.primarySwatchColor,
