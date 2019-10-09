@@ -15,7 +15,7 @@ class _AddEstateState extends State<AddEstate> {
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
 
-  String country, city, estate, estateName;
+  String country, city, estate, estateName, estateAddress;
 
   //event listeners
   _onCountriesChanged(String value) {
@@ -61,15 +61,15 @@ class _AddEstateState extends State<AddEstate> {
               hintText: 'Enter Estate Name',
               onSaved: (str) => estateName = str,
               validator: (str) =>
-                  str.isEmpty ? 'Flat Number is required' : null,
+                  str.isEmpty ? 'Estate name is required' : null,
             ),
             //Enter Address
             CustomTextFormField(
               labelName: ' Estate Address',
                hintText: 'Enter Estate Address',
-              onSaved: (str) => estateName = str,
+              onSaved: (str) => estateAddress = str,
               validator: (str) =>
-                  str.isEmpty ? 'Flat Number is required' : null,
+                  str.isEmpty ? 'Estate Address is Required' : null,
             ),
             //Select City
             CustomDropdownButton(

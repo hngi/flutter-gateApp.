@@ -4,7 +4,6 @@ import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
-import 'package:gateapp/widgets/CustomSearchdropdown/custom_search_dropdown.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 
 class ManageAddress extends StatefulWidget {
@@ -17,7 +16,7 @@ class _ManageAddressState extends State<ManageAddress> {
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
 
-  String country, city, estate, flatNumber;
+  String country, city, estate,  estateAddress;
 
   //event listeners
   _onCountriesChanged(String value) {
@@ -99,38 +98,47 @@ class _ManageAddressState extends State<ManageAddress> {
                 );
               }).toList(),
             ),
-            Stack(children: <Widget>[InkWell(
-          child: Padding(
-            padding: const EdgeInsets.only( left: 80),
-            child: Text('Could not find my Estate?',
-                style: TextStyle(
-                    fontSize: 13.0,
-                    color: GateManColors.textColor,
-                    fontWeight: FontWeight.w600)),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddEstate()),
-            );
-          },
-        ),
-        InkWell(
-          child: Padding(
-            padding: const EdgeInsets.only( left: 240),
-            child: Text('Add New',
-                style: TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w700)),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddEstate()),
-            );
-          },
-        ),
+            // CustomTextFormField(
+            //   labelName: ' Select your Estate',
+            //    hintText: 'Enter Estate Address',
+            //    icon: Icons.search,
+            //   onSaved: (str) => estateAddress = str,
+            //   validator: (str) =>
+            //       str.isEmpty ? 'Estate Address is Required' : null,
+            // ),
+            Stack(children: <Widget>[
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 80),
+                  child: Text('Could not find my Estate?',
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: GateManColors.textColor,
+                          fontWeight: FontWeight.w600)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddEstate()),
+                  );
+                },
+              ),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 240),
+                  child: Text('Add New',
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w700)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddEstate()),
+                  );
+                },
+              ),
             ]),
             SizedBox(height: 90.0),
 
@@ -141,7 +149,6 @@ class _ManageAddressState extends State<ManageAddress> {
             ),
           ],
         ),
-        
       ]),
     );
   }

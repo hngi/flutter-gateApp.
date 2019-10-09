@@ -6,6 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   final String labelName;
   final String initialValue;
   final String hintText;
+  final IconData icon;
   final TextInputType keyboardType;
   final Function(String) onSaved;
   final String Function(String) validator;
@@ -17,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
     Key key,
     @required this.labelName,
     this.initialValue,
+    this.icon,
     this.hintText,
     this.keyboardType = TextInputType.text,
     @required this.onSaved,
@@ -54,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
             keyboardType: keyboardType,
             decoration: InputDecoration(
               hintText: hintText,
+              icon: Icon(icon),              
               suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
