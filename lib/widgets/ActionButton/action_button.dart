@@ -12,8 +12,8 @@ class ActionButton extends StatelessWidget {
     @required this.buttonText,
     @required this.onPressed,
     this.color,
-    this.horizontalPadding = 15.0,
-    this.verticalPadding = 8.0,
+    this.horizontalPadding = 20.0,
+    this.verticalPadding = 10.0,
   });
 
   @override
@@ -25,7 +25,7 @@ class ActionButton extends StatelessWidget {
         color: color ?? GateManColors.primaryColor,
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(5.0),
         ),
         child: Container(
           height: 50.0,
@@ -33,7 +33,7 @@ class ActionButton extends StatelessWidget {
           child: Text(
             buttonText,
             style: TextStyle(
-              fontSize: 16.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.w600,
               color: Colors.white,
             ),
