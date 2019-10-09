@@ -58,6 +58,7 @@ class _AddEstateState extends State<AddEstate> {
             //Enter Estate name
             CustomTextFormField(
               labelName: ' Estate Name',
+              hintText: 'Enter Estate Name',
               onSaved: (str) => estateName = str,
               validator: (str) =>
                   str.isEmpty ? 'Flat Number is required' : null,
@@ -65,6 +66,7 @@ class _AddEstateState extends State<AddEstate> {
             //Enter Address
             CustomTextFormField(
               labelName: ' Estate Address',
+               hintText: 'Enter Estate Address',
               onSaved: (str) => estateName = str,
               validator: (str) =>
                   str.isEmpty ? 'Flat Number is required' : null,

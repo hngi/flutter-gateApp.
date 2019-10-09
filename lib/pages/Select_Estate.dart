@@ -4,6 +4,7 @@ import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
+import 'package:gateapp/widgets/CustomSearchdropdown/custom_search_dropdown.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 
 class ManageAddress extends StatefulWidget {
@@ -86,7 +87,6 @@ class _ManageAddressState extends State<ManageAddress> {
 
             //Select Estate
             CustomDropdownButton(
-              
               label: 'Select your Estate',
               prefixIcon: Icon(Icons.search),
               hintText: _estates.first,
@@ -99,29 +99,25 @@ class _ManageAddressState extends State<ManageAddress> {
                 );
               }).toList(),
             ),
-
-            //Enter Flat Number
-
-            SizedBox(height: 90.0),
-
-            //Save Button
-            ActionButton(
-              buttonText: 'Continue',
-              onPressed: () {},
-            )
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 430.0, left: 110),
-          child: Text('Could not find my Estate?',
-              style: TextStyle(
-                  fontSize: 13.0,
-                  color: GateManColors.textColor,
-                  fontWeight: FontWeight.w600)),
+            Stack(children: <Widget>[InkWell(
+          child: Padding(
+            padding: const EdgeInsets.only( left: 80),
+            child: Text('Could not find my Estate?',
+                style: TextStyle(
+                    fontSize: 13.0,
+                    color: GateManColors.textColor,
+                    fontWeight: FontWeight.w600)),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddEstate()),
+            );
+          },
         ),
         InkWell(
           child: Padding(
-            padding: const EdgeInsets.only(top: 430.0, left: 270),
+            padding: const EdgeInsets.only( left: 240),
             child: Text('Add New',
                 style: TextStyle(
                     fontSize: 13.0,
@@ -135,6 +131,17 @@ class _ManageAddressState extends State<ManageAddress> {
             );
           },
         ),
+            ]),
+            SizedBox(height: 90.0),
+
+            //Save Button
+            ActionButton(
+              buttonText: 'Continue',
+              onPressed: () {},
+            ),
+          ],
+        ),
+        
       ]),
     );
   }

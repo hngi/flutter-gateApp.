@@ -5,6 +5,7 @@ import 'package:gateapp/utils/helpers.dart';
 class CustomTextFormField extends StatelessWidget {
   final String labelName;
   final String initialValue;
+  final String hintText;
   final TextInputType keyboardType;
   final Function(String) onSaved;
   final String Function(String) validator;
@@ -16,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
     Key key,
     @required this.labelName,
     this.initialValue,
+    this.hintText,
     this.keyboardType = TextInputType.text,
     @required this.onSaved,
     @required this.validator,
@@ -51,7 +53,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              hintText: '',
+              hintText: hintText,
               suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
