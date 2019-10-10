@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Select_Estate.dart';
+import 'package:gateapp/pages/section_seven/add_visitor.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
 
@@ -34,6 +35,7 @@ class GateMan extends StatelessWidget {
           fontFamily: 'OpenSans',
         ),
         // home: ManageAddress(),
+        home:AddVisitor(),
         debugShowCheckedModeBanner: false,
       ),
     );
