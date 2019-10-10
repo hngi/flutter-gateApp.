@@ -5,7 +5,7 @@ import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class IncomgVisitorsWithDesignation extends StatelessWidget {
+class IncomingVisitors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

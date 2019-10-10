@@ -8,7 +8,7 @@ import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:gateapp/widgets/VisitorExpansionTile/visitor_expansion_tile.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class AddVisitor extends StatelessWidget {
+class AddAVisitor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
