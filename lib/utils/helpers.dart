@@ -44,7 +44,7 @@ class GateManHelpers {
     );
   }
 
-  //borders around the textfields
+  //borders around the text fields
   static final textFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(6.0),
     borderSide: BorderSide(
@@ -70,5 +70,20 @@ class GateManHelpers {
         return GateManColors.yellowColor;
         break;
     }
+  }
+}
+
+class MyBullet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      padding: EdgeInsets.all(0.0),
+      height: 15.0,
+      width: 15.0,
+      decoration: new BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+    );
   }
 }

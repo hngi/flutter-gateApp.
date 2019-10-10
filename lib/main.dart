@@ -1,22 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/add_gateman.dart';
-import 'package:gateapp/pages/add_visitor.dart';
-import 'package:gateapp/pages/edit_info.dart';
-import 'package:gateapp/pages/edit_profile.dart';
-import 'package:gateapp/pages/homepage.dart';
-import 'package:gateapp/pages/incoming_visitors_list.dart';
 import 'package:gateapp/pages/incoming_visitors_with_designation.dart';
-import 'package:gateapp/pages/manage_address.dart';
-import 'package:gateapp/pages/manage_gateman.dart';
-import 'package:gateapp/pages/register.dart';
-import 'package:gateapp/pages/residents.dart';
-import 'package:gateapp/pages/welcome_resident.dart';
+import 'package:gateapp/pages/section_seven/add_visitor.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
-
-import 'pages/SplashScreen.dart';
-
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/providers/providers.dart';
@@ -34,8 +20,8 @@ class GateMan extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GateMan App',
-        // initialRoute: '/register',
-        // onGenerateRoute: Routes.generateRoute,
+        initialRoute: '/',
+        onGenerateRoute: Routes.generateRoute,
         theme: ThemeData(
           primarySwatch: GateManColors.primarySwatchColor,
           textTheme: Theme.of(context).textTheme.apply(

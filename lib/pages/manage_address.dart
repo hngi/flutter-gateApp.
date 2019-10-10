@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/pages/about.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
@@ -99,10 +100,49 @@ class _ManageAddressState extends State<ManageAddress> {
           //Save Button
           ActionButton(
             buttonText: 'Save',
-            onPressed: () {},
+            onPressed: () => {},
           )
         ],
       ),
+    /*   drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            //new UserAccountsDrawerHeader(accountName: null, accountEmail: null),
+            Container(
+              padding: EdgeInsets.fromLTRB(10.0, 100.0, 10.0, 40.0),
+              child: Image.asset(
+                'assets/images/gate_pass.png',
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
+              child: BottomMenu(
+                'Go Back',
+                    () => Navigator.pushNamed(context, '/pager'),
+                Border(bottom: BorderSide(color: Colors.grey[300])),
+              ),
+            ),
+            Container(
+              child: BottomMenu(
+                  'About GatePass',
+                      () => Navigator.pushNamed(context, '/about'),
+                  Border(bottom: BorderSide(color: Colors.grey[300]))),
+            ),
+            Container(
+              child: BottomMenu(
+                  'Privacy Policy',
+                      () => Navigator.pushNamed(context, '/privacy-policy'),
+                  Border(bottom: BorderSide(color: Colors.grey[300]))),
+            ),
+            Container(
+              child: BottomMenu(
+                  'FAQ',
+                      () => Navigator.pushNamed(context, '/faq'),
+                  Border(bottom: BorderSide(color: Colors.grey[300]))),
+            ),
+          ],
+        ),
+      ),*/
     );
   }
 }

@@ -67,7 +67,7 @@ class _MainPagerState extends State<MainPager> {
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-                padding: EdgeInsets.only(top: 70.0, left: 40.0),
+                padding: EdgeInsets.only(top: 40.0, left: 40.0),
                 child: Text(_currentPageIndex == 0 ? 'Welcome' : '',
                     style: TextStyle(
                         fontSize: 42.0, color: GateManColors.primaryColor))),
@@ -104,17 +104,17 @@ class _MainPagerState extends State<MainPager> {
                 Text(
                   pagerMessages[_currentPageIndex],
                   style: TextStyle(
-                    fontSize: 35.0,
+                    fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.left,
                 ),
-                SizedBox(height: 26.0),
+                SizedBox(height: 20.0),
                 Text(
                   pagerSubMessages[_currentPageIndex],
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
@@ -151,7 +151,7 @@ class _MainPagerState extends State<MainPager> {
                       Spacer(),
                       FlatButton(
                         onPressed: () => Navigator.pushReplacementNamed(
-                            context, '/edit-profile'),
+                            context, '/user-type'),
                         child: Text(
                           'SKIP',
                           style: TextStyle(color: Colors.white),
