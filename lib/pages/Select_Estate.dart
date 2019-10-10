@@ -13,12 +13,11 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-  
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
 
-  String country, city, estate,  estateAddress;
+  String country, city, estate, estateAddress;
 
   //event listeners
   _onCountriesChanged(String value) {
@@ -86,12 +85,11 @@ class _SelectAddressState extends State<SelectAddress> {
               }).toList(),
             ),
 
-           
             CustomTextFormField(
               labelName: ' Select your Estate',
-               hintText: 'Enter Estate Address',
-               suffixIcon: Icon(Icons.arrow_drop_down),
-               prefixIcon: Icon(Icons.search),
+              hintText: 'Enter Estate Address',
+              suffixIcon: Icon(Icons.arrow_drop_down),
+              prefixIcon: Icon(Icons.search),
               onSaved: (str) => estateAddress = str,
               validator: (str) =>
                   str.isEmpty ? 'Estate Address is Required' : null,
