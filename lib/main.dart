@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/pages/section_seven/add_visitor.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
 import 'package:provider/provider.dart';
