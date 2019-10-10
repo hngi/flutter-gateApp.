@@ -22,4 +22,8 @@ class GateManColors {
   static Color textColor = Color(0xFF4F4F4F);
   static Color grayColor = Color(0xFF464646);
   static Color blackColor = Color(0xFF4F4F44);
+  static Color yellowColor = Color(0xFFFFDA58);
+  static Color blueColor = Color(0xFF94C7FE);
+  static Color lightBlueColor = Color(0xFFDCF6E2);
+  static Color redColor = Color(0xFFBE1616);
 }

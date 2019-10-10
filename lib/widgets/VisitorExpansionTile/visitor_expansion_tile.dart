@@ -243,7 +243,7 @@ class VisitorExpansionTileState extends State<VisitorExpansionTile>
                           fontSize: 17.0,
                           fontWeight: FontWeight.w600)),
 
-                  //Message
+                  //Add Button
                   Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(3.0),

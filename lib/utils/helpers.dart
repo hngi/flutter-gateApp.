@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class
@@ -52,4 +53,22 @@ class GateManHelpers {
       width: 1.0,
     ),
   );
+
+  //Visiting time color
+  static Color getVisitingTimeColor(VisitingTime time) {
+    switch (time) {
+      case VisitingTime.morning:
+        return GateManColors.yellowColor;
+        break;
+      case VisitingTime.afternoon:
+        return GateManColors.primaryColor;
+        break;
+      case VisitingTime.evening:
+        return GateManColors.blueColor;
+        break;
+      default:
+        return GateManColors.yellowColor;
+        break;
+    }
+  }
 }

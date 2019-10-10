@@ -79,7 +79,7 @@ class _EditInfoState extends State<EditInfo> {
             validator: (str) =>
                 str.isEmpty ? 'Other Number cannot be empty' : null,
             initialValue: 'Monday 23rd, Sept, 2019',
-            suffix: GestureDetector(
+            suffixIcon: GestureDetector(
               onTap: () {
                 _selectDate();
               },

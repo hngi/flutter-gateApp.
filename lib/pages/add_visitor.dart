@@ -27,10 +27,10 @@ class AddVisitor extends StatelessWidget {
           ),
           CustomTextFormField(
             labelName: '',
-            hint: 'Enter full name',
+            hintText: 'Enter full name',
             onSaved: (str) {},
             validator: (str) => null,
-            prefix: Icon(MdiIcons.account),
+            prefixIcon: Icon(MdiIcons.account),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
