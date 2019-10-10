@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class
 
-  //List<String> _menuList = ['About', 'South Africa', 'China'];
+  static Widget bigText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 42.0,
+        fontWeight: FontWeight.w700,
+        color: GateManColors.primaryColor,
+      ),
+    );
+  }
 
   // This is used to calculate the size of component based on the current height of the screen
   static double screenAwareSize(double percent, BuildContext context) {
@@ -44,9 +54,26 @@ class GateManHelpers {
     ),
   );
 
+  //Visiting time color
+  static Color getVisitingTimeColor(VisitingTime time) {
+    switch (time) {
+      case VisitingTime.morning:
+        return GateManColors.yellowColor;
+        break;
+      case VisitingTime.afternoon:
+        return GateManColors.primaryColor;
+        break;
+      case VisitingTime.evening:
+        return GateManColors.blueColor;
+        break;
+      default:
+        return GateManColors.yellowColor;
+        break;
+    }
+  }
 }
 
-class MyBullet extends StatelessWidget{
+class MyBullet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
