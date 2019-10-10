@@ -12,7 +12,7 @@ class ActionButton extends StatelessWidget {
     @required this.buttonText,
     @required this.onPressed,
     this.color,
-    this.horizontalPadding = 20.0,
+    this.horizontalPadding,
     this.verticalPadding = 10.0,
   });
 
@@ -20,7 +20,7 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: verticalPadding, horizontal: horizontalPadding),
+          vertical: verticalPadding, horizontal: horizontalPadding??20),
       child: RaisedButton(
         color: color ?? GateManColors.primaryColor,
         onPressed: onPressed,

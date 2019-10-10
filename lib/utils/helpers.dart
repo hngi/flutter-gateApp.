@@ -41,4 +41,5 @@ class GateManHelpers {
       width: 1.0,
     ),
   );
+
 }
