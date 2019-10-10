@@ -7,12 +7,13 @@ import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:material_design_icons_flutter/icon_map.dart';
 
-class ManageAddress extends StatefulWidget {
+class SelectAddress extends StatefulWidget {
   @override
-  _ManageAddressState createState() => _ManageAddressState();
+  _SelectAddressState createState() => _SelectAddressState();
 }
 
-class _ManageAddressState extends State<ManageAddress> {
+class _SelectAddressState extends State<SelectAddress> {
+  
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];

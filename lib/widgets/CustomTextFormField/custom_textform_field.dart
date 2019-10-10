@@ -8,6 +8,7 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final Widget prefixIcon;
   final Widget suffixIcon;
+  final TextEditingController controller;
   final IconData icon;
   final TextInputType keyboardType;
   final Function(String) onSaved;
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
     @required this.labelName,
     this.initialValue,
     this.icon,
+    this.controller,
     this.prefixIcon,
     this.suffixIcon,
     this.hintText,
@@ -50,6 +52,7 @@ class CustomTextFormField extends StatelessWidget {
           TextFormField(
             maxLines: maxLines,
             onSaved: onSaved,
+            controller: controller,
             
             validator: validator,
             initialValue: initialValue ?? '',

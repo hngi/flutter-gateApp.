@@ -10,14 +10,14 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+        return MaterialPageRoute(builder: (context) => SelectAddress());
 
      
       case '/pager':
         return MaterialPageRoute(builder: (context) => Pager());
 
       case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+        return MaterialPageRoute(builder: (context) => SelectAddress());
          case '/add-estate':
         return MaterialPageRoute(builder: (context) => AddEstate());
 
