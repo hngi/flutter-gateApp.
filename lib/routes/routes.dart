@@ -10,6 +10,7 @@ import 'package:gateapp/pages/privacypolicy.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/welcomepage1.dart';
 
+
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -37,8 +38,18 @@ class Routes {
       case '/manage-address':
         return MaterialPageRoute(builder: (context) => ManageAddress());
 
+      case '/add-location':
+        return MaterialPageRoute(builder: (context) => AddPermission());
+
+      case '/user-type':
+        return MaterialPageRoute(builder: (context) => UserType());
+
       case '/add-estate':
         return MaterialPageRoute(builder: (context) => AddEstate());
+
+      case '/select-estate':
+              return MaterialPageRoute(builder: (context) => SelectAddress());
+
 
       default:
         return MaterialPageRoute(
