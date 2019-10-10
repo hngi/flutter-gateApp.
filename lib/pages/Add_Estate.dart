@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/user.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:validators/validators.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
@@ -45,7 +42,7 @@ class _AddEstateState extends State<AddEstate> {
         body: Stack(children: <Widget>[
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-            children<<<<<<< charles: <Widget>[
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text('Add New Estate',
