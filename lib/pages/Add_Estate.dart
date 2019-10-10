@@ -38,12 +38,14 @@ class _AddEstateState extends State<AddEstate> {
   @override
   Widget build(BuildContext context) {
     return Form(
-            key: _formkey,
-          child: Scaffold(
+
+      key: _formkey,
+      child: Scaffold(
+
         body: Stack(children: <Widget>[
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-            children: <Widget>[
+            children<<<<<<< charles: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text('Add New Estate',
@@ -65,8 +67,11 @@ class _AddEstateState extends State<AddEstate> {
               //Enter Estate name
               CustomTextFormField(
                 labelName: ' Estate Name',
-                validator: (String value){
-                  if(value.isEmpty){
+
+                hintText: 'Enter Estate Name',
+                validator: (String value) {
+                  if (value.isEmpty) {
+
                     return 'Estate name is empty';
                   }
                   return null;
@@ -78,8 +83,11 @@ class _AddEstateState extends State<AddEstate> {
               //Enter Address
               CustomTextFormField(
                 labelName: ' Estate Address',
-                validator: (String value){
-                  if(value.isEmpty){
+
+                hintText: 'Enter Estate Address',
+                validator: (String value) {
+                  if (value.isEmpty) {
+
                     return 'Estate Address is empty';
                   }
                   return null;
@@ -121,9 +129,9 @@ class _AddEstateState extends State<AddEstate> {
               ActionButton(
                 buttonText: 'Add',
                 onPressed: () {
-                  if(_formkey.currentState.validate()){
-                    
-                  }
+
+                  if (_formkey.currentState.validate()) {}
+
                 },
               )
             ],
