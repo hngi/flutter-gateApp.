@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 
 class SplashScreen extends StatelessWidget {
@@ -9,9 +8,9 @@ class SplashScreen extends StatelessWidget {
     //   statusBarColor: Colors.white, //top bar color
     // ));
 
-    // Future.delayed(Duration(seconds: 5), () {
-    //   Navigator.pushReplacementNamed(context, '/pager');
-    // });
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.pushReplacementNamed(context, '/pager');
+    });
 
     return Scaffold(
       body: Container(

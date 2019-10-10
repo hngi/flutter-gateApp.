@@ -20,12 +20,11 @@ class Routes {
       case '/splash':
         return MaterialPageRoute(builder: (context) => SplashScreen());
 
-
       case '/pager':
         return MaterialPageRoute(builder: (context) => Pager());
 
       case '/add-location':
-        return MaterialPageRoute(builder: (context) => AddPermission());
+        return MaterialPageRoute(builder: (context) => AddLocationPermission(typeUser: settings.arguments));
 
       case '/user-type':
         return MaterialPageRoute(builder: (context) => UserType());

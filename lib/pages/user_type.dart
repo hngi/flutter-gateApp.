@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
-
+import 'package:gateapp/core/models/user.dart';
 
 class UserType extends StatelessWidget {
   @override
@@ -19,6 +19,14 @@ class TypeOfUser extends StatefulWidget {
 
 class _TypeOfUser extends State<TypeOfUser> {
 
+
+  user_type type = user_type.GATEMAN;
+
+  void _setUserType(user_type type){
+    setState((){
+      this.type = type;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,62 +61,74 @@ class _TypeOfUser extends State<TypeOfUser> {
           shrinkWrap: true,
           padding: EdgeInsets.all(20.0),
           children: <Widget>[
-            Card(
-              elevation: 5.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: GateManColors.primaryColor,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/Layer.png'),
-                  )
-                ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'Resident',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
+            GestureDetector(
+              onTap: (){
+                print('resident tapped');
+                this._setUserType(user_type.RESIDENT);},
+              child: Card(
+                elevation: this.type==user_type.RESIDENT?5.0:1.0,
+                child: Container(
+                  height:this.type==user_type.RESIDENT?450.0:300.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: GateManColors.primaryColor,
+                    image: DecorationImage(
+                      image:AssetImage('assets/images/Layer.png'),
+                    )
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Resident',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.white,
+                        ),
+
                       ),
 
                     ),
-
                   ),
                 ),
               ),
             ),
 
-           Card(
-              elevation: 2.0,
+           GestureDetector(
+             onTap: (){
+               print("Gateman Tapped");
+               this._setUserType(user_type.GATEMAN);},
+             child: Card(
+                elevation: this.type==user_type.RESIDENT?1.0:5.0,
 
-              child: Container(
-                height: 400.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/OfficerAsset.png'),
-                  )
-                ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'GateMan',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.green,
+                child: Container(
+                  height: this.type==user_type.RESIDENT?300.0:450.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/OfficerAsset.png'),
+                    )
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'GateMan',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: GateManColors.primaryColor,
+                        ),
+
                       ),
 
                     ),
-
                   ),
                 ),
               ),
-            ),
+           ),
 
 
           ],
@@ -134,7 +154,7 @@ class _TypeOfUser extends State<TypeOfUser> {
               padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Continue',
-                onPressed: () => Navigator.pushReplacementNamed(context, '/add-location'),
+                onPressed: () => Navigator.pushReplacementNamed(context, '/add-location',arguments: this.type),
               )
           ),
         ],
@@ -144,3 +164,4 @@ class _TypeOfUser extends State<TypeOfUser> {
   }
 
 }
+

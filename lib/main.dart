@@ -18,7 +18,7 @@ class GateMan extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GateMan App',
-        initialRoute: '/service_directory_resident',//'/splash',
+        initialRoute: '/',//'/service_directory_resident',//
         onGenerateRoute: Routes.generateRoute,
         theme: ThemeData(
           primarySwatch: GateManColors.primarySwatchColor,
