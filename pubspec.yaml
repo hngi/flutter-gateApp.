@@ -29,6 +29,7 @@ dependencies:
   dio: 2.1.16
   material_design_icons_flutter: 3.2.4096
   flutter_screenutil: ^0.5.3
+  validators: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:

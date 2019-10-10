@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
-import 'pages/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/providers/providers.dart';
