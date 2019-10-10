@@ -7,11 +7,13 @@ class ActionButton extends StatelessWidget {
   final Color color;
   final double horizontalPadding;
   final double verticalPadding;
+  final bool hasColor;
 
   ActionButton({
     @required this.buttonText,
     @required this.onPressed,
     this.color,
+    this.hasColor=false,
     this.horizontalPadding,
     this.verticalPadding = 10.0,
   });
@@ -22,7 +24,7 @@ class ActionButton extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           vertical: verticalPadding, horizontal: horizontalPadding??20),
       child: RaisedButton(
-        color: color ?? GateManColors.primaryColor,
+        color: hasColor ?color: GateManColors.primaryColor,
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
