@@ -42,7 +42,7 @@ class _AddEstateState extends State<AddEstate> {
         body: Stack(children: <Widget>[
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-            children<<<<<<< charles: <Widget>[
+            children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 50.0),
                 child: Text('Add New Estate',
