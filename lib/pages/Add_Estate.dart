@@ -40,7 +40,8 @@ class _AddEstateState extends State<AddEstate> {
     return Form(
             key: _formkey,
           child: Scaffold(
-        body: Stack(children: <Widget>[
+        body: Stack(
+          children: <Widget>[
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
             children: <Widget>[

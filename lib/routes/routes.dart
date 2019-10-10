@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/Select_Estate.dart';
+import 'package:gateapp/pages/settings.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
@@ -32,6 +33,9 @@ class Routes {
 
       case '/select-estate':
               return MaterialPageRoute(builder: (context) => ManageAddress());
+
+    case '/setting':
+              return MaterialPageRoute(builder: (context) => Settings());
 
       default:
         return MaterialPageRoute(
