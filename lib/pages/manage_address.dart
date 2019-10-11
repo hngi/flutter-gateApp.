@@ -104,45 +104,6 @@ class _ManageAddressState extends State<ManageAddress> {
           )
         ],
       ),
-    /*   drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            //new UserAccountsDrawerHeader(accountName: null, accountEmail: null),
-            Container(
-              padding: EdgeInsets.fromLTRB(10.0, 100.0, 10.0, 40.0),
-              child: Image.asset(
-                'assets/images/gate_pass.png',
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
-              child: BottomMenu(
-                'Go Back',
-                    () => Navigator.pushNamed(context, '/pager'),
-                Border(bottom: BorderSide(color: Colors.grey[300])),
-              ),
-            ),
-            Container(
-              child: BottomMenu(
-                  'About GatePass',
-                      () => Navigator.pushNamed(context, '/about'),
-                  Border(bottom: BorderSide(color: Colors.grey[300]))),
-            ),
-            Container(
-              child: BottomMenu(
-                  'Privacy Policy',
-                      () => Navigator.pushNamed(context, '/privacy-policy'),
-                  Border(bottom: BorderSide(color: Colors.grey[300]))),
-            ),
-            Container(
-              child: BottomMenu(
-                  'FAQ',
-                      () => Navigator.pushNamed(context, '/faq'),
-                  Border(bottom: BorderSide(color: Colors.grey[300]))),
-            ),
-          ],
-        ),
-      ),*/
     );
   }
 }
