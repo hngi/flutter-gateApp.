@@ -3,30 +3,29 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
+import 'package:gateapp/pages/Select_Estate.dart';
+import 'package:gateapp/pages/about.dart';
 import 'package:gateapp/pages/add_gateman.dart';
+import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/add_visitor.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
+import 'package:gateapp/pages/faq.dart';
 import 'package:gateapp/pages/homepage.dart';
 import 'package:gateapp/pages/incoming_visitors.dart';
 import 'package:gateapp/pages/incoming_visitors_list.dart';
+import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/manage_gateman.dart';
+import 'package:gateapp/pages/privacypolicy.dart';
 import 'package:gateapp/pages/register.dart';
 import 'package:gateapp/pages/residents.dart';
 import 'package:gateapp/pages/section_seven/add_visitor.dart';
-//import 'package:gateapp/pages/manage_address.dart';
-import 'package:gateapp/pages/service_directory/service_directory_resident_detail.dart';
+import 'package:gateapp/pages/section_seven/visitor_profile.dart';
 import 'package:gateapp/pages/service_directory/service_directory_resident.dart';
-import 'package:gateapp/pages/Select_Estate.dart';
-import 'package:gateapp/pages/about.dart';
-import 'package:gateapp/pages/faq.dart';
-import 'package:gateapp/pages/manage_address.dart';
-import 'package:gateapp/pages/privacypolicy.dart';
+import 'package:gateapp/pages/service_directory/service_directory_resident_detail.dart';
 import 'package:gateapp/pages/splash_screen.dart';
-import 'package:gateapp/pages/welcome_resident.dart';
-import 'package:gateapp/pages/welcomepage1.dart';
-import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
+import 'package:gateapp/pages/welcome_resident.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -87,6 +86,9 @@ class Routes {
 
       case '/add-a-visitor':
         return MaterialPageRoute(builder: (context) => AddAVisitor());
+
+      case '/visitor-profile':
+        return MaterialPageRoute(builder: (context) => VisitorProfile());
 
       case '/edit-info':
         return MaterialPageRoute(builder: (context) => EditInfo());

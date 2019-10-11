@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/user.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
+import 'package:gateapp/pages/section_seven/visitor_profile.dart';
 import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
-import 'package:material_design_icons_flutter/icon_map.dart';
 
 
 class SelectAddress extends StatefulWidget {
@@ -140,7 +139,12 @@ class _SelectAddressState extends State<SelectAddress> {
             //Save Button
             ActionButton(
               buttonText: 'Continue',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VisitorProfile()),
+                );
+              },
             ),
           ],
         ),
