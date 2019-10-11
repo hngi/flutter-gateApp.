@@ -25,7 +25,11 @@ import 'package:gateapp/pages/service_directory/service_directory_resident.dart'
 import 'package:gateapp/pages/service_directory/service_directory_resident_detail.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/user_type.dart';
+<<<<<<< HEAD
 import 'package:gateapp/pages/welcome_resident.dart';
+=======
+import 'package:gateapp/pages/gateman/register.dart';
+>>>>>>> 7bee94ff5983e6ff9484e156aaa4c80547568731
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -119,6 +123,10 @@ class Routes {
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
+        
+      case '/gateman-register':
+        return MaterialPageRoute(builder: (context) => GatemanRegister());
+
 
       default:
         return MaterialPageRoute(

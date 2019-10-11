@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/core/models/user.dart';
+import 'package:provider/provider.dart';
 
 class UserType extends StatelessWidget {
   @override
@@ -20,7 +22,7 @@ class TypeOfUser extends StatefulWidget {
 class _TypeOfUser extends State<TypeOfUser> {
 
 
-  user_type type = user_type.GATEMAN;
+  user_type type = user_type.RESIDENT;
 
   void _setUserType(user_type type){
     setState((){
@@ -29,6 +31,7 @@ class _TypeOfUser extends State<TypeOfUser> {
   }
   @override
   Widget build(BuildContext context) {
+    UserTypeProvider userTypeProvider = Provider.of<UserTypeProvider>(context, listen:false);
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -64,16 +67,17 @@ class _TypeOfUser extends State<TypeOfUser> {
             GestureDetector(
               onTap: (){
                 print('resident tapped');
-                this._setUserType(user_type.RESIDENT);},
+                this._setUserType(user_type.RESIDENT);
+                userTypeProvider.setUserType(user_type.RESIDENT);},
               child: Card(
                 elevation: this.type==user_type.RESIDENT?5.0:1.0,
                 child: Container(
                   height:this.type==user_type.RESIDENT?450.0:300.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    color: GateManColors.primaryColor,
+                    color: this.type==user_type.RESIDENT?GateManColors.primaryColor:Colors.white,
                     image: DecorationImage(
-                      image:AssetImage('assets/images/Layer.png'),
+                      image:AssetImage(this.type==user_type.RESIDENT?'assets/images/Layer.png':'assets/images/people_green.png'),
                     )
                   ),
                   child: Align(
@@ -84,7 +88,7 @@ class _TypeOfUser extends State<TypeOfUser> {
                         'Resident',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Colors.white,
+                          color: this.type==user_type.RESIDENT?Colors.white:GateManColors.primaryColor,
                         ),
 
                       ),
@@ -98,17 +102,18 @@ class _TypeOfUser extends State<TypeOfUser> {
            GestureDetector(
              onTap: (){
                print("Gateman Tapped");
-               this._setUserType(user_type.GATEMAN);},
+               this._setUserType(user_type.GATEMAN);
+               userTypeProvider.setUserType(user_type.GATEMAN);},
              child: Card(
                 elevation: this.type==user_type.RESIDENT?1.0:5.0,
 
                 child: Container(
                   height: this.type==user_type.RESIDENT?300.0:450.0,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: this.type==user_type.RESIDENT?Colors.white:GateManColors.primaryColor,
                     borderRadius: BorderRadius.circular(5.0),
                     image: DecorationImage(
-                      image: AssetImage('assets/images/OfficerAsset.png'),
+                      image: AssetImage(this.type==user_type.RESIDENT?'assets/images/OfficerAsset.png':'assets/images/gateman_white.png'),
                     )
                   ),
                   child: Align(
@@ -119,7 +124,7 @@ class _TypeOfUser extends State<TypeOfUser> {
                         'GateMan',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: GateManColors.primaryColor,
+                          color: this.type==user_type.RESIDENT?GateManColors.primaryColor:Colors.white,
                         ),
 
                       ),

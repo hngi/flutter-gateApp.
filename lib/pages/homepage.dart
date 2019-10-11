@@ -149,6 +149,7 @@ class Homepage extends StatelessWidget {
                 )),
           ),
           ListTile(
+            onTap: (){Navigator.pushNamed(context, '/service_directory_resident');},
             leading: Icon(MdiIcons.hammer,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Text("Service Directory",
@@ -180,7 +181,7 @@ class Homepage extends StatelessWidget {
         leadingIcon: MdiIcons.home,
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
+        traillingText: 'Alerts', onLeadingClicked: (){}, onTrailingClicked: (){},
       ),
     );
   }
