@@ -75,9 +75,9 @@ class _TypeOfUser extends State<TypeOfUser> {
                   height:this.type==user_type.RESIDENT?450.0:300.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    color: GateManColors.primaryColor,
+                    color: this.type==user_type.RESIDENT?GateManColors.primaryColor:Colors.white,
                     image: DecorationImage(
-                      image:AssetImage('assets/images/Layer.png'),
+                      image:AssetImage(this.type==user_type.RESIDENT?'assets/images/Layer.png':'assets/images/people_green.png'),
                     )
                   ),
                   child: Align(
@@ -88,7 +88,7 @@ class _TypeOfUser extends State<TypeOfUser> {
                         'Resident',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Colors.white,
+                          color: this.type==user_type.RESIDENT?Colors.white:GateManColors.primaryColor,
                         ),
 
                       ),
@@ -110,10 +110,10 @@ class _TypeOfUser extends State<TypeOfUser> {
                 child: Container(
                   height: this.type==user_type.RESIDENT?300.0:450.0,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: this.type==user_type.RESIDENT?Colors.white:GateManColors.primaryColor,
                     borderRadius: BorderRadius.circular(5.0),
                     image: DecorationImage(
-                      image: AssetImage('assets/images/OfficerAsset.png'),
+                      image: AssetImage(this.type==user_type.RESIDENT?'assets/images/OfficerAsset.png':'assets/images/gateman_white.png'),
                     )
                   ),
                   child: Align(
@@ -124,7 +124,7 @@ class _TypeOfUser extends State<TypeOfUser> {
                         'GateMan',
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: GateManColors.primaryColor,
+                          color: this.type==user_type.RESIDENT?GateManColors.primaryColor:Colors.white,
                         ),
 
                       ),
