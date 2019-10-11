@@ -170,6 +170,7 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/resident-settings');},
           ),
         ],
       ),

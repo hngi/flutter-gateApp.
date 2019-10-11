@@ -3,6 +3,7 @@ import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
+import 'package:gateapp/widgets/CustomDatePicker/custom_date_picker.dart';
 import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:gateapp/widgets/DashedRectangle/dashed_rectangle.dart';
 import 'package:gateapp/widgets/VisitorsBox/VisitorsBox.dart';
@@ -65,6 +66,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
         prefix: Icon(Icons.calendar_today),
         keyboardType: TextInputType.datetime,
       ),
+      CustomDatePicker(),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 15),
         child: Text(
