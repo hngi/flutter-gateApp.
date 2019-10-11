@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/core/models/user.dart';
+import 'package:provider/provider.dart';
 
 class UserType extends StatelessWidget {
   @override
@@ -20,7 +22,7 @@ class TypeOfUser extends StatefulWidget {
 class _TypeOfUser extends State<TypeOfUser> {
 
 
-  user_type type = user_type.GATEMAN;
+  user_type type = user_type.RESIDENT;
 
   void _setUserType(user_type type){
     setState((){
@@ -29,6 +31,7 @@ class _TypeOfUser extends State<TypeOfUser> {
   }
   @override
   Widget build(BuildContext context) {
+    UserTypeProvider userTypeProvider = Provider.of<UserTypeProvider>(context, listen:false);
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -64,7 +67,8 @@ class _TypeOfUser extends State<TypeOfUser> {
             GestureDetector(
               onTap: (){
                 print('resident tapped');
-                this._setUserType(user_type.RESIDENT);},
+                this._setUserType(user_type.RESIDENT);
+                userTypeProvider.setUserType(user_type.RESIDENT);},
               child: Card(
                 elevation: this.type==user_type.RESIDENT?5.0:1.0,
                 child: Container(
@@ -98,7 +102,8 @@ class _TypeOfUser extends State<TypeOfUser> {
            GestureDetector(
              onTap: (){
                print("Gateman Tapped");
-               this._setUserType(user_type.GATEMAN);},
+               this._setUserType(user_type.GATEMAN);
+               userTypeProvider.setUserType(user_type.GATEMAN);},
              child: Card(
                 elevation: this.type==user_type.RESIDENT?1.0:5.0,
 

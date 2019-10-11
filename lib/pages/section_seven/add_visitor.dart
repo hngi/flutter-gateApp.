@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/Select_Estate.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'add_visitor_part.dart';
 
@@ -49,56 +52,19 @@ class _AddVisitorState extends State<AddVisitor> with SingleTickerProviderStateM
 
         controller: tabController,
       ),
+      floatingActionButton: BottomNavFAB(
+        icon: MdiIcons.account,
+        title: 'Visitors',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        height:100,width:100,
-        child:FittedBox(
-          child: FloatingActionButton(
-            elevation: 10,
-            tooltip: 'Visitor',
-            child: Padding(
-              padding: EdgeInsets.all(4),
-              child:Column(
-                mainAxisAlignment:MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.person,color: Colors.white,size: 20,),
-                  Text('Visitors',style: TextStyle(color: Colors.white,fontSize: 6,fontWeight: FontWeight.w600),)
-                ],
-              ),
-            ),
-            onPressed:(){
-              Navigator.push(context,MaterialPageRoute(builder:(context)=>NewPage('6')));
-            },
-            backgroundColor: Colors.green,
-          ),
-        ),
-      ),
-      bottomNavigationBar: new Material(
-        color: Colors.green,
-        child: new TabBar(
-            //isScrollable: true,
-            controller: tabController,
-            indicatorColor: Colors.transparent,
-            unselectedLabelColor: Colors.white,
-            labelColor: Colors.white,
-            labelStyle: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),
-            tabs:<Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right:20.0),
-                child: new Tab(
-                  icon: new Icon(Icons.menu,color: Colors.white,),
-                  text: 'Menu',
-                ),
-              ),
-              new Tab(
-                icon: new Icon(Icons.notifications,color:Colors.white,),
-                text: 'Alerts',
-              ),
-
-            ]
-        ),
-      ),
-    );
+      bottomNavigationBar: CustomBottomNavBar(
+        leadingIcon: MdiIcons.apps,
+        leadingText: 'Menu',
+        traillingIcon: MdiIcons.bell,
+        traillingText: 'Alerts',
+        onLeadingClicked: (){},
+        onTrailingClicked: (){},
+      ), );
 
   }
 

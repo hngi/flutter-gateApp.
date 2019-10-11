@@ -92,6 +92,8 @@ class AddAVisitor extends StatelessWidget {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        onLeadingClicked: (){},
+        onTrailingClicked: (){},
       ),
     );
   }

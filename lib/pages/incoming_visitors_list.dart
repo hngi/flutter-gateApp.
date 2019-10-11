@@ -111,7 +111,7 @@ class IncomingVisitorsList extends StatelessWidget {
         leadingIcon: MdiIcons.apps,
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
+        traillingText: 'Alerts', onLeadingClicked: (){}, onTrailingClicked: (){},
       ),
     );
   }

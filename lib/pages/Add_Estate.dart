@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:provider/provider.dart';
 
 class AddEstate extends StatefulWidget {
   @override
@@ -11,29 +14,41 @@ class AddEstate extends StatefulWidget {
 
 class _AddEstateState extends State<AddEstate> {
   final _formkey = GlobalKey<FormState>();
-  Model model = Model();
+  //Model model = Model();
+  EstateModel model = EstateModel();
 
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
+  
 
-  String country, city, estate, estateName;
+  @override
+  void initState(){
+    model.city = _cities[0];
+    model.country = _countries[0];
+  }
+  String country, city, estateAddress, estateName;
 
   //event listeners
   _onCountriesChanged(String value) {
+    model.country = value;
     setState(() => country = value);
   }
 
   _onCitiesChanged(String value) {
+    model.city = value;
     setState(() => city = value);
   }
 
   _onEstatesChanged(String value) {
-    setState(() => estate = value);
+    model.estateAddress = value;
+    setState(() => estateAddress = value);
   }
 
   @override
   Widget build(BuildContext context) {
+    ResidentUserProvider residentUserModel = Provider.of<ResidentUserProvider>(context, listen:false);
+    AllEstateModel allEstates = Provider.of<AllEstateModel>(context, listen:false);
     return Form(
 
       key: _formkey,
@@ -76,6 +91,9 @@ class _AddEstateState extends State<AddEstate> {
                 onSaved: (String value) {
                   model.estateName = value;
                 },
+                onChanged: (String value) {
+                  model.estateName = value;
+                }
               ),
               //Enter Address
               CustomTextFormField(
@@ -90,6 +108,9 @@ class _AddEstateState extends State<AddEstate> {
                   return null;
                 },
                 onSaved: (String value) {
+                  model.estateAddress = value;
+                },
+                onChanged: (String value) {
                   model.estateAddress = value;
                 },
               ),
@@ -127,7 +148,15 @@ class _AddEstateState extends State<AddEstate> {
                 buttonText: 'Add',
                 onPressed: () {
 
-                  if (_formkey.currentState.validate()) {}
+                  if (_formkey.currentState.validate()) {
+                     print(model.city.toString()+model.estateAddress.toString()+model.country.toString()+
+                     model.estateName.toString());
+                    allEstates.addEstate(model);
+                    residentUserModel.setResidentEstate(residentEstate: model);
+
+                    Navigator.pushNamed(context, '/register');
+
+                  }
 
                 },
               )
