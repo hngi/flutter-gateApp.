@@ -52,13 +52,7 @@ class _AddVisitorState extends State<AddVisitor>
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: new TabBarView(
-        children: <Widget>[
-          new AddVisitorPart(),
-          new NewPage("Space 2"),
-        ],
-        controller: tabController,
-      ),
+      body:  AddVisitorPart(),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/homepage');
@@ -72,7 +66,7 @@ class _AddVisitorState extends State<AddVisitor>
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {},
+        onLeadingClicked: () {Navigator.pushNamed(context, '/homepage');},
         onTrailingClicked: () {},
       ),
     );

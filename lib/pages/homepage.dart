@@ -147,6 +147,7 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
           ),
           ListTile(
             onTap: () {
@@ -171,12 +172,13 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/resident-settings');},
           ),
         ],
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          //Navigator.pushReplacementNamed(context, '/residents');
         },
         icon: MdiIcons.account,
         title: 'Visitors',

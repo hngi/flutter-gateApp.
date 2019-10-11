@@ -126,6 +126,9 @@ class Routes {
       case '/gateman-register':
         return MaterialPageRoute(builder: (context) => GatemanRegister());
 
+      case '/resident-settings':
+        return MaterialPageRoute(builder: (context) => Settings()); 
+
       case '/gateman-menu':
         return MaterialPageRoute(builder: (context) => GateManMenu());
 

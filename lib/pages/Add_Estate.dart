@@ -26,6 +26,7 @@ class _AddEstateState extends State<AddEstate> {
   void initState(){
     model.city = _cities[0];
     model.country = _countries[0];
+    super.initState();
   }
   String country, city, estateAddress, estateName;
 
