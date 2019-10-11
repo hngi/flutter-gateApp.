@@ -32,7 +32,8 @@ dependencies:
   material_design_icons_flutter: 3.2.4096
   flutter_screenutil: ^0.5.3
   validators: ^2.0.0+1
-
+  qr_mobile_vision: 0.1.0
+  # flutter_qr_scanner: 0.1.5
   #permission_handler: '^1.0.1'
 
 dev_dependencies:
