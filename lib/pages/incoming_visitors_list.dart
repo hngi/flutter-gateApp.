@@ -103,6 +103,9 @@ class IncomingVisitorsList extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/residents');
+        },
         icon: MdiIcons.accountPlus,
         title: 'Residents',
       ),
@@ -112,6 +115,12 @@ class IncomingVisitorsList extends StatelessWidget {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/gateman-menu');
+        },
+        onTrailingClicked: () {
+          Navigator.pushNamed(context, '/gateman-notifications');
+        },
       ),
     );
   }

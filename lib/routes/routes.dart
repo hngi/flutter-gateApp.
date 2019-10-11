@@ -7,12 +7,15 @@ import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
+import 'package:gateapp/pages/gateman/notifications.dart';
+import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/pages/homepage.dart';
 import 'package:gateapp/pages/incoming_visitors.dart';
 import 'package:gateapp/pages/incoming_visitors_list.dart';
 import 'package:gateapp/pages/manage_gateman.dart';
 import 'package:gateapp/pages/register.dart';
 import 'package:gateapp/pages/residents.dart';
+import 'package:gateapp/pages/scan_qr_code.dart';
 import 'package:gateapp/pages/section_seven/add_visitor.dart';
 //import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/service_directory/service_directory_resident_detail.dart';
@@ -22,11 +25,13 @@ import 'package:gateapp/pages/about.dart';
 import 'package:gateapp/pages/faq.dart';
 import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/privacypolicy.dart';
+import 'package:gateapp/pages/settings.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/welcome_resident.dart';
 import 'package:gateapp/pages/welcomepage1.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
+import 'package:gateapp/pages/gateman/register.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -117,6 +122,21 @@ class Routes {
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
+
+      case '/gateman-register':
+        return MaterialPageRoute(builder: (context) => GatemanRegister());
+
+      case '/gateman-menu':
+        return MaterialPageRoute(builder: (context) => GateManMenu());
+
+      case '/settings':
+        return MaterialPageRoute(builder: (context) => Settings());
+
+      case '/scan-qr':
+        return MaterialPageRoute(builder: (context) => ScanQRCode());
+
+      case '/gateman-notifications':
+        return MaterialPageRoute(builder: (context) => GatemanNotifications());
 
       default:
         return MaterialPageRoute(

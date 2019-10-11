@@ -16,136 +16,152 @@ class IncomingVisitors extends StatelessWidget {
           SizedBox(height: size.height * 0.06),
           Padding(
             padding: const EdgeInsets.only(bottom: 6.0),
-            child: Text('Welcome Mr. Danny',
-                style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w700,
-                )),
+            child: Text(
+              'Welcome Mr. Danny',
+              style: TextStyle(
+                color: GateManColors.primaryColor,
+                fontSize: 24.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text('Peace Estate',
-                style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
-                )),
+            child: Text(
+              'Peace Estate',
+              style: TextStyle(
+                color: GateManColors.primaryColor,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
-            child: Text('Incoming Visitors',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w800,
-                )),
+            child: Text(
+              'Incoming Visitors',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 17.0,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
           ),
-          Text('Today',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w800,
-              )),
+          Text(
+            'Today',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: GateManColors.primaryColor,
-                  style: BorderStyle.solid,
-                  width: .7,
-                ),
-                borderRadius: BorderRadius.circular(6.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: GateManColors.primaryColor,
+                style: BorderStyle.solid,
+                width: .7,
               ),
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  "Mr. Seun Adeniyi",
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                "Mr. Seun Adeniyi",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18.0,
+                  color: GateManColors.blackColor,
+                ),
+              ),
+              subtitle: Text(
+                "Designation - Cook",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.0,
+                  color: Colors.grey,
+                ),
+              ),
+              trailing: //Add Button
+                  Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: GateManColors.yellowColor,
+                ),
+                height: 32.0,
+                width: 70.0,
+                child: Text(
+                  'Morning',
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18.0,
-                    color: GateManColors.blackColor,
-                  ),
+                      color: Colors.black,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600),
                 ),
-                subtitle: Text(
-                  "Designation - Cook",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                trailing: //Add Button
-                    Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    color: GateManColors.yellowColor,
-                  ),
-                  height: 32.0,
-                  width: 70.0,
-                  child: Text('Morning',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600)),
-                ),
-              )),
+              ),
+            ),
+          ),
           SizedBox(height: 10.0),
-          Text('Yesterday',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w800,
-              )),
+          Text(
+            'Yesterday',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
           Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: GateManColors.primaryColor,
-                  style: BorderStyle.solid,
-                  width: .7,
-                ),
-                borderRadius: BorderRadius.circular(6.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: GateManColors.primaryColor,
+                style: BorderStyle.solid,
+                width: .7,
               ),
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
-              margin: EdgeInsets.symmetric(vertical: 8.0),
-              child: ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  "Mr. Seun Adeniyi",
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                "Mr. Seun Adeniyi",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18.0,
+                  color: GateManColors.blackColor,
+                ),
+              ),
+              subtitle: Text(
+                "Designation - Cook",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.0,
+                  color: Colors.grey,
+                ),
+              ),
+              trailing: //Add Button
+                  Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: GateManColors.blueColor,
+                ),
+                height: 32.0,
+                width: 70.0,
+                child: Text(
+                  'Evening',
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18.0,
-                    color: GateManColors.blackColor,
-                  ),
+                      color: Colors.black,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600),
                 ),
-                subtitle: Text(
-                  "Designation - Cook",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                trailing: //Add Button
-                    Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    color: GateManColors.blueColor,
-                  ),
-                  height: 32.0,
-                  width: 70.0,
-                  child: Text('Evening',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600)),
-                ),
-              )),
+              ),
+            ),
+          ),
           SizedBox(height: 30.0),
           ActionButton(
             buttonText: 'Add Visitor',
@@ -154,6 +170,9 @@ class IncomingVisitors extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/homepage');
+        },
         icon: MdiIcons.account,
         title: 'Visitors',
       ),
@@ -163,6 +182,10 @@ class IncomingVisitors extends StatelessWidget {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/homepage');
+        },
+        onTrailingClicked: () {},
       ),
     );
   }

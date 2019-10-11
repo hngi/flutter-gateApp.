@@ -8,12 +8,17 @@ class CustomBottomNavBar extends StatelessWidget {
   final IconData leadingIcon;
   final IconData traillingIcon;
 
+  final Function onLeadingClicked;
+  final Function onTrailingClicked;
+
   const CustomBottomNavBar({
     Key key,
     @required this.leadingText,
     @required this.traillingText,
     @required this.leadingIcon,
     @required this.traillingIcon,
+    @required this.onLeadingClicked,
+    @required this.onTrailingClicked,
   }) : super(key: key);
 
   @override
@@ -35,39 +40,43 @@ class CustomBottomNavBar extends StatelessWidget {
           showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(leadingIcon, color: Colors.white, size: 35.0),
+              icon: InkWell(child: Icon(leadingIcon, color: Colors.white, size: 35.0),onTap: onLeadingClicked,),
               title: Text(leadingText,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontSize: 15.0,
                   )),
+
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home, color: Colors.white, size: 28.0),
               title: Text(''),
             ),
             BottomNavigationBarItem(
-              icon: Stack(
-                children: <Widget>[
-                  Icon(traillingIcon, color: Colors.white, size: 35.0),
-                  Positioned(
-                    right: 1.0,
-                    top: 1.0,
-                    child: Container(
-                      height: 16.0,
-                      width: 16.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
+              icon: InkWell(
+                onTap: onTrailingClicked,
+                              child: Stack(
+                  children: <Widget>[
+                    Icon(traillingIcon, color: Colors.white, size: 35.0),
+                    Positioned(
+                      right: 1.0,
+                      top: 1.0,
+                      child: Container(
+                        height: 16.0,
+                        width: 16.0,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text('1',
+                            style:
+                                TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),
-                      child: Text('1',
-                          style:
-                              TextStyle(fontSize: 13.0, color: Colors.white)),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               title: Text(traillingText,
                   style: TextStyle(
