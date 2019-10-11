@@ -7,6 +7,7 @@ import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
+import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/pages/homepage.dart';
 import 'package:gateapp/pages/incoming_visitors.dart';
 import 'package:gateapp/pages/incoming_visitors_list.dart';
@@ -118,6 +119,8 @@ class Routes {
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
 
+      case '/gateman-menu':
+        return MaterialPageRoute(builder: (context) => GateManMenu());
 
       default:
         return MaterialPageRoute(
