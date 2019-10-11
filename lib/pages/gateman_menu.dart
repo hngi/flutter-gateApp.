@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
-class Homepage extends StatelessWidget {
+class GateManMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    GatemanUserProvider gateManProvider =
+        Provider.of<GatemanUserProvider>(context, listen: false);
+
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
@@ -75,7 +81,7 @@ class Homepage extends StatelessWidget {
                       // left: 3.0,
                       child: CircleAvatar(
                         backgroundImage:
-                            AssetImage('assets/images/woman-cooking.png'),
+                            AssetImage('assets/images/gateman/Ellipse.png'),
                         maxRadius: 32.0,
                       ),
                     ),
@@ -90,14 +96,14 @@ class Homepage extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: Text("Danny Johnson",
+                      child: Text(gateManProvider.gatemanUser.fullName,
                           style: TextStyle(
                             color: GateManColors.primaryColor,
                             fontSize: 20.0,
                             fontWeight: FontWeight.w800,
                           )),
                     ),
-                    Text("Block 6 | Flat 32",
+                    Text("GateMan",
                         style: TextStyle(
                           color: GateManColors.grayColor,
                           fontSize: 18.0,
@@ -111,6 +117,9 @@ class Homepage extends StatelessWidget {
 
           SizedBox(height: 23.0),
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, '/gateman-notifications');
+            },
             leading: Icon(MdiIcons.newspaper,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Row(
@@ -139,23 +148,25 @@ class Homepage extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(MdiIcons.watch,
+            onTap: () {
+              Navigator.pushNamed(context, '/residents');
+            },
+            leading: Icon(MdiIcons.accountGroup,
                 color: GateManColors.primaryColor, size: 25.0),
-            title: Text("Manage Gateman",
+            title: Text("Residents",
                 style: TextStyle(
                   color: GateManColors.grayColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
-                onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, '/service_directory_resident');
+              Navigator.pushNamed(context, '/scan-qr');
             },
-            leading: Icon(MdiIcons.hammer,
+            leading: Icon(MdiIcons.qrcode,
                 color: GateManColors.primaryColor, size: 25.0),
-            title: Text("Service Directory",
+            title: Text("Scan QR Code",
                 style: TextStyle(
                   color: GateManColors.grayColor,
                   fontSize: 18.0,
@@ -164,6 +175,9 @@ class Homepage extends StatelessWidget {
           ),
 
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
             leading: Icon(MdiIcons.settings,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Text("Settings",
@@ -172,7 +186,6 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
-                onTap: (){Navigator.pushNamed(context, '/resident-settings');},
           ),
         ],
       ),
@@ -180,8 +193,8 @@ class Homepage extends StatelessWidget {
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/residents');
         },
-        icon: MdiIcons.account,
-        title: 'Visitors',
+        icon: MdiIcons.accountGroup,
+        title: 'Residents',
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomNavBar(
@@ -189,10 +202,10 @@ class Homepage extends StatelessWidget {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {
-          Navigator.pushNamed(context, '/homepage');
+        onLeadingClicked: () {},
+        onTrailingClicked: () {
+          Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },
-        onTrailingClicked: () {},
       ),
     );
   }

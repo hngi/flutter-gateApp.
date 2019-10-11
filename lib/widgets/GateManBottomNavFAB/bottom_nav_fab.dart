@@ -5,9 +5,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class BottomNavFAB extends StatelessWidget {
   final String title;
   final IconData icon;
+  final Function onPressed;
 
-  const BottomNavFAB({Key key, @required this.title, @required this.icon})
-      : super(key: key);
+  const BottomNavFAB({
+    Key key,
+    @required this.title,
+    @required this.icon,
+    @required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,7 @@ class BottomNavFAB extends StatelessWidget {
         ),
         backgroundColor: GateManColors.primaryColor,
         elevation: 17.0,
-        onPressed: () {},
+        onPressed: onPressed,
       ),
     );
   }

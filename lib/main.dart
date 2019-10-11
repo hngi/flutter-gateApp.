@@ -28,9 +28,9 @@ class GateMan extends StatelessWidget {
                 displayColor: GateManColors.textColor,
               ),
           fontFamily: 'OpenSans',
-
         ),
         debugShowCheckedModeBanner: false,
+        // home: AddVisitor(),
       ),
     );
   }

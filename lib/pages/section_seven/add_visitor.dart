@@ -12,15 +12,15 @@ class AddVisitor extends StatefulWidget {
   _AddVisitorState createState() => _AddVisitorState();
 }
 
-
-class _AddVisitorState extends State<AddVisitor> with SingleTickerProviderStateMixin{
+class _AddVisitorState extends State<AddVisitor>
+    with SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController=new TabController(length: 2, vsync: this);
+    tabController = new TabController(length: 2, vsync: this);
   }
 
   @override
@@ -35,16 +35,28 @@ class _AddVisitorState extends State<AddVisitor> with SingleTickerProviderStateM
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        leading: GestureDetector(child: Icon(Icons.arrow_back,color: GateManColors.primaryColor,),onTap: (){
-          Navigator.pop(context);
-        },),
-        title: Text('Add Visitor',style: TextStyle(color: GateManColors.primaryColor,fontSize: 20),),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back,
+            color: GateManColors.primaryColor,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          'Add Visitor',
+          style: TextStyle(color: GateManColors.primaryColor, fontSize: 20),
+        ),
         elevation: 0,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
       body:  AddVisitorPart(),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/homepage');
+        },
         icon: MdiIcons.account,
         title: 'Visitors',
       ),
@@ -54,12 +66,11 @@ class _AddVisitorState extends State<AddVisitor> with SingleTickerProviderStateM
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: (){},
-        onTrailingClicked: (){},
-      ), );
-
+        onLeadingClicked: () {},
+        onTrailingClicked: () {},
+      ),
+    );
   }
-
 }
 
 //class RButton extends StatelessWidget {}
@@ -70,10 +81,14 @@ class NewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      //appBar: new AppBar(title: new Text(title),),
+        //appBar: new AppBar(title: new Text(title),),
         body: new Center(
-          child: new Text(title,style: new TextStyle(fontSize: 30.0,),),
-        )
-    );
+      child: new Text(
+        title,
+        style: new TextStyle(
+          fontSize: 30.0,
+        ),
+      ),
+    ));
   }
 }
