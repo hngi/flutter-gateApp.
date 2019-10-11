@@ -83,6 +83,9 @@ class AddAVisitor extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/residents');
+        },
         icon: MdiIcons.account,
         title: 'Visitors',
       ),
@@ -92,8 +95,8 @@ class AddAVisitor extends StatelessWidget {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: (){},
-        onTrailingClicked: (){},
+        onLeadingClicked: () {},
+        onTrailingClicked: () {},
       ),
     );
   }

@@ -81,7 +81,7 @@ class GateManMenu extends StatelessWidget {
                       // left: 3.0,
                       child: CircleAvatar(
                         backgroundImage:
-                            AssetImage('assets/images/woman-cooking.png'),
+                            AssetImage('assets/images/gateman/Ellipse.png'),
                         maxRadius: 32.0,
                       ),
                     ),
@@ -117,6 +117,9 @@ class GateManMenu extends StatelessWidget {
 
           SizedBox(height: 23.0),
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, '/gateman-notifications');
+            },
             leading: Icon(MdiIcons.newspaper,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Row(
@@ -187,6 +190,9 @@ class GateManMenu extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/residents');
+        },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
       ),

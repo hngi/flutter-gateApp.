@@ -132,6 +132,9 @@ class Residents extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          // Navigator.pushReplacementNamed(context, '/residents');
+        },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
       ),

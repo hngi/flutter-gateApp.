@@ -190,7 +190,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                               widget.fullName,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 18.0,
+                                fontSize: 17.0,
                                 color: GateManColors.blackColor,
                               ),
                             ),
@@ -211,7 +211,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                     widget.address,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 16.0,
+                                      fontSize: 15.0,
                                       color: GateManColors.blackColor,
                                     ),
                                   ),
@@ -235,7 +235,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                     widget.phoneNumber,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 16.0,
+                                      fontSize: 15.0,
                                       color: GateManColors.blackColor,
                                     ),
                                   ),
@@ -265,7 +265,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                   softWrap: false,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 13.0,
+                                      fontSize: 12.0,
                                       fontWeight: FontWeight.w500)),
                             ),
 
@@ -280,11 +280,11 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                 color: GateManColors.primaryColor,
                               ),
                               height: 35.0,
-                              width: 40.0,
+                              width: 36.0,
                               child: Text(widget.numberCount,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 20.0,
+                                      fontSize: 18.0,
                                       fontWeight: FontWeight.w800)),
                             ),
                           ],
@@ -348,7 +348,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           'Visitor Info',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 19.0,
+                            fontSize: 18.0,
                             color: Colors.grey,
                           ),
                         ),
@@ -356,7 +356,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           widget.visitorApprovalStatus,
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 17.0,
+                            fontSize: 16.0,
                             color: GateManColors.primaryColor,
                           ),
                         ),
@@ -437,7 +437,7 @@ class TextRow extends StatelessWidget {
             "$title:",
             style: TextStyle(
               fontWeight: FontWeight.w800,
-              fontSize: 16.0,
+              fontSize: 15.0,
               color: GateManColors.blackColor,
             ),
           ),
@@ -446,7 +446,7 @@ class TextRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 16.0,
+              fontSize: 15.0,
               color: Colors.grey,
             ),
           ),
