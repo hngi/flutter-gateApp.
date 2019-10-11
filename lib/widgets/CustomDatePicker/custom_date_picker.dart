@@ -59,14 +59,21 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     });
     print(numOfTimes);
     print(pos);
-    if (numOfTimes > 1 && pos == 0 && value>= 25){
+    if (numOfTimes > 1 && pos == 0 && value>= 25 || pos==0 && value>=25){
+      print("1 case");
       stateSelectedMonthIndex = currentMonthIndex - 1;
-    } else if (numOfTimes > 1 && pos == 0 && value<= 7){
+    } else if (numOfTimes > 1 && pos == 0 && value<= 7 || pos == 0 && value<=7){
       stateSelectedMonthIndex = currentMonthIndex;
-    } else if (numOfTimes > 1 && pos == 4 && value>= 25){
+      print("2 case");
+    } else if (numOfTimes > 1 && pos == 4 && value>= 25 || pos == 4 && value>=25){
       stateSelectedMonthIndex = currentMonthIndex;
-    } else if (numOfTimes > 1 && pos == 4 && value<= 7){
+      print("3 case");
+    } else if (numOfTimes > 1 && pos == 4 && value<= 7 || pos == 4 && value<=7){
       stateSelectedMonthIndex = currentMonthIndex + 1;
+      print("4 case");
+    } else{
+      stateSelectedMonthIndex = currentMonthIndex;
+      print("5 case");
     }
     print(selectedMonthIndex);
     setState(() {
@@ -108,7 +115,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 return InkWell(
                   splashColor: GateManColors.primaryColor,
                   onTap: (){print(value.toString() + " tapped");
+                  
                   setSelectedDay(value,index);
+                  print("month tappe is "+months[selectedMonthIndex]);
                                     },
                                                     child: Container(
                                       decoration: BoxDecoration(
@@ -120,7 +129,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                                       width: 30,
                                       height: 30,
                                       child: Center(child:Text(value.toString(),textAlign: TextAlign.center,
-                                        style: TextStyle(color:selectedDay[0] == value && selectedDay[1] == currentMonthIndex && selectedDay[2]==currentYear?Colors.white:
+                                        style: TextStyle(color:selectedDay[0] == value && selectedDay[1] == selectedMonthIndex && selectedDay[2]==currentYear?Colors.white:
                                         currentDay[0] == value && currentDay[1] == currentMonthIndex && currentDay[2] == currentYear?GateManColors.primaryColor:Colors.black54 
                                         ),))),
                                   );
@@ -129,10 +138,12 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             
                           }
 
-                    
+  
 
+  
   @override
   Widget build(BuildContext context) {
+    print(this.selectedDay);
     // TODO: implement build
     return Container(child: Column(children: <Widget>[
       header(),

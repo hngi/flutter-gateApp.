@@ -66,7 +66,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
         prefix: Icon(Icons.calendar_today),
         keyboardType: TextInputType.datetime,
       ),
-      CustomDatePicker(),
+      CustomDatePicker(onChanged: (){}, onSaved: (){},),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 15),
         child: Text(

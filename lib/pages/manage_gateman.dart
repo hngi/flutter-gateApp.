@@ -27,17 +27,20 @@ class ManageGateman extends StatelessWidget {
       bottomSheet: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(34.0),
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: GateManColors.primaryColor,
+          InkWell(
+            onTap: (){Navigator.pushNamed(context, '/add-gateman');},
+                      child: Container(
+              margin: EdgeInsets.all(34.0),
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: GateManColors.primaryColor,
+              ),
+              height: 50.0,
+              width: 50.0,
+              child: Icon(Icons.add, color: Colors.white, size: 30.0),
             ),
-            height: 50.0,
-            width: 50.0,
-            child: Icon(Icons.add, color: Colors.white, size: 30.0),
           ),
         ],
       ),

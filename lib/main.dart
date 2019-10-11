@@ -31,7 +31,6 @@ class GateMan extends StatelessWidget {
 
         ),
         debugShowCheckedModeBanner: false,
-        home: AddVisitor(),
       ),
     );
   }
