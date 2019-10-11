@@ -66,7 +66,7 @@ class _AddVisitorState extends State<AddVisitor>
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {},
+        onLeadingClicked: () {Navigator.pushNamed(context, '/homepage');},
         onTrailingClicked: () {},
       ),
     );

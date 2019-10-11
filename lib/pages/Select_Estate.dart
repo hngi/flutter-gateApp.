@@ -3,6 +3,7 @@ import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/user.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
+import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -43,6 +44,7 @@ class _SelectAddressState extends State<SelectAddress> {
   Widget build(BuildContext context) {
     //ResidentUserProvider residentUserModel = Provider.of<ResidentUserProvider>(context, listen:false);
     //AllEstateModel allEstates = Provider.of<AllEstateModel>(context, listen:false);
+    UserTypeProvider userType = Provider.of<UserTypeProvider>(context,listen: false);
     return Form(
         key: _formkey,
             child: Scaffold(
@@ -147,7 +149,11 @@ class _SelectAddressState extends State<SelectAddress> {
               ActionButton(
                 buttonText: 'Continue',
                 onPressed: () {
+                  if (userType.type == user_type.RESIDENT){
                   Navigator.pushNamed(context, '/register');
+                  } else {
+                     Navigator.pushNamed(context, '/gateman-register');
+                  }
                 },
               ),
             ],

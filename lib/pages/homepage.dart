@@ -178,7 +178,7 @@ class Homepage extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          //Navigator.pushReplacementNamed(context, '/residents');
         },
         icon: MdiIcons.account,
         title: 'Visitors',

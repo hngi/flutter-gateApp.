@@ -133,7 +133,7 @@ class Residents extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          // Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pushReplacementNamed(context, '/residents');
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -145,7 +145,7 @@ class Residents extends StatelessWidget {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         onLeadingClicked: () {
-          Navigator.pushNamed(context, '/gateman-menu');
+          Navigator.pushNamed(context, '/homepage');
         },
         onTrailingClicked: () {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
