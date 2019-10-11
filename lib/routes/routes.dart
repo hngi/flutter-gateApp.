@@ -23,6 +23,7 @@ import 'package:gateapp/pages/about.dart';
 import 'package:gateapp/pages/faq.dart';
 import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/privacypolicy.dart';
+import 'package:gateapp/pages/settings.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/welcome_resident.dart';
 import 'package:gateapp/pages/welcomepage1.dart';
@@ -121,6 +122,9 @@ class Routes {
 
       case '/gateman-menu':
         return MaterialPageRoute(builder: (context) => GateManMenu());
+
+      case '/settings':
+        return MaterialPageRoute(builder: (context) => Settings());
 
       default:
         return MaterialPageRoute(

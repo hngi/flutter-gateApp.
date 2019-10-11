@@ -172,6 +172,9 @@ class GateManMenu extends StatelessWidget {
           ),
 
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
             leading: Icon(MdiIcons.settings,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Text("Settings",

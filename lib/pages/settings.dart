@@ -5,24 +5,18 @@ import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/BottomMenu/bottom_menu.dart';
 
-
 class Settings extends StatefulWidget {
   @override
   _SettingState createState() => _SettingState();
 }
 
 class _SettingState extends State<Settings> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Setting'),
       body: ListView(
-
         children: <Widget>[
-
 //          Account
 
           Container(
@@ -33,7 +27,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -48,17 +41,19 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: BottomMenu('Edit Profile', () {},
+                    child: BottomMenu(
+                        'Edit Profile',
+                        () => Navigator.pushNamed(context, '/edit-profile'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
-
                   ),
                   Container(
-                    child: BottomMenu('Manage Address', () => Navigator.pushNamed(context, '/manage-address'),
+                    child: BottomMenu(
+                        'Manage Address',
+                        () => Navigator.pushNamed(context, '/manage-address'),
                         Border(bottom: BorderSide.none)),
                   ),
                 ],
-              )
-          ),
+              )),
 
 //          Notification & Tracking
 
@@ -70,7 +65,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -85,25 +79,26 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: _NotifAndTracking('In-app Notification', () {},
-                        Border(bottom: BorderSide(color: Colors.grey[300])), true),
-
+                    child: _NotifAndTracking(
+                        'In-app Notification',
+                        () {},
+                        Border(bottom: BorderSide(color: Colors.grey[300])),
+                        true),
                   ),
                   Container(
-                      child: _NotifAndTracking('Push Notification', () {},
-                          Border(bottom: BorderSide(color: Colors.grey[300])), true)
-                  ),
-
+                      child: _NotifAndTracking(
+                          'Push Notification',
+                          () {},
+                          Border(bottom: BorderSide(color: Colors.grey[300])),
+                          true)),
                   Container(
                     child: _NotifAndTracking('Location Tracking', () {},
                         Border(bottom: BorderSide.none), false),
                   ),
                 ],
-              )
-          ),
+              )),
 
 //           Help & Support
-
 
           Container(
             padding: EdgeInsets.only(top: 20.0, left: 30.0),
@@ -113,7 +108,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -128,38 +122,39 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: BottomMenu('About GatePass', () => Navigator.pushReplacementNamed(context, '/about'),
-                        Border(bottom: BorderSide(color: Colors.grey[300]))),
-
-                  ),
-                  Container(
-                    child: BottomMenu('Frequently Asked Questions', () => Navigator.pushNamed(context, '/faq'),
+                    child: BottomMenu(
+                        'About GatePass',
+                        () => Navigator.pushReplacementNamed(context, '/about'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
                   ),
                   Container(
-                    child: BottomMenu('Privacy Policy', () => Navigator.pushNamed(context, '/privacy-policy'),
+                    child: BottomMenu(
+                        'Frequently Asked Questions',
+                        () => Navigator.pushNamed(context, '/faq'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
                   ),
                   Container(
-                    child: BottomMenu('Support', () {},
-                        Border(bottom: BorderSide.none)),),
+                    child: BottomMenu(
+                        'Privacy Policy',
+                        () => Navigator.pushNamed(context, '/privacy-policy'),
+                        Border(bottom: BorderSide(color: Colors.grey[300]))),
+                  ),
+                  Container(
+                    child: BottomMenu(
+                        'Support', () {}, Border(bottom: BorderSide.none)),
+                  ),
                 ],
-              )
-          ),
+              )),
 
 //          Logout button
 
           Container(
               child: ActionButton(
-                buttonText: 'Logout',
-                onPressed: () {},
-              )
-          ),
-
-
+            buttonText: 'Logout',
+            onPressed: () {},
+          )),
         ],
       ),
-
     );
   }
 }
@@ -187,8 +182,7 @@ class _NotifAndTracking extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              child:
-              Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
+              child: Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
             ),
             Switch(
               value: isSwitched,
