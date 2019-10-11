@@ -27,6 +27,7 @@ import 'package:gateapp/pages/welcome_resident.dart';
 import 'package:gateapp/pages/welcomepage1.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
+import 'package:gateapp/pages/gateman/register.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -117,6 +118,9 @@ class Routes {
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
+        
+      case '/gateman-register':
+        return MaterialPageRoute(builder: (context) => GatemanRegister());
 
 
       default:
