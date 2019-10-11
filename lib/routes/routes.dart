@@ -14,6 +14,7 @@ import 'package:gateapp/pages/incoming_visitors_list.dart';
 import 'package:gateapp/pages/manage_gateman.dart';
 import 'package:gateapp/pages/register.dart';
 import 'package:gateapp/pages/residents.dart';
+import 'package:gateapp/pages/scan_qr_code.dart';
 import 'package:gateapp/pages/section_seven/add_visitor.dart';
 //import 'package:gateapp/pages/manage_address.dart';
 import 'package:gateapp/pages/service_directory/service_directory_resident_detail.dart';
@@ -125,6 +126,9 @@ class Routes {
 
       case '/settings':
         return MaterialPageRoute(builder: (context) => Settings());
+
+      case '/scan-qr':
+        return MaterialPageRoute(builder: (context) => ScanQRCode());
 
       default:
         return MaterialPageRoute(

@@ -159,7 +159,7 @@ class GateManMenu extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, '/service_directory_resident');
+              Navigator.pushNamed(context, '/scan-qr');
             },
             leading: Icon(MdiIcons.qrcode,
                 color: GateManColors.primaryColor, size: 25.0),
