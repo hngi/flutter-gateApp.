@@ -5,10 +5,14 @@ import 'package:gateapp/utils/helpers.dart';
 class CustomTextFormField extends StatelessWidget {
   final String labelName;
   final String initialValue;
+  final String hintText;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
+  final TextEditingController controller;
+  final IconData icon;
   final TextInputType keyboardType;
   final Function(String) onSaved;
   final String Function(String) validator;
-  final Widget suffix;
   final bool isPassword;
   final int maxLines;
 
@@ -16,10 +20,14 @@ class CustomTextFormField extends StatelessWidget {
     Key key,
     @required this.labelName,
     this.initialValue,
+    this.icon,
+    this.controller,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.hintText,
     this.keyboardType = TextInputType.text,
     @required this.onSaved,
     @required this.validator,
-    this.suffix,
     this.isPassword = false,
     this.maxLines = 1,
   }) : super(key: key);
@@ -42,7 +50,7 @@ class CustomTextFormField extends StatelessWidget {
           TextFormField(
             maxLines: maxLines,
             onSaved: onSaved,
-            
+            controller: controller,
             validator: validator,
             initialValue: initialValue ?? '',
             obscureText: isPassword ? true : false,
@@ -51,8 +59,10 @@ class CustomTextFormField extends StatelessWidget {
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              hintText: '',
-              suffix: suffix ?? SizedBox(),
+              hintText: hintText,
+              prefixIcon: prefixIcon ?? null,
+              suffixIcon: prefixIcon ?? null,
+              // suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
               enabledBorder: GateManHelpers.textFieldBorder,
