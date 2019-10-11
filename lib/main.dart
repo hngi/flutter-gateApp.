@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/Select_Estate.dart';
-import 'package:gateapp/pages/section_seven/add_visitor.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
-
-
-
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/providers/providers.dart';
@@ -24,7 +18,7 @@ class GateMan extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: 'GateMan App',
-        initialRoute: '/manage-address',
+        initialRoute: '/',
         onGenerateRoute: Routes.generateRoute,
         theme: ThemeData(
           primarySwatch: GateManColors.primarySwatchColor,
@@ -34,8 +28,6 @@ class GateMan extends StatelessWidget {
               ),
           fontFamily: 'OpenSans',
         ),
-        // home: ManageAddress(),
-        home:AddVisitor(),
         debugShowCheckedModeBanner: false,
       ),
     );
