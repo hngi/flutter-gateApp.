@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gateapp/pages/Select_Estate.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
@@ -13,6 +12,9 @@ class AddVisitorFull extends StatefulWidget {
 }
 
 class _AddVisitorFullState extends State<AddVisitorFull> {
+
+  final Color myColor=Colors.green;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +144,8 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
         ),
       ),
     );
+
+
   }
 
   openAlertBox() {
@@ -150,7 +154,10 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
         builder: (BuildContext context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            contentPadding: EdgeInsets.only(top: 0.0),
+            titlePadding: EdgeInsets.only(top: 0),
+
             content: Container(
               //width: 300.0,
               child: Container(
@@ -164,20 +171,23 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
                       decoration: BoxDecoration(
                         color: GateManColors.primaryColor,
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0)),
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
                             padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 5),
+                                const EdgeInsets.only(top: 15.0, bottom: 5),
                             child: Image.asset('assets/images/success.png'),
                           ),
-                          Text(
-                            'Visitor added successfully',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom:8.0),
+                            child: Text(
+                              'Visitor added successfully',
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
                           ),
                           SizedBox(
                             height: 5.0,
@@ -185,10 +195,7 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
                         ],
                       ),
                     ),
-                    Divider(
-                      color: Colors.white,
-                      height: 2.0,
-                    ),
+
                     Container(
                       color: Colors.white,
                       child: Column(
@@ -233,7 +240,7 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
+                                vertical: 20, horizontal: 30),
                             child: RaisedButton(
                               color: Color(0xFFffa700),
                               onPressed: () {},
@@ -263,7 +270,7 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                              vertical: 16,
+                              vertical: 16,horizontal: 16
                             ),
                             child: Container(
                               decoration: BoxDecoration(
@@ -282,7 +289,7 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
                                   children: <Widget>[
                                     Image.asset('assets/images/share.png'),
                                     SizedBox(
-                                      width: 5,
+                                      width: 10,
                                     ),
                                     Text(
                                       'Share',
@@ -306,4 +313,6 @@ class _AddVisitorFullState extends State<AddVisitorFull> {
           );
         });
   }
+
 }
+
