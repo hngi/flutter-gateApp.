@@ -147,6 +147,7 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
           ),
           ListTile(
             onTap: (){Navigator.pushNamed(context, '/service_directory_resident');},
@@ -181,7 +182,7 @@ class Homepage extends StatelessWidget {
         leadingIcon: MdiIcons.home,
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts', onLeadingClicked: (){}, onTrailingClicked: (){},
+        traillingText: 'Alerts', onLeadingClicked: (){Navigator.pop(context);}, onTrailingClicked: (){},
       ),
     );
   }

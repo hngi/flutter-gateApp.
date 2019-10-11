@@ -141,7 +141,6 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
           IconTheme.merge(
             data: IconThemeData(color: _iconColor.value),
             child: Container(
-              height: 70,
               // padding: EdgeInsets.all(1.0),
               decoration: BoxDecoration(
                   // borderRadius: BorderRadius.circular(25.0),
@@ -158,6 +157,8 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
                       fontSize: 18.0,
                       color: GateManColors.blackColor,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
                 subtitle: Padding(

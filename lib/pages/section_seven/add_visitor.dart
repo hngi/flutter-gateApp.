@@ -43,15 +43,7 @@ class _AddVisitorState extends State<AddVisitor> with SingleTickerProviderStateM
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: new TabBarView(
-        children: <Widget>[
-          new AddVisitorPart(),
-          new NewPage("Space 2"),
-
-        ],
-
-        controller: tabController,
-      ),
+      body:  AddVisitorPart(),
       floatingActionButton: BottomNavFAB(
         icon: MdiIcons.account,
         title: 'Visitors',
