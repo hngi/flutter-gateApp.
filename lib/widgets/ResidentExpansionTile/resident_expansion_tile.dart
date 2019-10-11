@@ -190,7 +190,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                               widget.fullName,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 17.0,
+                                fontSize: 18.0,
                                 color: GateManColors.blackColor,
                               ),
                             ),
@@ -211,7 +211,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                     widget.address,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 15.0,
+                                      fontSize: 16.0,
                                       color: GateManColors.blackColor,
                                     ),
                                   ),
@@ -235,7 +235,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                     widget.phoneNumber,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 15.0,
+                                      fontSize: 14.0,
                                       color: GateManColors.blackColor,
                                     ),
                                   ),
@@ -284,7 +284,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                               child: Text(widget.numberCount,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 18.0,
+                                      fontSize: 17.0,
                                       fontWeight: FontWeight.w800)),
                             ),
                           ],
@@ -348,7 +348,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           'Visitor Info',
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 18.0,
+                            fontSize: 17.0,
                             color: Colors.grey,
                           ),
                         ),
@@ -356,7 +356,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           widget.visitorApprovalStatus,
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 16.0,
+                            fontSize: 15.0,
                             color: GateManColors.primaryColor,
                           ),
                         ),
@@ -390,7 +390,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           "Verified With:",
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 16.0,
+                            fontSize: 15.0,
                             color: GateManColors.blackColor,
                           ),
                         ),
@@ -399,7 +399,7 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontSize: 16.0,
+                              fontSize: 15.0,
                               color: Colors.white,
                               backgroundColor: GateManColors.primaryColor),
                         ),
