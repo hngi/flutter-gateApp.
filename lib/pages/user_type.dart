@@ -23,6 +23,8 @@ class _TypeOfUser extends State<TypeOfUser> {
 
 
   user_type type = user_type.RESIDENT;
+  
+  bool _residentYes = true;
 
   void _setUserType(user_type type){
     setState((){
@@ -66,6 +68,9 @@ class _TypeOfUser extends State<TypeOfUser> {
           children: <Widget>[
             GestureDetector(
               onTap: (){
+                if (_residentYes == false){
+                  _residentYes = true;
+                }
                 print('resident tapped');
                 this._setUserType(user_type.RESIDENT);
                 userTypeProvider.setUserType(user_type.RESIDENT);},
@@ -101,6 +106,9 @@ class _TypeOfUser extends State<TypeOfUser> {
 
            GestureDetector(
              onTap: (){
+               if (_residentYes == true){
+                 _residentYes = false;
+               }
                print("Gateman Tapped");
                this._setUserType(user_type.GATEMAN);
                userTypeProvider.setUserType(user_type.GATEMAN);},
@@ -159,7 +167,7 @@ class _TypeOfUser extends State<TypeOfUser> {
               padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Continue',
-                onPressed: () => Navigator.pushReplacementNamed(context, '/add-location',arguments: this.type),
+                onPressed: () => Navigator.pushReplacementNamed(context, _residentYes ? '/add-location' : '/gateman-register',arguments: this.type),
               )
           ),
         ],
