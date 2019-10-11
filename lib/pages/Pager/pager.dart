@@ -150,8 +150,8 @@ class _MainPagerState extends State<MainPager> {
                       ),
                       Spacer(),
                       FlatButton(
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, '/user-type'),
+                        onPressed: () =>
+                            Navigator.pushReplacementNamed(context, '/scan-qr'),
                         child: Text(
                           'SKIP',
                           style: TextStyle(color: Colors.white),

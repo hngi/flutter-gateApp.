@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/DashSeperator/dash_seperator.dart';
+import 'package:gateapp/widgets/ScannerOverlayShape/scanner_overlay_shape.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
 class ScanQRCode extends StatefulWidget {
@@ -45,14 +47,45 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6.0),
                 ),
-                child: Container(
-                  height: size.height * 0.5,
-                  // decoration: BoxDecoration(),
-                  child: QrCamera(
-                    qrCodeCallback: (code) {
-                      // ...
-                    },
-                  ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: size.height * 0.5,
+                      decoration: ShapeDecoration(
+                        shape: ScannerOverlayShape(
+                          borderColor: GateManColors.primaryColor,
+                          borderWidth: 3.0,
+                          // overlayColor: Colors.red,
+                        ),
+                      ),
+                      child: QrCamera(
+                        qrCodeCallback: (code) {
+                          // ...
+                          print(code);
+                        },
+                      ),
+                    ),
+                    DashSeparator(
+                      color: Colors.grey,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 13.0),
+                      child: Text(
+                        "Or enter the visitor's code below.",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.0,
+                          color: GateManColors.blackColor,
+                        ),
+                      ),
+                    ),
+
+                    // TextField(
+                    //   decoration: InputDecoration(
+
+                    //   ),
+                    // ),
+                  ],
                 ),
               ),
             ),
