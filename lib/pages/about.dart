@@ -21,8 +21,55 @@ class _AboutState extends State<About> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              padding: Ed
-            )
+            padding: EdgeInsets.only(top: 40.0),
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: 50.0,
+              height: 50.0,
+            ),
+          ),
+          Container(
+            child: Image.asset(
+              'assets/images/gate_pass.png',
+              width: 25.0,
+              height: 25.0,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(30.0, 20.0, 40.0, 50.0),
+            /*height: size.height * 0.4,
+                          color: GateManColors.primaryColor,*/
+            width: double.infinity,
+            child: Text(
+              'GatePass is a visitor management system for small to large estates. It\'s a fast'
+                  ', convenient and cost-effective answer to access control.\n\n'
+                  'With GatePass you can:\n - Verify authenticity of visitors\'s information\n'
+                  ' - Track time spent on premises\n - Load and save regular visitors\n - Receive'
+                  ' visitor arrival notifications',
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11.0),
+            ),
+          ),
+          Container(
+              padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                    top: BorderSide(color: Colors.grey[300]),
+                    bottom: BorderSide(color: Colors.grey[300])),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: BottomMenu('Tell a Friend', () => _shareIt(context) ,
+                        Border(bottom: BorderSide(color: Colors.grey[300]))),
+
+                  ),
+                  Container(
+                    child: BottomMenu('Rate the App', () => rateGatePass(context),
+                        Border(bottom: BorderSide.none)),
+                  ),
+                ],
+              )),
           ],
         ),
       ),
