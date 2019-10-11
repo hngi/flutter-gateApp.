@@ -118,6 +118,7 @@ class Routes {
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
 
+
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
