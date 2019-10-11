@@ -8,3 +8,7 @@ class Model {
 
   Model({this.estateName, this.estateAddress, this.city, this.country});
 }
+
+enum user_type{
+  GATEMAN,RESIDENT
+}

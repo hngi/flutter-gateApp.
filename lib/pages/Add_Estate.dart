@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/user.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:validators/validators.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
@@ -38,8 +35,10 @@ class _AddEstateState extends State<AddEstate> {
   @override
   Widget build(BuildContext context) {
     return Form(
-            key: _formkey,
-          child: Scaffold(
+
+      key: _formkey,
+      child: Scaffold(
+
         body: Stack(children: <Widget>[
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
@@ -65,8 +64,11 @@ class _AddEstateState extends State<AddEstate> {
               //Enter Estate name
               CustomTextFormField(
                 labelName: ' Estate Name',
-                validator: (String value){
-                  if(value.isEmpty){
+
+                hintText: 'Enter Estate Name',
+                validator: (String value) {
+                  if (value.isEmpty) {
+
                     return 'Estate name is empty';
                   }
                   return null;
@@ -78,8 +80,11 @@ class _AddEstateState extends State<AddEstate> {
               //Enter Address
               CustomTextFormField(
                 labelName: ' Estate Address',
-                validator: (String value){
-                  if(value.isEmpty){
+
+                hintText: 'Enter Estate Address',
+                validator: (String value) {
+                  if (value.isEmpty) {
+
                     return 'Estate Address is empty';
                   }
                   return null;
@@ -121,9 +126,9 @@ class _AddEstateState extends State<AddEstate> {
               ActionButton(
                 buttonText: 'Add',
                 onPressed: () {
-                  if(_formkey.currentState.validate()){
-                    
-                  }
+
+                  if (_formkey.currentState.validate()) {}
+
                 },
               )
             ],

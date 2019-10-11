@@ -6,21 +6,22 @@ import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:material_design_icons_flutter/icon_map.dart';
 
-class ManageAddress extends StatefulWidget {
+
+class SelectAddress extends StatefulWidget {
   @override
-  _ManageAddressState createState() => _ManageAddressState();
+  _SelectAddressState createState() => _SelectAddressState();
 }
 
-class _ManageAddressState extends State<ManageAddress> {
+class _SelectAddressState extends State<SelectAddress> {
   final _formkey = GlobalKey<FormState>();
   Model model = Model();
-
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
 
-  String country, city, estate, flatNumber;
+  String country, city, estate, estateAddress;
 
   //event listeners
   _onCountriesChanged(String value) {
@@ -90,59 +91,61 @@ class _ManageAddressState extends State<ManageAddress> {
                 }).toList(),
               ),
 
-              //Select Estate
-              CustomDropdownButton(
-                
-                label: 'Select your Estate',
-                prefixIcon: Icon(Icons.search),
-                hintText: _estates.first,
-                value: estate ?? _estates.first,
-                onChanged: _onEstatesChanged,
-                items: _estates.map((String estate) {
-                  return DropdownMenuItem(
-                    child: Text(estate),
-                    value: estate,
-                  );
-                }).toList(),
-              ),
 
-              //Enter Flat Number
-
-              SizedBox(height: 90.0),
-
-              //Save Button
-              ActionButton(
-                buttonText: 'Continue',
-                onPressed: () {},
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 430.0, left: 110),
-            child: Text('Could not find my Estate?',
-                style: TextStyle(
-                    fontSize: 13.0,
-                    color: GateManColors.textColor,
-                    fontWeight: FontWeight.w600)),
-          ),
-          InkWell(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 430.0, left: 270),
-              child: Text('Add New',
-                  style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w700)),
+            CustomTextFormField(
+              labelName: ' Select your Estate',
+              hintText: 'Enter Estate Address',
+              suffixIcon: Icon(Icons.arrow_drop_down),
+              prefixIcon: Icon(Icons.search),
+              onSaved: (str) => estateAddress = str,
+              validator: (str) =>
+                  str.isEmpty ? 'Estate Address is Required' : null,
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddEstate()),
-              );
-            },
-          ),
-        ]),
-      ),
-    );
+            Stack(children: <Widget>[
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 80),
+                  child: Text('Could not find my Estate?',
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: GateManColors.textColor,
+                          fontWeight: FontWeight.w600)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddEstate()),
+                  );
+                },
+              ),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 240),
+                  child: Text('Add New',
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w700)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddEstate()),
+                  );
+                },
+              ),
+            ]),
+            SizedBox(height: 90.0),
+
+            //Save Button
+            ActionButton(
+              buttonText: 'Continue',
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ]),
+
+    ));
   }
 }
