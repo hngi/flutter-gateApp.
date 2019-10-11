@@ -57,9 +57,11 @@ class ScannerOverlayShape extends ShapeBorder {
     final borderHeightSize = height - (width - borderWidthSize);
     final borderSize = Size(borderWidthSize / 2, borderHeightSize / 2);
 
-    var paint = Paint()
-      ..color = overlayColor
-      ..style = PaintingStyle.fill;
+    // var paint = Paint()
+    //   ..color = overlayColor
+    //   ..style = PaintingStyle.fill;
+
+    var paint = Paint();
 
     canvas
       ..drawRect(

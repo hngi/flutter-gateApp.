@@ -144,7 +144,9 @@ class Residents extends StatelessWidget {
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },
-        onTrailingClicked: () {},
+        onTrailingClicked: () {
+          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+        },
       ),
     );
   }
