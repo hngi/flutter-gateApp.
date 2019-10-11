@@ -113,7 +113,7 @@ class _ManageAddressState extends State<ManageAddress> {
               //Save Button
               ActionButton(
                 buttonText: 'Continue',
-                onPressed: () {},
+                onPressed: () => Navigator.pushReplacementNamed(context, '/setting'),
               )
             ],
           ),

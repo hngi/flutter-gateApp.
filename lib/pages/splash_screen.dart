@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
     // ));
 
     Future.delayed(Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/setting');
+      Navigator.pushReplacementNamed(context, '/pager');
     });
 
     return Scaffold(

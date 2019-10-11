@@ -25,7 +25,7 @@ class GateManHelpers {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.menu),
-          onPressed: () {},
+          onPressed: () => Navigator.pushReplacementNamed(context, '/setting'),
           color: Colors.white,
         ),
       ],

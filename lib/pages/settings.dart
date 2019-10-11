@@ -127,7 +127,7 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: bottom_menu('About GatePass', () {},
+                    child: bottom_menu('About GatePass', () => Navigator.pushReplacementNamed(context, '/about'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
 
                   ),
@@ -141,7 +141,7 @@ class _SettingState extends State<Settings> {
                   ),
                   Container(
                     child: bottom_menu('Support', () {},
-                        Border(bottom: BorderSide.none)),                  ),
+                        Border(bottom: BorderSide.none)),),
                 ],
               )
           ),
