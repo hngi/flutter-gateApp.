@@ -8,7 +8,7 @@ class CustomInputField extends StatelessWidget {
   /*final Function(String) onSaved;
   final String Function(String) validator;*/
   final Widget prefix;
-
+  final TextEditingController textEditingController;
   final int maxLines;
 
   const CustomInputField({
@@ -19,6 +19,7 @@ class CustomInputField extends StatelessWidget {
     @required this.validator,*/
     @required this.prefix,
     this.maxLines = 1,
+    this.textEditingController
   }) : super(key: key);
 
   @override
@@ -45,6 +46,7 @@ class CustomInputField extends StatelessWidget {
         ));*/
 
     return TextField(
+      controller: this.textEditingController,
       decoration: InputDecoration(
         border: GateManHelpers.textFieldBorder,
         hintText: hint,

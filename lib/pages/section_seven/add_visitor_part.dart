@@ -13,11 +13,12 @@ class AddVisitorPart extends StatefulWidget {
   _AddVisitorPartState createState() => _AddVisitorPartState();
 }
 
-class _AddVisitorPartState extends State<AddVisitorPart> {
+class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStateMixin  {
   bool showingMoreDetail = false;
   bool morningChecked=true;
   bool afternoonChecked=false;
   bool eveningChecked=false;
+  TextEditingController textEditingController = TextEditingController();
 
   
 
@@ -41,7 +42,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
                   fontWeight: FontWeight.w600),
             ),
             Icon(
-              Icons.keyboard_arrow_down,
+              Icons.keyboard_arrow_up,
               size: 20,
               color: GateManColors.primaryColor,
             )
@@ -62,23 +63,19 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
         ),
       ),
       CustomInputField(
+        textEditingController: textEditingController,
         hint: 'Enter arrival date',
         prefix: Icon(Icons.calendar_today),
         keyboardType: TextInputType.datetime,
       ),
-      CustomDatePicker(onChanged: (){}, onSaved: (){},),
-      Padding(
-        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
-        child: Text(
-          'Car Plate Number (Optional)',
-          style: TextStyle(
-              color: GateManColors.textColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w600),
-        ),
+      CustomDatePicker(onChanged: (date){
+        textEditingController.text = date;
+      }, onSaved: (date){
+        textEditingController.text = date;
+      },now: DateTime.now(),minimumAllowedDate: DateTime.now(),
       ),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
+     Padding(
+        padding: const EdgeInsets.only(top: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -107,6 +104,17 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
           ],
         ),
       ),
+       Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
+          'Car Plate Number (Optional)',
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+      
       CustomInputField(
         hint: 'Enter car plate number',
         prefix: Image.asset('assets/images/Vector.png'),
@@ -175,7 +183,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
               height: 20,
             ),
             Container(
-              child: AnimatedContainer(
+              child: AnimatedSize(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: showingMoreDetail
@@ -204,7 +212,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> {
                               })
                         ],
                 ),
-                duration: Duration(milliseconds: 1000),
+                duration: Duration(milliseconds: 1000), vsync: this,
               ),
             ),
             Padding(
