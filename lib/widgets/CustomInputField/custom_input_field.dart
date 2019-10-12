@@ -10,6 +10,9 @@ class CustomInputField extends StatelessWidget {
   final Widget prefix;
   final TextEditingController textEditingController;
   final int maxLines;
+  final bool enabled;
+
+  final bool forCustomDatePicker;
 
   const CustomInputField({
     Key key,
@@ -19,7 +22,9 @@ class CustomInputField extends StatelessWidget {
     @required this.validator,*/
     @required this.prefix,
     this.maxLines = 1,
-    this.textEditingController
+    this.textEditingController,
+    this.enabled = true,
+    this.forCustomDatePicker=false
   }) : super(key: key);
 
   @override
@@ -46,8 +51,10 @@ class CustomInputField extends StatelessWidget {
         ));*/
 
     return TextField(
+      enabled: this.enabled,
       controller: this.textEditingController,
       decoration: InputDecoration(
+        disabledBorder: forCustomDatePicker?GateManHelpers.textFieldBorder:null,
         border: GateManHelpers.textFieldBorder,
         hintText: hint,
         hintStyle: TextStyle(fontSize: 12,color: Color(0xFF4F4F4F)),

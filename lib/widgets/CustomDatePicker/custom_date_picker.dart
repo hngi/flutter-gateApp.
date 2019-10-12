@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {
@@ -42,10 +43,16 @@ class CustomDatePicker extends StatefulWidget {
     [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]],
     [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
   ];
- CustomDatePicker({@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
+
+  bool includeInput;
+  bool showingDetail = true;
+ CustomDatePicker({this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
 minimumAllowedDate==null&&maximumAllowedDate!=null?DateTime.now().compareTo(maximumAllowedDate)<1:minimumAllowedDate!=null&&maximumAllowedDate==null?minimumAllowedDate.compareTo(DateTime.now())<1:true){
   if(this.now==null){
     this.now = DateTime.now();
+  }
+  if(this.includeInput==true){
+    showingDetail=false;
   }
    
   this.currentMonthValue = now.month;
@@ -87,9 +94,15 @@ this.currentDayFull = [this.currentDay, this.currentMonthValue, this.currentYear
   DateTime maximumAllowedDate;
 }
 
-class _CustomDatePickerState extends State<CustomDatePicker> {
+class _CustomDatePickerState extends State<CustomDatePicker> with TickerProviderStateMixin{
 
+TextEditingController dateController = TextEditingController();
 
+void toggleShowingDetail(){
+  setState(() {
+   this.widget.showingDetail = !this.widget.showingDetail; 
+  });
+}
  
 void nextMonth(){
   bool run = true;
@@ -151,6 +164,7 @@ void prevMonth(){
 }
 
 void buildDateItemsWithChangeState(){
+  
   List<List<List<int>>> daysRowCC =  buildDateItems();
      setState(() {
       this.widget.dayRows = daysRowCC; 
@@ -158,6 +172,7 @@ void buildDateItemsWithChangeState(){
   }
   
   List<List<List<int>>> buildDateItems() {
+    
     
       List<List<List<int>>> daysRowCC = [
     [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]],
@@ -234,12 +249,14 @@ void buildDateItemsWithChangeState(){
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
+      dateController.text = this.widget.selectedDayFull.join('/');
     }
 
     void _onSubmitted() {
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
+      dateController.text = this.widget.selectedDayFull.join('/');
     }
 
     List<int> getMonthRange(int index) {
@@ -305,6 +322,7 @@ void buildDateItemsWithChangeState(){
         this.widget.selectedDayFull = [value[0], stateSelectedMonthValue, this.widget.selectedYearValue];
         this.widget.colorPos = pos;
       });
+      
     }
 
     Widget header() {
@@ -350,6 +368,7 @@ void buildDateItemsWithChangeState(){
                 setSelectedDay(value, index);
                 //print("month tappe is " + months[selectedMonthIndex]);
                 _onChanged();
+                
                 print(this.widget.currentDayFull);
                 print(this.widget.selectedDayFull);
               },
@@ -388,38 +407,91 @@ void buildDateItemsWithChangeState(){
           }).toList());
     }
 
-  
+ 
     @override
     Widget build(BuildContext context) {
-      return Container(
-        child: Column(
-          children: <Widget>[
-            header(),
-            weekHeader(),
-            Divider(
-              color: Colors.grey,
-            ),
-            dayWidget(0),
-            dayWidget(1),
-            dayWidget(2),
-            dayWidget(3),
-            dayWidget(4),
-            FlatButton(
-              child: Text("DONE",
-                  style: TextStyle(color: GateManColors.primaryColor)),
-              onPressed: () {
-                _onSubmitted();
-              },
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(6)),
-        margin: EdgeInsets.only(top: 3),
+      dateController.text = this.widget.selectedDayFull.join('/');
+      if (this.widget.includeInput){
+      return AnimatedSize(
+              child: Column(
+                children: <Widget>[
+                  InkWell(
+                    onTap: (){toggleShowingDetail();},
+                    child:CustomInputField(
+                      textEditingController: dateController,
+                      forCustomDatePicker: true,
+                    enabled: false,
+        hint: 'Enter arrival date',
+        prefix: Icon(Icons.calendar_today),
+        keyboardType: TextInputType.datetime,
+      )),
+                  this.widget.showingDetail?
+                  Container(
+          child: Column(
+            children: <Widget>[
+                  header(),
+                  weekHeader(),
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  dayWidget(0),
+                  dayWidget(1),
+                  dayWidget(2),
+                  dayWidget(3),
+                  dayWidget(4),
+                  FlatButton(
+                    child: Text("DONE",
+                        style: TextStyle(color: GateManColors.primaryColor)),
+                    onPressed: () {
+                      _onSubmitted();
+                    },
+                  )
+            ],
+          ),
+          decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(6)),
+          margin: EdgeInsets.only(top: 3),
+        ):Container(width: 0,height: 0,)],
+              ), duration: Duration(milliseconds: 500), vsync: this,
       );
     }
+    
+    
+    else{
+      return Container(
+          child: Column(
+            children: <Widget>[
+                  header(),
+                  weekHeader(),
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  dayWidget(0),
+                  dayWidget(1),
+                  dayWidget(2),
+                  dayWidget(3),
+                  dayWidget(4),
+                  FlatButton(
+                    child: Text("DONE",
+                        style: TextStyle(color: GateManColors.primaryColor)),
+                    onPressed: () {
+                      _onSubmitted();
+                    },
+                  )
+            ],
+          ),
+          decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(6)),
+          margin: EdgeInsets.only(top: 3),
+        );
+
+    }
+    }
+     
 }
 
 // class DisabledNode extends FocusNode {
