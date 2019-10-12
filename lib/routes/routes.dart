@@ -140,6 +140,7 @@ class Routes {
 
       case '/gateman-notifications':
         return MaterialPageRoute(builder: (context) => GatemanNotifications());
+        
 
       default:
         return MaterialPageRoute(
