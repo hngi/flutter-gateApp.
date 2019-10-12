@@ -15,7 +15,8 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     // TODO: implement build
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Privacy Policy'),
-      body: Column(
+      body: ListView(
+        scrollDirection: Axis.vertical,
         children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 15.0, 10.0),

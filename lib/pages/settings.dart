@@ -81,18 +81,16 @@ class _SettingState extends State<Settings> {
                   Container(
                     child: _NotifAndTracking(
                         'In-app Notification',
-                        () {},
                         Border(bottom: BorderSide(color: Colors.grey[300])),
                         true),
                   ),
                   Container(
                       child: _NotifAndTracking(
                           'Push Notification',
-                          () {},
                           Border(bottom: BorderSide(color: Colors.grey[300])),
                           true)),
                   Container(
-                    child: _NotifAndTracking('Location Tracking', () {},
+                    child: _NotifAndTracking('Location Tracking',
                         Border(bottom: BorderSide.none), false),
                   ),
                 ],
@@ -161,41 +159,42 @@ class _SettingState extends State<Settings> {
 
 class _NotifAndTracking extends StatelessWidget {
   String text;
-  Function onTap;
+  Function _setState;
   Border decoration;
-  bool isSwitched;
+  bool isSwitched = false;
 
-  _NotifAndTracking(this.text, this.onTap, this.decoration, this.isSwitched);
+  void _onchanged(bool value) {
+    _setState(() {
+      isSwitched = value;
+    });
+  }
+
+  _NotifAndTracking(this.text, this.decoration, this.isSwitched);
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: onTap,
-      splashColor: Colors.green[500],
-      child: Container(
-        decoration: BoxDecoration(
-          border: decoration,
-        ),
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              child: Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
-            ),
-            Switch(
-              value: isSwitched,
-              onChanged: (value) {
-//                setState(() {
-//                  isSwitched = value;
-//                });
-              },
-              activeTrackColor: Colors.green,
-              activeColor: Colors.green,
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+      decoration: BoxDecoration(
+        border: decoration,
+      ),
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+            child: Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          Switch(
+            value: isSwitched,
+            onChanged: (bool value) {
+              _onchanged(value);
+            },
+            activeTrackColor: Colors.green,
+            activeColor: Colors.green,
+          ),
+        ],
       ),
     );
   }
