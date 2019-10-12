@@ -105,6 +105,9 @@ class _TypeOfUser extends State<TypeOfUser> {
 
            GestureDetector(
              onTap: (){
+               if (_residentYes == true){
+                 _residentYes = false;
+               }
                print("Gateman Tapped");
                if (_residentYes == true){
                  _residentYes = false;
