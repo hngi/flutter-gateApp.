@@ -147,8 +147,12 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
           ),
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, '/service_directory_resident');
+            },
             leading: Icon(MdiIcons.hammer,
                 color: GateManColors.primaryColor, size: 25.0),
             title: Text("Service Directory",
@@ -168,10 +172,14 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/resident-settings');},
           ),
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          //Navigator.pushReplacementNamed(context, '/residents');
+        },
         icon: MdiIcons.account,
         title: 'Visitors',
       ),
@@ -181,6 +189,10 @@ class Homepage extends StatelessWidget {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/homepage');
+        },
+        onTrailingClicked: () {},
       ),
     );
   }

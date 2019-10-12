@@ -170,6 +170,9 @@ class IncomingVisitors extends StatelessWidget {
         ],
       ),
       floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/homepage');
+        },
         icon: MdiIcons.account,
         title: 'Visitors',
       ),
@@ -179,6 +182,10 @@ class IncomingVisitors extends StatelessWidget {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/homepage');
+        },
+        onTrailingClicked: () {},
       ),
     );
   }

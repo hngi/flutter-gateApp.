@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
   final IconData icon;
   final TextInputType keyboardType;
   final Function(String) onSaved;
+  final Function(String) onChanged;
   final String Function(String) validator;
   final bool isPassword;
   final int maxLines;
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.keyboardType = TextInputType.text,
     @required this.onSaved,
+    this.onChanged,
     @required this.validator,
     this.isPassword = false,
     this.maxLines = 1,
@@ -49,6 +51,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           TextFormField(
             maxLines: maxLines,
+            onChanged: onChanged,
             onSaved: onSaved,
             controller: controller,
             validator: validator,

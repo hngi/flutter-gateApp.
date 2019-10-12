@@ -29,6 +29,7 @@ class GateMan extends StatelessWidget {
           fontFamily: 'OpenSans',
         ),
         debugShowCheckedModeBanner: false,
+        // home: AddVisitor(),
       ),
     );
   }
