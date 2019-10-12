@@ -240,7 +240,9 @@ class WelcomeResident extends StatelessWidget {
           print("leading clicked");
           Navigator.pushNamed(context, '/homepage');
         },
-        onTrailingClicked: () {},
+        onTrailingClicked: () {
+          Navigator.pushNamed(context, '/resident-notifications');
+        },
       ),
       // bottomNavigationBar: Container(
       //   height: 70.0,
