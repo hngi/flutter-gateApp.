@@ -61,7 +61,7 @@ class _MenuState extends State<Menu> {
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700,
                           color: Color(0xff878787))),
-                  onPressed: () {},
+                  onPressed: () {Navigator.pushReplacementNamed(context,'/user-type');},
                 ),
               ],
             ),

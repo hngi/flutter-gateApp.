@@ -106,7 +106,10 @@ class _TypeOfUser extends State<TypeOfUser> {
            GestureDetector(
              onTap: (){
                print("Gateman Tapped");
-               _residentYes = !_residentYes;
+               if (_residentYes == true){
+                 _residentYes = false;
+               }
+               
                this._setUserType(user_type.GATEMAN);
                userTypeProvider.setUserType(user_type.GATEMAN); },
              child: Card(
