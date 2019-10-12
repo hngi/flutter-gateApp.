@@ -62,17 +62,18 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               fontWeight: FontWeight.w600),
         ),
       ),
-      CustomInputField(
-        textEditingController: textEditingController,
-        hint: 'Enter arrival date',
-        prefix: Icon(Icons.calendar_today),
-        keyboardType: TextInputType.datetime,
-      ),
+      // CustomInputField(
+      //   textEditingController: textEditingController,
+      //   hint: 'Enter arrival date',
+      //   prefix: Icon(Icons.calendar_today),
+      //   keyboardType: TextInputType.datetime,
+      // ),
       CustomDatePicker(onChanged: (date){
         textEditingController.text = date;
       }, onSaved: (date){
         textEditingController.text = date;
       },now: DateTime.now(),minimumAllowedDate: DateTime.now(),
+      includeInput: true,
       ),
      Padding(
         padding: const EdgeInsets.only(top: 20.0),
