@@ -6,9 +6,8 @@ import 'package:gateapp/utils/colors.dart';
 
 class AddLocationPermission extends StatefulWidget {
   static final String routeName = '/add_location_permisiion';
-  final user_type typeUser;
 
-AddLocationPermission({@required this.typeUser});
+AddLocationPermission();
   @override
   _AddLocationPermissionState createState() => _AddLocationPermissionState();
 }
@@ -74,7 +73,7 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
                 onPressed: () {
                   // if (await PermissionsService().hasLocationPermission()==true){
                       Navigator.pushReplacementNamed(
-                    context, '/select-estate');
+                    context, '/user-type');
                   // } else{
                   //   if (await PermissionsService().requestLocationPermission() == true){
                   //     Navigator.pushReplacementNamed(
