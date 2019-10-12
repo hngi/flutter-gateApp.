@@ -150,7 +150,7 @@ class _SelectAddressState extends State<SelectAddress> {
                 buttonText: 'Continue',
                 onPressed: () {
                   if (userType.type == user_type.RESIDENT){
-                  Navigator.pushNamed(context, '/register');
+                  Navigator.pushNamed(context, '/visitor-profile');
                   } else {
                      Navigator.pushNamed(context, '/gateman-register');
                   }
