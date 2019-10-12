@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/gateman/welcome.dart';
+import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class GatemanRegister extends StatefulWidget {
   @override
@@ -16,9 +18,12 @@ class _GatemanRegisterState extends State<GatemanRegister> {
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _fnameController = new TextEditingController();
   String _fullname;
+  
 
   @override
   Widget build(BuildContext context) {
+    GatemanUserProvider gateManProvider =
+        Provider.of<GatemanUserProvider>(context, listen: false);
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -72,6 +77,7 @@ class _GatemanRegisterState extends State<GatemanRegister> {
                     buttonText: 'Join',
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
+                        gateManProvider.gatemanUser.fullName = _fnameController.text;
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => new GatemanWelcome(
                                   fullname: _fnameController.text,

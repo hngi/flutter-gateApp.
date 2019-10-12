@@ -14,7 +14,8 @@ class AddEstate extends StatefulWidget {
 
 class _AddEstateState extends State<AddEstate> {
   final _formkey = GlobalKey<FormState>();
-
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
   //Model model = Model();
   EstateModel model = EstateModel();
 
@@ -42,9 +43,14 @@ class _AddEstateState extends State<AddEstate> {
     setState(() => city = value);
   }
 
-  _onEstatesChanged(String value) {
+  _onEstateAddressChanged(String value) {
     model.estateAddress = value;
     setState(() => estateAddress = value);
+  }
+
+  _onEsatesNameChanged(String value){
+    print(value);
+
   }
 
   @override
@@ -84,6 +90,7 @@ class _AddEstateState extends State<AddEstate> {
 
                 //Enter Estate name
                 CustomTextFormField(
+                  controller: nameController,
                   labelName: ' Estate Name',
                   hintText: 'Enter Estate Name',
                   validator: (String value) {
@@ -101,6 +108,7 @@ class _AddEstateState extends State<AddEstate> {
                 ),
                 //Enter Address
                 CustomTextFormField(
+                  controller: addressController,
                   labelName: ' Estate Address',
                   hintText: 'Enter Estate Address',
                   validator: (String value) {
@@ -154,14 +162,13 @@ class _AddEstateState extends State<AddEstate> {
                   buttonText: 'Add',
                   onPressed: () {
                     if (_formkey.currentState.validate()) {
-                      print(model.city.toString() +
-                          model.estateAddress.toString() +
-                          model.country.toString() +
-                          model.estateName.toString());
+                      model.estateName = nameController.text;
+                      model.estateAddress = addressController.text;
                       allEstates.addEstate(model);
                       residentUserModel.setResidentEstate(
                           residentEstate: model);
-                      Navigator.pushNamed(context, '/register');
+                          print(allEstates.estates);
+                      Navigator.pushNamed(context, '/select-estate');
                     }
                   },
                 ),

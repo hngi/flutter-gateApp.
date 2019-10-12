@@ -38,60 +38,63 @@ class NotificationResident extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 10.0, left: 20.0),
-                child: Text(
-                  'Samuel Charles has arrived',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                    color: GateManColors.textColor,
+          InkWell(
+            onTap: (){Navigator.pushNamed(context, '/visitor-profile');},
+                      child: Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(top: 10.0, left: 20.0),
+                  child: Text(
+                    'Samuel Charles has arrived',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: GateManColors.textColor,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 10.0, left: 95.0),
-                child: PopupMenuButton(
-                    offset: Offset(0, 100),
-                    itemBuilder: (context) => [
-                          PopupMenuItem(
-                              child: ListTile(
-                            leading: Icon(Icons.delete),
-                            title: Text("Delete",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                )),
-                            subtitle: Text(
-                              'Delete this notification',
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          )),
-                          PopupMenuItem(
-                            child: ListTile(
-                              leading: Icon(Icons.notifications_off),
-                              title: Text(
-                                "Turn off",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                Container(
+                  padding: EdgeInsets.only(top: 10.0, left: 95.0),
+                  child: PopupMenuButton(
+                      offset: Offset(0, 100),
+                      itemBuilder: (context) => [
+                            PopupMenuItem(
+                                child: ListTile(
+                              leading: Icon(Icons.delete),
+                              title: Text("Delete",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  )),
                               subtitle: Text(
-                                'Turn off this notification',
+                                'Delete this notification',
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                   color: Colors.black54,
                                 ),
                               ),
+                            )),
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.notifications_off),
+                                title: Text(
+                                  "Turn off",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Turn off this notification',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ]),
-              )
-            ],
+                          ]),
+                )
+              ],
+            ),
           ),
           Row(
             children: <Widget>[
