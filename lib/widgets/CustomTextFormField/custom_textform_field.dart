@@ -51,7 +51,7 @@ class CustomTextFormField extends StatelessWidget {
           ),
           TextFormField(
             maxLines: maxLines,
-            //onChanged: onChanged,
+            onChanged: onChanged,
             onSaved: onSaved,
             controller: controller,
             validator: validator,
@@ -64,7 +64,7 @@ class CustomTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintText,
               prefixIcon: prefixIcon ?? null,
-              suffixIcon: prefixIcon ?? null,
+              suffixIcon: suffixIcon ?? null,
               // suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
