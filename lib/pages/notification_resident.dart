@@ -199,10 +199,10 @@ class NotificationResident extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          // Navigator.pushReplacementNamed(context, '/homepage');
+          Navigator.pushReplacementNamed(context, '/welcome-resident');
         },
         icon: MdiIcons.account,
-        title: 'Residents',
+        title: 'Visitors',
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomNavBar(
@@ -212,7 +212,7 @@ class NotificationResident extends StatelessWidget {
         traillingText: 'Alerts',
         onLeadingClicked: () {
           print("leading clicked");
-          Navigator.pushNamed(context, '/homepage');
+          Navigator.pushReplacementNamed(context, '/homepage');
         },
         onTrailingClicked: () {},
       ),
