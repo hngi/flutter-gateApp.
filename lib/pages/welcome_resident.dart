@@ -238,10 +238,10 @@ class WelcomeResident extends StatelessWidget {
         traillingText: 'Alerts',
         onLeadingClicked: () {
           print("leading clicked");
-          Navigator.pushReplacementNamed(context, '/homepage');
+          Navigator.pushNamed(context, '/homepage');
         },
         onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/resident-notifications');
+          Navigator.pushNamed(context, '/resident-notifications');
         },
       ),
       // bottomNavigationBar: Container(

@@ -199,7 +199,7 @@ class NotificationResident extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/welcome-resident');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',

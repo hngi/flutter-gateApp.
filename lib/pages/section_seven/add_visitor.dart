@@ -55,7 +55,7 @@ class _AddVisitorState extends State<AddVisitor>
       body:  AddVisitorPart(),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/homepage');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',
@@ -66,8 +66,8 @@ class _AddVisitorState extends State<AddVisitor>
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {Navigator.pushNamed(context, '/homepage');},
-        onTrailingClicked: () {},
+        onLeadingClicked: () {Navigator.pushReplacementNamed(context, '/homepage');},
+        onTrailingClicked: () {Navigator.pushReplacementNamed(context, '/resident-notifications');},
       ),
     );
   }
