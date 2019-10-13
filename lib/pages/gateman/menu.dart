@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/gateman/notifications.dart';
+import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:gateapp/pages/gateman/widgets/customFab.dart';
 import 'package:gateapp/pages/gateman/widgets/listTileMenu.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
@@ -9,13 +11,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'residents.dart';
 
 class Menu extends StatefulWidget {
-  final String name;
-  Menu({this.name});
   @override
   _MenuState createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
+  String name = 'Danny Evans';
   bool badge = true;
   int _counter = 2;
   @override
@@ -66,7 +67,7 @@ class _MenuState extends State<Menu> {
                           fontSize: 14.0,
                           fontWeight: FontWeight.w700,
                           color: Color(0xff878787))),
-                  onPressed: () {},
+                  onPressed: () {Navigator.pushNamed(context, '/user-type');},
                 ),
               ],
             ),
@@ -101,7 +102,7 @@ class _MenuState extends State<Menu> {
                 ],
               ),
             ),
-            title: Text("${widget.name}",
+            title: Text(name,
                 style: TextStyle(
                   color: GateManColors.primaryColor,
                   fontSize: 20.0,
@@ -116,7 +117,7 @@ class _MenuState extends State<Menu> {
           ),
           SizedBox(height: 15.0),
           ListTile(
-            onTap: () {},
+            onTap: () {Navigator.pushNamed(context, '/gateman-notifications');},
             leading: Image.asset('assets/images/gateman/alert.png'),
             title: Row(
               children: <Widget>[
@@ -148,7 +149,7 @@ class _MenuState extends State<Menu> {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {Navigator.pushNamed(context, '/residents-gate');},
             leading: Image.asset('assets/images/gateman/resi.png'),
             title: Text("Residents",
                 style: TextStyle(
@@ -158,7 +159,7 @@ class _MenuState extends State<Menu> {
                 )),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {Navigator.pushNamed(context, '/scan-qr');},
             leading: Image.asset('assets/images/gateman/qrCodeGreen.png'),
             title: Text("Scan QR code",
                 style: TextStyle(
@@ -168,7 +169,7 @@ class _MenuState extends State<Menu> {
                 )),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {Navigator.pushNamed(context, '/settings');},
             leading: Image.asset('assets/images/gateman/settings.png'),
             title: Text("Settings",
                 style: TextStyle(
@@ -180,26 +181,9 @@ class _MenuState extends State<Menu> {
         ],
       ),
 
-      floatingActionButton: BottomNavFAB(
-        icon: MdiIcons.accountGroup,
-        title: 'Residents',
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
-        },
-      ),
+      floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomNavBar(
-        leadingIcon: MdiIcons.apps,
-        leadingText: 'Menu',
-        traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
-        onLeadingClicked: () {
-          // Navigator.pushNamed(context, '/gateman-menu');
-        },
-        onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-notifications');
-        },
-      ),
+      bottomNavigationBar: CustomBottomAppBar()
 
       // bottomNavigationBar: new BottomAppBar(
       //   color: GateManColors.primaryColor,
