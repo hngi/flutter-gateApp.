@@ -253,26 +253,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'View more details.',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          SizedBox(width: 10),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.green)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ],
