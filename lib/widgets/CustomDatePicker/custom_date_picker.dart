@@ -320,10 +320,13 @@ void buildDateItemsWithChangeState(){
         stateSelectedMonthValue = this.widget.calendarCurrentViewMonth;
         // print("5 case");
       }
+      print([stateSelectedYearValue,stateSelectedMonthValue,value[0]]);
+      print("ddddddddddd nice seems u are working well");
+      print([this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day]);
       // print(selectedMonthIndex);
-      if(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(this.widget.minimumAllowedDate)<0){
+      if(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(DateTime(this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day))<0){
 
-      } else{
+      } else if(DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(DateTime(this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day))==0 || !(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(this.widget.minimumAllowedDate)<0)){
       setState(() {
         this.widget.selectedMonthValue = stateSelectedMonthValue;
         
