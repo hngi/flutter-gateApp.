@@ -18,14 +18,14 @@ class _AddVisitorState extends State<AddVisitor>
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     tabController = new TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+
     tabController.dispose();
     super.dispose();
   }

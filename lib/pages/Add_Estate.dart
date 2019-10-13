@@ -48,9 +48,8 @@ class _AddEstateState extends State<AddEstate> {
     setState(() => estateAddress = value);
   }
 
-  _onEsatesNameChanged(String value){
+  _onEsatesNameChanged(String value) {
     print(value);
-
   }
 
   @override
@@ -167,7 +166,7 @@ class _AddEstateState extends State<AddEstate> {
                       allEstates.addEstate(model);
                       residentUserModel.setResidentEstate(
                           residentEstate: model);
-                          print(allEstates.estates);
+                      print(allEstates.estates);
                       Navigator.pushNamed(context, '/select-estate');
                     }
                   },
