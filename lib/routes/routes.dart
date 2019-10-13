@@ -5,6 +5,10 @@ import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
+import 'package:gateapp/pages/gateman/menu.dart';
+import 'package:gateapp/pages/gateman/residents.dart';
+import 'package:gateapp/pages/gateman/scheduledVisit.dart';
+import 'package:gateapp/pages/gateman/visitors.dart';
 import 'package:gateapp/pages/notification_resident.dart';
 import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
@@ -148,6 +152,22 @@ class Routes {
         
       case '/resident-notifications':
         return MaterialPageRoute(builder: (context) => NotificationResident());
+      
+      case '/resident-notifications':
+        return MaterialPageRoute(builder: (context) => NotificationResident());
+      
+      case '/residents-gate':
+        return MaterialPageRoute(builder: (context) => ResidentsGate());
+      
+      case '/menu':
+        return MaterialPageRoute(builder: (context) => Menu());
+      
+      case '/scheduled-visit':
+        return MaterialPageRoute(builder: (context) => ScheduledVisit());
+      
+      case '/visitors-list':
+        return MaterialPageRoute(builder: (context) => VisitorsList());
+
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
