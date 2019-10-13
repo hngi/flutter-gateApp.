@@ -6,13 +6,13 @@ import 'scheduledVisit.dart';
 
 
 class VisitorsList extends StatefulWidget {
-  final String name;
-  VisitorsList({this.name});
+  
   @override
   _VisitorsListState createState() => _VisitorsListState();
 }
 
 class _VisitorsListState extends State<VisitorsList> {
+  String name = 'Danny Evans';
   var _visitors = [
     {
       "name": "Mr. Seun Adeyini",
@@ -54,7 +54,7 @@ class _VisitorsListState extends State<VisitorsList> {
         children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(top:55.0, left: 20.0, bottom: 5.0),
-              child: Text('Welcome ${widget.name}', style: TextStyle(fontSize: 20.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
+              child: Text('Welcome $name', style: TextStyle(fontSize: 20.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
             ),
             Padding(
               padding: const EdgeInsets.only(left:20.0),
@@ -90,7 +90,7 @@ class _VisitorsListState extends State<VisitorsList> {
                       address: _visitors[index]['address'],
                       time: _visitors[index]['time'],
                       color: _visitors[index]['color'],
-                      func: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ScheduledVisit(name: widget.name)));},),
+                      func: (){Navigator.pushNamed(context, '/scheduled-visit');},),
           );
         },
       ),
