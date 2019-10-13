@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
 import 'package:gateapp/widgets/CustomDatePicker/custom_date_picker.dart';
@@ -26,6 +27,172 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     setState(() {
       showingMoreDetail = !showingMoreDetail;
     });
+  }
+
+  openAlertBox() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            contentPadding: EdgeInsets.only(top: 0.0),
+            titlePadding: EdgeInsets.only(top: 0),
+
+            content: Container(
+              //width: 300.0,
+              child: Container(
+                color: GateManColors.primaryColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: GateManColors.primaryColor,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(top: 15.0, bottom: 5),
+                            child: Image.asset('assets/images/success.png'),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom:8.0),
+                            child: Text(
+                              'Visitor added successfully',
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text(
+                              'Send Invitation',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF466446)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Visitor : ',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF4f4f4f)),
+                                ),
+                                Text(
+                                  'Mr Seun Adeniyi',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF4f4f4f)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Image.asset(
+                              'assets/images/qr.png',
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 30),
+                            child: RaisedButton(
+                              color: Color(0xFFffa700),
+                              onPressed: () {},
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              child: Container(
+                                height: 50.0,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  '4561WT',
+                                  style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            'Show this at the security gate',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                color: Color(0xFF49A347)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16,horizontal: 16
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                                  border: Border.all(
+                                      width: 1,
+                                      style: BorderStyle.solid,
+                                      color: GateManColors.primaryColor)),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset('assets/images/share.png'),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Share',
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF49A347)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   List<Widget> _moreDetail() {
@@ -220,7 +387,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ActionButton(
                 buttonText: 'Add',
-                onPressed: () {},
+                onPressed: () {
+                  GateManHelpers.openAlertBox(context);
+                },
                 horizontalPadding: 0,
               ),
             ),
