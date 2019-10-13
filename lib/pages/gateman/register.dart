@@ -78,10 +78,7 @@ class _GatemanRegisterState extends State<GatemanRegister> {
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         gateManProvider.gatemanUser.fullName = _fnameController.text;
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => new GatemanWelcome(
-                                  fullname: _fnameController.text,
-                                )));
+                        Navigator.pushReplacementNamed(context, '/residents');
                       } else {
                         print('form not valid');
                       }
