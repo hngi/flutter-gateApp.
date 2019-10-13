@@ -217,9 +217,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     ),
                   ],
                 ),
-                SizedBox(height: 90.0),
-
-                ],
+              ],
             ),
           ),
         );
