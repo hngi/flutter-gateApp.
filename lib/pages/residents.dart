@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
@@ -8,6 +9,8 @@ import 'package:gateapp/widgets/ResidentExpansionTile/resident_expansion_tile.da
 import 'package:gateapp/widgets/ResidentInfoCard/resident_info_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'gateman/menu.dart';
 
 class Residents extends StatelessWidget {
   @override
@@ -133,7 +136,7 @@ class Residents extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => GateManMenu()));
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -145,7 +148,7 @@ class Residents extends StatelessWidget {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         onLeadingClicked: () {
-          Navigator.pushNamed(context, '/homepage');
+          Navigator.pushNamed(context, '/gateman-menu');
         },
         onTrailingClicked: () {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
