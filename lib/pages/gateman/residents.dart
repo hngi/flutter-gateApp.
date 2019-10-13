@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/pages/gateman/notifications.dart';
 import 'package:gateapp/pages/gateman/scheduledVisit.dart';
+import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:gateapp/pages/gateman/widgets/customFab.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -8,14 +10,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'menu.dart';
 import 'visitors.dart';
 
-class Residents extends StatefulWidget {
-  final name;
-  Residents({this.name});
+class ResidentsGate extends StatefulWidget {
   @override
-  _ResidentsState createState() => _ResidentsState();
+  _ResidentsGateState createState() => _ResidentsGateState();
 }
 
-class _ResidentsState extends State<Residents> {
+class _ResidentsGateState extends State<ResidentsGate> {
+  String name = 'Danny Evans';
   bool badge = true;
   int _counter = 1;
   bool details = false;
@@ -35,63 +36,8 @@ class _ResidentsState extends State<Residents> {
     final wv = MediaQuery.of(context).size.width/100;
     final hv = MediaQuery.of(context).size.width/100;
     return Scaffold(
-      bottomNavigationBar: new BottomAppBar(
-        color: GateManColors.primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.only(top:15.0, left: 20.0, right: 20.0, bottom: 10.0),
-          child: SizedBox(height: hv*14,
-            child: new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Menu(name: widget.name,)));},
-                child: Column(
-                  children: <Widget>[
-                    Image.asset('assets/images/gateman/menu.png'),
-                    Text('Menu', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ),)
-                  ],
-                ),
-              ),
-              InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new GatemanNotifications(name: widget.name,)));},
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Image.asset('assets/images/gateman/notification.png'),
-                        badge ? Positioned(
-                          right: 0,
-                          child: new Container(
-                            padding: EdgeInsets.all(1),
-                            decoration: new BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(6),),
-                            constraints: BoxConstraints(minWidth: 12,minHeight: 12,),
-                            child: new Text('$_counter',style: new TextStyle(color: Colors.white,fontSize: 8,),textAlign: TextAlign.center,),
-                          ),
-                          ):Container()
-                      ],
-                    ),
-                    Text('Alert', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ))
-                  ],
-                ),
-              ),
-            ],
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: SizedBox(width: 110.0, height:110.0,
-      child:   new FloatingActionButton(backgroundColor: GateManColors.primaryColor,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: Image.asset('assets/images/gateman/residents.png'),
-              ),
-              Text('Residents', style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),)
-              ],
-  
-              ), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Residents(name: widget.name,)));},
-  
-              ),
-      ),
+      bottomNavigationBar: CustomBottomAppBar(),
+      floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       //Body of the page
@@ -99,7 +45,7 @@ class _ResidentsState extends State<Residents> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top:55.0, left: 20.0),
-            child: Text('Welcome ${widget.name}', style: TextStyle(fontSize: 20.0, color: Color(0xff555555), fontWeight: FontWeight.w600)),
+            child: Text('Welcome $name', style: TextStyle(fontSize: 20.0, color: Color(0xff555555), fontWeight: FontWeight.w600)),
           ),
           Padding(
             padding: const EdgeInsets.only(left:20.0),
@@ -122,7 +68,7 @@ class _ResidentsState extends State<Residents> {
           ),
           Padding(
             padding: const EdgeInsets.only(left:20.0, bottom: 10.0),
-            child: Text('Residents', style: TextStyle(fontSize: 14.0, color: Color(0xff49A347), fontWeight: FontWeight.w600,),)
+            child: Text('ResidentsGate', style: TextStyle(fontSize: 14.0, color: Color(0xff49A347), fontWeight: FontWeight.w600,),)
           ),
           Container(padding: const EdgeInsets.all(0.0), margin: const EdgeInsets.only(left: 20.0, right: 20.0),
             decoration: BoxDecoration(border: Border.all(color: Colors.grey.withOpacity(0.4))),
@@ -145,7 +91,7 @@ class _ResidentsState extends State<Residents> {
                         Icon(Icons.phone, size: 14.0, color: Color(0xff4F4F4F)),
                         Text(' 08038000000 ', style: TextStyle(fontSize: 11.0,))
                       ],),
-                  trailing: InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new VisitorsList(name: widget.name)));},
+                  trailing: InkWell(onTap: (){Navigator.pushReplacementNamed(context, '/visitors-list');},
                     child: Column(
                       children: <Widget>[
                         Container(padding: const EdgeInsets.only(top:4.0, bottom: 4.0, left: 10.0, right: 10.0), margin: const EdgeInsets.only(bottom: 3.0),
@@ -160,7 +106,7 @@ class _ResidentsState extends State<Residents> {
                     ),
                   ),
                 ),
-                InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new VisitorsList(name: widget.name)));/*Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ScheduledVisit(name: widget.name)));*/},
+                InkWell(onTap: (){Navigator.pushReplacementNamed(context, '/scheduled-visit');/*Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ScheduledVisit(name: widget.name)));*/},
                   child: details ? Padding(
                     padding: const EdgeInsets.only(left:20.0, bottom: 20.0, right: 20.0),
                     child: 
@@ -250,7 +196,7 @@ class _ResidentsState extends State<Residents> {
                         Icon(Icons.phone, size: 14.0, color: Color(0xff4F4F4F)),
                         Text(' 07055300000 ', style: TextStyle(fontSize: 11.0,))
                       ],),
-                  trailing: InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new VisitorsList(name: widget.name)));},
+                  trailing: InkWell(onTap: (){Navigator.pushReplacementNamed(context, '/visitors-list');},
                     child: Column(
                       children: <Widget>[
                         Container(padding: const EdgeInsets.only(top:4.0, bottom: 4.0, left: 10.0, right: 10.0), margin: const EdgeInsets.only(bottom: 3.0),
@@ -265,7 +211,7 @@ class _ResidentsState extends State<Residents> {
                     ),
                   ),
                 ),
-                InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ScheduledVisit(name: widget.name)));},
+                InkWell(onTap: (){Navigator.pushReplacementNamed(context, '/scheduled-visit');},
                   child: details2 ? 
                   Padding(
                     padding: const EdgeInsets.only(left:20.0, bottom: 20.0, right: 20.0),
