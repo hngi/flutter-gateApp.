@@ -388,7 +388,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: ActionButton(
                 buttonText: 'Add',
                 onPressed: () {
-                  GateManHelpers.openAlertBox(context);
+                  openAlertBox();
                 },
                 horizontalPadding: 0,
               ),
@@ -407,14 +407,17 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               height: 10,
             ),
             VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434'),
+                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
             VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434'),
+                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
             VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434'),
+                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
           ],
         ),
       ),
     );
   }
+
 }
+
+
