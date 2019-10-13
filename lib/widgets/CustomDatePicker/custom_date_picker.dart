@@ -217,21 +217,25 @@ void buildDateItemsWithChangeState(){
         continue;
      } else{
      daysRowCC[j][i][0] = selectedMonthControlDay;
-    daysRowCC[j][i][1] = workingMonth;
+    
      
+     daysRowCC[j][i][1] = workingMonth; 
      
      daysRowCC[j][i][2] = workingYear;
-     
      if(selectedMonthControlDay == getMonthRange(this.widget.calendarCurrentViewMonth)[1]){
        selectedMonthControlDay = 0;
        
-       if (workingMonth + 1 > 12){
-         print("caughtme");
-         daysRowCC[j][i][2] = workingYear+1;
-       }
+       
        workingMonth = workingMonth +1;
+       if (workingMonth > 12){
+         print("caughtme");
+         workingYear = workingYear+1;
+         workingMonth = 1;
+       }
+      
      }
-     
+
+     //daysRowCC[j][i][2] = workingYear;
      
      selectedMonthControlDay += 1;
      
@@ -257,6 +261,7 @@ void buildDateItemsWithChangeState(){
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
       dateController.text = this.widget.selectedDayFull.join('/');
+      toggleShowingDetail();
     }
 
     List<int> getMonthRange(int index) {
@@ -307,6 +312,7 @@ void buildDateItemsWithChangeState(){
         stateSelectedMonthValue = this.widget.calendarCurrentViewMonth + 1;
         if (this.widget.calendarCurrentViewMonth==12){
           stateSelectedYearValue = stateSelectedYearValue + 1;
+          stateSelectedMonthValue = 1;
         }
 
         // print("4 case");
@@ -314,7 +320,13 @@ void buildDateItemsWithChangeState(){
         stateSelectedMonthValue = this.widget.calendarCurrentViewMonth;
         // print("5 case");
       }
+      print([stateSelectedYearValue,stateSelectedMonthValue,value[0]]);
+      print("ddddddddddd nice seems u are working well");
+      print([this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day]);
       // print(selectedMonthIndex);
+      if(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(DateTime(this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day))<0){
+
+      } else if(DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(DateTime(this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day))==0 || !(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(this.widget.minimumAllowedDate)<0)){
       setState(() {
         this.widget.selectedMonthValue = stateSelectedMonthValue;
         
@@ -322,7 +334,7 @@ void buildDateItemsWithChangeState(){
         this.widget.selectedDayFull = [value[0], stateSelectedMonthValue, this.widget.selectedYearValue];
         this.widget.colorPos = pos;
       });
-      
+      }
     }
 
     Widget header() {
@@ -422,7 +434,7 @@ void buildDateItemsWithChangeState(){
                       forCustomDatePicker: true,
                     enabled: false,
         hint: 'Enter arrival date',
-        prefix: Icon(Icons.calendar_today),
+        prefix: Icon(Icons.calendar_today,color: GateManColors.primaryColor,),
         keyboardType: TextInputType.datetime,
       )),
                   this.widget.showingDetail?
