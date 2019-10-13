@@ -159,7 +159,7 @@ class _TypeOfUser extends State<TypeOfUser> {
               padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Continue',
-                onPressed: () => Navigator.pushReplacementNamed(context, '/add-location',arguments: this.type),
+                onPressed: () => Navigator.pushReplacementNamed(context, '/select-estate'),
               )
           ),
         ],
