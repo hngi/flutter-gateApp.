@@ -217,17 +217,6 @@ class _SelectAddressState extends State<SelectAddress> {
                     ),
                   ],
                 ),
-                SizedBox(height: 90.0),
-
-                //Save Button
-                ActionButton(
-                  buttonText: 'Continue',
-                  onPressed: () => {
-                    (userType.type == user_type.RESIDENT)
-                        ? Navigator.pushNamed(context, '/register')
-                        : Navigator.pushNamed(context, '/gateman-register')
-                    /*if (userType.type == user_type.RESIDENT){
-                  Navigator.pushNamed(context, '/register')
               ],
             ),
           ),
