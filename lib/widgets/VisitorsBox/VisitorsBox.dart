@@ -22,7 +22,8 @@ class _VisitorsBoxState extends State<VisitorsBox> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 5),
-      height: 120,width: MediaQuery.of(context).size.width,
+      //height: 120,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(3)),
         border: Border.all(
