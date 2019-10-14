@@ -48,6 +48,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<T>(
                 iconEnabledColor: GateManColors.primaryColor,
+                icon: Icon(Icons.keyboard_arrow_down),
                 style: TextStyle(color: GateManColors.textColor),
                 value: value,
                 isDense: true,

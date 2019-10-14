@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 
 import 'package:gateapp/utils/helpers.dart';
+import 'package:gateapp/widgets/BottomMenu/bottom_menu.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -11,17 +11,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Setting'),
       body: ListView(
-
         children: <Widget>[
-
 //          Account
 
           Container(
@@ -32,7 +27,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -47,17 +41,19 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: bottom_menu('Edit Profile', () {},
+                    child: BottomMenu(
+                        'Edit Profile',
+                        () => Navigator.pushNamed(context, '/edit-profile'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
-
                   ),
                   Container(
-                    child: bottom_menu('Manage Address', () {},
+                    child: BottomMenu(
+                        'Manage Address',
+                        () => Navigator.pushNamed(context, '/manage-address'),
                         Border(bottom: BorderSide.none)),
                   ),
                 ],
-              )
-          ),
+              )),
 
 //          Notification & Tracking
 
@@ -69,7 +65,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -84,25 +79,24 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: _NotifAndTracking('In-app Notification', () {},
-                        Border(bottom: BorderSide(color: Colors.grey[300])), true),
-
+                    child: _NotifAndTracking(
+                        'In-app Notification',
+                        Border(bottom: BorderSide(color: Colors.grey[300])),
+                        true),
                   ),
                   Container(
-                    child: _NotifAndTracking('Push Notification', () {},
-                        Border(bottom: BorderSide(color: Colors.grey[300])), true)
-                  ),
-
+                      child: _NotifAndTracking(
+                          'Push Notification',
+                          Border(bottom: BorderSide(color: Colors.grey[300])),
+                          true)),
                   Container(
-                    child: _NotifAndTracking('Location Tracking', () {},
+                    child: _NotifAndTracking('Location Tracking',
                         Border(bottom: BorderSide.none), false),
                   ),
                 ],
-              )
-          ),
+              )),
 
 //           Help & Support
-
 
           Container(
             padding: EdgeInsets.only(top: 20.0, left: 30.0),
@@ -112,7 +106,6 @@ class _SettingState extends State<Settings> {
                 fontSize: 16.0,
                 color: GateManColors.textColor,
               ),
-
             ),
           ),
           SizedBox(height: 10.0),
@@ -127,73 +120,38 @@ class _SettingState extends State<Settings> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    child: bottom_menu('About GatePass', () => Navigator.pushReplacementNamed(context, '/about'),
-                        Border(bottom: BorderSide(color: Colors.grey[300]))),
-
-                  ),
-                  Container(
-                    child: bottom_menu('Frequently Asked Questions', () {},
+                    child: BottomMenu(
+                        'About GatePass',
+                        () => Navigator.pushReplacementNamed(context, '/about'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
                   ),
                   Container(
-                    child: bottom_menu('Privacy Policy', () {},
+                    child: BottomMenu(
+                        'Frequently Asked Questions',
+                        () => Navigator.pushNamed(context, '/faq'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
                   ),
                   Container(
-                    child: bottom_menu('Support', () {},
-                        Border(bottom: BorderSide.none)),),
+                    child: BottomMenu(
+                        'Privacy Policy',
+                        () => Navigator.pushNamed(context, '/privacy-policy'),
+                        Border(bottom: BorderSide(color: Colors.grey[300]))),
+                  ),
+                  Container(
+                    child: BottomMenu(
+                        'Support', () {}, Border(bottom: BorderSide.none)),
+                  ),
                 ],
-              )
-          ),
+              )),
 
 //          Logout button
 
           Container(
               child: ActionButton(
-                buttonText: 'Logout',
-                onPressed: () {},
-              )
-          ),
-
-
+            buttonText: 'Logout',
+            onPressed: () {},
+          )),
         ],
-      ),
-
-    );
-  }
-}
-
-class bottom_menu extends StatelessWidget {
-  String text;
-  Function onTap;
-  Border decoration;
-
-  bottom_menu(this.text, this.onTap, this.decoration);
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: onTap,
-      splashColor: Colors.green[500],
-      child: Container(
-        decoration: BoxDecoration(
-          border: decoration,
-        ),
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              child:
-              Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.grey,
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -201,42 +159,42 @@ class bottom_menu extends StatelessWidget {
 
 class _NotifAndTracking extends StatelessWidget {
   String text;
-  Function onTap;
+  Function _setState;
   Border decoration;
-  bool isSwitched;
+  bool isSwitched = false;
 
-  _NotifAndTracking(this.text, this.onTap, this.decoration, this.isSwitched);
+  void _onchanged(bool value) {
+    _setState(() {
+      isSwitched = value;
+    });
+  }
+
+  _NotifAndTracking(this.text, this.decoration, this.isSwitched);
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: onTap,
-      splashColor: Colors.green[500],
-      child: Container(
-        decoration: BoxDecoration(
-          border: decoration,
-        ),
-        height: 50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              child:
-              Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
-            ),
-            Switch(
-              value: isSwitched,
-              onChanged: (value) {
-//                setState(() {
-//                  isSwitched = value;
-//                });
-              },
-              activeTrackColor: Colors.green,
-              activeColor: Colors.green,
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 10.0, 0.0),
+      decoration: BoxDecoration(
+        border: decoration,
+      ),
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+            child: Text(text, style: TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          Switch(
+            value: isSwitched,
+            onChanged: (bool value) {
+              _onchanged(value);
+            },
+            activeTrackColor: Colors.green,
+            activeColor: Colors.green,
+          ),
+        ],
       ),
     );
   }

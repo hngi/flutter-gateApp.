@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class
+
+  static Widget bigText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 42.0,
+        fontWeight: FontWeight.w700,
+        color: GateManColors.primaryColor,
+      ),
+    );
+  }
 
   // This is used to calculate the size of component based on the current height of the screen
   static double screenAwareSize(double percent, BuildContext context) {
@@ -13,9 +25,12 @@ class GateManHelpers {
     return percent / 100 * MediaQuery.of(context).size.width;
   }
 
+
+
   //default app bar
   static AppBar appBar(BuildContext context, String title) {
     return AppBar(
+    
       title: Text(title,
           style: TextStyle(
             fontSize: 22.0,
@@ -24,15 +39,15 @@ class GateManHelpers {
           )),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/setting'),
+          icon: Icon(Icons.more_vert),
+          onPressed: () {},
           color: Colors.white,
         ),
       ],
     );
   }
 
-  //borders around the textfields
+  //borders around the text fields
   static final textFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(6.0),
     borderSide: BorderSide(
@@ -41,4 +56,37 @@ class GateManHelpers {
       width: 1.0,
     ),
   );
+
+  //Visiting time color
+  static Color getVisitingTimeColor(VisitingTime time) {
+    switch (time) {
+      case VisitingTime.morning:
+        return GateManColors.yellowColor;
+        break;
+      case VisitingTime.afternoon:
+        return GateManColors.primaryColor;
+        break;
+      case VisitingTime.evening:
+        return GateManColors.blueColor;
+        break;
+      default:
+        return GateManColors.yellowColor;
+        break;
+    }
+  }
+}
+
+class MyBullet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      padding: EdgeInsets.all(0.0),
+      height: 15.0,
+      width: 15.0,
+      decoration: new BoxDecoration(
+        color: Colors.black,
+        shape: BoxShape.circle,
+      ),
+    );
+  }
 }
