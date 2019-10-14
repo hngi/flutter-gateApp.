@@ -43,7 +43,7 @@ class _ResidentsState extends State<Residents> {
             child: new Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Menu(name: widget.name,)));},
+              InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Menu(name: "Winning",)));},
                 child: Column(
                   children: <Widget>[
                     Image.asset('assets/images/gateman/menu.png'),
@@ -88,7 +88,9 @@ class _ResidentsState extends State<Residents> {
               Text('Residents', style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),)
               ],
   
-              ), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Residents(name: widget.name,)));},
+              ), onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Residents(name: widget.name,)));
+                },
   
               ),
       ),

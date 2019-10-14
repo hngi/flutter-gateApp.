@@ -52,16 +52,10 @@ class _AddVisitorState extends State<AddVisitor>
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: new TabBarView(
-        children: <Widget>[
-          new AddVisitorPart(),
-          new NewPage("Space 2"),
-        ],
-        controller: tabController,
-      ),
+      body:  AddVisitorPart(),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/homepage');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',
@@ -72,8 +66,8 @@ class _AddVisitorState extends State<AddVisitor>
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {},
-        onTrailingClicked: () {},
+        onLeadingClicked: () {Navigator.pushReplacementNamed(context, '/homepage');},
+        onTrailingClicked: () {Navigator.pushReplacementNamed(context, '/resident-notifications');},
       ),
     );
   }

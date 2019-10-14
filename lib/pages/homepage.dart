@@ -137,6 +137,7 @@ class Homepage extends StatelessWidget {
                 ),
               ],
             ),
+            onTap: (){Navigator.pushNamed(context, '/resident-notifications');},
           ),
           ListTile(
             leading: Icon(MdiIcons.watch,
@@ -147,6 +148,7 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
           ),
           ListTile(
             onTap: () {
@@ -171,12 +173,13 @@ class Homepage extends StatelessWidget {
                   fontSize: 18.0,
                   fontWeight: FontWeight.w700,
                 )),
+                onTap: (){Navigator.pushNamed(context, '/resident-settings');},
           ),
         ],
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',
@@ -188,9 +191,11 @@ class Homepage extends StatelessWidget {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         onLeadingClicked: () {
-          Navigator.pushNamed(context, '/homepage');
+          Navigator.pop(context);
         },
-        onTrailingClicked: () {},
+        onTrailingClicked: () {
+          Navigator.pushReplacementNamed(context, '/resident-notifications');
+        },
       ),
     );
   }

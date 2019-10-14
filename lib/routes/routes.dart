@@ -5,6 +5,8 @@ import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
+import 'package:gateapp/pages/notification_resident.dart';
+import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
 import 'package:gateapp/pages/gateman/notifications.dart';
@@ -63,7 +65,7 @@ class Routes {
       case '/add-location':
         return MaterialPageRoute(
             builder: (context) =>
-                AddLocationPermission(typeUser: settings.arguments));
+                AddLocationPermission());
 
       case '/user-type':
         return MaterialPageRoute(builder: (context) => UserType());
@@ -86,6 +88,9 @@ class Routes {
 
       case '/add_visitor':
         return MaterialPageRoute(builder: (context) => AddVisitor());
+
+      case '/visitor-profile':
+        return MaterialPageRoute(builder: (context) => VisitorProfile());
 
       case '/add-gateman':
         return MaterialPageRoute(builder: (context) => AddGateman());
@@ -126,6 +131,9 @@ class Routes {
       case '/gateman-register':
         return MaterialPageRoute(builder: (context) => GatemanRegister());
 
+      case '/resident-settings':
+        return MaterialPageRoute(builder: (context) => Settings());
+
       case '/gateman-menu':
         return MaterialPageRoute(builder: (context) => GateManMenu());
 
@@ -137,7 +145,9 @@ class Routes {
 
       case '/gateman-notifications':
         return MaterialPageRoute(builder: (context) => GatemanNotifications());
-
+        
+      case '/resident-notifications':
+        return MaterialPageRoute(builder: (context) => NotificationResident());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(

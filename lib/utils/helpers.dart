@@ -25,9 +25,12 @@ class GateManHelpers {
     return percent / 100 * MediaQuery.of(context).size.width;
   }
 
+
+
   //default app bar
   static AppBar appBar(BuildContext context, String title) {
     return AppBar(
+    
       title: Text(title,
           style: TextStyle(
             fontSize: 22.0,

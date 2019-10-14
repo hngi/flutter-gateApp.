@@ -9,8 +9,6 @@ class Model {
 
 enum user_type { GATEMAN, RESIDENT }
 
-
-
 class ResidentUserModel{
   EstateModel residentEstate;
   String residentFullName, residentPhoneNumber, residentEmail;
@@ -18,8 +16,6 @@ class ResidentUserModel{
   List<AlertModel> alerts = [];
   List<VisitorModel> visitors = [];
 
-  
-  
   }
   
   class GatemanModel {

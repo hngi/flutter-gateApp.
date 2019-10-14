@@ -55,7 +55,7 @@ class CustomTextFormField extends StatelessWidget {
             onSaved: onSaved,
             controller: controller,
             validator: validator,
-            initialValue: initialValue ?? '',
+            initialValue: initialValue ?? null,
             obscureText: isPassword ? true : false,
             style: TextStyle(
               color: GateManColors.textColor,
@@ -64,7 +64,7 @@ class CustomTextFormField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hintText,
               prefixIcon: prefixIcon ?? null,
-              suffixIcon: prefixIcon ?? null,
+              suffixIcon: suffixIcon ?? null,
               // suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
