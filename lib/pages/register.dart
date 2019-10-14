@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';

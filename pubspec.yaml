@@ -34,7 +34,8 @@ dependencies:
   flutter_screenutil: ^0.5.3
   validators: ^2.0.0+1
   qr_mobile_vision: 0.1.0
-
+  progress_dialog: ^1.2.0
+  flushbar: 1.9.0
   #permission_handler: '^1.0.1'
 
 dev_dependencies:
@@ -54,6 +55,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/gateman/
+    - assets/gateman_spinner.gif
 
   fonts:
     - family: OpenSans

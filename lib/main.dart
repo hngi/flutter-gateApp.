@@ -29,6 +29,7 @@ class GateMan extends StatelessWidget {
               ),
           fontFamily: 'OpenSans',
         ),
+        // home: ScanQRCode(),
         debugShowCheckedModeBanner: false,
         home: AddGateManDetail(),
       ),

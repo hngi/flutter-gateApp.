@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
-import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
@@ -48,9 +48,8 @@ class _AddEstateState extends State<AddEstate> {
     setState(() => estateAddress = value);
   }
 
-  _onEsatesNameChanged(String value){
+  _onEsatesNameChanged(String value) {
     print(value);
-
   }
 
   @override
@@ -167,7 +166,7 @@ class _AddEstateState extends State<AddEstate> {
                       allEstates.addEstate(model);
                       residentUserModel.setResidentEstate(
                           residentEstate: model);
-                          print(allEstates.estates);
+                      print(allEstates.estates);
                       Navigator.pushNamed(context, '/select-estate');
                     }
                   },
