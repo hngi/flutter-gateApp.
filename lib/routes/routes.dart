@@ -6,6 +6,7 @@ import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
 import 'package:gateapp/pages/notification_resident.dart';
+import 'package:gateapp/pages/resident/add_gateman/add_gateman_detail.dart';
 import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
@@ -148,6 +149,9 @@ class Routes {
         
       case '/resident-notifications':
         return MaterialPageRoute(builder: (context) => NotificationResident());
+
+      case '/add-gateman-detail':
+        return MaterialPageRoute(builder: (context) => AddGateManDetail());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
