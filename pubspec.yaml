@@ -55,6 +55,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/gateman/
+    - assets/gateman_spinner.gif
 
   fonts:
     - family: OpenSans
