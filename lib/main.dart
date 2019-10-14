@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/routes/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:gateapp/providers/providers.dart';
 
-import 'pages/SplashScreen.dart';
+void main() => runApp(GateMan());
 
-void main() => runApp(MaterialApp(
-  debugShowCheckedModeBanner: false,
-  theme: ThemeData(
-    primaryColor: Colors.green
-  ),
-  home: SplashScreen(),
-));
+class GateMan extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.transparent,
+    ));
 
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        title: 'GateMan App',
+        initialRoute: '/',
+        onGenerateRoute: Routes.generateRoute,
+        theme: ThemeData(
+          primarySwatch: GateManColors.primarySwatchColor,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: GateManColors.textColor,
+                displayColor: GateManColors.textColor,
+              ),
+          fontFamily: 'OpenSans',
+        ),
+        debugShowCheckedModeBanner: false,
+        // home: AddVisitor(),
+      ),
+    );
+  }
+}
