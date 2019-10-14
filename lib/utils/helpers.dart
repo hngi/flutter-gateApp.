@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
@@ -25,12 +26,9 @@ class GateManHelpers {
     return percent / 100 * MediaQuery.of(context).size.width;
   }
 
-
-
   //default app bar
   static AppBar appBar(BuildContext context, String title) {
     return AppBar(
-    
       title: Text(title,
           style: TextStyle(
             fontSize: 22.0,
@@ -73,6 +71,18 @@ class GateManHelpers {
         return GateManColors.yellowColor;
         break;
     }
+  }
+
+  static ErrorType getErrorType(Map<String, dynamic> errorRes) {
+    if (errorRes.containsKey('email')) return ErrorType.email_taken;
+    if (errorRes.containsKey('password')) return ErrorType.password_dont_match;
+    if (errorRes.containsKey('phone')) return ErrorType.phone;
+    if (errorRes.containsKey('verifycode'))
+      return ErrorType.verify_code_atleast_5_chars;
+
+    return ErrorType.generic;
+
+    //verify_code_not_found
   }
 }
 

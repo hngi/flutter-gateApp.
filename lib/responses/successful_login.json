@@ -1,0 +1,17 @@
+{
+  "success": true,
+  "message": "Login Successful!",
+  "user": {
+    "id": 5,
+    "first_name": "junicodefire",
+    "last_name": "Resident",
+    "email": "junipreach2017@gmail.com",
+    "phone": "07060959269",
+    "image": "no_image.jpg",
+    "created_at": "2019-10-09 15:45:22",
+    "updated_at": "2019-10-09 15:49:35"
+  },
+  "image_link": "https://res.cloudinary.com/getfiledata/image/upload/",
+  "image_small_view_format": "w_200,c_thumb,ar_4:4,g_face/",
+  "token": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC92MVwvbG9naW4iLCJpYXQiOjE1NzA2MzYyNzQsImV4cCI6MTU3MDYzOTg3NCwibmJmIjoxNTcwNjM2Mjc0LCJqdGkiOiJvSUd1UUZ5NkJvcjJMRHEzIiwic3ViIjo1LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.k3gEuQTnKJoKjLgx8QpLdtpb6jgOGsg4A0vCjkZIF9k"
+}
