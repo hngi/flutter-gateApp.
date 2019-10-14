@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
-import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';

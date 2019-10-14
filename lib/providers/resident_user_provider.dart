@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/models/old_user.dart';
 
 class ResidentUserProvider extends ChangeNotifier {
   //nothing yet
