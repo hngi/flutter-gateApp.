@@ -19,7 +19,7 @@ class AddGateManDetail extends StatefulWidget{
 class _AddGateManDetailState extends State<AddGateManDetail> with SingleTickerProviderStateMixin {
   TextEditingController _textEditingController;
   double angle;
-  AddGateManDetailStatus loadingState = AddGateManDetailStatus.NONE;
+  AddGateManDetailStatus loadingState = AddGateManDetailStatus.SEARCHING;
   @override
   void initState(){
     super.initState();
@@ -35,8 +35,7 @@ class _AddGateManDetailState extends State<AddGateManDetail> with SingleTickerPr
     
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Add Gateman'),
-      body: Stack(
-              children: <Widget>[Column(
+      body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,10 +61,11 @@ class _AddGateManDetailState extends State<AddGateManDetail> with SingleTickerPr
               height: 40,
               margin: EdgeInsets.all(20),
               child: FlatButton(child: Text('Continue',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),), onPressed: () {
-                
-                            //  Future.delayed(Duration(seconds: 2),(){
-                               
-                            //  });
+                            _showMaterialDialog(context, _textEditingController.value);
+                            //  setState(() {
+                            //      loadingState = AddGateManDetailStatus.SEARCHING;
+                            //    });
+                             
                            },
                            color: GateManColors.primaryColor,
                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
@@ -74,26 +74,8 @@ class _AddGateManDetailState extends State<AddGateManDetail> with SingleTickerPr
                          )
                        ],
                      ),
-                     Center(
-                                            child: Container(
-          child: new Container(
-            margin: EdgeInsets.only(left: 20,right: 20),
-
-            height: 200.0,
-            width: MediaQuery.of(context).size.width,
-            child: Card(
-              color: Colors.white,
-              elevation: 4.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[Text('Searching for ' + '080766664'),ProgressLoader()],
-                
-              ),
-            ),
-          ),
-        ),
-                     )
-              ]),
+                     
+              
                  );
                }
                
@@ -102,4 +84,43 @@ class _AddGateManDetailState extends State<AddGateManDetail> with SingleTickerPr
                     loadingState = status;
                  });
                }
+
+                Future _showMaterialDialog(context, phoneNumber) async {
+          await showDialog(
+        context: context,
+        builder: (context) {
+          
+          return StatefulBuilder(
+            
+             builder: (BuildContext context, setState) {
+               return AlertDialog(
+              contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              content: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children:loadingState==AddGateManDetailStatus.SEARCHING?<Widget>[Text('Searching for ' + '080766664'),
+                        ProgressLoader()]:loadingState==AddGateManDetailStatus.MESSAGE_SENT?<Widget>[
+
+                          Image.asset('assets/images/gateman/ok.png'),
+                          Text('Message Sent')
+
+
+                        ]:loadingState==AddGateManDetailStatus.AWAITING_CONFIRMATION?<Widget>[
+                          Image.asset('assets/images/gateman/ok.png'),
+                          Text('Message Sent')
+                        ]:<Widget>[Container(width: 0,height: 0)]
+                    
+                  ),
+                ),
+              );
+             },
+          );
+         
+        });
+  }
+
+  _dismissDialog(context) {
+    Navigator.pop(context);
+  }
 }
