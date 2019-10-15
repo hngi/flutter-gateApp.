@@ -12,8 +12,8 @@ class CustomTextFormField extends StatelessWidget {
   final IconData icon;
   final TextInputType keyboardType;
   final Function(String) onSaved;
+  final Function(String) onChanged;
   final String Function(String) validator;
-  final Widget suffix;
   final bool isPassword;
   final int maxLines;
 
@@ -28,8 +28,8 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.keyboardType = TextInputType.text,
     @required this.onSaved,
+    this.onChanged,
     @required this.validator,
-    this.suffix,
     this.isPassword = false,
     this.maxLines = 1,
   }) : super(key: key);
@@ -51,21 +51,21 @@ class CustomTextFormField extends StatelessWidget {
           ),
           TextFormField(
             maxLines: maxLines,
+            onChanged: onChanged,
             onSaved: onSaved,
             controller: controller,
-            
             validator: validator,
-            initialValue: initialValue ?? '',
+            initialValue: initialValue ?? null,
             obscureText: isPassword ? true : false,
             style: TextStyle(
               color: GateManColors.textColor,
             ),
             keyboardType: keyboardType,
             decoration: InputDecoration(
-              hintText: hintText,                
+              hintText: hintText,
               prefixIcon: prefixIcon ?? null,
-             suffixIcon: prefixIcon ?? null,             
-              suffix: suffix ?? SizedBox(),
+              suffixIcon: suffixIcon ?? null,
+              // suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,
               enabledBorder: GateManHelpers.textFieldBorder,

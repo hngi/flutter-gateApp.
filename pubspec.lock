@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.16.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -50,16 +57,58 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.16"
+  flushbar:
+    dependency: "direct main"
+    description:
+      name: flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.0"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_html:
+    dependency: "direct main"
+    description:
+      name: flutter_html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.0"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
+  geolocator:
+    dependency: "direct main"
+    description:
+      name: geolocator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.4+1"
+  google_api_availability:
+    dependency: transitive
+    description:
+      name: google_api_availability
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.0+3"
   intl:
     dependency: "direct main"
     description:
@@ -74,6 +123,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.8"
+  location_permissions:
+    dependency: transitive
+    description:
+      name: location_permissions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   matcher:
     dependency: transitive
     description:
@@ -109,6 +165,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
+  progress_dialog:
+    dependency: "direct main"
+    description:
+      name: progress_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   provider:
     dependency: "direct main"
     description:
@@ -177,6 +240,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.4"
   validators:
     dependency: "direct main"
     description:
@@ -192,5 +262,5 @@ packages:
     source: hosted
     version: "2.0.8"
 sdks:
-  dart: ">=2.2.2 <3.0.0"
-  flutter: ">=0.1.4 <2.0.0"
+  dart: ">=2.3.0 <3.0.0"
+  flutter: ">=1.5.0 <2.0.0"
