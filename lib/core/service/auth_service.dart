@@ -158,6 +158,7 @@ class AuthService {
           if (response.statusCode == 401) return ErrorType.verify_code_not_found;
           if (response.statusCode == 200) return json.decode(response.data);
           if (response.statusCode == 208) return ErrorType.account_already_verified;
+          if (response.statusCode == 404) return ErrorType.verify_code_not_found;
           
     
           // }

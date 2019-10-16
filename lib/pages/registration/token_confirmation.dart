@@ -27,11 +27,29 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
   TextEditingController fifthTokenController = TextEditingController(text: '');
   TextEditingController sixthTokenController =  TextEditingController(text: '');
 
+  FocusNode firstFocusNode = FocusNode(canRequestFocus: true);
+  FocusNode secondFocusNode = FocusNode(canRequestFocus: true);
+  FocusNode thirdFocusNode = FocusNode(canRequestFocus: true);
+  FocusNode fourthFocusNode = FocusNode(canRequestFocus: true);
+  FocusNode fifthFocusNode = FocusNode(canRequestFocus: true);
+  FocusNode sixthFocusNode = FocusNode(canRequestFocus: true);
   List<TextEditingController> get getControllers {return [
     firstTokenController,secondTokenController,thirdTokenController,
   fourthTokenController,fifthTokenController,sixthTokenController
 
   ];} 
+
+  List<FocusNode> get getFocusNodes {
+    return [
+      firstFocusNode, secondFocusNode, thirdFocusNode,fourthFocusNode,fifthFocusNode,
+      sixthFocusNode
+
+
+    ];
+
+  }
+
+
 
   // @override
   // void initState(){
@@ -57,7 +75,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
         Provider.of<TokenProvider>(context, listen: false);
     // TODO: implement build
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Confirm OTP'),
+      appBar: GateManHelpers.appBar(context, 'Verify Account'),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -68,62 +86,32 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
               crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('Enter OTP'),
+                Text('Please enter the 4 digit verification code sent to.'),
                 Padding(
                   padding: const EdgeInsets.only(top:8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
+                    children: getControllers.map((controller){
+                          return Container(
                         width: 50,
                         height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: firstTokenController,),
-                        )
-                        ),
-                        Container(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: secondTokenController,),
-                        )
-                        ),
-                        Container(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: thirdTokenController,),
-                        )
-                        ),
-                        Container(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: fourthTokenController,),
-                        )
-                        ),
-                        Container(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: fifthTokenController,),
-                        )
-                        ),Container(
-                        width: 50,
-                        height: 50,
-                        child: Center(
-                                                  child: TextField(decoration: tokenBoxDecoration(),
-                          controller: sixthTokenController,),
-                        )
-                        ),
-
-                    ]
-                                        ),
+                        child: Center(child: TextField(decoration: tokenBoxDecoration(),
+                        focusNode: getFocusNodes[getControllers.indexOf(controller)],
+                        onChanged: (str){
+                          if (str.length == 1){
+                            if(getControllers.indexOf(controller)+1<6){
+                              FocusScope.of(context).requestFocus(getFocusNodes[getControllers.indexOf(controller)+1]);
+                            
+                            }
+                            
+                          }
+                        },
+                          controller: controller,
+                          textAlign: TextAlign.center,),
+                        ));
+                      
+                    }).toList()
+                           ),
                                       ),
                                     ],
                                   ),
@@ -134,7 +122,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.all(20.0),
-                                      child: FlatButton(child: Text('Veify',style: TextStyle(color:Colors.white),),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                                      child: FlatButton(child: Text('Verify',style: TextStyle(color:Colors.white),),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                                       color: GateManColors.primaryColor,
                                       onPressed: () async{
                                         LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
@@ -147,20 +135,10 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                           sixthTokenController.text;
                                           print(otpCode);
                                           dynamic response = await AuthService.verifyAccount(verificationCode: otpCode);
-                                          
-                                          if (response['token'].length > 0){
-                                             print(response['token']);
-                                          tokenProvider.setToken(response['token']);
-                                          print(tokenProvider.authToken);
-                                          dialog.hide();
-                                            if (await userType(context)==user_type.RESIDENT){
-                                          Navigator.pushReplacementNamed(context, '/welcome-resident');
-                                            } else{
-                                              Navigator.pushReplacementNamed(context, '/gateman_menu');
-                                            }
-                                           
-                                          }
-                                          else if(response == ErrorType.account_already_verified){
+                                          if(response is ErrorType){
+                                          if(response == ErrorType.account_already_verified){
+
+                                            //dynamic loginResponse = await AuthService.loginUser(phone: null);
                                             dialog.hide();
                                             if (await userType(context)==user_type.RESIDENT){
                                           Navigator.pushReplacementNamed(context, '/welcome-resident');
@@ -168,22 +146,29 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                               Navigator.pushReplacementNamed(context, '/gateman_menu');
                                             }
 
-                                          }
-                                          
-                                          print(response);
-                                          
-                                          
-                                          
-                                          
-                                          
-                                        } catch(error){
-                                          
-                                          print(error);
-                                           throw error;
-                                        }
+                                          } else{
 
-                                        
-                      
+                                            dialog.hide();
+                                            PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap[response]);
+                                          }
+                                          }else{
+                                          if (response['token'].length > 0){
+                                             print(response['token']);
+                                          tokenProvider.setToken(response['token'].toString().split(' ')[1]);
+                                          print(tokenProvider.authToken);
+                                          dialog.hide();
+                                            if (await userType(context)==user_type.RESIDENT){
+                                          Navigator.pushReplacementNamed(context, '/welcome-resident');
+                                            } else{
+                                              Navigator.pushReplacementNamed(context, '/gateman_menu');
+                                            }
+
+                                          }} 
+                                          print(response);
+                                        } catch(error){
+                                          print(error);
+                                          throw error;
+                                        }
                                       },),
                                     ),
                                   ],
