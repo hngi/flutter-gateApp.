@@ -36,6 +36,8 @@ dependencies:
   # qr_mobile_vision: ^0.2.2
   progress_dialog: ^1.2.0
   flushbar: 1.9.0
+  shared_preferences: ^0.4.3
+  flutter_udid: 1.0.0
   #permission_handler: '^1.0.1'
 
 dev_dependencies:
