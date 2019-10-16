@@ -35,6 +35,11 @@ import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
 import 'package:gateapp/pages/gateman/register.dart';
 
+import '../pages/gateman/menu.dart';
+import '../pages/gateman/residents.dart';
+import '../pages/gateman/scheduledVisit.dart';
+import '../pages/gateman/visitors.dart';
+
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -148,6 +153,18 @@ class Routes {
         
       case '/resident-notifications':
         return MaterialPageRoute(builder: (context) => NotificationResident());
+      
+      case '/residents-gate':
+        return MaterialPageRoute(builder: (context) => ResidentsGate());
+      
+      case '/menu':
+        return MaterialPageRoute(builder: (context) => Menu());
+      
+      case '/scheduled-visit':
+        return MaterialPageRoute(builder: (context) => ScheduledVisit());
+      
+      case '/visitors-list':
+        return MaterialPageRoute(builder: (context) => VisitorsList());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(

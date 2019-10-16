@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
+//import 'package:qr_mobile_vision/qr_camera.dart';
 
 class ScanQRCode extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return Scaffold(/*
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
         children: <Widget>[
@@ -124,6 +124,6 @@ class _ScanQRCodeState extends State<ScanQRCode> {
           ),
         ],
       ),
-    );
+    */);
   }
 }
