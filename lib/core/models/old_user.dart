@@ -7,16 +7,24 @@ class Model {
   String estateName;
 }
 
-enum user_type { GATEMAN, RESIDENT }
 
 class ResidentUserModel{
   EstateModel residentEstate;
-  String residentFullName, residentPhoneNumber, residentEmail;
+  String residentFullName, residentPhoneNumber, residentEmail,image;
   List<GatemanModel> gatemans = [];
   List<AlertModel> alerts = [];
   List<VisitorModel> visitors = [];
 
+  ResidentUserModel({this.residentEstate,this.residentFullName,this.residentPhoneNumber,this.residentEmail});
+
+
+factory ResidentUserModel.fromJson(Map<String, dynamic> json){ 
+  return ResidentUserModel(
+
+  );
+
   }
+}
   
   class GatemanModel {
   String fullName, phoneNumber, email;
