@@ -159,7 +159,7 @@ class _MenuState extends State<Menu> {
                 )),
           ),
           ListTile(
-            onTap: () {Navigator.pushNamed(context, '/scan-qr');},
+            onTap: () {Navigator.pushNamed(context, '/qrReader');},
             leading: Image.asset('assets/images/gateman/qrCodeGreen.png'),
             title: Text("Scan QR code",
                 style: TextStyle(

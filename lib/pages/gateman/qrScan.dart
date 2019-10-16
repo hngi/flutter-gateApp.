@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
+//import 'package:qrcode_reader/QRCodeReader.dart';
+//import 'package:qr_mobile_vision/qr_camera.dart';
 
-class ScanQRCode extends StatefulWidget {
+class ScanQRCode2 extends StatefulWidget {
   @override
-  _ScanQRCodeState createState() => _ScanQRCodeState();
+  _ScanQRCode2State createState() => _ScanQRCode2State();
 }
 
-class _ScanQRCodeState extends State<ScanQRCode> {
+class _ScanQRCode2State extends State<ScanQRCode2> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -82,20 +83,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                       //     borderWidth: 3.0,
                       //   ),
                       // ),
-                      child: QrCamera(
-                        notStartedBuilder: (context) => Center(
-                          child: Icon(MdiIcons.camera,
-                              color: GateManColors.primaryColor, size: 30.0),
-                        ),
-                        child: Center(
-                          child: Icon(MdiIcons.camera,
-                              color: GateManColors.primaryColor, size: 30.0),
-                        ),
-                        qrCodeCallback: (code) {
-                          // ...
-                          print(code);
-                        },
-                      ),
+                      child: Container(),
                     ),
                     DashSeparator(
                       color: Colors.grey,

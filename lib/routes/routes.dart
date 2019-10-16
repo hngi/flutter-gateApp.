@@ -5,6 +5,7 @@ import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
+import 'package:gateapp/pages/gateman/qrScan.dart';
 import 'package:gateapp/pages/notification_resident.dart';
 import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
@@ -165,6 +166,9 @@ class Routes {
       
       case '/visitors-list':
         return MaterialPageRoute(builder: (context) => VisitorsList());
+      
+      case '/qrReader':
+        return MaterialPageRoute(builder: (context) => ScanQRCode2());
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
