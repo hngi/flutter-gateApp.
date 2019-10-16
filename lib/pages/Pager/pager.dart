@@ -22,7 +22,7 @@ class _MainPagerState extends State<MainPager> {
   final PageController _controller = PageController();
   final List<String> pagerMessages = [
     'Manage your\nVisitors peacefully',
-    'Deny access to\nunwanted visitors'
+    'Deny access to unwanted visitors'
   ];
 
   final List<String> pagerSubMessages = [

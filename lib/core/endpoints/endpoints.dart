@@ -1,6 +1,6 @@
 class Endpoint {
   //Base URL
-  static String baseUrl = 'http://52.200.161.52/api/v1/';
+  static String baseUrl = 'https://gateappapi.herokuapp.com/api/v1/';// http://52.200.161.52/api/v1/';
 
   //Auth
   static String login = '/login';
