@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:qr_mobile_vision/qr_camera.dart';
+// import 'package:qr_mobile_vision/qr_camera.dart';
 
 class ScanQRCode extends StatefulWidget {
   @override
@@ -82,20 +82,21 @@ class _ScanQRCodeState extends State<ScanQRCode> {
                       //     borderWidth: 3.0,
                       //   ),
                       // ),
-                      child: QrCamera(
-                        notStartedBuilder: (context) => Center(
-                          child: Icon(MdiIcons.camera,
-                              color: GateManColors.primaryColor, size: 30.0),
-                        ),
-                        child: Center(
-                          child: Icon(MdiIcons.camera,
-                              color: GateManColors.primaryColor, size: 30.0),
-                        ),
-                        qrCodeCallback: (code) {
-                          // ...
-                          print(code);
-                        },
-                      ),
+                      child: Container()
+                      // QrCamera(
+                      //   notStartedBuilder: (context) => Center(
+                      //     child: Icon(MdiIcons.camera,
+                      //         color: GateManColors.primaryColor, size: 30.0),
+                      //   ),
+                      //   child: Center(
+                      //     child: Icon(MdiIcons.camera,
+                      //         color: GateManColors.primaryColor, size: 30.0),
+                      //   ),
+                      //   qrCodeCallback: (code) {
+                      //     // ...
+                      //     print(code);
+                      //   },
+                      // ),
                     ),
                     DashSeparator(
                       color: Colors.grey,

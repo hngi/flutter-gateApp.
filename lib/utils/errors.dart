@@ -7,6 +7,7 @@ enum ErrorType {
   email_taken,
   password_dont_match,
   phone,
+  account_already_verified,
   verify_code_not_found,
   account_not_confimrmed,
   email_not_found,
