@@ -7,6 +7,7 @@ import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
@@ -105,46 +106,59 @@ class _RegisterState extends State<Register> {
           ActionButton(
             buttonText: 'Join',
             onPressed: () async {
-              LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-              dialog.show();
+              if(!validateInputs()){
+                PaysmosmoAlert.showError(context: context,message: 'Inuput fields cannot be empty');
               
-              try{
-                dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
-                ;
-                
-                  print(response);
-                  Navigator.pop(context);
-                  PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
-                      
-                  Navigator.pushNamed(context, '/token-conirmation');
-                }catch(error){
-                      print(error);
-                      Navigator.pop(context);
-                      PaysmosmoAlert.showError(context: context,message: error.toString(),
-                      );
-                      
 
-                }
-    
-                
+
+              } else{
+                            LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+                            dialog.show();
+                            
+                            try{
+                              dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
+                              ;
+                              
+                                print(response);
+                                Navigator.pop(context);
+                                if (response is ErrorType){
+                                    print(response);
+                                } else {
+                                PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+                                }
+                                    
+                                Navigator.pushNamed(context, '/token-conirmation');
+                              }catch(error){
+                                    print(error);
+                                    Navigator.pop(context);
+                                    PaysmosmoAlert.showError(context: context,message: error.toString(),
+                                    );
+                                    
               
-                
-                
-                
-             
-              // if (userTypeProvider.type == user_type.RESIDENT) {
-              //   print("jjjjjjjjjj" + _fullName);
-              //   residentUserModelProvider.setResidentFullName(
-              //       residentFullName: _fullName);
-              //   Navigator.pushNamed(context, '/welcome-resident');
-              // } else {
-              //   gateManProvider.setFullName(fullName: _fullName);
-              //   Navigator.pushNamed(context, '/residents');
-              // }
-            },
-          ),
-        ],
-      ),
-    );
-  }
+                              }
+              }
+                            // if (userTypeProvider.type == user_type.RESIDENT) {
+                            //   print("jjjjjjjjjj" + _fullName);
+                            //   residentUserModelProvider.setResidentFullName(
+                            //       residentFullName: _fullName);
+                            //   Navigator.pushNamed(context, '/welcome-resident');
+                            // } else {
+                            //   gateManProvider.setFullName(fullName: _fullName);
+                            //   Navigator.pushNamed(context, '/residents');
+                            // }
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              
+                bool validateInputs() {
+                    if(_fullNameController.text == ''||_phoneController.text == ''||_emailController.text==''){
+                      return false;
+
+                    } else {
+                      return true;
+                    }
+                }
 }

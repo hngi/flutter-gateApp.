@@ -74,6 +74,7 @@ class GateManHelpers {
   }
 
   static ErrorType getErrorType(Map<String, dynamic> errorRes) {
+    print(errorRes);
     if (errorRes.containsKey('email')) return ErrorType.email_taken;
     if (errorRes.containsKey('password')) return ErrorType.password_dont_match;
     if (errorRes.containsKey('phone')) return ErrorType.phone;
@@ -84,7 +85,16 @@ class GateManHelpers {
 
     //verify_code_not_found
   }
+  
+  static Map<ErrorType,String> errorTypeMap = {
+    ErrorType.email_taken : 'Email has been used',
+    ErrorType.phone : 'Phone Error',
+    ErrorType.verify_code_not_found: 'Wrong Verification Code'
+
+};
 }
+
+
 
 class MyBullet extends StatelessWidget {
   @override
