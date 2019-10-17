@@ -15,4 +15,5 @@ class Endpoint {
   static String getEstateByCountry = '/estate/country';
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
+  static String visitor = '/visitor';
 }
