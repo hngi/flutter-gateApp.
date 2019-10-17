@@ -10,4 +10,9 @@ class Endpoint {
   static String verifyAccount = '/verify';
   static String passwordVerify = '/password/verify';
   static String passwordReset = '/password/reset';
+  static String estate = '/estate';
+  static String getEstateByCity = '/estate/city';
+  static String getEstateByCountry = '/estate/country';
+  static String estates = '/estates';
+  static String deleteEstate = '/estate/delete';
 }
