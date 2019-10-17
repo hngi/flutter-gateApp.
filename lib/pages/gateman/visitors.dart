@@ -3,16 +3,18 @@ import 'package:gateapp/pages/gateman/widgets/visitorTile.dart';
 import 'package:gateapp/utils/helpers.dart';
 
 import 'scheduledVisit.dart';
+import 'widgets/bottomAppbar.dart';
+import 'widgets/customFab.dart';
 
 
 class VisitorsList extends StatefulWidget {
-  final String name;
-  VisitorsList({this.name});
+  
   @override
   _VisitorsListState createState() => _VisitorsListState();
 }
 
 class _VisitorsListState extends State<VisitorsList> {
+  String name = 'Danny Evans';
   var _visitors = [
     {
       "name": "Mr. Seun Adeyini",
@@ -53,8 +55,8 @@ class _VisitorsListState extends State<VisitorsList> {
       body: ListView(
         children: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(top:55.0, left: 20.0, bottom: 5.0),
-              child: Text('Welcome ${widget.name}', style: TextStyle(fontSize: 20.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
+              padding: const EdgeInsets.only(top:35.0, left: 20.0, bottom: 5.0),
+              child: Text('Welcome $name', style: TextStyle(fontSize: 22.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
             ),
             Padding(
               padding: const EdgeInsets.only(left:20.0),
@@ -90,7 +92,7 @@ class _VisitorsListState extends State<VisitorsList> {
                       address: _visitors[index]['address'],
                       time: _visitors[index]['time'],
                       color: _visitors[index]['color'],
-                      func: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new ScheduledVisit(name: widget.name)));},),
+                      func: (){Navigator.pushNamed(context, '/scheduled-visit');},),
           );
         },
       ),
@@ -101,6 +103,9 @@ class _VisitorsListState extends State<VisitorsList> {
 
         ],
       ),
+      floatingActionButton: CustomFAB(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }

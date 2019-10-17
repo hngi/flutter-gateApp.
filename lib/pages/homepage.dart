@@ -179,7 +179,7 @@ class Homepage extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/welcome-resident');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',
@@ -191,10 +191,10 @@ class Homepage extends StatelessWidget {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         onLeadingClicked: () {
-          Navigator.pushReplacementNamed(context, '/welcome-resident');
+          Navigator.pop(context);
         },
         onTrailingClicked: () {
-          Navigator.pushNamed(context, '/resident-notifications');
+          Navigator.pushReplacementNamed(context, '/resident-notifications');
         },
       ),
     );

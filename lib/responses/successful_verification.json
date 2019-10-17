@@ -1,0 +1,17 @@
+{
+  "message": "Account is verified. You can now login.",
+  "verified": "True",
+  "user": {
+    "id": 67,
+    "first_name": "Jude",
+    "last_name": "Jonathan",
+    "email": "jonathanjude27@gmail.com",
+    "phone": "07060959269",
+    "image": "no_image.jpg",
+    "created_at": "2019-10-14 13:28:21",
+    "updated_at": "2019-10-14 13:35:21"
+  },
+  "token": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC81Mi4yMDAuMTYxLjUyXC9hcGlcL3YxXC92ZXJpZnkiLCJpYXQiOjE1NzEwNjAxMjEsImV4cCI6MTU3MTE0NjUyMSwibmJmIjoxNTcxMDYwMTIxLCJqdGkiOiJBeUtMUENRc0hOd0YyTWk0Iiwic3ViIjo2NywicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.kCsV2KIG2MP0cNuuzv1qmB3oGCTfZNWqxptD_Tm7LQk",
+  "image_link": "https://res.cloudinary.com/getfiledata/image/upload/",
+  "image_format": "w_200,c_thumb,ar_4:4,g_face/"
+}

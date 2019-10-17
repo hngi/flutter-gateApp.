@@ -14,6 +14,7 @@ class NotificationResident extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(top: 10.0, left: 20.0),
@@ -28,11 +29,14 @@ class NotificationResident extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(top: 10.0, left: 160.0),
-                child: Text(
-                  'Mark all as read',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: GateManColors.textColor,
+                child: Padding(
+                  padding: const EdgeInsets.only(right:8.0),
+                  child: Text(
+                    'Mark all as read',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: GateManColors.textColor,
+                    ),
                   ),
                 ),
               ),
@@ -41,6 +45,7 @@ class NotificationResident extends StatelessWidget {
           InkWell(
             onTap: (){Navigator.pushNamed(context, '/visitor-profile');},
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(top: 10.0, left: 20.0),
@@ -125,6 +130,7 @@ class NotificationResident extends StatelessWidget {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               
               Container(
@@ -199,7 +205,7 @@ class NotificationResident extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/welcome-resident');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',

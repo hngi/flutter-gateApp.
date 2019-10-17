@@ -84,7 +84,7 @@ class AddAVisitor extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pop(context);
         },
         icon: MdiIcons.account,
         title: 'Visitors',
