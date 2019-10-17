@@ -172,7 +172,7 @@ class _AddEstateState extends State<AddEstate> {
                         model.estateAddress = addressController.text;
 
                         dynamic response = await EstateService.addEstate(
-                            estate_name: nameController.text,
+                            estateName: nameController.text,
                             city: city,
                             country: country);
 
