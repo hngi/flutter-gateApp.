@@ -5,7 +5,10 @@ import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
+import 'package:gateapp/pages/gateman/qrScan.dart';
 import 'package:gateapp/pages/notification_resident.dart';
+import 'package:gateapp/pages/registration/token_confirmation.dart';
+import 'package:gateapp/pages/resident/add_gateman/add_gateman_detail.dart';
 import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
@@ -34,6 +37,11 @@ import 'package:gateapp/pages/welcomepage1.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
 import 'package:gateapp/pages/gateman/register.dart';
+
+import '../pages/gateman/menu.dart';
+import '../pages/gateman/residents.dart';
+import '../pages/gateman/scheduledVisit.dart';
+import '../pages/gateman/visitors.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -125,6 +133,9 @@ class Routes {
       case '/residents':
         return MaterialPageRoute(builder: (context) => Residents());
 
+      case '/token-conirmation':
+        return MaterialPageRoute(builder: (context)=> TokenConfirmation());
+
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
 
@@ -148,6 +159,27 @@ class Routes {
         
       case '/resident-notifications':
         return MaterialPageRoute(builder: (context) => NotificationResident());
+
+      
+      case '/residents-gate':
+        return MaterialPageRoute(builder: (context) => ResidentsGate());
+      
+      case '/menu':
+        return MaterialPageRoute(builder: (context) => Menu());
+      
+      case '/scheduled-visit':
+        return MaterialPageRoute(builder: (context) => ScheduledVisit());
+      
+      case '/visitors-list':
+        return MaterialPageRoute(builder: (context) => VisitorsList());
+      
+      case '/qrReader':
+        return MaterialPageRoute(builder: (context) => ScanQRCode2());
+
+
+      case '/add-gateman-detail':
+        return MaterialPageRoute(builder: (context) => AddGateManDetail());
+
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
