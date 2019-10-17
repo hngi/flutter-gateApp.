@@ -123,6 +123,7 @@ class _RegisterState extends State<Register> {
                                 Navigator.pop(context);
                                 if (response is ErrorType){
                                     print(response);
+                                    PaysmosmoAlert.showSuccess(context: context,message: GateManHelpers.errorTypeMap[response],);
                                 } else {
                                 PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
                                 }
