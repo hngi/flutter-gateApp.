@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
-import 'package:gateapp/pages/gateman/scheduledVisit.dart';
+import 'package:gateapp/core/service/gateman_service.dart';
+import 'package:gateapp/pages/gateman/welcome.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
 import 'package:gateapp/pages/gateman/widgets/residentTile.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/utils/helpers.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'menu.dart';
-import 'visitors.dart';
 
 class ResidentsGate extends StatefulWidget {
   @override
@@ -17,7 +14,7 @@ class ResidentsGate extends StatefulWidget {
 }
 
 class _ResidentsGateState extends State<ResidentsGate> {
-  String name = 'Danny Evans';
+  String name = GatemanUserProvider().getFullName();
   bool badge = true;
   int _counter = 1;
   bool details = false;
@@ -32,7 +29,8 @@ class _ResidentsGateState extends State<ResidentsGate> {
      details2 = !details2; 
     });
   }
-  var _residents = [
+  var _residents = GatemanService.getAllRequests();
+  /*[
     {
       "name": "Janet Thompson",
       "address": "Block 3A, Dele Adebayo Estate",
@@ -71,7 +69,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
         "verificationV":"QR CODE",
         "visitStatus" : "Approved",
   };
- 
+ */
   @override
   Widget build(BuildContext context) {
     final wv = MediaQuery.of(context).size.width/100;
@@ -123,7 +121,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
                     padding: const EdgeInsets.only(bottom:10.0),
                     child: ResidentTile(
                       name: _residents[index]['name'],
-                      address: _residents[index]['address'],
+                      /*address: _residents[index]['address'],
                       phone: _residents[index]['phone'],
                       numberVisit: 1,
                       visitStatus: _visitor['nameV'],
@@ -131,7 +129,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
                       descriptionV: _visitor['descriptionV'],
                       etaV: _visitor['etaV'],
                       phoneV: _visitor['phoneV'],
-                      nameV: _visitor['nameV'],
+                      nameV: _visitor['nameV'],*/
                     ),
                   );
         },

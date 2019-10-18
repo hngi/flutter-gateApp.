@@ -24,7 +24,7 @@ class VisitorService {
 
   static Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: authToken,
+    HttpHeaders.authorizationHeader: 'Bearer $authToken',
   };
 
   static BaseOptions options = BaseOptions(
@@ -91,8 +91,8 @@ class VisitorService {
     @required String status,
     @required String estateId,
   }) async {
-    BigInt id;
-    var uri = Endpoint.visitor;
+    String id;
+    var uri = Endpoint.visitor ;//+'{id}';
     var data = {
       "name": name,
       "arrival_date": arrivalDate,

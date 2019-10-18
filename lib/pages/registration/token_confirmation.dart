@@ -31,6 +31,18 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
   TextEditingController fifthTokenController = TextEditingController(text: '');
   TextEditingController sixthTokenController = TextEditingController(text: '');
 
+  FocusNode firstFocusNode = FocusNode();
+  FocusNode secondFocusNode = FocusNode();
+  FocusNode thirdFocusNode = FocusNode();
+  FocusNode fourthFocusNode = FocusNode();
+  FocusNode fifthFocusNode = FocusNode();
+  FocusNode sixthFocusNode = FocusNode();
+  List<TextEditingController> get getControllers {return [
+    firstTokenController,secondTokenController,thirdTokenController,
+  fourthTokenController,fifthTokenController,sixthTokenController
+
+  ];} 
+  /*
   FocusNode firstFocusNode = FocusNode(canRequestFocus: true);
   FocusNode secondFocusNode = FocusNode(canRequestFocus: true);
   FocusNode thirdFocusNode = FocusNode(canRequestFocus: true);
@@ -46,7 +58,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
       fifthTokenController,
       sixthTokenController
     ];
-  }
+  }*/
 
   List<FocusNode> get getFocusNodes {
     return [
