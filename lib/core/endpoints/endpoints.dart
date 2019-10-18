@@ -16,4 +16,5 @@ class Endpoint {
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
+  static String generateQR='/generate-code';
 }
