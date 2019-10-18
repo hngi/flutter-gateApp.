@@ -129,7 +129,7 @@ class _RegisterState extends State<Register> {
                                 } else {
 
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
-                                //dialog.hide();
+                                dialog.hide();
                                 Navigator.pushNamed(context, '/token-conirmation',arguments: {
                                   'phone':_phoneController.text,
                                   'email':_emailController.text,

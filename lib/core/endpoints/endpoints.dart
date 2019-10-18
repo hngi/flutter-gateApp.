@@ -14,4 +14,10 @@ class Endpoint {
   static String getCurrentUser = '/user';
   static String editCurrentuser = '/user/edit';
   static String deleteCurrentUser = '/user/delete';
+  static String estate = '/estate';
+  static String getEstateByCity = '/estate/city';
+  static String getEstateByCountry = '/estate/country';
+  static String estates = '/estates';
+  static String deleteEstate = '/estate/delete';
+  static String visitor = '/visitor';
 }
