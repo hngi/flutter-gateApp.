@@ -3,10 +3,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gateapp/core/service/visitor_service_new.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
 import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
@@ -471,7 +473,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ActionButton(
                 buttonText: 'Add',
-                onPressed: () {
+                onPressed: () async {
 
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
@@ -483,10 +485,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
 
                   }else{
-                    VisitorService.addVisitor(
+                    NewVisitorService.addVisitor(
                         name: _fullNameController.text, arrivalDate: arrivalDate,
                         carPlateNo: _carPlateNumberController.text, purpose: null,
-                        status: null, estateId: null,image: image==null?null:image.path.toString());
+                        status: null, estateId: null,image: image==null?null:image.path.toString(),
+                        authToken: await authToken(context),
+                    );
                     openAlertBox();
                   }
 
