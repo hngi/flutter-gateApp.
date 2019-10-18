@@ -15,6 +15,6 @@ class GatemanUserProvider extends ChangeNotifier {
   }
 
 String getFullName(){
-    return gatemanUser.fullName;
+    return (gatemanUser.fullName == null || gatemanUser.fullName.isEmpty)? 'Loading...' : gatemanUser.fullName;
 }
 }
