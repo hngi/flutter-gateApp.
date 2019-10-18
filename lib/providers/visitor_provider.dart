@@ -16,6 +16,7 @@ class VisitorProvider extends ChangeNotifier {
 
     void addVisitorModels(List<VisitorModel> models){
       this.visitorModels.addAll(models);
+      this.initialVisitorsLoaded = true;
       notifyListeners();
     }
 

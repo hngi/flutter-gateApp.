@@ -25,7 +25,7 @@ class VisitorService {
 
   static Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: authToken,
+    HttpHeaders.authorizationHeader: 'Bearer $authToken',
   };
 
   static BaseOptions options = BaseOptions(
@@ -92,8 +92,8 @@ class VisitorService {
     @required String status,
     @required String estateId,
   }) async {
-    BigInt id;
-    var uri = Endpoint.visitor;
+    String id;
+    var uri = Endpoint.visitor ;//+'{id}';
     var data = {
       "name": name,
       "arrival_date": arrivalDate,
@@ -174,13 +174,16 @@ class VisitorService {
       print(response.statusCode);
       print(response.data);
 
-      return (response.statusCode == 404)
-          ? ErrorType.invalid_credentials
-          : (response.statusCode == 401)
-              ? ErrorType.account_not_confimrmed
-              : (response.statusCode == 200)
-                  ? json.decode(response.data)
-                  : ErrorType.generic;
+      if ((response.statusCode == 404)) {
+        return ErrorType.no_visitors_found;
+      } else if
+         ((response.statusCode == 401)) {
+          return ErrorType.account_not_confimrmed;
+        } else if
+        (response.statusCode == 200){
+                  return json.decode(response.data);
+        }
+      
     } on DioError catch (exception) {
       if (exception == null ||
           exception.toString().contains('SocketException')) {

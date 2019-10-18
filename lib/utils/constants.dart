@@ -17,6 +17,11 @@ Future<String> authToken(BuildContext context) async {
   return await Provider.of<TokenProvider>(context).getTokenFromPrefs;
 }
 
+Future<SharedPreferences> get getPrefs async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs;
+}
+
 Future<String> get authTokenFromStorage async{
   SharedPreferences prefs =  await getPrefs;
  return prefs.getString('authToken');
@@ -24,21 +29,15 @@ Future<String> get authTokenFromStorage async{
 
 }
 
-Future<SharedPreferences> get getPrefs async{
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-     return prefs;
-  }
-
-Future<user_type> userType(BuildContext context) async{
+Future<user_type> userType(BuildContext context) async {
   return await Provider.of<UserTypeProvider>(context).getUserType;
 }
-
 
 ProfileProvider getProfileProvider(BuildContext context){
   return Provider.of<ProfileProvider>(context);
 }
 
-VisitorProvider getVisitorProvier(BuildContext context){
+VisitorProvider getVisitorProvider(BuildContext context){
   return Provider.of<VisitorProvider>(context);
 }
 

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
-import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -18,13 +16,17 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if (getVisitorProvier(context).initialVisitorsLoaded == false) {
+    if(getProfileProvider(context).initialProfileLoaded==false){
+                                    loadInitialProfile(context);
+                                  }
+
+    if (getVisitorProvider(context).initialVisitorsLoaded == false) {
       print('Loading');
       loadInitialVisitors(context);
            }
       
           return Scaffold(
-            body: getVisitorProvier(context).visitorModels.length == 0
+            body: getVisitorProvider(context).visitorModels.length == 0
                 ? ListView(
                     padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
                     children: <Widget>[
@@ -241,7 +243,7 @@ class WelcomeResident extends StatelessWidget {
           List usedDates = [];
       
           visitors
-              .addAll(getVisitorProvier(context).visitorModels.map((visitorModel) {
+              .addAll(getVisitorProvider(context).visitorModels.map((visitorModel) {
             return Column(
               children: <Widget>[
                 int.parse(visitorModel.arrival_date[0]) == DateTime.now().year &&
@@ -322,15 +324,18 @@ class WelcomeResident extends StatelessWidget {
                                 void loadInitialVisitors(BuildContext context) async {
                         
                                 try {
-                                  if(getProfileProvider(context).initialProfileLoaded==false){
-                                    loadInitialProfile(context);
-                                  }
+                                
                                   dynamic response = await VisitorService.getAllVisitor(
                                       authToken: await authToken(context));
                                   if (response is ErrorType) {
+                                    
                                     PaysmosmoAlert.showError(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
+                                     if(response == ErrorType.no_visitors_found){
+                                      getVisitorProvider(context).setInitialStatus(true);
+                                    }   
+                                        
                                   } else {
                                     if (response['data']['data'] == 0) {
                                       PaysmosmoAlert.showSuccess(
@@ -343,8 +348,7 @@ class WelcomeResident extends StatelessWidget {
                                       jsonVisitorModels.forEach((jsonModel) {
                                         models.add(VisitorModel.fromJson(jsonModel));
                                       });
-                                      getVisitorProvier(context).addVisitorModels(models);
-                                      prefix0.getVisitorProvier(context).setInitialStatus(true);
+                                      getVisitorProvider(context).addVisitorModels(models);
 
                                     
                                     }

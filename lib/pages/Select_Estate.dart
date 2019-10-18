@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/old_user.dart';
-//import 'package:gateapp/core/service/estate_service.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
@@ -205,7 +204,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       onPressed: () => {
                         (userType.type == user_type.RESIDENT)
                             ?Navigator.pushReplacementNamed(context, '/welcome-resident')
-                            :Navigator.pushReplacementNamed(context, '/gateman_menu')
+                            :Navigator.pushReplacementNamed(context, '/menu')
                                              
                             
                         /*if (userType.type == user_type.RESIDENT){

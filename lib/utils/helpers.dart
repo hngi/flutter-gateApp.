@@ -93,6 +93,7 @@ class GateManHelpers {
       case ErrorType.phone : return 'Phone Error';
       case ErrorType.verify_code_not_found: return 'Wrong Verification Code';
       case ErrorType.network: return 'Please make sure your device is connected to the internet';
+      case ErrorType.no_visitors_found: return 'You are not expecting any Visitor';
         
       default:
         return 'Unknown Error Occurred';

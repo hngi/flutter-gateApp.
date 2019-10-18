@@ -169,6 +169,7 @@ class _EditProfileState extends State<EditProfile> {
           authToken: await authToken(context)
           );
           if(response is ErrorType){
+            print('Error Getting Proile');
             await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
             
           }else{
