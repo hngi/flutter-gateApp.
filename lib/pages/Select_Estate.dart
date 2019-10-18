@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/old_user.dart';
+import 'package:gateapp/core/service/estate_service.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
@@ -22,7 +23,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
-  List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
+  Future<dynamic> _estates = EstateService.getAllEstates();
   final _formkey = GlobalKey<FormState>();
   final TextEditingController searchEstateController = TextEditingController(text: '');
   List<EstateModel> filteredEstate;
@@ -117,6 +118,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       hintText: 'Enter Estate Name',
                       suffixIcon: Icon(Icons.keyboard_arrow_up),
                       prefixIcon: Icon(Icons.search),
+                      initialValue: EstateService.getAllEstates(),
                       onSaved: (str) => estateAddress = str,
                       onChanged:  _onEstatesChanged,
                       validator: (str) =>

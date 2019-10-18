@@ -24,7 +24,7 @@ class _AddEstateState extends State<AddEstate> {
 
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
-  List<String> _estates = ['CBS Esate', 'Lux Eco', '1000 Units'];
+  //Future<dynamic> _estates = EstateService.addEstate(estateName: null, city: null, country: null);
 
   @override
   void initState() {
