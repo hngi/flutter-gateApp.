@@ -21,7 +21,7 @@ class EstateService {
       authToken = await prefix0.authToken(context);
       return authToken;
     } catch (error) {
-      throw error;
+     print('unknown error occured while getting authtoken');
     }
   }
 

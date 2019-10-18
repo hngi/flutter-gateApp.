@@ -18,7 +18,8 @@ class VisitorService {
       authToken = await prefix1.authToken(context);
       return authToken;
     } catch (error) {
-      throw error;
+      // throw error;
+      print('unknown error occured while getting auth token');
     }
   }
 
@@ -155,4 +156,46 @@ class VisitorService {
       }
     }
   }
+
+
+ static getAllVisitor({
+    @required String authToken, 
+  }) async {
+    var uri = Endpoint.visitor;
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
+      Response response = await dio.get(uri);
+
+      print(response.statusCode);
+      print(response.data);
+
+      return (response.statusCode == 404)
+          ? ErrorType.invalid_credentials
+          : (response.statusCode == 401)
+              ? ErrorType.account_not_confimrmed
+              : (response.statusCode == 200)
+                  ? json.decode(response.data)
+                  : ErrorType.generic;
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
+
+
 }
+
+
+
