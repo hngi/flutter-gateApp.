@@ -5,6 +5,7 @@ import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/core/models/old_user.dart';
 import 'package:provider/provider.dart';
+import 'package:gateapp/utils/constants.dart';
 
 class UserType extends StatelessWidget {
   @override
@@ -152,8 +153,10 @@ class _TypeOfUser extends State<TypeOfUser> {
               padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Continue',
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, '/select-estate'),
+                onPressed: (){
+                    Navigator.pushReplacementNamed(context, '/register');
+                    userTypeProvider.setUserType(this.type);
+                },
               )),
         ],
       ),
