@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
@@ -24,8 +25,8 @@ class WelcomeResident extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Text(
                       'Hi, ' +
-                          residentUserProvider
-                              .residentUserModel.residentFullName
+                          getProfileProvider(context)
+                              .profileModel.name
                               .toString(),
                       style: TextStyle(
                           fontSize: 43.0,
