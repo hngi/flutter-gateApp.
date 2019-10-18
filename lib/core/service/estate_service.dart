@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
+import 'package:gateapp/providers/estates.dart';
 import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 
@@ -85,7 +86,7 @@ class EstateService {
           : (response.statusCode == 401)
               ? ErrorType.account_not_confimrmed
               : (response.statusCode == 200)
-                  ? json.decode(response.data)
+                  ? Estates.fromJson(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
       if (exception == null ||
