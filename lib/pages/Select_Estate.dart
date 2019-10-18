@@ -205,7 +205,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       onPressed: () => {
                         (userType.type == user_type.RESIDENT)
                             ?Navigator.pushReplacementNamed(context, '/welcome-resident')
-                            :Navigator.pushReplacementNamed(context, '/gateman_menu')
+                            :Navigator.pushReplacementNamed(context, '/menu')
                                              
                             
                         /*if (userType.type == user_type.RESIDENT){
