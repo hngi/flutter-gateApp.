@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/old_user.dart';
-import 'package:gateapp/core/service/estate_service.dart';
+//import 'package:gateapp/core/service/estate_service.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
@@ -23,7 +23,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
-  Future<dynamic> _estates = EstateService.getAllEstates();
+  //Future<dynamic> _estates = EstateService.getAllEstates();
   final _formkey = GlobalKey<FormState>();
   final TextEditingController searchEstateController = TextEditingController(text: '');
   List<EstateModel> filteredEstate;
@@ -118,7 +118,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       hintText: 'Enter Estate Name',
                       suffixIcon: Icon(Icons.keyboard_arrow_up),
                       prefixIcon: Icon(Icons.search),
-                      initialValue: EstateService.getAllEstates(),
+                      //initialValue: EstateService.getAllEstates(),
                       onSaved: (str) => estateAddress = str,
                       onChanged:  _onEstatesChanged,
                       validator: (str) =>
@@ -204,8 +204,10 @@ class _SelectAddressState extends State<SelectAddress> {
                       buttonText: 'Continue',
                       onPressed: () => {
                         (userType.type == user_type.RESIDENT)
-                            ? Navigator.pushNamed(context, '/register')
-                            : Navigator.pushNamed(context, '/gateman-register')
+                            ?Navigator.pushReplacementNamed(context, '/welcome-resident')
+                            :Navigator.pushReplacementNamed(context, '/gateman_menu')
+                                             
+                            
                         /*if (userType.type == user_type.RESIDENT){
                       Navigator.pushNamed(context, '/register')
                       } else {

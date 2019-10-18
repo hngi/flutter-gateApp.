@@ -86,13 +86,25 @@ class GateManHelpers {
     //verify_code_not_found
   }
   
-  static Map<ErrorType,String> errorTypeMap = {
-    ErrorType.email_taken : 'Email has been used',
-    ErrorType.phone : 'Phone Error',
-    ErrorType.verify_code_not_found: 'Wrong Verification Code'
+  static String errorTypeMap(ErrorType errorType) {
+    switch (errorType) {
+      case ErrorType.email_taken: 
+        return 'Email has been used';
+      case ErrorType.phone : return 'Phone Error';
+      case ErrorType.verify_code_not_found: return 'Wrong Verification Code';
+      case ErrorType.network: return 'Please make sure your device is connected to the internet';
+        
+      default:
+        return 'Unknown Error Occurred';
+    }
+  }
+   
+    
+    
+    
 
-};
 }
+
 
 
 

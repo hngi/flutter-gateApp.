@@ -1,4 +1,5 @@
 import 'package:gateapp/core/models/estate_list.dart';
+import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ List<SingleChildCloneableWidget> independentServices = [
   ChangeNotifierProvider.value(value: UserTypeProvider()),
   ChangeNotifierProvider.value(value: ResidentUserProvider()),
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
+  ChangeNotifierProvider.value(value: ProfileProvider())
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [];

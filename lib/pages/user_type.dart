@@ -154,7 +154,7 @@ class _TypeOfUser extends State<TypeOfUser> {
               child: ActionButton(
                 buttonText: 'Continue',
                 onPressed: (){
-                    Navigator.pushReplacementNamed(context, '/select-estate');
+                    Navigator.pushReplacementNamed(context, '/register');
                     userTypeProvider.setUserType(this.type);
                 },
               )),
