@@ -118,16 +118,18 @@ class _RegisterState extends State<Register> {
                             try{
                               dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
                               ;
-                              dialog.hide();
+                              
                               print('printing eesponse');
                               print(response);
                                 
                                 if (response is ErrorType){
                                     print(GateManHelpers.errorTypeMap(response));
                                   PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
+                                dialog.hide();
                                 } else {
 
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+                                //dialog.hide();
                                 Navigator.pushNamed(context, '/token-conirmation',arguments: {
                                   'phone':_phoneController.text,
                                   'email':_emailController.text,
@@ -138,9 +140,9 @@ class _RegisterState extends State<Register> {
                               }catch(error){
                                     print(error);
                                     
-                                    dialog.hide();
-                                    PaysmosmoAlert.showError(context: context,message: error.toString());
                                     
+                                    PaysmosmoAlert.showError(context: context,message: error.toString());
+                                    dialog.hide();
                               }
                               
               }
