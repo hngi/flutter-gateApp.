@@ -13,7 +13,7 @@ class Endpoint {
   static String passwordReset = '/password/reset';
 
   //Esate
-  static String estate = '/estate';
+  //static String estate = '/estate';
   static String resendOTPtoken = '/resend/token';
   static String getCurrentUser = '/user';
   static String editCurrentuser = '/user/edit';
@@ -24,4 +24,6 @@ class Endpoint {
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
+  static String showVisitors = 'gateman/visitors';
+  static String showRequests = '/gateman/requests?';
 }
