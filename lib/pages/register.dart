@@ -118,25 +118,31 @@ class _RegisterState extends State<Register> {
                             try{
                               dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
                               ;
-                              
-                                print(response);
-                                Navigator.pop(context);
+                              dialog.hide();
+                              print('printing eesponse');
+                              print(response);
+                                
                                 if (response is ErrorType){
-                                    print(response);
-                                    PaysmosmoAlert.showSuccess(context: context,message: GateManHelpers.errorTypeMap[response],);
+                                    print(GateManHelpers.errorTypeMap(response));
+                                  PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
                                 } else {
-                                PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+
+                                await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+                                Navigator.pushNamed(context, '/token-conirmation',arguments: {
+                                  'phone':_phoneController.text,
+                                  'email':_emailController.text,
+                                });
                                 }
                                     
-                                Navigator.pushNamed(context, '/token-conirmation');
+                                
                               }catch(error){
                                     print(error);
-                                    Navigator.pop(context);
-                                    PaysmosmoAlert.showError(context: context,message: error.toString(),
-                                    );
                                     
-              
+                                    dialog.hide();
+                                    PaysmosmoAlert.showError(context: context,message: error.toString());
+                                    
                               }
+                              
               }
                             // if (userTypeProvider.type == user_type.RESIDENT) {
                             //   print("jjjjjjjjjj" + _fullName);

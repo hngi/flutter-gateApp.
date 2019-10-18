@@ -10,7 +10,7 @@ import 'package:gateapp/utils/helpers.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
-  static String deviceId = 'as2563ab';
+  static String deviceId;
 
   
   static Future<String> getDeviceId() async{
@@ -245,6 +245,42 @@ class AuthService {
             return ErrorType.generic;
           }
         }
+      }
+      static dynamic resendOTOtoken({
+        @required phone,
+      }) async {
+        var uri = Endpoint.resendOTPtoken;
+        try {
+          Response response = await dio.put(uri, data: {
+            "phone":phone,
+          });
+    
+          print(response.statusCode);
+          print(response.data);
+    
+          if (response == null) return ErrorType.generic;
+          if (response.statusCode == 500) return ErrorType.generic;
+          if (response.statusCode == 422) {
+            final responseJson = json.decode(response.data);
+            return GateManHelpers.getErrorType(responseJson);
+          }
+          if (response.statusCode == 404) return ErrorType.invalid_credentials;
+          if (response.statusCode == 200) return json.decode(response.data);
+    
+          // }
+        } on DioError catch (exception) {
+          if (exception == null ||
+              exception.toString().contains('SocketException')) {
+            return ErrorType.network;
+          } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+              exception.type == DioErrorType.CONNECT_TIMEOUT) {
+            return ErrorType.timeout;
+          } else {
+            return ErrorType.generic;
+          }
+        }
+
+
       }
     
 }

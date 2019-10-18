@@ -32,7 +32,7 @@ class GateMan extends StatelessWidget {
         ),
         // home: ScanQRCode(),
         debugShowCheckedModeBanner: false,
-        home: TokenConfirmation(),
+        // home: TokenConfirmation(),
       ),
     );
   }

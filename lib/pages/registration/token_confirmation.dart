@@ -17,7 +17,11 @@ import 'package:provider/provider.dart';
 
 class TokenConfirmation extends StatefulWidget{
   String phone;
-  TokenConfirmation({this.phone= '08056664098'});
+  String email;
+  String showAlertMessage;
+  TokenConfirmation({this.phone= '08056664098',this.email = 'winninggreat@gmail.com',
+  this.showAlertMessage
+  });
   @override
   _TokenConfirmationState createState() => _TokenConfirmationState();
 }
@@ -76,6 +80,8 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
   Widget build(BuildContext context) {
     TokenProvider tokenProvider =
         Provider.of<TokenProvider>(context, listen: false);
+        LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+   
     // TODO: implement build
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Verify Account'),
@@ -91,7 +97,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                   mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text('Please enter the 6 digit verification code sent to '+ 
-                  this.widget.phone.replaceRange(4, 9, '*****'),style: TextStyle(fontWeight: FontWeight.w600),),
+                  this.widget.phone,style: TextStyle(fontWeight: FontWeight.w600),),
                   Padding(
                     padding: const EdgeInsets.only(top:8.0),
                     child: Padding(
@@ -140,14 +146,20 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                         child: FlatButton(child: Text('Verify',style: TextStyle(color:Colors.white),),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                                         color: GateManColors.primaryColor,
                                         onPressed: () async{
-                                          LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-                                          dialog.show();
-                                            
-                                          try{
-                                            String otpCode = firstTokenController.text +
+                                          
+                                          String otpCode = firstTokenController.text +
                                             secondTokenController.text+thirdTokenController.text+
                                             fourthTokenController.text+fifthTokenController.text+
                                             sixthTokenController.text;
+                                            if(otpCode.length<6){
+                                              await PaysmosmoAlert.showError(context: context,message: 'Token must be 6 digits');
+                                            
+
+                                            }else{
+                                            dialog.show();
+                                            
+                                          try{
+                                            
                                             print(otpCode);
                                             dynamic response = await AuthService.verifyAccount(verificationCode: otpCode);
                                             if(response is ErrorType){
@@ -164,7 +176,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                             } else{
 
                                               dialog.hide();
-                                              PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap[response]);
+                                              PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                                             }
                                             }else{
                                             if (response['token'].length > 0){
@@ -185,10 +197,24 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                             print(error);
                                             throw error;
                                           }
-                                        },),
+                                        }},),
                                       ),
                                       Text("Didn't receive the code?",textAlign: TextAlign.center,style:TextStyle(fontWeight: FontWeight.w600)),
-                                      FlatButton(child: Text('Resend the Code',style: TextStyle(color:GateManColors.primaryColor),), onPressed: () {
+                                      FlatButton(child: Text('Resend the Code',style: TextStyle(color:GateManColors.primaryColor),), onPressed: () async{
+                                        dialog.show();
+                                        try{
+                                        dynamic response = await AuthService.resendOTOtoken(phone: this.widget.phone);
+                                        if(response is ErrorType){
+                                          await PaysmosmoAlert.showError(context:context,message:GateManHelpers.errorTypeMap(response));
+                                        } else {
+                                          await PaysmosmoAlert.showSuccess(context:context,message:'Verification code has been sent to ' + this.widget.email);//' + this.widget.phone + ' and the number ' +
+                                       
+
+                                        }
+                                        } catch(error){
+
+                                        }
+                                        dialog.hide();
 
                                       },)
                                     ],

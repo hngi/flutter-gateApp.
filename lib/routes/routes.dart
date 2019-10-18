@@ -128,7 +128,9 @@ class Routes {
         return MaterialPageRoute(builder: (context) => Residents());
 
       case '/token-conirmation':
-        return MaterialPageRoute(builder: (context)=> TokenConfirmation());
+      dynamic info = settings.arguments;
+        return MaterialPageRoute(builder: (context)=> TokenConfirmation(phone:info['phone'],
+        email:info['email']));
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
