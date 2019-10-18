@@ -23,7 +23,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.symmetric(vertical: 7.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -32,11 +32,11 @@ class CustomDropdownButton<T> extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
             child: Text(label,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0)),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
           ),
           InputDecorator(
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(18.0),
+              contentPadding: EdgeInsets.all(10.0),
               errorStyle: TextStyle(color: Colors.redAccent, fontSize: 14.0),
               hintText: hintText,
               prefixIcon: prefixIcon ?? null,
@@ -48,6 +48,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<T>(
                 iconEnabledColor: GateManColors.primaryColor,
+                icon: Icon(Icons.keyboard_arrow_down),
                 style: TextStyle(color: GateManColors.textColor),
                 value: value,
                 isDense: true,
@@ -61,3 +62,4 @@ class CustomDropdownButton<T> extends StatelessWidget {
     );
   }
 }
+

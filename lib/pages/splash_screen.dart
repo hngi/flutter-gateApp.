@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
 
+import 'package:gateapp/utils/constants.dart';
+
 class SplashScreen extends StatelessWidget {
+  Map<user_type,String> mapUserTypeToPage = {
+    user_type.RESIDENT:'/welcome-resident',
+    user_type.GATEMAN:'/gateman_menu',
+  };
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //   statusBarColor: Colors.white, //top bar color
     // ));
 
-    Future.delayed(Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/pager');
+    Future.delayed(Duration(seconds: 5), () async{
+      if (await authToken(context)==null || await userType(context)==null){
+        Navigator.pushReplacementNamed(context, '/pager');
+      } else {
+        print(await authToken(context));
+        Navigator.pushReplacementNamed(context, mapUserTypeToPage[await userType(context)]);
+      }
+      
+      
     });
 
     return Scaffold(
