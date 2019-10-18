@@ -1,6 +1,7 @@
 class Endpoint {
   //Base URL
-  static String baseUrl = 'https://gateappapi.herokuapp.com/api/v1/';// http://52.200.161.52/api/v1/';
+  static String baseUrl =
+      'https://gateappapi.herokuapp.com/api/v1/'; // http://52.200.161.52/api/v1/';
 
   //Auth
   static String login = '/login';
@@ -10,6 +11,9 @@ class Endpoint {
   static String verifyAccount = '/verify';
   static String passwordVerify = '/password/verify';
   static String passwordReset = '/password/reset';
+
+  //Esate
+  static String estate = '/estate';
   static String resendOTPtoken = '/resend/token';
   static String getCurrentUser = '/user';
   static String editCurrentuser = '/user/edit';
