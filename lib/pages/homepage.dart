@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -90,7 +91,7 @@ class Homepage extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: Text("Danny Johnson",
+                      child: Text(getProfileProvider(context).profileModel.name.toString(),
                           style: TextStyle(
                             color: GateManColors.primaryColor,
                             fontSize: 20.0,

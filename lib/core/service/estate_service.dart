@@ -8,8 +8,27 @@ import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
-
+import 'package:gateapp/utils/constants.dart';
 class EstateService {
+  //static String deviceId = '';
+  static String authTokenStr = '';
+
+  static BuildContext context;
+
+  static Future<String> getAuthToken() async {
+    try {
+      String authTokenStr = await authToken(context);
+      return authTokenStr;
+    } catch (error) {
+     print('unknown error occured while getting authtoken');
+    }
+  }
+
+  static Map<String, String> headers = {
+    HttpHeaders.contentTypeHeader: "application/json",
+    HttpHeaders.authorizationHeader: authTokenStr,
+  };
+
   static BaseOptions options = BaseOptions(
       baseUrl: Endpoint.baseUrl,
       responseType: ResponseType.plain,
