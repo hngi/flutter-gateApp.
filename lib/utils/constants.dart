@@ -7,8 +7,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 const CONNECT_TIMEOUT = 30000;
 const RECEIVE_TIMEOUT = 30000;
 
-Future<String> authToken(BuildContext context) async {
-  return await Provider.of<TokenProvider>(context).getTokenFromPrefs;
+String authToken(BuildContext context) {
+  String authToken = '';
+
+  Provider.of<TokenProvider>(context, 
+  listen: false,
+  ).getTokenFromPrefs.then((token) {
+    authToken = token;
+  });
+
+  return authToken;
 }
 
 Future<SharedPreferences> get getPrefs async {

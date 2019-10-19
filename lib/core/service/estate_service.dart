@@ -8,6 +8,7 @@ import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EstateService {
   static BaseOptions options = BaseOptions(
@@ -22,6 +23,14 @@ class EstateService {
         return false;
       });
   static Dio dio = Dio(options);
+
+  //Get Authorization Token
+  static String getAuth() {
+    String token = '';
+    getPrefs.then((prefs) => token = prefs.getString('authToken'));
+    return token;
+    // return prefs.getString('authToken');
+  }
 
   //Add new Estate
   static dynamic addEstate({
@@ -194,9 +203,49 @@ class EstateService {
         return true;
       }
       return false;
-
     } on DioError catch (exception) {
       return false;
+    }
+  }
+
+  //Add new Estate
+  static Future<bool> selectEstate({
+    @required int estateId,
+  }) async {
+    var uri = Endpoint.estate + '/choose/$estateId';
+
+    Options options = Options(
+      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      headers: {'Authorization': 'Bearer ${getAuth()}'},
+    );
+
+    try {
+      Response response = await dio.post(uri, options: options);
+
+      print(response.statusCode);
+      print(response.data);
+
+      // if (response == null) return ErrorType.generic;
+      // if (response.statusCode == 500) return ErrorType.generic;
+      // if (response.statusCode == 400 || response.statusCode == 401) {
+      //   final responseJson = json.decode(response.data);
+      //   return GateManHelpers.getErrorType(responseJson);
+      // }
+      if (response.statusCode == 200) return true;
+
+      return false;
+
+      // }
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return false;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return false;
+      } else {
+        return false;
+      }
     }
   }
 }
