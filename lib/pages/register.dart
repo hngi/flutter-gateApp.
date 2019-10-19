@@ -124,7 +124,8 @@ class _RegisterState extends State<Register> {
                                 
                                 if (response is ErrorType){
                                     print(GateManHelpers.errorTypeMap(response));
-                                  PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
+                                   
+                                  await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
                                 dialog.hide();
                                 } else {
 
@@ -134,6 +135,7 @@ class _RegisterState extends State<Register> {
                                   'phone':_phoneController.text,
                                   'email':_emailController.text,
                                 });
+
                                 }
                                     
                                 

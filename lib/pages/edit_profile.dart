@@ -66,7 +66,8 @@ class _EditProfileState extends State<EditProfile> {
                                 child:
                                     getProfileProvider(context).profileModel.image == null
                                     ||
-                                    getProfileProvider(context).profileModel.image == "no_image.jpg"
+                                    getProfileProvider(context).profileModel.image == "no_image.jpg"||
+                                    getProfileProvider(context).profileModel.image =='file:///noimage.jpg'
             
                                         ? Image.asset(
                                             'assets/images/woman-cooking.png',
@@ -168,6 +169,7 @@ class _EditProfileState extends State<EditProfile> {
           authToken: await authToken(context)
           );
           if(response is ErrorType){
+            print('Error Getting Proile');
             await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
             
           }else{

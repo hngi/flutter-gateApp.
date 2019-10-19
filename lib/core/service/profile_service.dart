@@ -30,7 +30,7 @@ static BaseOptions options = BaseOptions(
       static dynamic getCurrentUserProfile({@required authToken
       }) async {
         var uri = Endpoint.getCurrentUser;
-        options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
