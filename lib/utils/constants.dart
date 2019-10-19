@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/providers/profile_provider.dart';
+import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
@@ -41,6 +42,10 @@ VisitorProvider getVisitorProvider(BuildContext context){
   return Provider.of<VisitorProvider>(context);
 }
 
+ResidentsGateManProvider getResidentsGateManProvider(BuildContext context){
+  return Provider.of<ResidentsGateManProvider>(context);
+}
+
 Future loadInitialProfile(BuildContext context) async {
         try{
         dynamic response  = await ProfileService.getCurrentUserProfile(
@@ -51,7 +56,7 @@ Future loadInitialProfile(BuildContext context) async {
             
           }else{
             await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
-                            print('fffffffffffffffffff');
+                            print('Profile Loaded');
                             print(ProfileModel.fromJson(response));
                             getProfileProvider(context).setProfileModel(
                             ProfileModel.fromJson(response));
