@@ -16,8 +16,6 @@ import 'package:gateapp/widgets/CustomDatePicker/custom_date_picker.dart';
 import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:gateapp/widgets/DashedRectangle/dashed_rectangle.dart';
 import 'package:gateapp/widgets/VisitorsBox/VisitorsBox.dart';
-import 'package:http/http.dart' as http;
-//import 'package:share/share.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -37,6 +35,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   TextEditingController _fullNameController;
   TextEditingController _carPlateNumberController;
+  TextEditingController _purposeController;
 
   String _fullname;
   
@@ -48,6 +47,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     super.initState();
     _fullNameController = TextEditingController(text:'');
     _carPlateNumberController = TextEditingController(text:'');
+    _purposeController=TextEditingController(text: '');
   }
 
   @override
@@ -180,7 +180,11 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               child: Image.asset(
                                 'assets/images/qr.png',
                               ),
-                            ),
+                              /*child: Image.network(
+                                  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
+                              ),*/
+                              ),
+
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 30),
@@ -363,6 +367,22 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         textEditingController: _carPlateNumberController,
       ),
       Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
+          'Purpose',
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+
+      CustomInputField(
+        hint: 'Purpose',
+        keyboardType: TextInputType.text,
+        textEditingController: _purposeController,
+      ),
+      Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 16),
         child: Text(
           'Visitor\'s Image (Optional)',
@@ -480,6 +500,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
+                  print('PURPOSE: '+_purposeController.text);
                   print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
 
@@ -498,8 +519,10 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                     NewVisitorService.addVisitor(
                       name: _fullNameController.text,
                       arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
-                      carPlateNo: _carPlateNumberController.text, purpose: 'none',
-                      status: 'none', estateId: '7',//image: image==null?null:image.path.toString(),
+                      carPlateNo: _carPlateNumberController.text,
+                      purpose: _purposeController.text.isEmpty? 'none':_purposeController.text,
+                      status: '8',
+                      estateId: '7',//image: image==null?null:image.path.toString(),
                       authToken: await authToken(context),
                     );
                     openAlertBox();
