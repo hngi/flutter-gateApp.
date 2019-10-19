@@ -58,35 +58,10 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
             rphone: _notifications[index]['phone'],
             func: () {
               Navigator.pushNamed(context, '/residents-gate');
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => new Residents(
-              //           name: widget.name,
-              //         )));
             },
           );
         },
       ),
-
-      /*floatingActionButton: BottomNavFAB(
-        icon: MdiIcons.accountGroup,
-        title: 'Residents',
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomNavBar(
-        leadingIcon: MdiIcons.home,
-        leadingText: 'Home',
-        traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
-        onLeadingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-menu');
-        },
-        onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-notifications');
-        },
-      ),*/
     );
   }
 }

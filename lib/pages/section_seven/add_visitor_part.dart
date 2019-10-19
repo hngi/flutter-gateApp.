@@ -21,6 +21,7 @@ import 'package:http/http.dart' as http;
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 class AddVisitorPart extends StatefulWidget {
   @override
   _AddVisitorPartState createState() => _AddVisitorPartState();
@@ -143,7 +144,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
+                              padding: const EdgeInsets.only(top: 15.0),
                               child: Text(
                                 'Send Invitation',
                                 style: TextStyle(
@@ -175,7 +176,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
+                              padding: EdgeInsets.symmetric(vertical: 15),
                               child: Image.asset(
                                 'assets/images/qr.png',
                               ),
@@ -475,9 +476,11 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                 buttonText: 'Add',
                 onPressed: () async {
 
+                  final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(arrivalDate));
+
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
-                  print('ARRIVAL DATE: $arrivalDate');
+                  print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
 
                   if(_fullNameController.text==""){
@@ -485,11 +488,19 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
 
                   }else{
-                    NewVisitorService.addVisitor(
-                        name: _fullNameController.text, arrivalDate: arrivalDate,
+                    /*VisitorService.addVisitor(
+                        name: _fullNameController.text, arrivalDate: DateFormat('MM-dd-yyyy').format(DateFormat().add_yMd().parse(arrivalDate)) as DateFormat,
                         carPlateNo: _carPlateNumberController.text, purpose: null,
-                        status: null, estateId: null,image: image==null?null:image.path.toString(),
-                        authToken: await authToken(context),
+                        status: null, estateId: null,//image: image==null?null:image.path.toString(),
+                        //authToken: await authToken(context),
+                    );*/
+
+                    NewVisitorService.addVisitor(
+                      name: _fullNameController.text,
+                      arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
+                      carPlateNo: _carPlateNumberController.text, purpose: 'none',
+                      status: 'none', estateId: '7',//image: image==null?null:image.path.toString(),
+                      authToken: await authToken(context),
                     );
                     openAlertBox();
                   }

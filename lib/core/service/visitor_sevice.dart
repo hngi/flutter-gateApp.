@@ -42,12 +42,11 @@ class VisitorService {
 
   static addVisitor({
     @required String name,
-    @required String arrivalDate,
+    @required DateFormat arrivalDate,
     @required String carPlateNo,
     @required String purpose,
     @required String status,
     @required String estateId,
-    String image
   }) async {
     var uri = Endpoint.visitor;
     var data = {
@@ -56,8 +55,7 @@ class VisitorService {
       "car_plate_no": carPlateNo,
       "purpose": purpose,
       "status": status,
-      "home_id": estateId,
-      "image":image,
+      "home_id": estateId
     };
     try {
       Response response = await dio.post(uri, data: data);
@@ -146,32 +144,6 @@ class VisitorService {
           ? json.decode(response.data)
           : ErrorType.generic;
     }on DioError catch (exception) {
-      if (exception == null ||
-          exception.toString().contains('SocketException')) {
-        return ErrorType.network;
-      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
-          exception.type == DioErrorType.CONNECT_TIMEOUT) {
-        return ErrorType.timeout;
-      } else {
-        return ErrorType.generic;
-      }
-    }
-  }
-
-  static getQR() async{
-    var uri = Endpoint.generateQR;
-    try {
-      Response response = await dio.get(uri);
-      String codeURL=response.data['qr'];
-      print(response.data);
-      return (response.statusCode == 404)
-          ? ErrorType.invalid_credentials
-          : (response.statusCode == 401)
-          ? ErrorType.account_not_confimrmed
-          : (response.statusCode == 200)
-          ? json.decode(response.data)
-          : ErrorType.generic;
-    } on DioError catch (exception) {
       if (exception == null ||
           exception.toString().contains('SocketException')) {
         return ErrorType.network;

@@ -11,5 +11,6 @@ enum ErrorType {
   verify_code_not_found,
   account_not_confimrmed,
   email_not_found,
-  verify_code_atleast_5_chars
+  verify_code_atleast_5_chars,
+  no_visitors_found
 }
