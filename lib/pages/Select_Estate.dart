@@ -27,6 +27,7 @@ class _SelectAddressState extends State<SelectAddress> {
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _allEstates = ['CBS Esate', 'Lux Eco', '1000 Units'];
+  //Future<dynamic> _estates = EstateService.getAllEstates();
   final _formkey = GlobalKey<FormState>();
   final TextEditingController searchEstateController =
       TextEditingController(text: '');
@@ -99,197 +100,203 @@ class _SelectAddressState extends State<SelectAddress> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-           isLoading ? Loader.show() : ListView(
-              padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Text('Select Your Estate',
-                      style: TextStyle(
-                          fontSize: 32.0,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 50.0),
-                  child: Text(
-                    'Input your current location and estate to set you up',
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
+            isLoading
+                ? Loader.show()
+                : ListView(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: Text('Select Your Estate',
+                            style: TextStyle(
+                                fontSize: 32.0,
+                                color: Colors.green,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 50.0),
+                        child: Text(
+                          'Input your current location and estate to set you up',
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
 
-                //Select Country
-                CustomDropdownButton(
-                  label: 'Select Country',
-                  hintText: _countries.first,
-                  value: country ?? _countries.first,
-                  onChanged: _onCountriesChanged,
-                  items: _countries.map(
-                    (String country) {
-                      return DropdownMenuItem(
-                        child: Text(country),
-                        value: country,
-                      );
-                    },
-                  ).toList(),
-                ),
-
-                //Select City
-                CustomDropdownButton(
-                  label: 'Select City',
-                  hintText: _cities.first,
-                  value: city ?? _cities.first,
-                  onChanged: _onCitiesChanged,
-                  items: _cities.map(
-                    (String city) {
-                      return DropdownMenuItem(
-                        child: Text(city),
-                        value: city,
-                      );
-                    },
-                  ).toList(),
-                ),
-
-                //Select Esatte
-                CustomDropdownButton(
-                  label: 'Select your Estate',
-                  hintText: _allEstates.first,
-                  value: country ?? _allEstates.first,
-                  onChanged: _onCountriesChanged,
-                  items: _allEstates.map(
-                    (String country) {
-                      return DropdownMenuItem(
-                        child: Text(estate),
-                        value: country,
-                      );
-                    },
-                  ).toList(),
-                ),
-
-                CustomTextFormField(
-                  controller: searchEstateController,
-                  labelName: ' Select your Estate',
-                  hintText: 'Enter Estate Name',
-                  suffixIcon: Icon(Icons.keyboard_arrow_up),
-                  prefixIcon: Icon(Icons.search),
-                  onSaved: (str) => estateAddress = str,
-                  onChanged: _onEstatesChanged,
-                  validator: (str) =>
-                      str.isEmpty ? 'Estate Address is Required' : null,
-                ),
-                filteredEstate != null && filteredEstate.length > 0
-                    ? Container(
-                        margin: EdgeInsets.only(top: 4),
-                        height: filteredEstate.length > 4
-                            ? 200
-                            : filteredEstate.length * 38.0,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            border:
-                                Border.all(color: GateManColors.primaryColor)),
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(filteredEstate[index].estateName),
-                              ),
-                              onTap: () {
-                                residentUserModel.setResidentEstate(
-                                    residentEstate: filteredEstate[index]);
-                              },
+                      //Select Country
+                      CustomDropdownButton(
+                        label: 'Select Country',
+                        hintText: _countries.first,
+                        value: country ?? _countries.first,
+                        onChanged: _onCountriesChanged,
+                        items: _countries.map(
+                          (String country) {
+                            return DropdownMenuItem(
+                              child: Text(country),
+                              value: country,
                             );
                           },
-                          itemCount: filteredEstate.length,
-                        ),
-                      )
-                    : Container(
-                        margin: EdgeInsets.only(top: 4, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            border:
-                                Border.all(color: GateManColors.primaryColor)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Estate Not Found",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                filteredEstate == null || filteredEstate.length < 1
-                    ? Stack(
-                        children: <Widget>[
-                          InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 80),
-                              child: Text('Could not find my Estate?',
-                                  style: TextStyle(
-                                      fontSize: 13.0,
-                                      color: GateManColors.textColor,
-                                      fontWeight: FontWeight.w600)),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddEstate()),
-                              );
-                            },
-                          ),
-                          InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 240),
-                              child: Text('Add New',
-                                  style: TextStyle(
-                                      fontSize: 13.0,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w700)),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddEstate()),
-                              );
-                            },
-                          ),
-                        ],
-                      )
-                    : Container(
-                        height: 0,
-                        width: 0,
+                        ).toList(),
                       ),
 
-                SizedBox(height: 90.0),
+                      //Select City
+                      CustomDropdownButton(
+                        label: 'Select City',
+                        hintText: _cities.first,
+                        value: city ?? _cities.first,
+                        onChanged: _onCitiesChanged,
+                        items: _cities.map(
+                          (String city) {
+                            return DropdownMenuItem(
+                              child: Text(city),
+                              value: city,
+                            );
+                          },
+                        ).toList(),
+                      ),
 
-                //Save Button
-                ActionButton(
-                  buttonText: 'Continue',
-                  onPressed: () => {
-                    (userType.type == user_type.RESIDENT)
-                        ? Navigator.pushNamed(context, '/register')
-                        : Navigator.pushNamed(context, '/gateman-register')
-                    /*if (userType.type == user_type.RESIDENT){
+                      //Select Esatte
+                      CustomDropdownButton(
+                        label: 'Select your Estate',
+                        hintText: _allEstates.first,
+                        value: country ?? _allEstates.first,
+                        onChanged: _onCountriesChanged,
+                        items: _allEstates.map(
+                          (String country) {
+                            return DropdownMenuItem(
+                              child: Text(estate),
+                              value: country,
+                            );
+                          },
+                        ).toList(),
+                      ),
+
+                      CustomTextFormField(
+                        controller: searchEstateController,
+                        labelName: ' Select your Estate',
+                        hintText: 'Enter Estate Name',
+                        suffixIcon: Icon(Icons.keyboard_arrow_up),
+                        prefixIcon: Icon(Icons.search),
+                        onSaved: (str) => estateAddress = str,
+                        onChanged: _onEstatesChanged,
+                        validator: (str) =>
+                            str.isEmpty ? 'Estate Address is Required' : null,
+                      ),
+                      filteredEstate != null && filteredEstate.length > 0
+                          ? Container(
+                              margin: EdgeInsets.only(top: 4),
+                              height: filteredEstate.length > 4
+                                  ? 200
+                                  : filteredEstate.length * 38.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                      color: GateManColors.primaryColor)),
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                physics: ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          filteredEstate[index].estateName),
+                                    ),
+                                    onTap: () {
+                                      residentUserModel.setResidentEstate(
+                                          residentEstate:
+                                              filteredEstate[index]);
+                                    },
+                                  );
+                                },
+                                itemCount: filteredEstate.length,
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(top: 4, bottom: 4),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                      color: GateManColors.primaryColor)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Estate Not Found",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                      filteredEstate == null || filteredEstate.length < 1
+                          ? Stack(
+                              children: <Widget>[
+                                InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 80),
+                                    child: Text('Could not find my Estate?',
+                                        style: TextStyle(
+                                            fontSize: 13.0,
+                                            color: GateManColors.textColor,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddEstate()),
+                                    );
+                                  },
+                                ),
+                                InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 240),
+                                    child: Text('Add New',
+                                        style: TextStyle(
+                                            fontSize: 13.0,
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddEstate()),
+                                    );
+                                  },
+                                ),
+                              ],
+                            )
+                          : Container(
+                              height: 0,
+                              width: 0,
+                            ),
+
+                      SizedBox(height: 90.0),
+
+                      //Save Button
+                      ActionButton(
+                        buttonText: 'Continue',
+                        onPressed: () => {
+                          (userType.type == user_type.RESIDENT)
+                              ? Navigator.pushNamed(context, '/register')
+                              : Navigator.pushNamed(
+                                  context, '/gateman-register')
+                          /*if (userType.type == user_type.RESIDENT){
                       Navigator.pushNamed(context, '/register')
                       } else {
                          Navigator.pushNamed(context, '/gateman-register')
                       }*/
-                    //Navigator.pushNamed(context, '/settings')
-                    //used line 162 to fix the toggle buttons on settings page as
-                    // I couldn't navigate traditionally for some unclear reason
-                    //for some reason only this tenary implementation of if else
-                    //is accepted by my IDE.
-                  },
-                ),
-              ],
-            ),
+                          //Navigator.pushNamed(context, '/settings')
+                          //used line 162 to fix the toggle buttons on settings page as
+                          // I couldn't navigate traditionally for some unclear reason
+                          //for some reason only this tenary implementation of if else
+                          //is accepted by my IDE.
+                        },
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),

@@ -119,23 +119,34 @@ class _RegisterState extends State<Register> {
                               dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
                               ;
                               
-                                print(response);
-                                Navigator.pop(context);
+                              print('printing eesponse');
+                              print(response);
+                                
                                 if (response is ErrorType){
-                                    print(response);
+                                    print(GateManHelpers.errorTypeMap(response));
+                                   
+                                  await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
+                                dialog.hide();
                                 } else {
-                                PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+
+                                await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
+                                dialog.hide();
+                                Navigator.pushNamed(context, '/token-conirmation',arguments: {
+                                  'phone':_phoneController.text,
+                                  'email':_emailController.text,
+                                });
+
                                 }
                                     
-                                Navigator.pushNamed(context, '/token-conirmation');
+                                
                               }catch(error){
                                     print(error);
-                                    Navigator.pop(context);
-                                    PaysmosmoAlert.showError(context: context,message: error.toString(),
-                                    );
                                     
-              
+                                    
+                                    PaysmosmoAlert.showError(context: context,message: error.toString());
+                                    dialog.hide();
                               }
+                              
               }
                             // if (userTypeProvider.type == user_type.RESIDENT) {
                             //   print("jjjjjjjjjj" + _fullName);

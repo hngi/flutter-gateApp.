@@ -10,7 +10,28 @@ import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:gateapp/utils/constants.dart';
+
 class EstateService {
+  //static String deviceId = '';
+  static String authTokenStr = '';
+
+  static BuildContext context;
+
+  static Future<String> getAuthToken() async {
+    try {
+      String authTokenStr = await authToken(context);
+      return authTokenStr;
+    } catch (error) {
+      print('unknown error occured while getting authtoken');
+    }
+  }
+
+  static Map<String, String> headers = {
+    HttpHeaders.contentTypeHeader: "application/json",
+    HttpHeaders.authorizationHeader: authTokenStr,
+  };
+
   static BaseOptions options = BaseOptions(
       baseUrl: Endpoint.baseUrl,
       responseType: ResponseType.plain,
@@ -33,7 +54,7 @@ class EstateService {
   }
 
   //Add new Estate
-  static dynamic addEstate({
+  static addEstate({
     @required String estateName,
     @required String city,
     @required String country,
@@ -50,15 +71,13 @@ class EstateService {
       print(response.statusCode);
       print(response.data);
 
-      if (response == null) return ErrorType.generic;
-      if (response.statusCode == 500) return ErrorType.generic;
-      if (response.statusCode == 400 || response.statusCode == 401) {
-        final responseJson = json.decode(response.data);
-        return GateManHelpers.getErrorType(responseJson);
-      }
-      if (response.statusCode == 200) return json.decode(response.data);
-
-      // }
+      return (response.statusCode == 404)
+          ? ErrorType.invalid_credentials
+          : (response.statusCode == 401)
+              ? ErrorType.account_not_confimrmed
+              : (response.statusCode == 200)
+                  ? json.decode(response.data)
+                  : ErrorType.generic;
     } on DioError catch (exception) {
       if (exception == null ||
           exception.toString().contains('SocketException')) {
@@ -175,10 +194,6 @@ class EstateService {
       // Map<String, dynamic> mapResponse = json.decode(response.data);
       var mapResponse = json.decode(response.data);
       print(mapResponse);
-      // final items = mapResponse[].cast<Map<String, dynamic>>();
-      // List<Estate> listOfEstates = items.map<Estate>((json) {
-      //   return Estate.fromJson(json);
-      // }).toList();
 
       return mapResponse.first;
     } else {
