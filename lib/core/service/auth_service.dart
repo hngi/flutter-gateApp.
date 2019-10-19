@@ -19,7 +19,7 @@ class AuthService {
     print(deviceId);
     return deviceId;
     } catch (error){
-      throw error;
+      print('unknown Error occured in getting device id');
     }
 
   }
