@@ -27,6 +27,7 @@ class NewVisitorService {
   static Dio dio = Dio(options);
 
 
+  static String qr_code='';
   static dynamic addVisitor({@required String name,
     @required String arrivalDate,
     @required String carPlateNo,
@@ -53,6 +54,9 @@ class NewVisitorService {
 
       print(response.statusCode);
       print(response.data);
+      final resp=json.decode(response.data);
+      qr_code=resp['qr_image_src'];
+      print('QR Code :'+qr_code);
 
       if (response == null) return ErrorType.generic;
       if (response.statusCode != 200) return ErrorType.generic;
