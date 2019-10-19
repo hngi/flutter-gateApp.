@@ -12,5 +12,7 @@ enum ErrorType {
   account_not_confimrmed,
   email_not_found,
   verify_code_atleast_5_chars,
-  no_visitors_found
+  no_visitors_found,
+  username_at_least_2_char,
+  no_gateman_found
 }

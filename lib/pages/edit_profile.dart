@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/profile_service.dart';
@@ -7,24 +8,24 @@ import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/dialogs.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 class EditProfile extends StatefulWidget {
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
+    File _image;
 
   String _name, _phoneNumber, _email;
   TextEditingController _nameController, _phoneNumberController, _emailController;
-
+  bool controllerLoaded = false;
   @override
   void initState(){
     super.initState();
@@ -47,9 +48,11 @@ class _EditProfileState extends State<EditProfile> {
     if (!getProfileProvider(context).initialProfileLoaded){
        loadInitialProfile(context);
     }
+    if(controllerLoaded==false){
+      print('runnig controller in edit proile');
+      setInitBuildControllers(context);
+    }
    
-
-        setInitBuildControllers(context);
                 return Scaffold(
                   appBar: GateManHelpers.appBar(context, 'Edit Profile'),
                   body: ListView(
@@ -62,18 +65,21 @@ class _EditProfileState extends State<EditProfile> {
                           children: <Widget>[
                             Opacity(
                               opacity: .8,
-                              child: ClipOval(
-                                child:
-                                    getProfileProvider(context).profileModel.image == null
-                                    ||
-                                    getProfileProvider(context).profileModel.image == "no_image.jpg"||
-                                    getProfileProvider(context).profileModel.image =='file:///noimage.jpg'
+                              child: InkWell(
+                                onTap: (){},
+                                                              child: ClipOval(
+                                  child:
+                                      getProfileProvider(context).profileModel.image == null
+                                      ||
+                                      getProfileProvider(context).profileModel.image == "no_image.jpg"||
+                                      getProfileProvider(context).profileModel.image =='file:///noimage.jpg'
             
-                                        ? Image.asset(
-                                            'assets/images/woman-cooking.png',
-                                          )
-                                        : Image.network(getProfileProvider(context).profileModel.image
-                                          ),
+                                          ? Image.asset(
+                                              'assets/images/woman-cooking.png',
+                                            )
+                                          : Image.network(getProfileProvider(context).profileModel.image
+                                            ),
+                                ),
                               ),
                             ),
                             Center(
@@ -89,8 +95,12 @@ class _EditProfileState extends State<EditProfile> {
                       //Name
                       CustomTextFormField(
                         labelName: 'Name',
-                        onChanged: (str) => _nameController.text = str,
-                        onSaved: (str) => _name = str,
+                        //onChanged: (str) => _nameController.text = str,
+                        onSaved: (str) {
+                          setState(() {
+                             _name = str;
+                          });
+                        },
                         validator: (str) => str.isEmpty ? 'Name cannot be empty' : null,
                         controller: _nameController,
                       ),
@@ -98,8 +108,12 @@ class _EditProfileState extends State<EditProfile> {
                       //Phone
                       CustomTextFormField(
                         labelName: 'Phone',
-                        onChanged: (str) => _phoneNumberController.text = str,
-                        onSaved: (str) => _phoneNumber = str,
+                        //onChanged: (str) => _phoneNumberController.text = str,
+                        onSaved: (str) {
+                          setState(() {
+                            _phoneNumber = str;
+                          });
+                        },
                         validator: (str) => str.isEmpty ? 'Phone cannot be empty' : null,
                         controller: _phoneNumberController,
                       ),
@@ -107,8 +121,12 @@ class _EditProfileState extends State<EditProfile> {
                       //Email
                       CustomTextFormField(
                         labelName: 'Email',
-                        onChanged: (str) => _emailController.text = str,
-                        onSaved: (str) => _email = str,
+                        //onChanged: (str) => _emailController.text = str,
+                        onSaved: (str) {
+                          setState(() {
+                            _email = str;
+                          });
+                        },
                         validator: (str) => str.isEmpty ? 'Email cannot be empty' : null,
                         controller:_emailController
                       ),
@@ -161,6 +179,9 @@ class _EditProfileState extends State<EditProfile> {
             _nameController.text = model.name;
             _phoneNumberController.text = model.phone;
             _emailController.text = model.email;
+            this.setState((){
+                controllerLoaded = true;
+            });
           }
     
       Future loadInitialProfile(BuildContext context) async {
@@ -187,6 +208,14 @@ class _EditProfileState extends State<EditProfile> {
         }
 
       }
+
+      // Future getImage() async {
+      //   var image = await ImagePicker.pickImage(source:ImageSource.camera);
+
+      //   setState((){
+      //     _image = image;
+      //   });
+      // }
     
       
 }

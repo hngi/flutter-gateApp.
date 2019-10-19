@@ -15,6 +15,9 @@ class GateManExpansionTile extends StatefulWidget {
     @required this.dutyTime,
     this.onExpansionChanged,
     this.initiallyExpanded = false,
+    @required this.onDeletePressed,
+    @required this.onPhonePressed,
+    @required this.onMessagePressed,
   })  : assert(initiallyExpanded != null),
         super(key: key);
 
@@ -23,6 +26,7 @@ class GateManExpansionTile extends StatefulWidget {
   final ValueChanged<bool> onExpansionChanged;
   final String dutyTime;
   final bool initiallyExpanded;
+  final Function onDeletePressed,onMessagePressed,onPhonePressed;
 
   @override
   GateManExpansionTileState createState() => GateManExpansionTileState();
@@ -255,7 +259,7 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
                     ),
                     height: 50.0,
                     width: 50.0,
-                    child: Icon(Icons.phone, color: Colors.white, size: 22.0),
+                    child: IconButton(icon:Icon(Icons.phone, color: Colors.white, size: 22.0),onPressed: this.widget.onPhonePressed,)
                   ),
 
                   //Message
@@ -268,20 +272,7 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
                     ),
                     height: 50.0,
                     width: 50.0,
-                    child: Icon(Icons.message, color: Colors.white, size: 22.0),
-                  ),
-
-                  //Edit
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: GateManColors.primaryColor,
-                    ),
-                    height: 50.0,
-                    width: 50.0,
-                    child: Icon(Icons.edit, color: Colors.white, size: 22.0),
+                    child: IconButton(icon:Icon(Icons.message, color: Colors.white, size: 22.0),onPressed: this.widget.onMessagePressed,)
                   ),
 
                   //Delete
@@ -294,7 +285,7 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
                     ),
                     height: 50.0,
                     width: 50.0,
-                    child: Icon(Icons.delete, color: Colors.white, size: 22.0),
+                    child: IconButton( icon:Icon(Icons.delete, color: Colors.white, size: 22.0), onPressed:this.widget.onDeletePressed,),
                   ),
                 ],
               ),

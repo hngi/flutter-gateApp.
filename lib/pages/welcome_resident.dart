@@ -17,6 +17,7 @@ class WelcomeResident extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     if(getProfileProvider(context).initialProfileLoaded==false){
+      print('proile not yet loade');
                                     loadInitialProfile(context);
                                   }
 
@@ -73,7 +74,7 @@ class WelcomeResident extends StatelessWidget {
                   ),
             floatingActionButton: BottomNavFAB(
               onPressed: () {
-                // Navigator.pushReplacementNamed(context, '/homepage');
+                Navigator.pushNamed(context, '/add_visitor');
               },
               icon: MdiIcons.account,
               title: 'Visitors',
@@ -329,7 +330,7 @@ class WelcomeResident extends StatelessWidget {
                                       authToken: await authToken(context));
                                   if (response is ErrorType) {
                                     
-                                    PaysmosmoAlert.showError(
+                                    PaysmosmoAlert.showSuccess(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
                                      if(response == ErrorType.no_visitors_found){
@@ -348,7 +349,7 @@ class WelcomeResident extends StatelessWidget {
                                       jsonVisitorModels.forEach((jsonModel) {
                                         models.add(VisitorModel.fromJson(jsonModel));
                                       });
-                                      getVisitorProvider(context).addVisitorModels(models);
+                                      getVisitorProvider(context).setVisitorModels(models);
 
                                     
                                     }
