@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/core/service/auth_service.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
@@ -12,7 +11,6 @@ import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:provider/provider.dart';
-import 'package:gateapp/utils/constants.dart';
 
 class Register extends StatefulWidget {
   @override
