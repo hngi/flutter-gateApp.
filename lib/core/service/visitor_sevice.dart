@@ -18,14 +18,13 @@ class VisitorService {
       authToken = await prefix1.authToken(context);
       return authToken;
     } catch (error) {
-      // throw error;
-      print('unknown error occured while getting auth token');
+      throw error;
     }
   }
 
   static Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: 'Bearer $authToken',
+    HttpHeaders.authorizationHeader: authToken,
   };
 
   static BaseOptions options = BaseOptions(
@@ -92,8 +91,8 @@ class VisitorService {
     @required String status,
     @required String estateId,
   }) async {
-    String id;
-    var uri = Endpoint.visitor ;//+'{id}';
+    BigInt id;
+    var uri = Endpoint.visitor;
     var data = {
       "name": name,
       "arrival_date": arrivalDate,
@@ -156,49 +155,4 @@ class VisitorService {
       }
     }
   }
-
-
- static getAllVisitor({
-    @required String authToken, 
-  }) async {
-    var uri = Endpoint.visitor;
-    // var data = {
-    //   "name": 
-    // };
-    try {
-
-      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
-      Dio dio = Dio(options);
-      Response response = await dio.get(uri);
-
-      print(response.statusCode);
-      print(response.data);
-
-      if ((response.statusCode == 404)) {
-        return ErrorType.no_visitors_found;
-      } else if
-         ((response.statusCode == 401)) {
-          return ErrorType.account_not_confimrmed;
-        } else if
-        (response.statusCode == 200){
-                  return json.decode(response.data);
-        }
-      
-    } on DioError catch (exception) {
-      if (exception == null ||
-          exception.toString().contains('SocketException')) {
-        return ErrorType.network;
-      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
-          exception.type == DioErrorType.CONNECT_TIMEOUT) {
-        return ErrorType.timeout;
-      } else {
-        return ErrorType.generic;
-      }
-    }
-  }
-
-
 }
-
-
-
