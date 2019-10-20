@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 class CustomDatePicker extends StatefulWidget {
   
   DateTime minimumAllowedDate;
+  TextEditingController dateController = TextEditingController();
+
 
   DateTime now;
 
@@ -46,7 +48,7 @@ class CustomDatePicker extends StatefulWidget {
 
   bool includeInput;
   bool showingDetail = true;
- CustomDatePicker({this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
+ CustomDatePicker({this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate,this.dateController}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
 minimumAllowedDate==null&&maximumAllowedDate!=null?DateTime.now().compareTo(maximumAllowedDate)<1:minimumAllowedDate!=null&&maximumAllowedDate==null?minimumAllowedDate.compareTo(DateTime.now())<1:true){
   if(this.now==null){
     this.now = DateTime.now();
@@ -96,7 +98,6 @@ this.currentDayFull = [this.currentDay, this.currentMonthValue, this.currentYear
 
 class _CustomDatePickerState extends State<CustomDatePicker> with TickerProviderStateMixin{
 
-TextEditingController dateController = TextEditingController();
 
 void toggleShowingDetail(){
   setState(() {
@@ -253,14 +254,14 @@ void buildDateItemsWithChangeState(){
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
-      dateController.text = this.widget.selectedDayFull.join('/');
+      this.widget.dateController.text = this.widget.selectedDayFull.join('/');
     }
 
     void _onSubmitted() {
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
-      dateController.text = this.widget.selectedDayFull.join('/');
+      this.widget.dateController.text = this.widget.selectedDayFull.join('/');
       toggleShowingDetail();
     }
 
@@ -422,7 +423,7 @@ void buildDateItemsWithChangeState(){
  
     @override
     Widget build(BuildContext context) {
-      dateController.text = this.widget.selectedDayFull.join('/');
+      this.widget.dateController.text = this.widget.selectedDayFull.join('/');
       if (this.widget.includeInput){
       return AnimatedSize(
               child: Column(
@@ -430,7 +431,7 @@ void buildDateItemsWithChangeState(){
                   InkWell(
                     onTap: (){toggleShowingDetail();},
                     child:CustomInputField(
-                      textEditingController: dateController,
+                      textEditingController: this.widget.dateController,
                       forCustomDatePicker: true,
                     enabled: false,
         hint: 'Enter arrival date',

@@ -9,6 +9,7 @@ import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
@@ -31,7 +32,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   bool afternoonChecked=false;
   bool eveningChecked=false;
   String arrivalDate='';
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController _arrivalDateController = TextEditingController();
 
   TextEditingController _fullNameController;
   TextEditingController _carPlateNumberController;
@@ -54,8 +55,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _fullNameController.clear();
-    _carPlateNumberController.clear();
+    _fullNameController.dispose();
+    _carPlateNumberController.dispose();
+    _purposeController.dispose();
   }
 
   List<File> _images;
@@ -308,12 +310,13 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
       //   keyboardType: TextInputType.datetime,
       // ),
       CustomDatePicker(
+        dateController: _arrivalDateController,
         onChanged: (date){
-          textEditingController.text = date;
+          _arrivalDateController.text = date;
           arrivalDate=date;
         },
         onSaved: (date){
-        textEditingController.text = date;
+        _arrivalDateController.text = date;
         arrivalDate=date;
         },
         now: DateTime.now(),minimumAllowedDate: DateTime.now(),
@@ -380,7 +383,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
       CustomInputField(
         hint: 'Purpose',
         keyboardType: TextInputType.text,
-        textEditingController: _purposeController,
+        textEditingController: _purposeController, prefix: Icon(Icons.assignment_ind),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 16),
@@ -495,8 +498,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: ActionButton(
                 buttonText: 'Add',
                 onPressed: () async {
-
-                  final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(arrivalDate));
+                  print(_arrivalDateController);
+                  final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
 
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
@@ -515,8 +518,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         status: null, estateId: null,//image: image==null?null:image.path.toString(),
                         //authToken: await authToken(context),
                     );*/
-
-                    NewVisitorService.addVisitor(
+                    //openAlertBox();
+                    dynamic response = await NewVisitorService.addVisitor(
                       name: _fullNameController.text,
                       arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
                       carPlateNo: _carPlateNumberController.text,
@@ -524,8 +527,16 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                       status: '8',
                       estateId: '7',//image: image==null?null:image.path.toString(),
                       authToken: await authToken(context),
+                      image: image??null
                     );
-                    openAlertBox();
+                    print(response);
+                    if (response is ErrorType){
+                          print(response);
+                    } else{
+                        print('success');
+                    }
+
+                    
                   }
 
                 },

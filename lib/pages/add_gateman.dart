@@ -38,13 +38,16 @@ class AddGateman extends StatelessWidget {
               ActionButton(
                 buttonText: 'Add Gateman',
                 onPressed: () {
-                  GateManDialogs.successAlert(
-                    context: context,
-                    title: 'Confirmed',
-                    autoDissmiss: true,
-                    barrierDissmissible: true,
-                    navToNewScreen: false,
-                  );
+
+
+                  Navigator.pushNamed(context, '/add-gateman-detail');
+                  // GateManDialogs.successAlert(
+                  //   context: context,
+                  //   title: 'Confirmed',
+                  //   autoDissmiss: true,
+                  //   barrierDissmissible: true,
+                  //   navToNewScreen: false,
+                  // );
                 },
               ),
             ],
