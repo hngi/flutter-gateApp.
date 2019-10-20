@@ -144,7 +144,36 @@ static BaseOptions options = BaseOptions(
           }
         }
       }
-    
+
+static dynamic getAllRequests({@required authToken,
+}) async {
+  print(authToken);
+  var uri = Endpoint.showRequests;
+  options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+  Dio dio = Dio(options);
+  try {
+    Response response = await dio.get(uri);
+
+    print(response.statusCode);
+    print(response.data);
+
+    if (response.statusCode != 200 || response == null) return ErrorType.generic;
+    if (response.statusCode == 200) return json.decode(response.data);
+
+    // }
+  } on DioError catch (exception) {
+    if (exception == null ||
+        exception.toString().contains('SocketException')) {
+      return ErrorType.network;
+    } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+        exception.type == DioErrorType.CONNECT_TIMEOUT) {
+      return ErrorType.timeout;
+    } else {
+      return ErrorType.generic;
+    }
+  }
+}
+
     static dynamic getGateManThatArePending({@required authToken,
       }) async {
         print(authToken);
@@ -175,8 +204,7 @@ static BaseOptions options = BaseOptions(
         }
       }
 
-
-      static dynamic removeGateman({@required authToken,
+static dynamic removeGateman({@required authToken,
       @required int gatemanId
       }) async {
         print(authToken);

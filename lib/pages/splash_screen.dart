@@ -6,7 +6,7 @@ import 'package:gateapp/utils/constants.dart';
 class SplashScreen extends StatelessWidget {
   Map<user_type,String> mapUserTypeToPage = {
     user_type.RESIDENT:'/welcome-resident',
-    user_type.GATEMAN:'/gateman_menu',
+    user_type.GATEMAN:'/gateman-menu',
   };
   @override
   Widget build(BuildContext context) {

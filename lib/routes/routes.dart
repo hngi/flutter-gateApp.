@@ -6,6 +6,7 @@ import 'package:gateapp/pages/Pager/pager.dart';
 import 'package:gateapp/pages/add_gateman.dart';
 import 'package:gateapp/pages/add_visitor.dart';
 import 'package:gateapp/pages/gateman/qrScan.dart';
+import 'package:gateapp/pages/gateman/welcome.dart';
 import 'package:gateapp/pages/notification_resident.dart';
 import 'package:gateapp/pages/registration/token_confirmation.dart';
 import 'package:gateapp/pages/resident/add_gateman/add_gateman_detail.dart';
@@ -148,7 +149,7 @@ class Routes {
         return MaterialPageRoute(builder: (context) => Settings());
 
       case '/gateman-menu':
-        return MaterialPageRoute(builder: (context) => GateManMenu());
+        return MaterialPageRoute(builder: (context) => GatemanWelcome());
 
       case '/settings':
         return MaterialPageRoute(builder: (context) => Settings());
