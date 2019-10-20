@@ -2,13 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:flutter_udid/flutter_udid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 class ProfileService {
 static BaseOptions options = BaseOptions(
           baseUrl: Endpoint.baseUrl,
@@ -39,6 +35,8 @@ static BaseOptions options = BaseOptions(
           print(response.data);
     
           if (response == null) return ErrorType.generic;
+          if(response.statusCode == 422) return ErrorType.username_at_least_2_char;
+          if(response.statusCode == 400) return ErrorType.invalid_credentials;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
     
@@ -58,9 +56,12 @@ static BaseOptions options = BaseOptions(
 
        static dynamic setCurrentUserProfile({
         @required String phone,@required String email,@required String name,@required authToken,
+        File image
       }) async {
         print(authToken);
         var uri = Endpoint.editCurrentuser;
+        //FormData formdata = new FormData();
+        //formdata.add('image', image.path);
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {

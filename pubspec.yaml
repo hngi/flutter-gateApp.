@@ -29,15 +29,15 @@ dependencies:
   intro_slider: ^2.2.8
   provider: 3.1.0
   intl: 0.16.0
-  dio: 2.1.16
+  dio: 3.0.3
+  # dio: 2.1.16
   material_design_icons_flutter: 3.2.4096
   flutter_screenutil: ^0.5.3
   validators: ^2.0.0+1
   qrcode_reader: ^0.4.4
   share: ^0.6.2+4
-  flutter_share: ^1.0.2+1
-  esys_flutter_share: 1.0.2
-  wc_flutter_share: 0.1.1
+  http_parser: 3.1.3
+  
   #image_picker: ^0.6.1+8
   http: ^0.12.0+2
   # qr_mobile_vision: ^0.2.2
@@ -45,6 +45,8 @@ dependencies:
   flushbar: 1.9.0
   shared_preferences: ^0.4.3
   flutter_udid: 1.0.0
+  esys_flutter_share: ^1.0.2
+  # image_picker_modern: ^0.4.12+3
   #permission_handler: '^1.0.1'
   image_picker:
     path: ./image_picker
@@ -52,7 +54,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+    
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

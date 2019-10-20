@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gateapp/core/models/old_user.dart' as prefix0;
-import 'package:gateapp/providers/profile_provider.dart';
 //import 'package:gateapp/core/models/old_user.dart';
 
 class VisitorProvider extends ChangeNotifier {
@@ -16,6 +14,11 @@ class VisitorProvider extends ChangeNotifier {
 
     void addVisitorModels(List<VisitorModel> models){
       this.visitorModels.addAll(models);
+      this.initialVisitorsLoaded = true;
+      notifyListeners();
+    }
+    void setVisitorModels(List<VisitorModel> models){
+      this.visitorModels = models;
       this.initialVisitorsLoaded = true;
       notifyListeners();
     }
