@@ -119,6 +119,9 @@ class AuthService {
     
           if (response.statusCode == 500) {
             return ErrorType.generic;
+            }
+          else if(response.statusCode == 501){
+              return ErrorType.invalid_input_in_register;
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);

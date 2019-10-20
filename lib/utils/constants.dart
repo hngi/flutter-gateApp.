@@ -37,6 +37,10 @@ Future<user_type> userType(BuildContext context) async {
   return await Provider.of<UserTypeProvider>(context).getUserType;
 }
 
+UserTypeProvider getUserTypeProvider(BuildContext context){
+  return Provider.of<UserTypeProvider>(context);
+} 
+
 ProfileProvider getProfileProvider(BuildContext context){
   return Provider.of<ProfileProvider>(context);
 }
@@ -64,6 +68,7 @@ Future loadInitialProfile(BuildContext context) async {
                             getProfileProvider(context).setProfileModel(
                             ProfileModel.fromJson(response));
             getProfileProvider(context).setInitialStatus(true);
+            getUserTypeProvider(context).setFirstRunStatus(false);
           }
         } catch (error){
           print(error);
@@ -121,6 +126,7 @@ Future loadInitialProfile(BuildContext context) async {
                                       PaysmosmoAlert.showSuccess(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
+                                        getVisitorProvider(context).setVisitorModels([]);
                                     }
                                     else{
                                       PaysmosmoAlert.showError(
@@ -142,6 +148,7 @@ Future loadInitialProfile(BuildContext context) async {
                                         models.add(VisitorModel.fromJson(jsonModel));
                                       });
                                       getVisitorProvider(context).setVisitorModels(models);
+                                      getUserTypeProvider(context).setFirstRunStatus(false);
 
                                     
                                     }
@@ -151,6 +158,16 @@ Future loadInitialProfile(BuildContext context) async {
                                 }
                             
                                 }
-                        
+
+
+void logOut(context) {
+  Provider.of<TokenProvider>(context).clearToken();
+  Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: true); 
+  Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
+  Provider.of<VisitorProvider>(context).setVisitorModels([]);
+  Navigator.pushNamedAndRemoveUntil(context, '/register',(Route<dynamic> route) => false);
+  
+  PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
+}               
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }

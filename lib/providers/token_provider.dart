@@ -16,6 +16,14 @@ class TokenProvider extends ChangeNotifier {
      return _userToken;
   }
 
+  clearToken() async {
+    SharedPreferences prefs = await getPrefs;
+    await prefs.clear();
+    _userToken = null;
+    notifyListeners();
+
+  }
+
   Future<String> get getTokenFromPrefs async{
     try{
       SharedPreferences prefs = await getPrefs;

@@ -6,9 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:gateapp/core/service/visitor_service_new.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
 import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
+import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -519,7 +522,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         status: null, estateId: null,//image: image==null?null:image.path.toString(),
                         //authToken: await authToken(context),
                     );*/
-                    //openAlertBox();
+                    // openAlertBox();
+                    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+                    dialog.show();
                     dynamic response = await NewVisitorService.addVisitor(
                       name: _fullNameController.text,
                       arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
@@ -534,11 +539,18 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
                     print(response);
                     if (response is ErrorType){
-                           PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                      dialog.hide();
+
+
+                      PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                     
                     } else{
-                        print('success');
+                        print(response);
+                        dialog.hide();
+                        getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
+                        
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                        openAlertBox();
                     }
 
                     

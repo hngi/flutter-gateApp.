@@ -62,8 +62,7 @@ if(image!=null){
         image.path,
         filename:basename(image.path),
         contentType: MediaType.parse('application/octet-stream'))));
-}
-   
+} 
     print(data.files);
     return data;
     }
@@ -107,7 +106,6 @@ if(image!=null){
 
       // }
     } on DioError catch (exception) {
-      throw exception;
       if (exception == null ||
           exception.toString().contains('SocketException')) {
         return ErrorType.network;

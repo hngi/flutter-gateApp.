@@ -16,15 +16,15 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    // if(getProfileProvider(context).initialProfileLoaded==false){
-    //   print('proile not yet loade');
-    //                                 loadInitialProfile(context);
-    //                               }
+    if(getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
+      print('proile not yet loade');
+      loadInitialProfile(context);
+      }
 
-    // if (getVisitorProvider(context).initialVisitorsLoaded == false) {
-    //   print('Loading');
-    //   loadInitialVisitors(context);
-    //        }
+    if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
+      print('Loading');
+      loadInitialVisitors(context);
+    }
       
           return Scaffold(
             body: getVisitorProvider(context).visitorModels.length == 0

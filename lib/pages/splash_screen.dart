@@ -16,7 +16,9 @@ class SplashScreen extends StatelessWidget {
 
     Future.delayed(Duration(seconds: 5), () async{
       if (await authToken(context)==null || await userType(context)==null){
+
         Navigator.pushReplacementNamed(context, '/pager');
+        getUserTypeProvider(context).setFirstRunStatus(true);
       } else {
         print(await authToken(context));
         user_type routeString = await userType(context);
@@ -25,6 +27,7 @@ class SplashScreen extends StatelessWidget {
           await loadGateManThatAccepted(context);
          await loadInitialVisitors(context);
         }
+        getUserTypeProvider(context).setFirstRunStatus(false);
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
       
