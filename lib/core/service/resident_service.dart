@@ -35,6 +35,7 @@ static BaseOptions options = BaseOptions(
           print(response.data);
     
           if (response == null) return ErrorType.generic;
+          if(response.statusCode == 405) return ErrorType.request_already_sent_to_gateman;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
           // }
@@ -67,6 +68,7 @@ static BaseOptions options = BaseOptions(
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 404) return ErrorType.no_gateman_found;
           if (response.statusCode != 200) return ErrorType.generic;
+          if(response.statusCode == 405) return ErrorType.request_already_sent_to_gateman;
           if (response.statusCode == 200) return json.decode(response.data);
     
           // }
