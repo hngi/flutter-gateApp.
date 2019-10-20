@@ -5,8 +5,8 @@ import 'package:gateapp/utils/helpers.dart';
 class CustomInputField extends StatelessWidget {
   final String hint;
   final TextInputType keyboardType;
-  /*final Function(String) onSaved;
-  final String Function(String) validator;*/
+  final Function(String) onSaved;
+  final String Function(String) validator;
   final Widget prefix;
   final TextEditingController textEditingController;
   final int maxLines;
@@ -18,8 +18,8 @@ class CustomInputField extends StatelessWidget {
     Key key,
     @required this.hint,
     @required this.keyboardType,
-    /*@required this.onSaved,
-    @required this.validator,*/
+    this.onSaved,
+    this.validator,
     @required this.prefix,
     this.maxLines = 1,
     this.textEditingController,
@@ -33,8 +33,8 @@ class CustomInputField extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 2.0),
         child: TextFormField(
           maxLines: maxLines,
-          *//*onSaved: onSaved,
-          validator: validator,*//*
+          onSaved: onSaved,
+          validator: validator,
           style: TextStyle(
             color: GateManColors.textColor,
           ),
@@ -44,13 +44,13 @@ class CustomInputField extends StatelessWidget {
             hintStyle: TextStyle(fontSize: 12,color: Color(0x663333)),
             prefixIcon: prefix,
             contentPadding: EdgeInsets.only(left: 6.0, top: 13, bottom: 13),
-            *//*focusedBorder: GateManHelpers.textFieldBorder,
+            focusedBorder: GateManHelpers.textFieldBorder,
             enabledBorder: GateManHelpers.textFieldBorder,
-            border:GateManHelpers.textFieldBorder,*//*
+            border:GateManHelpers.textFieldBorder,
           ),
         ));*/
 
-    return TextField(
+   return TextField(
       enabled: this.enabled,
       controller: this.textEditingController,
       decoration: InputDecoration(
