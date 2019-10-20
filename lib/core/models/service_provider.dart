@@ -34,3 +34,26 @@ class ServiceProvider {
     );
   }
 }
+
+class ServiceProviderCategory {
+  int id;
+  String title;
+  String createdAt;
+  String updatedAt;
+
+  ServiceProviderCategory({
+    this.id,
+    this.title,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory ServiceProviderCategory.fromJson(Map<String, dynamic> json) {
+    return ServiceProviderCategory(
+      id: json['id'],
+      title: json['title'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+    );
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gateapp/core/models/service_provider.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,11 +8,15 @@ class ServiceDirectoryResidentGridTile extends StatelessWidget {
   final String directoryName;
   final String directoryImg;
   final bool isOdd;
-  final Map<String,dynamic> data;
-  ServiceDirectoryResidentGridTile(
-      {@required this.directoryName,
-      @required this.directoryImg,
-      @required this.isOdd,@required this.data});
+  final ServiceProviderCategory category;
+
+  ServiceDirectoryResidentGridTile({
+    @required this.directoryName,
+    @required this.directoryImg,
+    @required this.isOdd,
+    @required this.category,
+  });
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,7 +24,7 @@ class ServiceDirectoryResidentGridTile extends StatelessWidget {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
 
     ScreenUtil.instance = ScreenUtil(width: 360, height: 780)..init(context);
-    
+
     return GridTile(
       child: Container(
         margin: EdgeInsets.only(
@@ -46,7 +51,11 @@ class ServiceDirectoryResidentGridTile extends StatelessWidget {
           ),
           onPressed: () {
             print(directoryName + " tapped");
-            Navigator.pushNamed(context, '/service_directory_resident_detail',arguments: this.data);
+            Navigator.pushNamed(
+              context,
+              '/service_directory_resident_detail',
+              arguments: this.category,
+            );
           },
         ),
         decoration: myBoxDecoration(),
