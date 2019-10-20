@@ -27,7 +27,7 @@ class AddVisitorPart extends StatefulWidget {
 }
 
 class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStateMixin  {
-  bool showingMoreDetail = false;
+  bool showingMoreDetail = true;
   bool morningChecked=true;
   bool afternoonChecked=false;
   bool eveningChecked=false;
@@ -271,28 +271,28 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   List<Widget> _moreDetail() {
     return [
-      GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Add more details',
-              style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600),
-            ),
-            Icon(
-              Icons.keyboard_arrow_up,
-              size: 20,
-              color: GateManColors.primaryColor,
-            )
-          ],
-        ),
-        onTap: () {
-          toggleShowingMoreDetail();
-        },
-      ),
+      // GestureDetector(
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       Text(
+      //         'Add more details',
+      //         style: TextStyle(
+      //             color: GateManColors.primaryColor,
+      //             fontSize: 12,
+      //             fontWeight: FontWeight.w600),
+      //       ),
+      //       Icon(
+      //         Icons.keyboard_arrow_up,
+      //         size: 20,
+      //         color: GateManColors.primaryColor,
+      //       )
+      //     ],
+      //   ),
+      //   onTap: () {
+      //     toggleShowingMoreDetail();
+      //   },
+      // ),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
         child: Text(
@@ -464,31 +464,31 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: AnimatedSize(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: showingMoreDetail
-                      ? _moreDetail()
-                      : <Widget>[
-                          GestureDetector(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Add more details',
-                                    style: TextStyle(
-                                        color: GateManColors.primaryColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 20,
-                                    color: GateManColors.primaryColor,
-                                  )
-                                ],
-                              ),
-                              onTap: () {
-                                toggleShowingMoreDetail();
-                              })
-                        ],
+                  children:_moreDetail() //showingMoreDetail
+                      // ? _moreDetail()
+                      // : <Widget>[
+                      //     GestureDetector(
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: <Widget>[
+                      //             Text(
+                      //               'Add more details',
+                      //               style: TextStyle(
+                      //                   color: GateManColors.primaryColor,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.w600),
+                      //             ),
+                      //             Icon(
+                      //               Icons.keyboard_arrow_down,
+                      //               size: 20,
+                      //               color: GateManColors.primaryColor,
+                      //             )
+                      //           ],
+                      //         ),
+                      //         onTap: () {
+                      //           toggleShowingMoreDetail();
+                      //         })
+                      //   ],
                 ),
                 duration: Duration(milliseconds: 1000), vsync: this,
               ),
@@ -506,6 +506,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                   print('PURPOSE: '+_purposeController.text);
                   print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
+
 
                   if(_fullNameController.text==""){
                     PaysmosmoAlert.showError(context: context,message: 'Full name field cannot be empty');
@@ -527,13 +528,17 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                       status: '8',
                       estateId: '7',//image: image==null?null:image.path.toString(),
                       authToken: await authToken(context),
-                      image: image??null
+                      image: image??null,
+                      visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening'
                     );
+
                     print(response);
                     if (response is ErrorType){
-                          print(response);
+                           PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                    
                     } else{
                         print('success');
+                        PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                     }
 
                     

@@ -107,7 +107,7 @@ Future loadInitialProfile(BuildContext context) async {
   }
 
 
- void loadInitialVisitors(BuildContext context) async {
+ Future loadInitialVisitors(BuildContext context) async {
                         
                                 try {
                                 
@@ -130,13 +130,13 @@ Future loadInitialProfile(BuildContext context) async {
                                      
                                         
                                   } else {
-                                    if (response['data']['data'] == 0) {
+                                    if (response['visitor'].length == 0) {
                                       PaysmosmoAlert.showSuccess(
                                           context: context, message: 'No visitors');
                                     } else {
                                       print('linking data for visitors');
-                                      print(response['data']['data']);
-                                      dynamic jsonVisitorModels = response['data']['data'];
+                                      print(response['visitor'] );
+                                      dynamic jsonVisitorModels = response['visitor'] ;
                                       List<VisitorModel> models = [];
                                       jsonVisitorModels.forEach((jsonModel) {
                                         models.add(VisitorModel.fromJson(jsonModel));

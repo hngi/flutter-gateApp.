@@ -16,15 +16,15 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if(getProfileProvider(context).initialProfileLoaded==false){
-      print('proile not yet loade');
-                                    loadInitialProfile(context);
-                                  }
+    // if(getProfileProvider(context).initialProfileLoaded==false){
+    //   print('proile not yet loade');
+    //                                 loadInitialProfile(context);
+    //                               }
 
-    if (getVisitorProvider(context).initialVisitorsLoaded == false) {
-      print('Loading');
-      loadInitialVisitors(context);
-           }
+    // if (getVisitorProvider(context).initialVisitorsLoaded == false) {
+    //   print('Loading');
+    //   loadInitialVisitors(context);
+    //        }
       
           return Scaffold(
             body: getVisitorProvider(context).visitorModels.length == 0
@@ -343,13 +343,13 @@ class WelcomeResident extends StatelessWidget {
                                     }   
                                         
                                   } else {
-                                    if (response['data']['data'] == 0) {
+                                    if (response['visitor'].length == 0) {
                                       PaysmosmoAlert.showSuccess(
                                           context: context, message: 'No visitors');
                                     } else {
                                       print('linking data for visitors');
-                                      print(response['data']['data']);
-                                      dynamic jsonVisitorModels = response['data']['data'];
+                                      print(response['visitor']);
+                                      dynamic jsonVisitorModels = response['visitor'];
                                       List<VisitorModel> models = [];
                                       jsonVisitorModels.forEach((jsonModel) {
                                         models.add(VisitorModel.fromJson(jsonModel));

@@ -15,5 +15,5 @@ enum ErrorType {
   no_visitors_found,
   username_at_least_2_char,
   no_gateman_found,
-  unauthorized
+  unauthorized,request_already_sent_to_gateman
 }
