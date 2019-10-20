@@ -17,6 +17,7 @@ class WelcomeResident extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     if(getProfileProvider(context).initialProfileLoaded==false){
+      print('proile not yet loade');
                                     loadInitialProfile(context);
                                   }
 
@@ -73,7 +74,7 @@ class WelcomeResident extends StatelessWidget {
                   ),
             floatingActionButton: BottomNavFAB(
               onPressed: () {
-                // Navigator.pushReplacementNamed(context, '/homepage');
+                Navigator.pushNamed(context, '/add_visitor');
               },
               icon: MdiIcons.account,
               title: 'Visitors',
@@ -321,12 +322,13 @@ class WelcomeResident extends StatelessWidget {
                                   return visitors;
                                 }
                               
-                                void loadInitialVisitors(BuildContext context) async {
+                                void loadInitialVisitorsV(BuildContext context) async {
                         
                                 try {
                                 
                                   dynamic response = await VisitorService.getAllVisitor(
                                       authToken: await authToken(context));
+                                      print(response);
                                   if (response is ErrorType) {
                                     
                                     PaysmosmoAlert.showError(
@@ -334,6 +336,10 @@ class WelcomeResident extends StatelessWidget {
                                         message: GateManHelpers.errorTypeMap(response));
                                      if(response == ErrorType.no_visitors_found){
                                       getVisitorProvider(context).setInitialStatus(true);
+                                      PaysmosmoAlert.showSuccess(
+                                        context: context,
+                                        message: GateManHelpers.errorTypeMap(response));
+                                    
                                     }   
                                         
                                   } else {
@@ -348,7 +354,7 @@ class WelcomeResident extends StatelessWidget {
                                       jsonVisitorModels.forEach((jsonModel) {
                                         models.add(VisitorModel.fromJson(jsonModel));
                                       });
-                                      getVisitorProvider(context).addVisitorModels(models);
+                                      getVisitorProvider(context).setVisitorModels(models);
 
                                     
                                     }

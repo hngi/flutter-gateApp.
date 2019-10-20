@@ -97,7 +97,7 @@ class AuthService {
     
         try {
           Options options = Options(
-            contentType: ContentType.parse('application/json'),
+            contentType: 'application/json',
           );
           //await getDeviceId();;
           print(deviceId);
