@@ -5,7 +5,7 @@ import 'package:gateapp/utils/colors.dart';
 
 
 class AddLocationPermission extends StatefulWidget {
-  static final String routeName = '/add_location_permisiion';
+  //static final String routeName = '/add_location_permisiion';
 
 AddLocationPermission();
   @override

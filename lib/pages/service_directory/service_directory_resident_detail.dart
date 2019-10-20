@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gateapp/pages/service_directory/widgets/service_directory_list_tile.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/helpers.dart';
 
 class ServiceDirectoryResidentDetail extends StatelessWidget {
@@ -95,6 +96,7 @@ class ServiceDirectoryResidentDetail extends StatelessWidget {
                   
                   onPressed: () {
                     _dismissDialog(context);
+                    launchCaller(context: context, phone: phoneNumber,);
                   },
                   child: Text(
                     'CALL',

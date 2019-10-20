@@ -4,59 +4,60 @@ import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
 
+class ProgressLoader extends StatefulWidget {
+  double width;
+  double height;
 
+  ProgressLoader({this.width, this.height});
 
-class ProgressLoader extends StatefulWidget{
   @override
   _ProgressLoaderState createState() => _ProgressLoaderState();
 }
 
-class _ProgressLoaderState extends State<ProgressLoader> with SingleTickerProviderStateMixin {
-
+class _ProgressLoaderState extends State<ProgressLoader>
+    with SingleTickerProviderStateMixin {
   AnimationController loadingAnimationController;
   Animation<double> tweenAnimation;
-  
 
   @override
-  void dispose(){
+  void dispose() {
     loadingAnimationController.dispose();
     super.dispose();
   }
+
   @override
-  void initState(){
-
+  void initState() {
     super.initState();
-    loadingAnimationController = AnimationController(vsync: this,duration: Duration(milliseconds: 2000));
-    tweenAnimation = Tween(begin: 0.0,end: 360.0).animate(loadingAnimationController)
-    ..addListener((){
-      print(tweenAnimation.value);
-      setState((){
+    loadingAnimationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));
+    tweenAnimation =
+        Tween(begin: 0.0, end: 360.0).animate(loadingAnimationController)
+          ..addListener(() {
+            // print(tweenAnimation.value);
+            setState(() {});
+          });
 
-      });
-    });
-
-    tweenAnimation.addStatusListener((status){
-      print(status);
+    tweenAnimation.addStatusListener((status) {
+      //print(status);
       setState(() {
-        if (status == AnimationStatus.completed){
+        if (status == AnimationStatus.completed) {
           loadingAnimationController.reverse();
-        } else if(status == AnimationStatus.dismissed){
+        } else if (status == AnimationStatus.dismissed) {
           loadingAnimationController.forward();
         }
-        
       });
-
     });
 
     loadingAnimationController.forward();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-     print(tweenAnimation.value);
+    //print(tweenAnimation.value);
     // TODO: implement build
-    return Transform.rotate(angle: tweenAnimation.value,child: Image.asset('assets/images/add_gateman_detail_loading.png'));
+    return Transform.rotate(
+        angle: tweenAnimation.value,
+        child: Image.asset('assets/images/add_gateman_detail_loading.png',
+        width: this.widget.width,height: this.widget.height,));
   }
 }
