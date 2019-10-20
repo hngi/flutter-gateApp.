@@ -13,6 +13,9 @@ class Endpoint {
   static String passwordVerify = '/password/verify';
   static String passwordReset = '/password/reset';
 
+  //Service Categories
+  static String serviceProvider = '/service-provider';
+  static String serviceProviderCategory = '/sp-category';
   //Esate
   //static String estate = '/estate';
   static String resendOTPtoken = '/resend/token';

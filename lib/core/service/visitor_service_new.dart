@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:flutter_udid/flutter_udid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http_parser/http_parser.dart';
 class NewVisitorService {
   static BaseOptions options = BaseOptions(

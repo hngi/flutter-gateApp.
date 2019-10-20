@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:provider/provider.dart';
-import 'package:gateapp/core/service/estate_service.dart';
+// import 'package:gateapp/core/service/estate_service.dart';
 
 class AddEstate extends StatefulWidget {
   @override
@@ -171,16 +170,16 @@ class _AddEstateState extends State<AddEstate> {
                         model.estateName = nameController.text;
                         model.estateAddress = addressController.text;
 
-                        dynamic response = await EstateService.addEstate(
-                            estateName: nameController.text,
-                            city: city,
-                            country: country);
+                        // dynamic response = await EstateService.addEstate(
+                        //     estateName: nameController.text,
+                        //     city: city,
+                        //     country: country);
 
-                        print(response);
+                        // print(response);
 
                         Navigator.pop(context);
 
-                        PaysmosmoAlert.showSuccess(context: context,message: "Estate Added Successfull",);
+                        // PaysmosmoAlert.showSuccess(context: context,message: "Estate Added Successfull",);
 
                         allEstates.addEstate(model);
                         residentUserModel.setResidentEstate(

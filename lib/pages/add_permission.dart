@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/user.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/utils/colors.dart';
 
 
 class AddLocationPermission extends StatefulWidget {
