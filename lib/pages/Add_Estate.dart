@@ -33,6 +33,8 @@ class _AddEstateState extends State<AddEstate> {
     super.initState();
   }
 
+  _initView() {}
+
   String country, city, estateAddress, estateName;
 
   //event listeners

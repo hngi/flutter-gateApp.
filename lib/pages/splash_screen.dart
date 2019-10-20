@@ -4,9 +4,10 @@ import 'dart:async';
 import 'package:gateapp/utils/constants.dart';
 
 class SplashScreen extends StatelessWidget {
-  Map<user_type,String> mapUserTypeToPage = {
-    user_type.RESIDENT:'/welcome-resident',
-    user_type.GATEMAN:'/gateman_menu',
+  Map<user_type, String> mapUserTypeToPage = {
+    user_type.RESIDENT: '/welcome-resident',
+    // user_type.GATEMAN:'/gateman_menu',
+    user_type.GATEMAN: '/select-estate',
   };
   @override
   Widget build(BuildContext context) {
@@ -14,21 +15,22 @@ class SplashScreen extends StatelessWidget {
     //   statusBarColor: Colors.white, //top bar color
     // ));
 
-    Future.delayed(Duration(seconds: 5), () async{
-      if (await authToken(context)==null || await userType(context)==null){
+    Future.delayed(Duration(seconds: 5), () async {
+      if (await authToken(context) == null || await userType(context) == null) {
         Navigator.pushReplacementNamed(context, '/pager');
       } else {
         print(await authToken(context));
+        // Navigator.pushReplacementNamed(
+        //     context, mapUserTypeToPage[await userType(context)]);
         user_type routeString = await userType(context);
         await loadInitialProfile(context);
-        if (routeString == user_type.RESIDENT){
+        if (routeString == user_type.RESIDENT) {
           await loadGateManThatAccepted(context);
          await loadInitialVisitors(context);
+
         }
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
-      
-      
     });
 
     return Scaffold(
