@@ -95,7 +95,7 @@ class GateManHelpers {
       case ErrorType.network: return 'Please make sure your device is connected to the internet';
       case ErrorType.no_visitors_found: return 'You are not expecting any Visitor';
       case ErrorType.username_at_least_2_char: return 'Name must be at least two characters';
-      case ErrorType.no_gateman_found: return 'No matching GateMan found';
+      case ErrorType.no_gateman_found: return 'No GateMan Found with this number in your estate';
       case ErrorType.unauthorized: return 'Unauthorized';
       case ErrorType.request_already_sent_to_gateman: return 'Request already Sent,Please await Confirmation';
       case ErrorType.invalid_input_in_register: return 'Invalid Input';
