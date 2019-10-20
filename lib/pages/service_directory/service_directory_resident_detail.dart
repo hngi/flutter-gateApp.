@@ -138,6 +138,10 @@ class _ServiceDirectoryResidentDetailState
                       FlatButton(
                         onPressed: () {
                           _dismissDialog(context);
+                          launchCaller(
+                            context: context,
+                            phone: phoneNumber,
+                          );
                         },
                         child: Text(
                           'CALL',

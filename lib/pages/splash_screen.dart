@@ -20,8 +20,15 @@ class SplashScreen extends StatelessWidget {
         Navigator.pushReplacementNamed(context, '/pager');
       } else {
         print(await authToken(context));
-        Navigator.pushReplacementNamed(
-            context, mapUserTypeToPage[await userType(context)]);
+        // Navigator.pushReplacementNamed(
+        //     context, mapUserTypeToPage[await userType(context)]);
+        user_type routeString = await userType(context);
+        await loadInitialProfile(context);
+        if (routeString == user_type.RESIDENT) {
+          await loadGateManThatAccepted(context);
+          //loadInitialVisitors(context);
+        }
+        Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
     });
 
