@@ -322,19 +322,24 @@ class WelcomeResident extends StatelessWidget {
                                   return visitors;
                                 }
                               
-                                void loadInitialVisitors(BuildContext context) async {
+                                void loadInitialVisitorsV(BuildContext context) async {
                         
                                 try {
                                 
                                   dynamic response = await VisitorService.getAllVisitor(
                                       authToken: await authToken(context));
+                                      print(response);
                                   if (response is ErrorType) {
                                     
-                                    PaysmosmoAlert.showSuccess(
+                                    PaysmosmoAlert.showError(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
                                      if(response == ErrorType.no_visitors_found){
                                       getVisitorProvider(context).setInitialStatus(true);
+                                      PaysmosmoAlert.showSuccess(
+                                        context: context,
+                                        message: GateManHelpers.errorTypeMap(response));
+                                    
                                     }   
                                         
                                   } else {

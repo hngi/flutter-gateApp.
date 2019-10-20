@@ -45,9 +45,9 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
-    if (!getProfileProvider(context).initialProfileLoaded){
-       loadInitialProfile(context);
-    }
+    // if (!getProfileProvider(context).initialProfileLoaded){
+    //    loadInitialProfile(context);
+    // }
     if(controllerLoaded==false){
       print('runnig controller in edit proile');
       setInitBuildControllers(context);

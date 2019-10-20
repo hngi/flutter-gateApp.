@@ -14,5 +14,6 @@ enum ErrorType {
   verify_code_atleast_5_chars,
   no_visitors_found,
   username_at_least_2_char,
-  no_gateman_found
+  no_gateman_found,
+  unauthorized
 }

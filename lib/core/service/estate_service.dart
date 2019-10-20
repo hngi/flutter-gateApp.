@@ -87,7 +87,7 @@ class EstateService {
     String uri = Endpoint.estate + 's';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -115,7 +115,7 @@ class EstateService {
     String uri = Endpoint.estate + '/bycountry/' + country;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -144,7 +144,7 @@ class EstateService {
     String uri = Endpoint.estate + '/bycity/' + city;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -173,7 +173,7 @@ class EstateService {
     String uri = Endpoint.estate + '/$estateId';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 

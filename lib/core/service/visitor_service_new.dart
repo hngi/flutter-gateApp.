@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http_parser/http_parser.dart';
 class NewVisitorService {
   static BaseOptions options = BaseOptions(
       baseUrl: Endpoint.baseUrl,
@@ -35,22 +37,39 @@ class NewVisitorService {
     @required String status,
     @required String estateId,
     @required String authToken,
-    String image
+    File image
   }) async {
     var uri = Endpoint.visitor;
-    var data = {
-      "name": name,
-      "arrival_date": arrivalDate,
-      "car_plate_no": carPlateNo,
-      "purpose": purpose,
-      "status": status,
-      "home_id": estateId,
-      "image":image,
-    };
+   
+
+    
+    Future<FormData> formData1() async {
+      print(name);
+    FormData data = FormData.fromMap(
+      {
+      "name": name??'',
+      "arrival_date": arrivalDate??'',
+      "car_plate_no": carPlateNo??'',
+      "purpose": purpose??'',
+      "status": status??'',
+      "home_id": estateId??'',
+      "image": await MultipartFile.fromFile(
+        image.path,
+        filename:basename(image.path),
+        contentType: MediaType.parse('application/octet-stream')),
+    }
+    );
+    print(data.fields);
+    return data;
+    }
+
+  
+  
     options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     Dio dio = Dio(options);
     try {
-      Response response = await dio.post(uri,data: data);
+      Response response = await dio.post(uri,data: await formData1());
 
       print(response.statusCode);
       print(response.data);
@@ -64,6 +83,7 @@ class NewVisitorService {
 
       // }
     } on DioError catch (exception) {
+      throw exception;
       if (exception == null ||
           exception.toString().contains('SocketException')) {
         return ErrorType.network;

@@ -55,7 +55,7 @@ Future loadInitialProfile(BuildContext context) async {
           authToken: await authToken(context)
           );
           if(response is ErrorType){
-            await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+            PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
             
           }else{
             //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
@@ -78,7 +78,7 @@ Future loadInitialProfile(BuildContext context) async {
       if(await canLaunch(url)){
         await launch(url);
       } else{
-        PaysmosmoAlert.showSuccess(context: context, message: 'Could not place a call to $phone');
+        PaysmosmoAlert.showError(context: context, message: 'Could not place a call to $phone');
       }
 
     }
@@ -118,12 +118,12 @@ Future loadInitialProfile(BuildContext context) async {
                                     
                                      if(response == ErrorType.no_visitors_found){
                                       getVisitorProvider(context).setInitialStatus(true);
-                                      PaysmosmoAlert.showError(
+                                      PaysmosmoAlert.showSuccess(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
                                     }
                                     else{
-                                      PaysmosmoAlert.showSuccess(
+                                      PaysmosmoAlert.showError(
                                         context: context,
                                         message: GateManHelpers.errorTypeMap(response));
                                     }

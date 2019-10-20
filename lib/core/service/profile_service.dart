@@ -36,6 +36,7 @@ static BaseOptions options = BaseOptions(
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 422) return ErrorType.username_at_least_2_char;
+          if(response.statusCode == 400) return ErrorType.invalid_credentials;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
     
