@@ -16,5 +16,7 @@ enum ErrorType {
   username_at_least_2_char,
   no_gateman_found,
   unauthorized,
-  no_requests_available
+  no_requests_available,
+  unauthorized,
+  request_already_sent_to_gateman
 }

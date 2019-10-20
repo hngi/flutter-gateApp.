@@ -27,7 +27,8 @@ class SplashScreen extends StatelessWidget {
         await loadInitialProfile(context);
         if (routeString == user_type.RESIDENT) {
           await loadGateManThatAccepted(context);
-          //loadInitialVisitors(context);
+         await loadInitialVisitors(context);
+
         }
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }

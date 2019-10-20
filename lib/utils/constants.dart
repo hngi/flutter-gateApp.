@@ -148,5 +148,51 @@ void loadInitialVisitors(BuildContext context) async {
   }
 }
 
+ Future loadInitialVisitors(BuildContext context) async {
+                        
+                                try {
+                                
+                                  dynamic response = await VisitorService.getAllVisitor(
+                                      authToken: await authToken(context));
+                                  if (response is ErrorType) {
+                                    
+                                    
+                                     if(response == ErrorType.no_visitors_found){
+                                      getVisitorProvider(context).setInitialStatus(true);
+                                      PaysmosmoAlert.showSuccess(
+                                        context: context,
+                                        message: GateManHelpers.errorTypeMap(response));
+                                    }
+                                    else{
+                                      PaysmosmoAlert.showError(
+                                        context: context,
+                                        message: GateManHelpers.errorTypeMap(response));
+                                    }
+                                     
+                                        
+                                  } else {
+                                    if (response['visitor'].length == 0) {
+                                      PaysmosmoAlert.showSuccess(
+                                          context: context, message: 'No visitors');
+                                    } else {
+                                      print('linking data for visitors');
+                                      print(response['visitor'] );
+                                      dynamic jsonVisitorModels = response['visitor'] ;
+                                      List<VisitorModel> models = [];
+                                      jsonVisitorModels.forEach((jsonModel) {
+                                        models.add(VisitorModel.fromJson(jsonModel));
+                                      });
+                                      getVisitorProvider(context).setVisitorModels(models);
+
+                                    
+                                    }
+                                  }
+                                } catch (error) {
+                                  throw error;
+                                }
+                            
+                                }
+                        
+
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }
