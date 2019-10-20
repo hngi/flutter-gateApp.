@@ -26,4 +26,8 @@ class Endpoint {
   static String visitor = '/visitor';
   static String showVisitors = 'gateman/visitors';
   static String showRequests = '/gateman/requests?';
+
+  //Service Categories
+  static String serviceProvider = '/service-provider';
+  static String serviceProviderCategory = '/sp-category';
 }

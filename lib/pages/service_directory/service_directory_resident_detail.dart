@@ -1,63 +1,107 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gateapp/core/models/service_provider.dart';
+import 'package:gateapp/core/service/service_provider_service.dart';
 import 'package:gateapp/pages/service_directory/widgets/service_directory_list_tile.dart';
+import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/helpers.dart';
 
-class ServiceDirectoryResidentDetail extends StatelessWidget {
+class ServiceDirectoryResidentDetail extends StatefulWidget {
   static final String routeName = '/service_directory_resident_detail';
-  final Map<String, dynamic> detailData;
+  final ServiceProviderCategory category;
 
-  ServiceDirectoryResidentDetail({@required this.detailData});
+  ServiceDirectoryResidentDetail({@required this.category});
+
+  @override
+  _ServiceDirectoryResidentDetailState createState() =>
+      _ServiceDirectoryResidentDetailState();
+}
+
+class _ServiceDirectoryResidentDetailState
+    extends State<ServiceDirectoryResidentDetail> {
+  List<ServiceProvider> _serviceProviders = [];
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initApp();
+  }
+
+  initApp() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    Future.wait([
+      ServiceProviderService.getServiceProvidersByCategoryID(
+        authToken: await authToken(context),
+        categoryID: widget.category.id,
+      )
+    ]).then((res) {
+      setState(() {
+        isLoading = false;
+        _serviceProviders = res[0];
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(this.detailData);
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
 
     ScreenUtil.instance = ScreenUtil(width: 360, height: 780)..init(context);
     String result = ' results';
-    if (this.detailData['items'] == null ||
-        this.detailData['items'].length <= 1) {
+    if (_serviceProviders == null || _serviceProviders.length <= 1) {
       result = ' result';
     }
 
     return Scaffold(
-        appBar: GateManHelpers.appBar(context, this.detailData["name"].replaceAll(new RegExp(r'\n'), ' ')),
-        body: this.detailData['items']==null||this.detailData['items'].length==0?Center(
-          child: Text("No results found in your area"),
-        ):Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(20),
-                  bottom: ScreenUtil().setHeight(3),
-                  top: ScreenUtil().setHeight(20)),
-              child: Text(
-                this.detailData['items'].length.toString() +
-                    result +
-                    ' found in your area',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-            Expanded(
-                child: ListView.builder(
-              itemCount: this.detailData['items'].length,
-              itemBuilder: (BuildContext context, int index) {
-                return ServiceDirectoryResidentListTile(
-                    distance: this.detailData['items'][index]['distance'],
-                    openingHour: this.detailData['items'][index]['openingHour'],
-                    title: this.detailData['items'][index]['title'],
-                    imgSrc: this.detailData['items'][index]['imgSrc'],
-                    onCallButtonTap: () {
-                      _showMaterialDialog(context,
-                          this.detailData['items'][index]['phone_number']);
-                    });
-              },
-            )),
-          ],
-        ));
+        appBar: GateManHelpers.appBar(
+            context, widget.category.title.replaceAll(new RegExp(r'\n'), ' ')),
+        body: isLoading
+            ? Loader.show()
+            : _serviceProviders == null || _serviceProviders.length == 0
+                ? Center(
+                    child: Text("No results found in your area"),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: ScreenUtil().setWidth(20),
+                            bottom: ScreenUtil().setHeight(3),
+                            top: ScreenUtil().setHeight(20)),
+                        child: Text(
+                          _serviceProviders.length.toString() +
+                              result +
+                              ' found in your area',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Expanded(
+                          child: ListView.builder(
+                        itemCount: _serviceProviders.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ServiceDirectoryResidentListTile(
+                              distance: '0.7km',
+                              openingHour: '24 Hrs',
+                              title: _serviceProviders[index].name,
+                              imgSrc: "assets/images/hospita-nch-logo-img.png",
+                              onCallButtonTap: () {
+                                _showMaterialDialog(
+                                  context,
+                                  _serviceProviders[index].phone,
+                                );
+                              });
+                        },
+                      )),
+                    ],
+                  ));
   }
 
   void _showMaterialDialog(context, phoneNumber) {
@@ -67,9 +111,8 @@ class ServiceDirectoryResidentDetail extends StatelessWidget {
           return AlertDialog(
             contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
             content: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20)
-              ),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -80,34 +123,35 @@ class ServiceDirectoryResidentDetail extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[ FlatButton(
-                    onPressed: () {
-                      _dismissDialog(context);
-                    },
-                    child: Text(
-                      'CANCEL',
-                      style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold),
-                    )),
-                FlatButton(
-                  
-                  onPressed: () {
-                    _dismissDialog(context);
-                  },
-                  child: Text(
-                    'CALL',
-                    textAlign: TextAlign.end,
-                    style: TextStyle(fontWeight: FontWeight.bold,color: GateManColors.primaryColor),
-                  ),
-                )
-              ],)
-              
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      FlatButton(
+                          onPressed: () {
+                            _dismissDialog(context);
+                          },
+                          child: Text(
+                            'CANCEL',
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.bold),
+                          )),
+                      FlatButton(
+                        onPressed: () {
+                          _dismissDialog(context);
+                        },
+                        child: Text(
+                          'CALL',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: GateManColors.primaryColor),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
-           
           );
         });
   }

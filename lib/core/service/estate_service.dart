@@ -107,7 +107,7 @@ class EstateService {
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
-      final items = mapResponse["Estates"].cast<Map<String, dynamic>>();
+      final items = mapResponse["estates"].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = items.map<Estate>((json) {
         return Estate.fromJson(json);
       }).toList();
@@ -226,12 +226,13 @@ class EstateService {
   //Add new Estate
   static Future<bool> selectEstate({
     @required int estateId,
+    @required String authToken,
   }) async {
     var uri = Endpoint.estate + '/choose/$estateId';
 
     Options options = Options(
       contentType: ContentType.parse('application/x-www-form-urlencoded'),
-      headers: {'Authorization': 'Bearer ${getAuth()}'},
+      headers: {'Authorization': 'Bearer $authToken'},
     );
 
     try {

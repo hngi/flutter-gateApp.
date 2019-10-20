@@ -13,16 +13,14 @@ import 'helpers.dart';
 const CONNECT_TIMEOUT = 30000;
 const RECEIVE_TIMEOUT = 30000;
 
-String authToken(BuildContext context) {
-  String authToken = '';
+Future<String> authToken(BuildContext context) async {
+  // String authToken = '';
 
-  Provider.of<TokenProvider>(context, 
+  return await Provider.of<TokenProvider>(context, 
   listen: false,
-  ).getTokenFromPrefs.then((token) {
-    authToken = token;
-  });
+  ).authToken;
 
-  return authToken;
+  // return authToken;
 }
 
 Future<SharedPreferences> get getPrefs async {
