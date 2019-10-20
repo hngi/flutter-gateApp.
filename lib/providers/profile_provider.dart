@@ -6,7 +6,7 @@ class ProfileProvider extends ChangeNotifier {
 
   void setProfileModel(ProfileModel model){
     print('printing model from provider');
-    print(model.toString());
+    // print(model.toString());
     this.profileModel = model;
     notifyListeners();
   }
