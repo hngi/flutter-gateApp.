@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "215715150551",
+    "firebase_url": "https://hngi6-gateapp.firebaseio.com",
+    "project_id": "hngi6-gateapp",
+    "storage_bucket": "hngi6-gateapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215715150551:android:0da6752126e681f9e90e92",
+        "android_client_info": {
+          "package_name": "com.example.gateapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215715150551-kd2aesoigfvhs46slfs1q5lhjvjp2hbg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4FthcUvKKClrU_yoM2X0ZIWKt_3Av2SI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215715150551-kd2aesoigfvhs46slfs1q5lhjvjp2hbg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
