@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
@@ -7,6 +9,7 @@ import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -171,3 +174,10 @@ void logOut(context) {
 }               
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }
+
+Future getImage(Function(File img) action, ImageSource source) async {
+    File img = await ImagePicker.pickImage(source: source);
+
+    action(img);
+
+  }

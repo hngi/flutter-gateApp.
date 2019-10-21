@@ -4,14 +4,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/core/service/visitor_service_new.dart';
-import 'package:gateapp/core/service/visitor_sevice.dart';
-import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -65,16 +62,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   List<File> _images;
 
-  File image=null;
-
-  Future getImage() async {
-    image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-
-    });
-
-  }
+  File image;
 
   Future shareInvite() async{
     final ByteData bytes=await rootBundle.load('assets/images/qr.png');
@@ -403,7 +391,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         width: MediaQuery.of(context).size.width,
         child: GestureDetector(
           onTap: (){
-            getImage();
+            getImage((img){
+              setState(() {
+               image = img;
+              });
+
+            },ImageSource.gallery);
           },
           child: DashedRectangle(
             child: Column(
@@ -501,7 +494,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: ActionButton(
                 buttonText: 'Add',
                 onPressed: () async {
-                  print(_arrivalDateController);
+                  print(_arrivalDateController.text);
                   final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
 
                   print('FULL NAME '+_fullNameController.text);
@@ -539,7 +532,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
                     print(response);
                     if (response is ErrorType){
-                      dialog.hide();
+                      Navigator.pop(context);
 
 
                       PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));

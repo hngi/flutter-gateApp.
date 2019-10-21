@@ -245,12 +245,17 @@ class WelcomeResident extends StatelessWidget {
       
           visitors
               .addAll(getVisitorProvider(context).visitorModels.map((visitorModel) {
+            List<String> arrival_date_array = visitorModel.arrival_date.split('-');
             return Column(
               children: <Widget>[
-                int.parse(visitorModel.arrival_date[0]) == DateTime.now().year &&
-                        int.parse(visitorModel.arrival_date[1]) ==
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                  int.parse(arrival_date_array[0]) == DateTime.now().year &&
+                        int.parse(arrival_date_array[1]) ==
                             DateTime.now().month &&
-                        int.parse(visitorModel.arrival_date[2]) ==
+                        int.parse(arrival_date_array[2]) ==
                             DateTime.now().day &&
                         usedDates.contains('today') == false
                     ? () {
@@ -267,7 +272,9 @@ class WelcomeResident extends StatelessWidget {
                                                 : Container(
                                                     width: 0,
                                                     height: 0,
-                                                  ),
+                                                  )
+
+                ],),
                                         Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
@@ -368,6 +375,7 @@ class WelcomeResident extends StatelessWidget {
                           getHeadText(List<dynamic> usedDates,VisitorModel visitorModel) {
                             usedDates.add(visitorModel.arrival_date);
                             return Text(visitorModel.arrival_date.toString(),
+                            textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16.0,

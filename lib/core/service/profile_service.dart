@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
+import 'package:http_parser/http_parser.dart';
 class ProfileService {
 static BaseOptions options = BaseOptions(
           baseUrl: Endpoint.baseUrl,
@@ -60,14 +62,44 @@ static BaseOptions options = BaseOptions(
       }) async {
         print(authToken);
         var uri = Endpoint.editCurrentuser;
-        //FormData formdata = new FormData();
-        //formdata.add('image', image.path);
-        options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
-        Dio dio = Dio(options);
+        FormData data = FormData.fromMap(
+      {
+      "name": name,
+      "phone":phone,
+      "email":email,
+ }
+    );
+if(image!=null){
+  print(image.path);
+   data.files.add(MapEntry("image",await MultipartFile.fromFile(
+        image.path,
+        filename:basename(image.path),
+        contentType: MediaType.parse('application/octet-stream'))));
+} 
+BaseOptions formOption = BaseOptions(
+      
+      baseUrl: Endpoint.baseUrl,
+      responseType: ResponseType.plain,
+      connectTimeout: CONNECT_TIMEOUT,
+      receiveTimeout: RECEIVE_TIMEOUT,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $authToken',
+      },
+      validateStatus: (code) {
+        if (code >= 200) {
+          return true;
+        }
+        return false;
+      }
+
+    );
+       // options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+        Dio dio = Dio(formOption);
         try {
-          Response response = await dio.put(uri,data: {
+          Response response = await dio.post(uri,data: {
             'name':name,
-            'username':name,
             'email':email,
             'phone':phone,
 
