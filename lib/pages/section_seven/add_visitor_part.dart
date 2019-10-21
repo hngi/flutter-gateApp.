@@ -303,6 +303,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
       CustomDatePicker(
         dateController: _arrivalDateController,
         onChanged: (date){
+          print('date as been changed to ' + date);
           _arrivalDateController.text = date;
           arrivalDate=date;
         },
@@ -495,7 +496,11 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                 buttonText: 'Add',
                 onPressed: () async {
                   print(_arrivalDateController.text);
-                  final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
+                  // commented out because it was buggy
+                  // final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
+                  final date=_arrivalDateController.text.split('/').reversed.join('-');
+                  
+                  print(date);
 
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
