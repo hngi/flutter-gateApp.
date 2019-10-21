@@ -32,8 +32,8 @@ class VisitorProvider extends ChangeNotifier {
   }
   
   class VisitorModel {
-    int id,user_id,home_id;
-    String name,arrival_date,car_plate_no,purpose,image,status,time_in,time_out;
+    int id,user_id,home_id, status;
+    String name,arrival_date,car_plate_no,purpose,image,time_in,time_out;
 
     VisitorModel({
       this.id,this.name,this.arrival_date,this.car_plate_no,this.purpose,
