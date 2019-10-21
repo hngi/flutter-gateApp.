@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
+import 'package:gateapp/utils/helpers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gateapp/utils/constants.dart';
+
 class EstateService {
   //static String deviceId = '';
   static String authTokenStr = '';
@@ -18,7 +21,7 @@ class EstateService {
       String authTokenStr = await authToken(context);
       return authTokenStr;
     } catch (error) {
-     print('unknown error occured while getting authtoken');
+      print('unknown error occured while getting authtoken');
     }
   }
 
@@ -40,7 +43,15 @@ class EstateService {
       });
   static Dio dio = Dio(options);
 
-    //Add new Estate
+  //Get Authorization Token
+  static String getAuth() {
+    String token = '';
+    getPrefs.then((prefs) => token = prefs.getString('authToken'));
+    return token;
+    // return prefs.getString('authToken');
+  }
+
+  //Add new Estate
   static addEstate({
     @required String estateName,
     @required String city,
@@ -54,7 +65,7 @@ class EstateService {
         "city": city,
         "country": country,
       });
-      
+
       print(response.statusCode);
       print(response.data);
 
@@ -94,7 +105,7 @@ class EstateService {
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
-      final items = mapResponse["Estates"].cast<Map<String, dynamic>>();
+      final items = mapResponse["estates"].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = items.map<Estate>((json) {
         return Estate.fromJson(json);
       }).toList();
@@ -205,10 +216,51 @@ class EstateService {
         return true;
       }
       return false;
-
     } on DioError catch (exception) {
       print(exception);
       return false;
+    }
+  }
+
+  //Add new Estate
+  static Future<bool> selectEstate({
+    @required int estateId,
+    @required String authToken,
+  }) async {
+    var uri = Endpoint.estate + '/choose/$estateId';
+
+    Options options = Options(
+      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    try {
+      Response response = await dio.post(uri, options: options);
+
+      print(response.statusCode);
+      print(response.data);
+
+      // if (response == null) return ErrorType.generic;
+      // if (response.statusCode == 500) return ErrorType.generic;
+      // if (response.statusCode == 400 || response.statusCode == 401) {
+      //   final responseJson = json.decode(response.data);
+      //   return GateManHelpers.getErrorType(responseJson);
+      // }
+      if (response.statusCode == 200) return true;
+
+      return false;
+
+      // }
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return false;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return false;
+      } else {
+        return false;
+      }
     }
   }
 }

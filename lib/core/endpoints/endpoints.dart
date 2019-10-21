@@ -31,6 +31,10 @@ class Endpoint {
   static String showVisitors = 'gateman/visitors';
   static String showRequests = '/gateman/requests?';
 
+  //Service Categories
+  static String serviceProvider = '/service-provider';
+  static String serviceProviderCategory = '/sp-category';
+  
   static String addGateMan({@required int gatemanId}) => '/resident/addGateman/$gatemanId';
   static String searchGatemanByPhone({@required String gatemanPhone}) => '/search/gateman/phone/$gatemanPhone';
   static String searchGatemanByName({@required String gatemanName}) => '/search/gateman/name/$gatemanName';
