@@ -4,9 +4,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/core/service/visitor_service_new.dart';
-import 'package:gateapp/core/service/visitor_sevice.dart';
-import 'package:gateapp/pages/section_seven/add_visitor_full.dart';
+import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
@@ -62,16 +62,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   List<File> _images;
 
-  File image=null;
-
-  Future getImage() async {
-    image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-
-    });
-
-  }
+  File image;
 
   Future shareInvite() async{
     final ByteData bytes=await rootBundle.load('assets/images/qr.png');
@@ -312,6 +303,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
       CustomDatePicker(
         dateController: _arrivalDateController,
         onChanged: (date){
+          print('date as been changed to ' + date);
           _arrivalDateController.text = date;
           arrivalDate=date;
         },
@@ -400,7 +392,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         width: MediaQuery.of(context).size.width,
         child: GestureDetector(
           onTap: (){
-            getImage();
+            getImage((img){
+              setState(() {
+               image = img;
+              });
+
+            },ImageSource.gallery);
           },
           child: DashedRectangle(
             child: Column(
@@ -498,8 +495,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: ActionButton(
                 buttonText: 'Add',
                 onPressed: () async {
-                  print(_arrivalDateController);
-                  final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
+                  print(_arrivalDateController.text);
+                  // commented out because it was buggy
+                  // final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
+                  final date=_arrivalDateController.text.split('/').reversed.join('-');
+                  
+                  print(date);
 
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
@@ -519,7 +520,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         status: null, estateId: null,//image: image==null?null:image.path.toString(),
                         //authToken: await authToken(context),
                     );*/
-                    //openAlertBox();
+                    // openAlertBox();
+                    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+                    dialog.show();
                     dynamic response = await NewVisitorService.addVisitor(
                       name: _fullNameController.text,
                       arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
@@ -534,11 +537,18 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
                     print(response);
                     if (response is ErrorType){
-                           PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                      Navigator.pop(context);
+
+
+                      PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                     
                     } else{
-                        print('success');
+                        print(response);
+                        dialog.hide();
+                        getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
+                        
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                        openAlertBox();
                     }
 
                     

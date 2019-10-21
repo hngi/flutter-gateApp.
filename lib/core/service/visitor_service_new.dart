@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:flutter_udid/flutter_udid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http_parser/http_parser.dart';
 class NewVisitorService {
   static BaseOptions options = BaseOptions(
@@ -62,8 +58,7 @@ if(image!=null){
         image.path,
         filename:basename(image.path),
         contentType: MediaType.parse('application/octet-stream'))));
-}
-   
+} 
     print(data.files);
     return data;
     }
@@ -107,7 +102,6 @@ if(image!=null){
 
       // }
     } on DioError catch (exception) {
-      throw exception;
       if (exception == null ||
           exception.toString().contains('SocketException')) {
         return ErrorType.network;

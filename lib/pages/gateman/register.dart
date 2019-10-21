@@ -3,7 +3,6 @@ import 'package:gateapp/pages/gateman/welcome.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:provider/provider.dart';
 

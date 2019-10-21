@@ -15,9 +15,12 @@ class SplashScreen extends StatelessWidget {
     //   statusBarColor: Colors.white, //top bar color
     // ));
 
-    Future.delayed(Duration(seconds: 5), () async {
-      if (await authToken(context) == null || await userType(context) == null) {
+
+    Future.delayed(Duration(seconds: 5), () async{
+      if (await authToken(context)==null || await userType(context)==null){
+
         Navigator.pushReplacementNamed(context, '/pager');
+        getUserTypeProvider(context).setFirstRunStatus(true);
       } else {
         print(await authToken(context));
         // Navigator.pushReplacementNamed(
@@ -29,6 +32,7 @@ class SplashScreen extends StatelessWidget {
          await loadInitialVisitors(context);
 
         }
+        getUserTypeProvider(context).setFirstRunStatus(false);
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
     });

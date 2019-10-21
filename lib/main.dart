@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/registration/token_confirmation.dart';
-import 'package:gateapp/pages/resident/add_gateman/add_gateman_detail.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
 import 'package:provider/provider.dart';

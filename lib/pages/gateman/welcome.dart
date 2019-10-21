@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
-import 'package:gateapp/pages/gateman/residents.dart';
 import 'package:gateapp/utils/colors.dart';
 
 class GatemanWelcome extends StatefulWidget {

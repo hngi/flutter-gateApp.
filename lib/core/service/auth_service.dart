@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:flutter_udid/flutter_udid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 class AuthService {
   static String deviceId;
 
@@ -119,6 +116,9 @@ class AuthService {
     
           if (response.statusCode == 500) {
             return ErrorType.generic;
+            }
+          else if(response.statusCode == 501){
+              return ErrorType.invalid_input_in_register;
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);
