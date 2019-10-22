@@ -105,7 +105,7 @@ class _VisitorsListState extends State<VisitorsList> {
       ),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar(),
+      bottomNavigationBar: CustomBottomAppBar(alertText: '1',),
     );
   }
 }

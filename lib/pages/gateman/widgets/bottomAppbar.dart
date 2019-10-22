@@ -10,8 +10,9 @@ class CustomBottomAppBar extends StatelessWidget {
   final String trailingText;
   final Function leadingFunc;
   final Function trailingFunc;
+  final String alertText;
 
-  CustomBottomAppBar({this.leadingText, this.leadingIcon, this.leadingFunc, this.trailingText, this.trailingIcon, this.trailingFunc});
+  CustomBottomAppBar({this.leadingText, this.leadingIcon, this.leadingFunc, this.trailingText, this.trailingIcon, this.trailingFunc, this.alertText});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class CustomBottomAppBar extends StatelessWidget {
                             padding: EdgeInsets.all(1),
                             decoration: new BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(6),),
                             constraints: BoxConstraints(minWidth: 12,minHeight: 12,),
-                            child: new Text('1',style: new TextStyle(color: Colors.white,fontSize: 8,),textAlign: TextAlign.center,),
+                            child: new Text(alertText,style: new TextStyle(color: Colors.white,fontSize: 8,),textAlign: TextAlign.center,),
                           ),
                           )
                       ],

@@ -2,8 +2,8 @@
 //
 //     final estates = estatesFromJson(jsonString);
 
-import 'dart:convert';
-
+//import 'dart:convert';
+/*
 class Estates {
   String message;
   List<Estate> estates;
@@ -55,3 +55,4 @@ class Estate {
     "country": country == null ? null : country,
   };
 }
+*/

@@ -1,9 +1,13 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
+import 'package:gateapp/providers/gateman_requests_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
@@ -58,6 +62,10 @@ ProfileProvider getProfileProvider(BuildContext context){
 
 VisitorProvider getVisitorProvider(BuildContext context) {
   return Provider.of<VisitorProvider>(context);
+}
+
+GateManRequestProvider getRequestProvider(BuildContext context){
+  return Provider.of<GateManRequestProvider>(context);
 }
 
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
@@ -155,7 +163,7 @@ void loadInitialVisitors(BuildContext context) async {
   }
 }
 
- Future loadInitialVisitors(BuildContext context) async {
+ Future loadInitialVisitorsNew(BuildContext context) async {
                         
                                 try {
                                 
@@ -223,3 +231,30 @@ Future getImage(Function(File img) action, ImageSource source) async {
     action(img);
 
   }
+
+ProfileModel setMenuModel(BuildContext context) {
+  ProfileModel model = getProfileProvider(context).profileModel;
+  return model;
+}
+
+Future loadRequests(BuildContext context) async {
+  try{
+    dynamic response = await GateManService.getAllRequests(authToken: await authToken(context));
+    //print('got a response');
+    print(response);
+    if (response['data'] == null) {
+      //print('there are no requests');
+      getRequestProvider(context).addResident(response['data']);
+
+      PaysmosmoAlert.showSuccess(context: context, message: 'No requests at this time');
+    } else {
+      print('linking data from response');
+      print(response['data']);
+      dynamic requestModelJson = response['data'];
+      print(requestModelJson);
+      getRequestProvider(context).addResident(RequestModel.fromJson(requestModelJson));
+    }
+  }catch (error){
+    throw error;
+  }
+}

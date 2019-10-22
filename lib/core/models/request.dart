@@ -1,3 +1,4 @@
+/*
 // To parse this JSON data, do
 //
 //     final requests = requestsFromJson(jsonString);
@@ -55,3 +56,4 @@ class Resident {
     "name": name == null ? null : name,
   };
 }
+*/
