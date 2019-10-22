@@ -41,45 +41,21 @@ class _SelectAddressState extends State<SelectAddress> {
   List<Estate> _filteredEstates = <Estate>[];
   LoadingDialog dialog;
 
+  Map<user_type, String> mapUserTypeToPage = {
+    user_type.RESIDENT: '/welcome-resident',
+    user_type.GATEMAN: '/gateman_menu',
+  };
+  user_type routeString;
+
   @override
   void initState() {
     super.initState();
     dialog = LoadingDialog(context, LoadingDialogType.Normal);
-    // initApp();
+    initApp();
   }
 
   initApp() async {
-    setState(() {
-      isLoading = true;
-    });
-    Future.wait([
-      EstateService.getAllEstates(
-        authToken: await authToken(context),
-      ),
-    ]).then((res) {
-      print(res);
-      setState(() {
-        _estates = res[0];
-
-        print(_estates);
-
-        isLoading = false;
-      });
-    });
-  }
-
-  //event listeners
-  _onCountriesChanged(String value) {
-    setState(() => country = value);
-  }
-
-  _onCitiesChanged(String value) {
-    setState(() => city = value);
-  }
-
-  _onEstatesChanged(String value) {
-    print(value);
-    setState(() => currentEstate = value);
+    routeString = await userType(context);
   }
 
   _onTextFieldChanged(String value) async {
@@ -96,14 +72,6 @@ class _SelectAddressState extends State<SelectAddress> {
         isLoading = false;
       });
     }
-
-    // setState(() {
-    //   _filteredEstates = _estates.where((estate) {
-    //     return estate.estateName.contains(value) ||
-    //         estate.city.contains(value) ||
-    //         estate.country.contains(value);
-    //   });
-    // });
   }
 
   _onSave() async {
@@ -125,15 +93,14 @@ class _SelectAddressState extends State<SelectAddress> {
       PaysmosmoAlert.showSuccess(
               context: context, message: 'Estate Successfully Selected')
           .then((_) {
-        // Navigator.pushReplacementNamed(context, mapUserTypeToPage[getUserType]);
-        Navigator.pushReplacementNamed(context, '/gateman_menu');
+        Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       });
     } else {
       PaysmosmoAlert.showError(
-              context: context, message: 'Could not seletced an Estate')
-          .then((_) {
-        Navigator.pushReplacementNamed(context, mapUserTypeToPage[getUserType]);
-      });
+          context: context, message: 'Could not select an Estate');
+      //     .then((_) {
+      //   Navigator.pushReplacementNamed(context, mapUserTypeToPage[getUserType]);
+      // });
     }
   }
 
