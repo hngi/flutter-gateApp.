@@ -2,15 +2,12 @@ import 'package:flutter/widgets.dart';
 import 'package:gateapp/core/models/old_user.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-class UserProvider extends ChangeNotifier {
-  user_type type;
 
-  //nothing yet
-
-}
 
 class UserTypeProvider extends ChangeNotifier {
   user_type type = user_type.RESIDENT;
+  bool firstRunStatus = true;
+  bool loggingOut = false;
   Map<String, dynamic> userTypeMap  = {
     "RESIDENT":user_type.RESIDENT,
     "ADMIN" : user_type.ADMIN,
@@ -21,6 +18,15 @@ class UserTypeProvider extends ChangeNotifier {
     user_type.ADMIN: 'ADMIN',
     user_type.GATEMAN:'GATEMAN'
   };
+
+  setFirstRunStatus(bool status,{bool loggingoutStatus}){
+    firstRunStatus = status;
+    loggingOut = loggingoutStatus??loggingOut;
+    notifyListeners();
+  }
+
+  
+  
 
   void setUserType(user_type type) async{
     this.type = type;

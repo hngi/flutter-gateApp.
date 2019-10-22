@@ -185,35 +185,51 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                   dynamic response = await ResidentsGatemanRelatedService.findGateManByPhone(authToken: token, phone: phoneNumber);
                   print(response);
                   if(response is ErrorType){
+
+                    if (response == ErrorType.request_already_sent_to_gateman){
+
+                      PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(response));
+
+                    } else{
                   
                       print('error in searching');
+                      print(response);
                       Navigator.of(context).pop();
                       PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                       //setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,'');
-                      
+                      }
 
                         } else {
-                    dynamic gateManJson = response.firstWhere((element)=>element['phone'].toString().trim()==phoneNumber.trim());
-
-                    if(gateManJson==null){
+                          print(response);
+                   
+                   
+                    if(response==null){
                         Navigator.of(context).pop();
                         print('error in finding a match');
                         PaysmosmoAlert.showError(context: context,message: 'Couldnt find a match for the Gateman');
                     } else{
-                      print(gateManJson['id'].toString());
-                    dynamic gateManRequest = await ResidentsGatemanRelatedService.addGateman(authToken: token, gatemanId: gateManJson['id']);
+                      print(response['id'].toString());
+                    dynamic gateManRequest = await ResidentsGatemanRelatedService.addGateman(authToken: token, gatemanId: response['id']);
 
                           if (gateManRequest is ErrorType){
                             Navigator.of(context).pop();
 
+                             if (gateManRequest == ErrorType.request_already_sent_to_gateman){
+                               print('dddddddddddddddddddd');
+                              
+
+                      PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
+
+                    } else{
+
                             PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
-                           
+                    }
 
                           } else {
-                            var mapList = [gateManJson, gateManRequest['residentGateman']];
-                            var combinedMap = mapList.reduce((map1,map2)=> map1..addAll(map2));
+                            // var mapList = [gateManJson, gateManRequest['residentGateman']];
+                            // var combinedMap = mapList.reduce((map1,map2)=> map1..addAll(map2));
 
-                            ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(combinedMap);
+                            ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(response);
                             getResidentsGateManProvider(context).addAwaitingResidentsGateManModel(gateManModel);
                             
                             setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);

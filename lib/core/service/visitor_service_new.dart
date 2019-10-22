@@ -3,13 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:flutter_udid/flutter_udid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http_parser/http_parser.dart';
 class NewVisitorService {
   static BaseOptions options = BaseOptions(
@@ -18,7 +14,8 @@ class NewVisitorService {
       connectTimeout: CONNECT_TIMEOUT,
       receiveTimeout: RECEIVE_TIMEOUT,
       headers:{
-        'Accept':'application/json'
+        'Accept':'application/json',
+        'Content-Type': 'multipart/form-data'
       },
       validateStatus: (code) {
         if (code >= 200) {
@@ -26,7 +23,7 @@ class NewVisitorService {
         }
         return false;
       });
-  static Dio dio = Dio(options);
+  //static Dio dio = Dio(options);
 
 
   static String qr_code='';
@@ -37,12 +34,11 @@ class NewVisitorService {
     @required String status,
     @required String estateId,
     @required String authToken,
+    @required String visitingPeriod,
     File image
   }) async {
     var uri = Endpoint.visitor;
-   
-
-    
+    print(authToken);
     Future<FormData> formData1() async {
       print(name);
     FormData data = FormData.fromMap(
@@ -53,22 +49,45 @@ class NewVisitorService {
       "purpose": purpose??'',
       "status": status??'',
       "home_id": estateId??'',
-      "image": await MultipartFile.fromFile(
-        image.path,
-        filename:basename(image.path),
-        contentType: MediaType.parse('application/octet-stream')),
+      'visiting_period': visitingPeriod??'',
+      
     }
     );
-    print(data.fields);
+if(image!=null){
+   data.files.add(MapEntry("image",await MultipartFile.fromFile(
+        image.path,
+        filename:basename(image.path),
+        contentType: MediaType.parse('application/octet-stream'))));
+} 
+    print(data.files);
     return data;
     }
 
   
-  
-    options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
-    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    Dio dio = Dio(options);
+    BaseOptions formOption = BaseOptions(
+      
+      baseUrl: Endpoint.baseUrl,
+      responseType: ResponseType.plain,
+      connectTimeout: CONNECT_TIMEOUT,
+      receiveTimeout: RECEIVE_TIMEOUT,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $authToken',
+      },
+      validateStatus: (code) {
+        if (code >= 200) {
+          return true;
+        }
+        return false;
+      }
+
+    );
+    print(formOption.headers);
+    Dio dio = Dio(formOption);
     try {
+
+      
       Response response = await dio.post(uri,data: await formData1());
 
       print(response.statusCode);
@@ -83,7 +102,6 @@ class NewVisitorService {
 
       // }
     } on DioError catch (exception) {
-      throw exception;
       if (exception == null ||
           exception.toString().contains('SocketException')) {
         return ErrorType.network;
