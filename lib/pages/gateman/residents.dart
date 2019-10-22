@@ -80,16 +80,19 @@ class _ResidentsGateState extends State<ResidentsGate> {
   Widget build(BuildContext context) {
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
+    int numberOfRequests = 0;
     ProfileModel profileModel = setMenuModel(context);
-    loadRequests(context);
-    RequestModel requestModel = getRequestProvider(context).requestModel;
-    if (requestModel == null) {
-      requestModel = RequestModel();
-      requestModel.requests = 0;
+    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    RequestModel requestModel = RequestModel();
+    requestModel = getRequestProvider(context).requestModel;
+    dynamic _residents = requestModel;
+
+    while(requestModel != null){
+       _residents = json.decode(requestModel.residents.toString());
+        numberOfRequests = requestModel.requests;
     }
-    var _residents = json.decode(requestModel.residents.toString());
     return Scaffold(
-      bottomNavigationBar: CustomBottomAppBar(alertText: '${requestModel.requests}',),
+      bottomNavigationBar: CustomBottomAppBar(alertText: '$numberOfRequests',),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -148,22 +151,24 @@ class _ResidentsGateState extends State<ResidentsGate> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
-                    itemCount: requestModel.requests,
+                    itemCount: (requestModel == null)? 1 : numberOfRequests,
                     itemBuilder: (BuildContext context, int index) {
-                      if (requestModel.requests == 0){
+                      if (requestModel == null){
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Container(
+                            padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                            margin: EdgeInsets.only(left: 30.0, right: 20.0),
                             child: new Text(
                               'No Resident Accepted',
                               style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 10,
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
                             ),),
                           ),
                         );
-                      }
+                      } else {
                       return (Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: ResidentTile(
@@ -179,7 +184,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
                                 nameV: _visitor['nameV'],
                               ),
                             ));
-                    },
+                    }},
                   ),
                 ),
               ),

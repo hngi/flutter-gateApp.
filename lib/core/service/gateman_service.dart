@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:core' as prefix1;
 import 'dart:core';
 
 import 'package:dio/dio.dart';
@@ -60,8 +59,8 @@ class GateManService {
     try {
       Response response = await dio.get(uri);
 
-      print(response.statusCode);
-      print(response.data);
+      //print(response.statusCode);
+      //print(response.data);
 
       return (response.statusCode == 400)
           ? ErrorType.invalid_credentials

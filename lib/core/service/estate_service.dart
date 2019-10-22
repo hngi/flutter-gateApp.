@@ -6,9 +6,6 @@ import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gateapp/utils/constants.dart';
 
 class EstateService {
   //static String deviceId = '';
