@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/pages/gateman/residents.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'menu.dart';
 
 class ScheduledVisit extends StatefulWidget {
   final String name, phone, description, eta, verification, visitStatus;

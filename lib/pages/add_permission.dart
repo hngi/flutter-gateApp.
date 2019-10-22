@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/user.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/utils/colors.dart';
 
 
 class AddLocationPermission extends StatefulWidget {
@@ -71,15 +69,8 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
               child: ActionButton(
                 buttonText: 'Ok, turn on permission',
                 onPressed: () {
-                  // if (await PermissionsService().hasLocationPermission()==true){
                       Navigator.pushReplacementNamed(
                     context, '/user-type');
-                  // } else{
-                  //   if (await PermissionsService().requestLocationPermission() == true){
-                  //     Navigator.pushReplacementNamed(
-                  //   context, '/select-estate');
-                  // }
-                  //   }
 
                   },
               )
