@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
@@ -7,6 +9,7 @@ import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,7 +46,13 @@ Future<user_type> userType(BuildContext context) async {
   return await Provider.of<UserTypeProvider>(context).getUserType;
 }
 
-ProfileProvider getProfileProvider(BuildContext context) {
+
+UserTypeProvider getUserTypeProvider(BuildContext context){
+  return Provider.of<UserTypeProvider>(context);
+} 
+
+ProfileProvider getProfileProvider(BuildContext context){
+
   return Provider.of<ProfileProvider>(context);
 }
 
@@ -56,27 +65,30 @@ ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
 }
 
 Future loadInitialProfile(BuildContext context) async {
-  try {
-    dynamic response = await ProfileService.getCurrentUserProfile(
-        authToken: await authToken(context));
-    if (response is ErrorType) {
-      PaysmosmoAlert.showError(
-          context: context, message: GateManHelpers.errorTypeMap(response));
-    } else {
-      //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
-      print('Initial Profile Loaded');
-      print(ProfileModel.fromJson(response));
-      getProfileProvider(context)
-          .setProfileModel(ProfileModel.fromJson(response));
-      getProfileProvider(context).setInitialStatus(true);
-    }
-  } catch (error) {
-    print(error);
-    await PaysmosmoAlert.showError(
-        context: context,
-        message: GateManHelpers.errorTypeMap(ErrorType.generic));
-  }
-}
+        try{
+        dynamic response  = await ProfileService.getCurrentUserProfile(
+          authToken: await authToken(context)
+          );
+          if(response is ErrorType){
+            PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+            
+          }else{
+            //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
+                            print('Initial Profile Loaded');
+                            print(ProfileModel.fromJson(response));
+                            getProfileProvider(context).setProfileModel(
+                            ProfileModel.fromJson(response));
+            getProfileProvider(context).setInitialStatus(true);
+            getUserTypeProvider(context).setFirstRunStatus(false);
+          }
+        } catch (error){
+          print(error);
+          await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(ErrorType.generic));
+            
+        }
+
+      }
+
 
 launchCaller({@required String phone, @required BuildContext context}) async {
   String url = "tel:$phone";
@@ -143,5 +155,71 @@ void loadInitialVisitors(BuildContext context) async {
   }
 }
 
+//  Future loadInitialVisitors(BuildContext context) async {
+                        
+//                                 try {
+                                
+//                                   dynamic response = await VisitorService.getAllVisitor(
+//                                       authToken: await authToken(context));
+//                                   if (response is ErrorType) {
+                                    
+                                    
+//                                      if(response == ErrorType.no_visitors_found){
+//                                       getVisitorProvider(context).setInitialStatus(true);
+//                                       PaysmosmoAlert.showSuccess(
+//                                         context: context,
+//                                         message: GateManHelpers.errorTypeMap(response));
+//                                         getVisitorProvider(context).setVisitorModels([]);
+//                                     }
+//                                     else{
+//                                       PaysmosmoAlert.showError(
+//                                         context: context,
+//                                         message: GateManHelpers.errorTypeMap(response));
+//                                     }
+                                     
+                                        
+//                                   } else {
+//                                     if (response['visitor'].length == 0) {
+//                                       PaysmosmoAlert.showSuccess(
+//                                           context: context, message: 'No visitors');
+//                                     } else {
+//                                       print('linking data for visitors');
+//                                       print(response['visitor'] );
+//                                       dynamic jsonVisitorModels = response['visitor'] ;
+//                                       List<VisitorModel> models = [];
+//                                       jsonVisitorModels.forEach((jsonModel) {
+//                                         models.add(VisitorModel.fromJson(jsonModel));
+//                                       });
+//                                       getVisitorProvider(context).setVisitorModels(models);
+//                                       getUserTypeProvider(context).setFirstRunStatus(false);
+
+                                    
+//                                     }
+//                                   }
+//                                 } catch (error) {
+//                                   throw error;
+//                                 }
+                            
+//                                 }
+
+
+
+void logOut(context) {
+  Provider.of<TokenProvider>(context).clearToken();
+  Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: true); 
+  Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
+  Provider.of<VisitorProvider>(context).setVisitorModels([]);
+  Navigator.pushNamedAndRemoveUntil(context, '/register',(Route<dynamic> route) => false);
+  
+  PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
+}               
+
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }
+
+Future getImage(Function(File img) action, ImageSource source) async {
+    File img = await ImagePicker.pickImage(source: source);
+
+    action(img);
+
+  }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
@@ -9,7 +8,6 @@ import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:gateapp/utils/constants.dart';
 
 class EstateService {
@@ -98,7 +96,7 @@ class EstateService {
     String uri = Endpoint.estate + 's';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -126,7 +124,7 @@ class EstateService {
     String uri = Endpoint.estate + '/bycountry/' + country;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -155,7 +153,7 @@ class EstateService {
     String uri = Endpoint.estate + '/bycity/' + city;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -184,7 +182,7 @@ class EstateService {
     String uri = Endpoint.estate + '/$estateId';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -219,6 +217,7 @@ class EstateService {
       }
       return false;
     } on DioError catch (exception) {
+      print(exception);
       return false;
     }
   }
@@ -231,7 +230,7 @@ class EstateService {
     var uri = Endpoint.estate + '/choose/$estateId';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -262,6 +261,34 @@ class EstateService {
       } else {
         return false;
       }
+    }
+  }
+
+  //Search Estates
+  static Future<List<Estate>> searchEstates({
+    @required String authToken,
+    @required String query,
+  }) async {
+    String uri = Endpoint.estate + '/search/$query';
+
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    Response response = await dio.get(uri, options: options);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> mapResponse = json.decode(response.data);
+      print(mapResponse);
+      final items = mapResponse["estates"].cast<Map<String, dynamic>>();
+      List<Estate> listOfEstates = items.map<Estate>((json) {
+        return Estate.fromJson(json);
+      }).toList();
+
+      return listOfEstates;
+    } else {
+      throw Exception('Failed to load internet');
     }
   }
 }
