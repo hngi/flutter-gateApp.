@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/pages/gateman/widgets/listTileMenu.dart';
 import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'residents.dart';
+import '../../providers/profile_provider.dart';
+import '../../utils/constants.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -16,11 +13,16 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  String name = 'Danny Evans';
+
   bool badge = true;
-  int _counter = 2;
+  //int _counter = 2;
+  bool controllerLoaded = false;
+
   @override
   Widget build(BuildContext context) {
+    if (!getProfileProvider(context).initialProfileLoaded){
+      loadInitialProfile(context);
+    }
     final hv = MediaQuery.of(context).size.width / 100;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -102,7 +104,7 @@ class _MenuState extends State<Menu> {
                 ],
               ),
             ),
-            title: Text(name,
+            title: Text(setInitBuildControllers(context),
                 style: TextStyle(
                   color: GateManColors.primaryColor,
                   fontSize: 20.0,
@@ -184,65 +186,11 @@ class _MenuState extends State<Menu> {
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomAppBar()
-
-      // bottomNavigationBar: new BottomAppBar(
-      //   color: GateManColors.primaryColor,
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(top:15.0, left: 20.0, right: 20.0, bottom: 10.0),
-      //     child: SizedBox(height: hv*14,
-      //       child: new Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: <Widget>[
-      //         InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Menu(name: widget.name,)));},
-      //           child: Column(
-      //             children: <Widget>[
-      //               Image.asset('assets/images/gateman/menu.png'),
-      //               Text('Menu', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ),)
-      //             ],
-      //           ),
-      //         ),
-      //         InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new GatemanNotifications(name: widget.name,)));},
-      //           child: Column(
-      //             children: <Widget>[
-      //               Stack(
-      //                 children: <Widget>[
-      //                   Image.asset('assets/images/gateman/notification.png'),
-      //                   badge ? Positioned(
-      //                     right: 0,
-      //                     child: new Container(
-      //                       padding: EdgeInsets.all(1),
-      //                       decoration: new BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(6),),
-      //                       constraints: BoxConstraints(minWidth: 12,minHeight: 12,),
-      //                       child: new Text('$_counter',style: new TextStyle(color: Colors.white,fontSize: 8,),textAlign: TextAlign.center,),
-      //                     ),
-      //                     ):Container()
-      //                 ],
-      //               ),
-      //               Text('Alert', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ))
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButton: SizedBox(width: 110.0, height:110.0,
-      // child:   new FloatingActionButton(backgroundColor: GateManColors.primaryColor,
-      //   child: Column(mainAxisAlignment: MainAxisAlignment.center,
-      //       children: <Widget>[
-      //         Padding(
-      //           padding: const EdgeInsets.only(bottom: 4.0),
-      //           child: Image.asset('assets/images/gateman/residents.png'),
-      //         ),
-      //         Text('Residents', style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),)
-      //         ],
-
-      //         ), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Residents(name: widget.name,)));},
-
-      //         ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+  String setInitBuildControllers(BuildContext context) {
+    ProfileModel model = getProfileProvider(context).profileModel;
+    String name = model.name;
+    return name;
   }
 }

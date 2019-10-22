@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/request.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
@@ -56,7 +57,11 @@ ProfileProvider getProfileProvider(BuildContext context){
   return Provider.of<ProfileProvider>(context);
 }
 
-VisitorProvider getVisitorProvider(BuildContext context) {
+Requests getRequestProvider(BuildContext context){
+  return Provider.of<Requests>(context);
+}
+
+VisitorProvider getVisitorProvider(BuildContext context){
   return Provider.of<VisitorProvider>(context);
 }
 
