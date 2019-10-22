@@ -56,6 +56,7 @@ class EstateService {
     @required String estateName,
     @required String city,
     @required String country,
+    @required String address,
   }) async {
     var uri = Endpoint.estate;
 
@@ -64,6 +65,7 @@ class EstateService {
         "estate_name": estateName,
         "city": city,
         "country": country,
+        "address": address,
       });
 
       print(response.statusCode);
