@@ -21,6 +21,7 @@ class ScheduledVisit extends StatefulWidget {
 class _ScheduledVisitState extends State<ScheduledVisit> {
   bool badge = true;
   int _counter = 1;
+  String imageLocation = 'assets/images/gateman/menu.png';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,12 @@ class _ScheduledVisitState extends State<ScheduledVisit> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(alertText: '1',),
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '1',
+        nameOfLocation: 'Menu',
+        onTapLocation: '/menu',
+        imageLocation: imageLocation,
+      ),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: ListView(

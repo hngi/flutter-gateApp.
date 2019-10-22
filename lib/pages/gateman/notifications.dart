@@ -11,6 +11,7 @@ class GatemanNotifications extends StatefulWidget {
 }
 
 class _GatemanNotificationsState extends State<GatemanNotifications> {
+  String imageLocation = 'assets/images/gateman/menu.png';
   bool badge = true;
   int _counter = 1;
   var _notifications = [
@@ -40,7 +41,12 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(alertText: '${_notifications.length}',),
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '${_notifications.length}',
+        onTapLocation: '/menu',
+        nameOfLocation: 'Menu',
+        imageLocation: imageLocation,
+      ),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: ListView.builder(

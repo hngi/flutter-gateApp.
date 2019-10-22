@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
@@ -16,21 +18,40 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  //String name = 'Danny Evans';
+  String imageLocation = 'assets/images/gateman/VectorHome.png';
   bool badge = true;
   int _counter = 2;
   @override
   Widget build(BuildContext context) {
     final hv = MediaQuery.of(context).size.width / 100;
     Size size = MediaQuery.of(context).size;
-    /*GatemanUserProvider gateManProvider =
-    Provider.of<GatemanUserProvider>(context, listen: false);*/
+    /*int numberOfRequests = 0;
     ProfileModel profileModel = setMenuModel(context);
+    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    RequestModel requestModel = RequestModel();
+    requestModel = getRequestProvider(context).requestModel;
+    dynamic _residents = requestModel;
+
+    while(requestModel != null){
+       _residents = json.decode(requestModel.residents.toString());
+        numberOfRequests = requestModel.requests;
+    }*/
+    int numberOfRequests = 0;
+    ProfileModel profileModel = setMenuModel(context);
+    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    RequestModel requestModel = RequestModel();
+    requestModel = getRequestProvider(context).requestModel;
+    dynamic _residents = requestModel;
+    /*ProfileModel profileModel = setMenuModel(context);
     loadRequests(context);
     RequestModel requestModel = getRequestProvider(context).requestModel;
     if(requestModel == null){
       requestModel = RequestModel();
       requestModel.requests = 0;
+    }
+*/    while(requestModel != null){
+      _residents = json.decode(requestModel.residents.toString());
+      numberOfRequests = requestModel.requests;
     }
     return Scaffold(
       appBar: AppBar(
@@ -148,7 +169,7 @@ class _MenuState extends State<Menu> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Text('${requestModel.requests}',
+                      child: Text('$numberOfRequests',
                           style:
                               TextStyle(fontSize: 11.0, color: Colors.white),
                         textAlign: TextAlign.center,
@@ -194,7 +215,12 @@ class _MenuState extends State<Menu> {
 
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar(alertText: '${requestModel.requests}',)//CustomBottomAppBar(),
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '$numberOfRequests',
+        onTapLocation: '/visitors-list',
+        nameOfLocation: 'Home',
+        imageLocation: imageLocation,
+      )//CustomBottomAppBar(),
     );
   }
 }

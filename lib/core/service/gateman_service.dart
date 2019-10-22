@@ -59,9 +59,6 @@ class GateManService {
     try {
       Response response = await dio.get(uri);
 
-      //print(response.statusCode);
-      //print(response.data);
-
       return (response.statusCode == 400)
           ? ErrorType.invalid_credentials
           : (response.statusCode == 200)

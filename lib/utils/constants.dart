@@ -10,6 +10,7 @@ import 'package:gateapp/core/service/visitor_sevice.dart';
 import 'package:gateapp/providers/gateman_requests_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_gateman_provider.dart';
+import 'package:gateapp/providers/resident_visitor_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
 import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
@@ -50,13 +51,11 @@ Future<user_type> userType(BuildContext context) async {
   return await Provider.of<UserTypeProvider>(context).getUserType;
 }
 
-
-UserTypeProvider getUserTypeProvider(BuildContext context){
+UserTypeProvider getUserTypeProvider(BuildContext context) {
   return Provider.of<UserTypeProvider>(context);
-} 
+}
 
-ProfileProvider getProfileProvider(BuildContext context){
-
+ProfileProvider getProfileProvider(BuildContext context) {
   return Provider.of<ProfileProvider>(context);
 }
 
@@ -64,8 +63,12 @@ VisitorProvider getVisitorProvider(BuildContext context) {
   return Provider.of<VisitorProvider>(context);
 }
 
-GateManRequestProvider getRequestProvider(BuildContext context){
+GateManRequestProvider getRequestProvider(BuildContext context) {
   return Provider.of<GateManRequestProvider>(context);
+}
+
+GateManVisitorProvider getRealVisitorProvider(BuildContext context) {
+  return Provider.of<GateManVisitorProvider>(context);
 }
 
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
@@ -73,30 +76,28 @@ ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
 }
 
 Future loadInitialProfile(BuildContext context) async {
-        try{
-        dynamic response  = await ProfileService.getCurrentUserProfile(
-          authToken: await authToken(context)
-          );
-          if(response is ErrorType){
-            PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
-            
-          }else{
-            //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
-                            print('Initial Profile Loaded');
-                            print(ProfileModel.fromJson(response));
-                            getProfileProvider(context).setProfileModel(
-                            ProfileModel.fromJson(response));
-            getProfileProvider(context).setInitialStatus(true);
-            getUserTypeProvider(context).setFirstRunStatus(false);
-          }
-        } catch (error){
-          print(error);
-          await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(ErrorType.generic));
-            
-        }
-
-      }
-
+  try {
+    dynamic response = await ProfileService.getCurrentUserProfile(
+        authToken: await authToken(context));
+    if (response is ErrorType) {
+      PaysmosmoAlert.showError(
+          context: context, message: GateManHelpers.errorTypeMap(response));
+    } else {
+      //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
+      print('Initial Profile Loaded');
+      print(ProfileModel.fromJson(response));
+      getProfileProvider(context)
+          .setProfileModel(ProfileModel.fromJson(response));
+      getProfileProvider(context).setInitialStatus(true);
+      getUserTypeProvider(context).setFirstRunStatus(false);
+    }
+  } catch (error) {
+    print(error);
+    await PaysmosmoAlert.showError(
+        context: context,
+        message: GateManHelpers.errorTypeMap(ErrorType.generic));
+  }
+}
 
 launchCaller({@required String phone, @required BuildContext context}) async {
   String url = "tel:$phone";
@@ -163,74 +164,60 @@ void loadInitialVisitors(BuildContext context) async {
   }
 }
 
- Future loadInitialVisitorsNew(BuildContext context) async {
-                        
-                                try {
-                                
-                                  dynamic response = await VisitorService.getAllVisitor(
-                                      authToken: await authToken(context));
-                                  if (response is ErrorType) {
-                                    
-                                    
-                                     if(response == ErrorType.no_visitors_found){
-                                      getVisitorProvider(context).setInitialStatus(true);
-                                      PaysmosmoAlert.showSuccess(
-                                        context: context,
-                                        message: GateManHelpers.errorTypeMap(response));
-                                        getVisitorProvider(context).setVisitorModels([]);
-                                    }
-                                    else{
-                                      PaysmosmoAlert.showError(
-                                        context: context,
-                                        message: GateManHelpers.errorTypeMap(response));
-                                    }
-                                     
-                                        
-                                  } else {
-                                    if (response['visitor'].length == 0) {
-                                      PaysmosmoAlert.showSuccess(
-                                          context: context, message: 'No visitors');
-                                    } else {
-                                      print('linking data for visitors');
-                                      print(response['visitor'] );
-                                      dynamic jsonVisitorModels = response['visitor'] ;
-                                      List<VisitorModel> models = [];
-                                      jsonVisitorModels.forEach((jsonModel) {
-                                        models.add(VisitorModel.fromJson(jsonModel));
-                                      });
-                                      getVisitorProvider(context).setVisitorModels(models);
-                                      getUserTypeProvider(context).setFirstRunStatus(false);
-
-                                    
-                                    }
-                                  }
-                                } catch (error) {
-                                  throw error;
-                                }
-                            
-                                }
-
-
+Future loadInitialVisitorsNew(BuildContext context) async {
+  try {
+    dynamic response =
+        await VisitorService.getAllVisitor(authToken: await authToken(context));
+    if (response is ErrorType) {
+      if (response == ErrorType.no_visitors_found) {
+        getVisitorProvider(context).setInitialStatus(true);
+        PaysmosmoAlert.showSuccess(
+            context: context, message: GateManHelpers.errorTypeMap(response));
+        getVisitorProvider(context).setVisitorModels([]);
+      } else {
+        PaysmosmoAlert.showError(
+            context: context, message: GateManHelpers.errorTypeMap(response));
+      }
+    } else {
+      if (response['visitor'].length == 0) {
+        PaysmosmoAlert.showSuccess(context: context, message: 'No visitors');
+      } else {
+        print('linking data for visitors');
+        print(response['visitor']);
+        dynamic jsonVisitorModels = response['visitor'];
+        List<VisitorModel> models = [];
+        jsonVisitorModels.forEach((jsonModel) {
+          models.add(VisitorModel.fromJson(jsonModel));
+        });
+        getVisitorProvider(context).setVisitorModels(models);
+        getUserTypeProvider(context).setFirstRunStatus(false);
+      }
+    }
+  } catch (error) {
+    throw error;
+  }
+}
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();
-  Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: true); 
+  Provider.of<UserTypeProvider>(context)
+      .setFirstRunStatus(true, loggingoutStatus: true);
   Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
-  Navigator.pushNamedAndRemoveUntil(context, '/register',(Route<dynamic> route) => false);
-  
-  PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
-}               
+  Navigator.pushNamedAndRemoveUntil(
+      context, '/register', (Route<dynamic> route) => false);
+
+  PaysmosmoAlert.showSuccess(context: context, message: 'Logout successful');
+}
 
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }
 
 Future getImage(Function(File img) action, ImageSource source) async {
-    File img = await ImagePicker.pickImage(source: source);
+  File img = await ImagePicker.pickImage(source: source);
 
-    action(img);
-
-  }
+  action(img);
+}
 
 ProfileModel setMenuModel(BuildContext context) {
   ProfileModel model = getProfileProvider(context).profileModel;
@@ -238,23 +225,39 @@ ProfileModel setMenuModel(BuildContext context) {
 }
 
 Future loadRequests(BuildContext context) async {
-  try{
-    dynamic response = await GateManService.getAllRequests(authToken: await authToken(context));
+  try {
+    dynamic response = await GateManService.getAllRequests(
+        authToken: await authToken(context));
     //print('got a response');
     print(response);
     if (response['data'] == null) {
-      //print('there are no requests');
-      getRequestProvider(context).addResident(response['data']);
+      print('there are no requests');
+      getRequestProvider(context).setResident(response['data']);
 
-      PaysmosmoAlert.showSuccess(context: context, message: 'No requests at this time');
+      PaysmosmoAlert.showSuccess(
+          context: context, message: 'No requests at this time');
     } else {
-      print('linking data from response');
-      print(response['data']);
-      dynamic requestModelJson = response['data'];
-      print(requestModelJson);
-      getRequestProvider(context).addResident(RequestModel.fromJson(requestModelJson));
+    print('linking data from response');
+    print(response['data']);
+    dynamic requestModelJson = response['data'];
+    print(requestModelJson);
+    getRequestProvider(context).setResident(RequestModel.fromJson(response));
     }
-  }catch (error){
+  } catch (error) {
+    throw error;
+  }
+}
+
+Future loadVisitorsList(BuildContext context) async {
+  try {
+    dynamic response = await GateManService.getAllVisitors(
+        authToken: await authToken(context));
+    print('received a response');
+    print(response);
+    print('linking data..');
+    getRealVisitorProvider(context)
+        .setVisitorsList(RealVisitorModel.fromJson(response));
+  } catch (error) {
     throw error;
   }
 }

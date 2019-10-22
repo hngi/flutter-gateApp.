@@ -8,20 +8,13 @@ class GateManRequestProvider  extends ChangeNotifier{
   RequestModel requestModel = RequestModel();
   bool requestLoaded = false;
 
-
-  /*@override
-  String toString() {
-    return 'GateManRequestProvider{requestModel: $requestModel}';
-  }*/
-
-  void addResident(RequestModel request){
+  void setResident(RequestModel request){
     print('printing model from provider');
     print('model.toString()');
     this.requestModel = request;
     this.requestLoaded = true;
-    //notifyListeners();
+    notifyListeners();
   }
-
 }
 
 class RequestModel{

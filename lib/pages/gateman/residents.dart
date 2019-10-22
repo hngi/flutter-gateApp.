@@ -9,6 +9,7 @@ import 'package:gateapp/pages/gateman/widgets/residentTile.dart';
 import 'package:gateapp/providers/gateman_requests_provider.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
+import 'package:gateapp/providers/resident_visitor_provider.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/helpers.dart';
 
@@ -81,18 +82,26 @@ class _ResidentsGateState extends State<ResidentsGate> {
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
     int numberOfRequests = 0;
+    int numberOfVisitors = 0;
     ProfileModel profileModel = setMenuModel(context);
-    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    if(!getRequestProvider(context).requestLoaded){
+      loadRequests(context);
+      if(!getRealVisitorProvider(context).isLoaded){
+        loadVisitorsList(context);
+      }
+    }
     RequestModel requestModel = RequestModel();
+    RealVisitorModel visitorModel = RealVisitorModel();
+    visitorModel = getRealVisitorProvider(context).visitorModel;
     requestModel = getRequestProvider(context).requestModel;
     dynamic _residents = requestModel;
-
+    dynamic _visitors = visitorModel;
     while(requestModel != null){
        _residents = json.decode(requestModel.residents.toString());
         numberOfRequests = requestModel.requests;
     }
     return Scaffold(
-      bottomNavigationBar: CustomBottomAppBar(alertText: '$numberOfRequests',),
+      bottomNavigationBar: CustomBottomAppBar(alertText: '$numberOfRequests',onTapLocation: '/menu', nameOfLocation: 'Menu',),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
