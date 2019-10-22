@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 
+import 'gateman_requests_provider.dart';
+
 List<SingleChildCloneableWidget> providers = [
   ...independentServices,
   ...dependentServices,
@@ -23,7 +25,8 @@ List<SingleChildCloneableWidget> independentServices = [
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
   ChangeNotifierProvider.value(value: ProfileProvider()),
   ChangeNotifierProvider.value(value: VisitorProvider()),
-  ChangeNotifierProvider.value(value: ResidentsGateManProvider(),)
+  ChangeNotifierProvider.value(value: ResidentsGateManProvider()),
+  ChangeNotifierProvider.value(value: GateManRequestProvider()),
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [];

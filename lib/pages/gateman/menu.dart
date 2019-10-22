@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
+import 'package:gateapp/providers/gateman_requests_provider.dart';
+import 'package:gateapp/providers/profile_provider.dart';
+import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../providers/profile_provider.dart';
-import '../../utils/constants.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -13,18 +16,22 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-
+  //String name = 'Danny Evans';
   bool badge = true;
-  //int _counter = 2;
-  bool controllerLoaded = false;
-
+  int _counter = 2;
   @override
   Widget build(BuildContext context) {
-    if (!getProfileProvider(context).initialProfileLoaded){
-      loadInitialProfile(context);
-    }
     final hv = MediaQuery.of(context).size.width / 100;
     Size size = MediaQuery.of(context).size;
+    /*GatemanUserProvider gateManProvider =
+    Provider.of<GatemanUserProvider>(context, listen: false);*/
+    ProfileModel profileModel = setMenuModel(context);
+    loadRequests(context);
+    RequestModel requestModel = getRequestProvider(context).requestModel;
+    if(requestModel == null){
+      requestModel = RequestModel();
+      requestModel.requests = 0;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff4F4F4F),
@@ -104,7 +111,7 @@ class _MenuState extends State<Menu> {
                 ],
               ),
             ),
-            title: Text(setInitBuildControllers(context),
+            title: Text(profileModel.name,
                 style: TextStyle(
                   color: GateManColors.primaryColor,
                   fontSize: 20.0,
@@ -141,9 +148,11 @@ class _MenuState extends State<Menu> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Text('1',
+                      child: Text('${requestModel.requests}',
                           style:
-                              TextStyle(fontSize: 13.0, color: Colors.white)),
+                              TextStyle(fontSize: 11.0, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
@@ -185,12 +194,7 @@ class _MenuState extends State<Menu> {
 
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar()
+      bottomNavigationBar: CustomBottomAppBar(alertText: '${requestModel.requests}',)//CustomBottomAppBar(),
     );
-  }
-  String setInitBuildControllers(BuildContext context) {
-    ProfileModel model = getProfileProvider(context).profileModel;
-    String name = model.name;
-    return name;
   }
 }

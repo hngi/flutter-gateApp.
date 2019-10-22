@@ -4,11 +4,10 @@ import 'dart:async';
 import 'package:gateapp/utils/constants.dart';
 
 class SplashScreen extends StatelessWidget {
-  
-  Map<user_type,String> mapUserTypeToPage = {
-    user_type.RESIDENT:'/welcome-resident',
-    user_type.GATEMAN:'/gateman-menu',
-
+  Map<user_type, String> mapUserTypeToPage = {
+    user_type.RESIDENT: '/welcome-resident',
+     user_type.GATEMAN:'/menu',
+    //user_type.GATEMAN: '/select-estate',
   };
   @override
   Widget build(BuildContext context) {
@@ -28,11 +27,14 @@ class SplashScreen extends StatelessWidget {
         //     context, mapUserTypeToPage[await userType(context)]);
         user_type routeString = await userType(context);
         await loadInitialProfile(context);
+
         if (routeString == user_type.RESIDENT) {
           await loadGateManThatAccepted(context);
-         await loadInitialVisitors(context);
+         await loadInitialVisitorsNew(context);
 
-        }
+        } /*else if(routeString == user_type.GATEMAN){
+          await
+        }*/
         getUserTypeProvider(context).setFirstRunStatus(false);
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }

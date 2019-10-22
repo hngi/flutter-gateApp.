@@ -36,7 +36,7 @@ class _ScheduledVisitState extends State<ScheduledVisit> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(),
+      bottomNavigationBar: CustomBottomAppBar(alertText: '1',),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: ListView(

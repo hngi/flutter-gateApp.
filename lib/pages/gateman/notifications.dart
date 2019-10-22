@@ -40,7 +40,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(),
+      bottomNavigationBar: CustomBottomAppBar(alertText: '${_notifications.length}',),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: ListView.builder(

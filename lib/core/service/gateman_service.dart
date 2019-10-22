@@ -1,13 +1,14 @@
 import 'dart:convert';
+import 'dart:core' as prefix1;
+import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 
-import '../../utils/constants.dart';
-
-class GatemanService {
+class GateManService {
 
   static BaseOptions options = BaseOptions(
     baseUrl: Endpoint.baseUrl,
@@ -17,15 +18,15 @@ class GatemanService {
     validateStatus: (code) {
       return (code >= 200) ? true : false;
     },
-    headers: {
+    headers:{
       'Accept':'application/json'
     },
   );
 
   static Dio dio = Dio(options);
 
-  static getAllVisitors({@required String authToken
-  }) async {
+  static dynamic getAllVisitors({@required authToken,
+}) async {
     var uri = Endpoint.showVisitors;
     options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
     try {
@@ -34,7 +35,9 @@ class GatemanService {
       print(response.statusCode);
       print(response.data);
 
-      return (response.statusCode == 200)
+      return (response.statusCode == 400)
+          ? ErrorType.invalid_credentials
+              : (response.statusCode == 200)
                   ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
@@ -50,17 +53,19 @@ class GatemanService {
     }
   }
 
-  static getAllRequests({@required String authToken
+  static dynamic getAllRequests({@required authToken,
   }) async {
     var uri = Endpoint.showRequests;
     options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
-
     try {
       Response response = await dio.get(uri);
+
       print(response.statusCode);
       print(response.data);
 
-      return (response.statusCode == 200)
+      return (response.statusCode == 400)
+          ? ErrorType.invalid_credentials
+          : (response.statusCode == 200)
           ? json.decode(response.data)
           : ErrorType.generic;
     } on DioError catch (exception) {
