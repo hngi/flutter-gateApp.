@@ -79,6 +79,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
 
   @override
   Widget build(BuildContext context) {
+    String imageLocation = 'assets/images/gateman/menu.png';
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
     int numberOfRequests = 0;
@@ -101,7 +102,11 @@ class _ResidentsGateState extends State<ResidentsGate> {
         numberOfRequests = requestModel.requests;
     }
     return Scaffold(
-      bottomNavigationBar: CustomBottomAppBar(alertText: '$numberOfRequests',onTapLocation: '/menu', nameOfLocation: 'Menu',),
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '$numberOfRequests',
+        onTapLocation: '/menu',
+        nameOfLocation: 'Menu',
+        imageLocation: imageLocation,),
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
