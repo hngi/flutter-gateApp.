@@ -6,6 +6,7 @@ import 'package:gateapp/providers/resident_gateman_provider.dart';
 class GateManRequestProvider  extends ChangeNotifier{
 
   RequestModel requestModel = RequestModel();
+  bool requestLoaded = false;
 
 
   /*@override
@@ -17,15 +18,16 @@ class GateManRequestProvider  extends ChangeNotifier{
     print('printing model from provider');
     print('model.toString()');
     this.requestModel = request;
+    this.requestLoaded = true;
     //notifyListeners();
   }
 
 }
 
 class RequestModel{
-  int requests = 0;
-  List<ResidentsGateManModel> residents = [];
-  bool status = false;
+  int requests;
+  List<ResidentsGateManModel> residents;
+  bool status;
 
   RequestModel({
     this.requests,

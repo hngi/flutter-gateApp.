@@ -132,7 +132,7 @@ class VisitorService {
 
 
 
-  static deleteVisitor() async{
+  static  deleteVisitor() async{
     BigInt id;
     var uri = Endpoint.visitor;
     try{
@@ -197,6 +197,4 @@ class VisitorService {
       }
     }
   }
-
-
 }
