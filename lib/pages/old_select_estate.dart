@@ -184,7 +184,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         suffixIcon: GestureDetector(
                           child: Icon(Icons.cancel),
                           onTap: () => searchEstateController.clear(),
-                        ),
+                        ), onSaved: (String j) {}, validator: (String j) {return j;},
                       ),
 
                       _filteredEstates != null && _filteredEstates.length > 0
