@@ -231,7 +231,7 @@ class EstateService {
     var uri = Endpoint.estate + '/choose/$estateId';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: ContentType.parse('application/x-www-form-urlencoded').toString(),
       headers: {'Authorization': 'Bearer $authToken'},
     );
 

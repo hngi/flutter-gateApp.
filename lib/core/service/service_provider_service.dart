@@ -49,7 +49,7 @@ class ServiceProviderService {
     String uri = Endpoint.serviceProvider;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: ContentType.parse('application/x-www-form-urlencoded').toString(),
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -78,7 +78,7 @@ class ServiceProviderService {
     String uri = Endpoint.serviceProvider + '/category/$categoryID';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: ContentType.parse('application/x-www-form-urlencoded').toString(),
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -111,7 +111,7 @@ class ServiceProviderService {
     String uri = Endpoint.serviceProvider + '/$categoryID';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: ContentType.parse('application/x-www-form-urlencoded').toString(),
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -134,7 +134,7 @@ class ServiceProviderService {
     String uri = Endpoint.serviceProviderCategory;
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: ContentType.parse('application/x-www-form-urlencoded').toString(),
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
