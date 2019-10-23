@@ -257,13 +257,13 @@ class WelcomeResident extends StatelessWidget {
                             DateTime.now().month &&
                         int.parse(arrival_date_array[2]) ==
                             DateTime.now().day &&
-                        usedDates.contains('today') == false
+                        usedDates.contains('Today') == false
                     ? getTodayOrYesterday(usedDates,'Today'):int.parse(arrival_date_array[0]) == DateTime.now().year &&
                         int.parse(arrival_date_array[1]) ==
                             DateTime.now().month &&
                         int.parse(arrival_date_array[2]) ==
                             DateTime.now().day-1 &&
-                        usedDates.contains('Yesteray') == false?getTodayOrYesterday(usedDates, 'Yesterday')
+                        usedDates.contains('Yesterday') == false?getTodayOrYesterday(usedDates, 'Yesterday')
                         :int.parse(arrival_date_array[0]) == DateTime.now().year &&
                         int.parse(arrival_date_array[1]) ==
                             DateTime.now().month &&
@@ -389,6 +389,7 @@ class WelcomeResident extends StatelessWidget {
                                               }
                     
                       Widget getTodayOrYesterday(usedDates,String dayString) {
+                        print('adddddding something');
                         usedDates.add(dayString);
                         return Text(dayString,
                             style: TextStyle(

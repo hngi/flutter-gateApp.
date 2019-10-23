@@ -1,6 +1,8 @@
+import 'dart:core';
 import 'dart:io';
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/core/service/visitor_service_new.dart';
@@ -42,6 +44,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   
   File imageFile;
 
+  String _base64;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,7 +69,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   File image;
 
   Future shareInvite() async{
-    final ByteData bytes=await rootBundle.load('assets/images/qr.png');
+    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
+    Uint8List bytes = base64.decode(_base64);
+    print('sharing');
     await Share.file('Estate Invite',
         'qr.png',
         bytes.buffer.asUint8List(),
@@ -543,11 +549,16 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                       PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                     
                     } else{
-                        print(response);
+                        // print(response);
                         dialog.hide();
                         getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
                         
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                        print("qt image");
+                        print(response['qr_image_src']);
+                        setState(() {
+                         _base64 =  response['qr_image_src'].toString().split(',')[1];
+                        });
                         openAlertBox();
                     }
 
