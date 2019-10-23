@@ -30,7 +30,8 @@ class Endpoint {
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
   static String showVisitors = 'gateman/visitors';
-  static String showRequests = '/gateman/requests?';
+  static String showRequests = '/gateman/requests';
+  static String gatemanRequests = '/gateman/requests';
 
   //Service Categories
   // static String serviceProvider = '/service-provider';
