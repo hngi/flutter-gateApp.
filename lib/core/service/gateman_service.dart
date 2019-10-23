@@ -218,7 +218,7 @@ class GatemanService {
       print(mapResponse);
 
       if (!mapResponse.containsKey('visitor') ||
-          mapResponse['visitor'].lenght == 0) {
+          mapResponse['visitor'].length == 0) {
         return [];
       }
       final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
