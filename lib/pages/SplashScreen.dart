@@ -21,47 +21,47 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white
+              ),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: Container(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
                   child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.asset("images/gatepass.png"),
-                        Image.asset("images/logopass.png"),
-                        Padding(
-                          padding: EdgeInsetsDirectional.only(top: 10.0),
-                        ),
-                        Text(
-                          "Manage your quests peacefully",
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset("images/gatepass.png"),
+                          Image.asset("images/logopass.png"),
+                          Padding(
+                            padding: EdgeInsetsDirectional.only(top: 10.0),
                           ),
-                        )
-                      ],
+                          Text(
+                            "Manage your quests peacefully",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          )
-        ],
-      )
+                )
+              ],
+            )
+          ],
+        )
     );
   }
 }

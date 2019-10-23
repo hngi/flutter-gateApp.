@@ -1,0 +1,14 @@
+{
+  "message": "A verification code has been sent to your email, please use to veriify your account, also check your spam folder for email",
+  "user": {
+    "first_name": "Jude",
+    "last_name": "Jonathan",
+    "email": "jonathanjude27@gmail.com",
+    "image": "no_image.jpg",
+    "phone": "07060959269",
+    "updated_at": "2019-10-14 13:28:21",
+    "created_at": "2019-10-14 13:28:21",
+    "id": 67
+  },
+  "status": 201
+}
