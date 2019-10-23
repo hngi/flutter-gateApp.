@@ -8,6 +8,7 @@ class UserTypeProvider extends ChangeNotifier {
   user_type type = user_type.RESIDENT;
   bool firstRunStatus = true;
   bool loggingOut = false;
+  String userTypeStr;
   Map<String, dynamic> userTypeMap  = {
     "RESIDENT":user_type.RESIDENT,
     "ADMIN" : user_type.ADMIN,
@@ -17,6 +18,12 @@ class UserTypeProvider extends ChangeNotifier {
     user_type.RESIDENT: 'RESIDENT',
     user_type.ADMIN: 'ADMIN',
     user_type.GATEMAN:'GATEMAN'
+  };
+
+  Map<String,String> userRouteMapToStr = {
+    'RESIDENT':'/welcome-resident',
+    'ADMIN':'/gateman-menu',
+    'GATEMAN':null
   };
 
   setFirstRunStatus(bool status,{bool loggingoutStatus}){
@@ -41,11 +48,20 @@ class UserTypeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String> get getUserTypeRoute async{
+    try{
+        return userRouteMapToStr[userTypeStr];
+    } catch(error){
+      print(error);
+
+    }
+  }
+
   Future<user_type> get getUserType async{
     user_type userType;
     try{
     SharedPreferences prefs = await getPrefs;
-    String userTypeStr = prefs.getString('user_type');
+    userTypeStr = prefs.getString('user_type');
     
     if (userTypeStr!=null){
       userType = userTypeMap[userTypeStr];

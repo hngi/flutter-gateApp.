@@ -10,6 +10,7 @@ import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
@@ -84,16 +85,18 @@ class _SelectAddressState extends State<SelectAddress> {
     dialog.hide();
 
     dynamic getUserType = await userType(context);
-    Map<user_type, String> mapUserTypeToPage = {
-      user_type.RESIDENT: '/welcome-resident',
-      user_type.GATEMAN: '/gateman-menu',
+    Map<String, String> mapUserTypeToPage = {
+      'RESIDENT': '/welcome-resident',
+      'GATEMAN': '/gateman-menu',
     };
 
     if (result) {
       PaysmosmoAlert.showSuccess(
               context: context, message: 'Estate Successfully Selected')
-          .then((_) {
-        Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
+          .then((_) async {
+            print('pushing to page');
+            print(await getUserTypeProvider(context).getUserTypeRoute);
+        Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
       });
     } else {
       PaysmosmoAlert.showError(

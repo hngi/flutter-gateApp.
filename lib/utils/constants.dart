@@ -123,7 +123,7 @@ Future loadGateManThatAccepted(context) async {
   }
 }
 
-void loadInitialVisitors(BuildContext context) async {
+Future loadInitialVisitors(BuildContext context) async {
   try {
     dynamic response =
         await VisitorService.getAllVisitor(authToken: await authToken(context));
@@ -137,12 +137,12 @@ void loadInitialVisitors(BuildContext context) async {
             context: context, message: GateManHelpers.errorTypeMap(response));
       }
     } else {
-      if (response['data']['data'] == 0) {
+      if (response['visitor'] == 0) {
         PaysmosmoAlert.showSuccess(context: context, message: 'No visitors');
       } else {
         print('linking data for visitors');
-        print(response['data']['data']);
-        dynamic jsonVisitorModels = response['data']['data'];
+        print(response['visitor']);
+        dynamic jsonVisitorModels = response['visitor'];
         List<VisitorModel> models = [];
         jsonVisitorModels.forEach((jsonModel) {
           models.add(VisitorModel.fromJson(jsonModel));

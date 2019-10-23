@@ -4,6 +4,7 @@ import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -279,53 +280,58 @@ class WelcomeResident extends StatelessWidget {
                                                                       )
                     
                                     ],),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: GateManColors.primaryColor,
-                                            style: BorderStyle.solid,
-                                            width: .7,
-                                          ),
-                                          borderRadius: BorderRadius.circular(6.0),
-                                        ),
-                                        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
-                                        margin: EdgeInsets.symmetric(vertical: 8.0),
-                                        child: ListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text(
-                                            visitorModel.name,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 18.0,
-                                              color: GateManColors.blackColor,
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.pushNamed(context, '/visitor-profile',arguments: prefix0.getVisitorProvider(context).visitorModels.indexOf(visitorModel));
+                                      },
+                                                                          child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: GateManColors.primaryColor,
+                                              style: BorderStyle.solid,
+                                              width: .7,
                                             ),
+                                            borderRadius: BorderRadius.circular(6.0),
                                           ),
-                                          subtitle: Text(
-                                            visitorModel.purpose,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15.0,
-                                              color: Colors.grey,
+                                          padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
+                                          margin: EdgeInsets.symmetric(vertical: 8.0),
+                                          child: ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            title: Text(
+                                              visitorModel.name,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18.0,
+                                                color: GateManColors.blackColor,
+                                              ),
                                             ),
-                                          ),
-                                          trailing: //Add Button
-                                              Container(
-                                            alignment: Alignment.center,
-                                            padding: EdgeInsets.all(3.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(4.0),
-                                              color: GateManColors.yellowColor,
+                                            subtitle: Text(
+                                              visitorModel.purpose,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 15.0,
+                                                color: Colors.grey,
+                                              ),
                                             ),
-                                            height: 32.0,
-                                            width: 70.0,
-                                            child: Text(visitorModel.time_in==null?
-                                            'morning':visitorModel.time_in,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w600)),
-                                          ),
-                                        )),
+                                            trailing: //Add Button
+                                                Container(
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.all(3.0),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(4.0),
+                                                color: GateManColors.yellowColor,
+                                              ),
+                                              height: 32.0,
+                                              width: 70.0,
+                                              child: Text(visitorModel.time_in==null?
+                                              'morning':visitorModel.time_in,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14.0,
+                                                      fontWeight: FontWeight.w600)),
+                                            ),
+                                          )),
+                                    ),
                                   ],
                                 );
                               }).toList());

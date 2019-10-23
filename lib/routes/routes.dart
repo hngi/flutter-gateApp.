@@ -96,7 +96,7 @@ class Routes {
         return MaterialPageRoute(builder: (context) => AddVisitor());
 
       case '/visitor-profile':
-        return MaterialPageRoute(builder: (context) => VisitorProfile());
+        return MaterialPageRoute(builder: (context) => VisitorProfile(index: settings.arguments,));
 
       case '/add-gateman':
         return MaterialPageRoute(builder: (context) => AddGateman());
