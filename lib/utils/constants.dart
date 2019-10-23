@@ -27,14 +27,12 @@ const CONNECT_TIMEOUT = 30000;
 const RECEIVE_TIMEOUT = 30000;
 
 Future<String> authToken(BuildContext context) async {
-  // String authToken = '';
 
   return await Provider.of<TokenProvider>(
     context,
     listen: false,
   ).authToken;
 
-  // return authToken;
 }
 
 Future<SharedPreferences> get getPrefs async {
@@ -141,38 +139,6 @@ Future loadInitialVisitors(BuildContext context) async {
         getVisitorProvider(context).setInitialStatus(true);
         PaysmosmoAlert.showSuccess(
             context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-        PaysmosmoAlert.showError(
-            context: context, message: GateManHelpers.errorTypeMap(response));
-      }
-    } else {
-      if (response['visitor'] == 0) {
-        PaysmosmoAlert.showSuccess(context: context, message: 'No visitors');
-      } else {
-        print('linking data for visitors');
-        print(response['visitor']);
-        dynamic jsonVisitorModels = response['data']['data'];
-        List<VisitorModel> models = [];
-        jsonVisitorModels.forEach((jsonModel) {
-          models.add(VisitorModel.fromJson(jsonModel));
-        });
-        getVisitorProvider(context).setVisitorModels(models);
-      }
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
-Future loadInitialVisitorsNew(BuildContext context) async {
-  try {
-    dynamic response =
-        await VisitorService.getAllVisitor(authToken: await authToken(context));
-    if (response is ErrorType) {
-      if (response == ErrorType.no_visitors_found) {
-        getVisitorProvider(context).setInitialStatus(true);
-        PaysmosmoAlert.showSuccess(
-            context: context, message: GateManHelpers.errorTypeMap(response));
         getVisitorProvider(context).setVisitorModels([]);
       } else {
         PaysmosmoAlert.showError(
@@ -197,68 +163,6 @@ Future loadInitialVisitorsNew(BuildContext context) async {
     throw error;
   }
 }
-        print(response['visitor']);
-        dynamic jsonVisitorModels = response['visitor'];
-        List<VisitorModel> models = [];
-        jsonVisitorModels.forEach((jsonModel) {
-          models.add(VisitorModel.fromJson(jsonModel));
-        });
-        getVisitorProvider(context).setVisitorModels(models);
-      }
-    }
-  } catch (error) {
-    throw error;
-  }
-}
-
-//  Future loadInitialVisitors(BuildContext context) async {
-
-//                                 try {
-
-//                                   dynamic response = await VisitorService.getAllVisitor(
-//                                       authToken: await authToken(context));
-//                                   if (response is ErrorType) {
-
-
-//                                      if(response == ErrorType.no_visitors_found){
-//                                       getVisitorProvider(context).setInitialStatus(true);
-//                                       PaysmosmoAlert.showSuccess(
-//                                         context: context,
-//                                         message: GateManHelpers.errorTypeMap(response));
-//                                         getVisitorProvider(context).setVisitorModels([]);
-//                                     }
-//                                     else{
-//                                       PaysmosmoAlert.showError(
-//                                         context: context,
-//                                         message: GateManHelpers.errorTypeMap(response));
-//                                     }
-
-
-//                                   } else {
-//                                     if (response['visitor'].length == 0) {
-//                                       PaysmosmoAlert.showSuccess(
-//                                           context: context, message: 'No visitors');
-//                                     } else {
-//                                       print('linking data for visitors');
-//                                       print(response['visitor'] );
-//                                       dynamic jsonVisitorModels = response['visitor'] ;
-//                                       List<VisitorModel> models = [];
-//                                       jsonVisitorModels.forEach((jsonModel) {
-//                                         models.add(VisitorModel.fromJson(jsonModel));
-//                                       });
-//                                       getVisitorProvider(context).setVisitorModels(models);
-//                                       getUserTypeProvider(context).setFirstRunStatus(false);
-
-
-//                                     }
-//                                   }
-//                                 } catch (error) {
-//                                   throw error;
-//                                 }
-
-//                                 }
-
-
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();

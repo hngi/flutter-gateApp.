@@ -25,34 +25,21 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     final hv = MediaQuery.of(context).size.width / 100;
     Size size = MediaQuery.of(context).size;
-    /*int numberOfRequests = 0;
+
+    int numberOfRequests = 0;
     ProfileModel profileModel = setMenuModel(context);
+
     if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+
     RequestModel requestModel = RequestModel();
     requestModel = getRequestProvider(context).requestModel;
     dynamic _residents = requestModel;
 
-    while(requestModel != null){
-       _residents = json.decode(requestModel.residents.toString());
-        numberOfRequests = requestModel.requests;
-    }*/
-    int numberOfRequests = 0;
-    ProfileModel profileModel = setMenuModel(context);
-    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
-    RequestModel requestModel = RequestModel();
-    requestModel = getRequestProvider(context).requestModel;
-    dynamic _residents = requestModel;
-    /*ProfileModel profileModel = setMenuModel(context);
-    loadRequests(context);
-    RequestModel requestModel = getRequestProvider(context).requestModel;
-    if(requestModel == null){
-      requestModel = RequestModel();
-      requestModel.requests = 0;
-    }
-*/    while(requestModel != null){
-      _residents = json.decode(requestModel.residents.toString());
+   while(requestModel != null){
+      //_residents = json.decode(requestModel.residents.toString());
       numberOfRequests = requestModel.requests;
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff4F4F4F),

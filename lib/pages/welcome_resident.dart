@@ -24,7 +24,7 @@ class WelcomeResident extends StatelessWidget {
 
     if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
       print('Loading');
-      loadInitialVisitorsNew(context);
+      loadInitialVisitors(context);
     }
       
           return Scaffold(

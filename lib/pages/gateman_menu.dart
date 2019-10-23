@@ -10,6 +10,8 @@ class GateManMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+GatemanUserProvider gateManProvider =
+Provider.of<GatemanUserProvider>(context, listen: false);
 
 
     return Scaffold(

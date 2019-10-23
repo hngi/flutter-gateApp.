@@ -12,7 +12,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Map<user_type, String> mapUserTypeToPage = {
     user_type.RESIDENT: '/welcome-resident',
      user_type.GATEMAN:'/visitors-list',
-    //user_type.GATEMAN: '/select-estate',
   };
 
   @override
@@ -34,16 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
         await loadInitialProfile(context);
 
         if (routeString == user_type.RESIDENT) {
-          await loadGateManThatAccepted(context);
-          //await loadInitialVisitors(context);
-        //}
-         await loadInitialVisitorsNew(context);
-
+    await loadGateManThatAccepted(context);
+    await loadInitialVisitors(context);
+    }
         print("initial route: " + mapUserTypeToPage[routeString]);
-
-        //} /*else if(routeString == user_type.GATEMAN){
-          await
-        }*/
         getUserTypeProvider(context).setFirstRunStatus(false);
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
