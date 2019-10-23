@@ -9,6 +9,7 @@ buildscript {
         // Add the google services classpath
         // classpath 'com.google.gms:google-services:4.0.1'
         // classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'com.google.gms:google-services:3.2.1'
     }
 }
 

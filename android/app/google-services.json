@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "865173188847",
+    "firebase_url": "https://gateapp-3eccd.firebaseio.com",
+    "project_id": "gateapp-3eccd",
+    "storage_bucket": "gateapp-3eccd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865173188847:android:85fd2dcaef06bdf3a56b1a",
+        "android_client_info": {
+          "package_name": "com.example.gateapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865173188847-3ojbc4428so1cqkmj0fjcb3ns1rsscsb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3Nfhcvriqw_0wVbkZK3ii6zLJhgeb3Lg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865173188847-3ojbc4428so1cqkmj0fjcb3ns1rsscsb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

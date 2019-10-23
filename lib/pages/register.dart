@@ -13,6 +13,8 @@ import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:provider/provider.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gateapp/utils/FirebaseAuth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -21,11 +23,15 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   String _fullName = 'Mr. B';
+  String userId='';
   TextEditingController _fullNameController;
 
   String _email;
   TextEditingController _emailController;
   TextEditingController _phoneController;
+
+  final Auth auth=new Auth();
+  AuthStatus _status=AuthStatus.NOT_DETERMINED;
 
   String _phone;
   @override
@@ -131,6 +137,11 @@ class _RegisterState extends State<Register> {
 
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
                                 dialog.hide();
+
+                                userId=await auth.signUp(_emailController.text, _phoneController.text);
+                                print('User ID: '+userId);
+
+
                                 Navigator.pushNamed(context, '/token-conirmation',arguments: {
                                   'phone':_phoneController.text,
                                   'email':_emailController.text,
