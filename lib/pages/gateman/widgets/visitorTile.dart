@@ -5,6 +5,7 @@ class VisitorTile extends StatefulWidget {
   final String name, address, time;
   final Color color;
   final Function func;
+
   VisitorTile({this.name, this.address, this.color, this.time, this.func});
   @override
   _VisitorTileState createState() => _VisitorTileState();
