@@ -124,8 +124,7 @@ class _ResidentsState extends State<Residents> {
                           User resident = visitor.user;
 
                           return ResidentExpansionTile(
-                            fullName:
-                                '${resident.firstName}  ${resident.lastName}',
+                            fullName: '${resident.name}',
                             address: 'Block 3A, Dele Adebayo Estate',
                             phoneNumber: resident.phone,
                             visitText: 'Scheduled Visit',
