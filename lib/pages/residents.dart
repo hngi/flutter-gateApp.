@@ -105,6 +105,9 @@ class _ResidentsState extends State<Residents> {
                 _residents == null || _residents.length == 0
                     ? Center(
                         child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           Icon(Icons.hourglass_empty, size: 50.0),
                           Padding(
