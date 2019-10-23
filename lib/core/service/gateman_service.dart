@@ -29,7 +29,7 @@ class GatemanService {
   };
 
   static BaseOptions options = BaseOptions(
-    baseUrl: Endpoint.showVisitors,
+    baseUrl: Endpoint.baseUrl,
     responseType: ResponseType.plain,
     connectTimeout: prefix0.CONNECT_TIMEOUT,
     receiveTimeout: prefix0.RECEIVE_TIMEOUT,
@@ -107,6 +107,10 @@ class GatemanService {
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
+
+      if (mapResponse.containsKey('total') && mapResponse['total'] == 0) {
+        return [];
+      }
       final items = mapResponse['residents'].cast<Map<String, dynamic>>();
       List<GatemanResidentRequest> listOfGatemanResidentRequests =
           items.map<GatemanResidentRequest>((json) {
@@ -126,8 +130,13 @@ class GatemanService {
   }) async {
     var uri = Endpoint.gatemanRequests + '/accept/$requestId';
 
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
     try {
-      Response response = await dio.put(uri);
+      Response response = await dio.put(uri, options: options);
 
       print(response.statusCode);
       print(response.data);
@@ -136,7 +145,7 @@ class GatemanService {
           ? ErrorType.invalid_credentials
           : (response.statusCode == 401)
               ? ErrorType.account_not_confimrmed
-              : (response.statusCode == 200)
+              : (response.statusCode == 200 || response.statusCode == 202)
                   ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
@@ -159,8 +168,13 @@ class GatemanService {
   }) async {
     var uri = Endpoint.gatemanRequests + '/reject/$requestId';
 
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
     try {
-      Response response = await dio.put(uri);
+      Response response = await dio.put(uri, options: options);
 
       print(response.statusCode);
       print(response.data);
@@ -169,7 +183,7 @@ class GatemanService {
           ? ErrorType.invalid_credentials
           : (response.statusCode == 401)
               ? ErrorType.account_not_confimrmed
-              : (response.statusCode == 200)
+              : (response.statusCode == 200 || response.statusCode == 202)
                   ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {

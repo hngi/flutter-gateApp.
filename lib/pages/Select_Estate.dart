@@ -51,12 +51,9 @@ class _SelectAddressState extends State<SelectAddress> {
   void initState() {
     super.initState();
     dialog = LoadingDialog(context, LoadingDialogType.Normal);
-    initApp();
   }
 
-  initApp() async {
-    routeString = await userType(context);
-  }
+  
 
   _onTextFieldChanged(String value) async {
     if (searchEstateController.text != '') {
@@ -75,6 +72,7 @@ class _SelectAddressState extends State<SelectAddress> {
   }
 
   _onSave() async {
+    routeString = await userType(context);
     dialog.show();
 
     bool result = await EstateService.selectEstate(

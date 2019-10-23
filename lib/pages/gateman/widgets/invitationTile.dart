@@ -19,12 +19,12 @@ class InvitationTile extends StatefulWidget {
   final BuildContext parentContext;
 
   InvitationTile({
-    this.rname,
-    this.raddress,
-    this.rphone,
-    this.requestId,
+    @required this.rname,
+    @required this.raddress,
+    @required this.rphone,
+    @required this.requestId,
     this.func,
-    this.parentContext,
+    @required this.parentContext,
   });
 
   @override
@@ -43,50 +43,51 @@ class _InvitationTileState extends State<InvitationTile> {
   _acceptResident(LoadingDialog dialog) async {
     dialog.show();
 
-    var res = GatemanService.acceptRequest(
+    print('Request ID: ${widget.requestId}');
+
+    var res = await GatemanService.acceptRequest(
       requestId: widget.requestId,
       authToken: await authToken(context),
     );
 
     if (res is ErrorType) {
+      dialog.hide();
       await PaysmosmoAlert.showError(
         context: context,
         message: GateManHelpers.errorTypeMap(res),
       );
-      dialog.hide();
     } else {
-      await PaysmosmoAlert.showSuccess(
-        context: context,
-        message: 'Invitation accepted successfully',
-      );
       dialog.hide();
+      // await PaysmosmoAlert.showSuccess(
+      //   context: context,
+      //   message: 'Invitation accepted successfully',
+      // );
+
+      showAcceptDialog();
     }
   }
 
   _declineResident(LoadingDialog dialog) async {
     dialog.show();
 
-    var res = GatemanService.rejectRequest(
+    var res = await GatemanService.rejectRequest(
       requestId: widget.requestId,
       authToken: await authToken(context),
     );
 
     if (res is ErrorType) {
+      dialog.hide();
       await PaysmosmoAlert.showError(
         context: context,
         message: GateManHelpers.errorTypeMap(res),
       );
-
-      dialog.hide();
     } else {
-      // await PaysmosmoAlert.showSuccess(
-      //   context: context,
-      //   message: 'Invitation declined successfully',
-      // );
-
       dialog.hide();
 
-      showAcceptDialog();
+      await PaysmosmoAlert.showSuccess(
+        context: context,
+        message: 'Invitation declined successfully',
+      );
     }
   }
 
@@ -112,8 +113,7 @@ class _InvitationTileState extends State<InvitationTile> {
 
   @override
   Widget build(BuildContext context) {
-    LoadingDialog dialog =
-        LoadingDialog(widget.parentContext, LoadingDialogType.Normal);
+    LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
 
     return exist
         ? Column(
@@ -196,7 +196,7 @@ class _InvitationTileState extends State<InvitationTile> {
                                         size: 14.0,
                                         color: Color(0xff4F4F4F),
                                       ),
-                                      Text(widget.raddress,
+                                      Text(widget.raddress ?? 'null',
                                           style: TextStyle(
                                             fontSize: 11.0,
                                           ))

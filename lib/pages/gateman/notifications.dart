@@ -96,19 +96,32 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
       ),
       body: isLoading
           ? Loader.show()
-          : ListView.builder(
-              itemCount: _requests.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InvitationTile(
-                  rname: _requests[index].name,
-                  raddress: _requests[index].username,
-                  rphone: _requests[index].phone,
-                  func: () {
-                    Navigator.pushNamed(context, '/residents-gate');
+          : _requests == null || _requests.length == 0
+              ? Center(
+                  child: Column(
+                  children: <Widget>[
+                    Icon(Icons.hourglass_empty, size: 50.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('You have no Notifications'),
+                    )
+                  ],
+                ))
+              : ListView.builder(
+                  itemCount: _requests.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InvitationTile(
+                      parentContext: context,
+                      requestId: _requests[index].requestId,
+                      rname: _requests[index].name,
+                      raddress: _requests[index].username,
+                      rphone: _requests[index].phone,
+                      func: () {
+                        Navigator.pushNamed(context, '/residents-gate');
+                      },
+                    );
                   },
-                );
-              },
-            ),
+                ),
     );
   }
 }
