@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
+import 'package:gateapp/core/models/gateman_resident_visitors.dart';
 import 'package:gateapp/core/models/gateman_residents_request.dart';
 import 'package:gateapp/core/models/request.dart';
 import 'package:gateapp/providers/gateman_visitors.dart';
@@ -196,6 +197,39 @@ class GatemanService {
       } else {
         return ErrorType.generic;
       }
+    }
+  }
+
+  //Get Gateman requests
+  static Future<List<GatemanResidentVisitors>> allResidentVisitors({
+    @required String authToken,
+  }) async {
+    String uri = Endpoint.gateman + '/visitors';
+
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    Response response = await dio.get(uri, options: options);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> mapResponse = json.decode(response.data);
+      print(mapResponse);
+
+      if (!mapResponse.containsKey('visitor') ||
+          mapResponse['visitor'].lenght == 0) {
+        return [];
+      }
+      final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
+      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
+          items.map<GatemanResidentVisitors>((json) {
+        return GatemanResidentVisitors.fromJson(json);
+      }).toList();
+
+      return listOfGatemanResidentRequests;
+    } else {
+      throw Exception('Failed to load internet');
     }
   }
 }

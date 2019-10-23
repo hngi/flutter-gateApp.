@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/gateman_resident_visitors.dart';
+import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
+import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
@@ -12,60 +17,48 @@ import 'package:provider/provider.dart';
 
 import 'gateman/menu.dart';
 
-class Residents extends StatelessWidget {
+class Residents extends StatefulWidget {
+  @override
+  _ResidentsState createState() => _ResidentsState();
+}
+
+class _ResidentsState extends State<Residents> {
+  bool isLoading = false;
+
+  List<GatemanResidentVisitors> _residents = [];
+  LoadingDialog dialog;
+
+  @override
+  void initState() {
+    super.initState();
+    dialog = LoadingDialog(context, LoadingDialogType.Normal);
+    initApp();
+  }
+
+  initApp() async {
+    setState(() {
+      isLoading = true;
+    });
+    Future.wait([
+      GatemanService.allResidentVisitors(
+        authToken: await authToken(context),
+      ),
+    ]).then((res) {
+      print(res);
+      setState(() {
+        _residents = res[0];
+
+        isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     GatemanUserProvider gateManProvider =
         Provider.of<GatemanUserProvider>(context, listen: false);
-
-    //Residents dummy Data
-    List<Map<String, dynamic>> _residents = [
-      {
-        "id": 1,
-        "fullName": "Mr. Seun Adeniyi",
-        "address": "Block 3A, Dele Adebayo Estate",
-        "phoneNumber": "0812345678",
-      },
-      {
-        "id": 2,
-        "fullName": "Janet Thompson",
-        "address": "Block 3A, Dele Adebayo Estate",
-        "phoneNumber": "0812345678",
-      },
-    ];
-
-    //Visitors dummy Data
-    List<Map<String, dynamic>> _visitors = [
-      {
-        "id": 1,
-        "residentId": 1,
-        "fullName": "Jane Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      },
-      {
-        "id": 2,
-        "residentId": 2,
-        "fullName": "John Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      },
-      {
-        "id": 3,
-        "residentId": 2,
-        "fullName": "Jane Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      }
-    ];
 
     return Scaffold(
       body: ListView(
@@ -106,18 +99,27 @@ class Residents extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 )),
           ),
-          ResidentExpansionTile(
-            fullName: 'Janet Thompson',
-            address: 'Block 3A, Dele Adebayo Estate',
-            phoneNumber: '0812345678',
-            visitText: 'Scheduled Visit',
-            numberCount: '1',
-            visitorApprovalStatus: 'Approved',
-            visitorDescription: 'Bald, Tall and ..',
-            visitorETA: '00:00 - 00:00',
-            visitorName: 'John Doe',
-            visitorPhoneNumber: '0812345678',
-            visitorVerifyNo: 'LA7739JA',
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _residents.map((GatemanResidentVisitors visitor) {
+              User resident = visitor.user;
+
+              return ResidentExpansionTile(
+                fullName: '${resident.firstName}  ${resident.lastName}',
+                address: 'Block 3A, Dele Adebayo Estate',
+                phoneNumber: resident.phone,
+                visitText: 'Scheduled Visit',
+                numberCount: '1',
+                visitorApprovalStatus:
+                    visitor.status == 0 ? 'Not Approved' : 'Approved',
+                visitorDescription: visitor.description,
+                visitorETA: '00:00 - 00:00',
+                visitorName: 'John Doe',
+                visitorPhoneNumber: '0812345678',
+                visitorVerifyNo: 'LA7739JA',
+              );
+            }).toList(),
           ),
           ResidentExpansionTile(
             fullName: 'Mr. Seun Adeniyi',
@@ -136,7 +138,8 @@ class Residents extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => GateManMenu()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => GateManMenu()));
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
