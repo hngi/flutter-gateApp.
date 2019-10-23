@@ -8,9 +8,6 @@ import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:url_launcher/url_launcher.dart';
 class ManageGateman extends StatelessWidget {
 
   @override
