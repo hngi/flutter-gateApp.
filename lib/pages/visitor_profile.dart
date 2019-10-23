@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 
 class VisitorProfile extends StatefulWidget {
+  final int index;
+  VisitorProfile({@required this.index});
+
   @override
   _VisitorProfileState createState() => _VisitorProfileState();
 }
 
-class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
-  TabController tabController;
-  final _User visitor = _User(
-    name: 'Mr. Ryan Brain',
-    phone: '080995653333',
-    vehicleNo: 'KJA-657AA',
-    purpose: 'Plumbing work',
-    eta: '10:40am',
-  );
-  final _User toSee = _User(
-    name: 'Mr. Frank Dan',
-    address: 'Plot 4, HNG Street',
-  );
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    tabController.dispose();
-    super.dispose();
-  }
+class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProviderStateMixin {
+  // final _User visitor = _User(
+  //   name: 'Mr. Ryan Brain',
+  //   phone: '080995653333',
+  //   vehicleNo: 'KJA-657AA',
+  //   purpose: 'Plumbing work',
+  //   eta: '10:40am',
+  // );
+  // final _User toSee = _User(
+  //   name: 'Mr. Frank Dan',
+  //   address: 'Plot 4, HNG Street',
+  // );
+  
+  
 
   @override
   Widget build(BuildContext context) {
+    VisitorModel model = getVisitorProvider(context).visitorModels[this.widget.index];
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -81,7 +81,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
                   child: Center(
                     child: Text(
-                      visitor.name,
+                      model.name,
                       style: Theme.of(context)
                           .textTheme
                           .title
@@ -114,8 +114,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                               size: 14,
                             ),
                             SizedBox(width: 10),
-                            Text(
-                              toSee.name,
+                            Text(getProfileProvider(context).profileModel.name,
                               style: Theme.of(context).textTheme.headline,
                             ),
                           ],
@@ -131,7 +130,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              toSee.address,
+                              'Residents Address',// toSee.address,
                               style: Theme.of(context).textTheme.subtitle,
                             ),
                           ],
@@ -162,7 +161,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Text(
-                          visitor.phone,
+                          '056343039034',// visitor.phone,dummy no plate number from backend
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
@@ -190,7 +189,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Text(
-                          visitor.vehicleNo,
+                          model.car_plate_no??'Nil',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
@@ -218,7 +217,7 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Text(
-                          visitor.purpose,
+                          model.purpose??'Nil',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
@@ -246,7 +245,13 @@ class _VisitorProfileState extends State with SingleTickerProviderStateMixin {
                           ),
                         ),
                         Text(
-                          visitor.eta,
+                          DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
+                          DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
+                          DateTime.now().day < int.parse(model.arrival_date.split('-')[2])?'1day+':
+                          DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
+                          DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
+                          DateTime.now().day > int.parse(model.arrival_date.split('-')[2])?
+                          'Should have arrived':'12hour+',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],

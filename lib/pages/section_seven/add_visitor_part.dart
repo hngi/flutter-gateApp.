@@ -1,6 +1,8 @@
+import 'dart:core';
 import 'dart:io';
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gateapp/core/service/visitor_service_new.dart';
@@ -42,6 +44,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   
   File imageFile;
 
+  String _base64;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -65,7 +69,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   File image;
 
   Future shareInvite() async{
-    final ByteData bytes=await rootBundle.load('assets/images/qr.png');
+    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
+    Uint8List bytes = base64.decode(_base64);
+    print('sharing');
     await Share.file('Estate Invite',
         'qr.png',
         bytes.buffer.asUint8List(),
@@ -84,7 +90,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     });
   }
 
-  openAlertBox() {
+  openAlertBox(String code) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -170,9 +176,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Image.asset(
-                                'assets/images/qr.png',
-                              ),
+                              child: Image.memory(base64.decode(_base64)),
                               /*child: Image.network(
                                   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
                               ),*/
@@ -191,7 +195,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                   height: 50.0,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    '4561WT',
+                                    code,
                                     style: TextStyle(
                                       fontSize: 25.0,
                                       fontWeight: FontWeight.w600,
@@ -543,12 +547,17 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                       PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
                     
                     } else{
-                        print(response);
+                        // print(response);
                         dialog.hide();
                         getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
                         
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
-                        openAlertBox();
+                        print("qt image");
+                        print(response['qr_image_src']);
+                        setState(() {
+                         _base64 =  response['qr_image_src'].toString().split(',')[1];
+                        });
+                        openAlertBox(response['visitor']['qr_code']??'Nil');
                     }
 
                     
