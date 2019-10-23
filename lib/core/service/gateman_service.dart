@@ -1,55 +1,43 @@
-import 'dart:io';
+import 'dart:convert';
+import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/core/models/request.dart';
-import 'package:gateapp/providers/gateman_visitors.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 
-class GatemanService {
-  static String authToken;
-  static BuildContext context;
-
-  static Future<String> getAuthToken() async {
-    try {
-      authToken = await prefix0.authToken(context);
-      return authToken;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  static Map<String, String> headers = {
-    HttpHeaders.contentTypeHeader: "application/json",
-    HttpHeaders.authorizationHeader: authToken,
-  };
+class GateManService {
 
   static BaseOptions options = BaseOptions(
-    baseUrl: Endpoint.showVisitors,
+    baseUrl: Endpoint.baseUrl,
     responseType: ResponseType.plain,
-    connectTimeout: prefix0.CONNECT_TIMEOUT,
-    receiveTimeout: prefix0.RECEIVE_TIMEOUT,
+    connectTimeout: CONNECT_TIMEOUT,
+    receiveTimeout: RECEIVE_TIMEOUT,
     validateStatus: (code) {
       return (code >= 200) ? true : false;
     },
-    headers: headers,
+    headers:{
+      'Accept':'application/json'
+    },
   );
 
   static Dio dio = Dio(options);
 
-  static getAllVisitors() async {
+  static dynamic getAllVisitors({@required authToken,
+}) async {
     var uri = Endpoint.showVisitors;
+    options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
     try {
       Response response = await dio.get(uri);
+
+      print(response.statusCode);
       print(response.data);
-      return (response.statusCode == 404)
+
+      return (response.statusCode == 400)
           ? ErrorType.invalid_credentials
-          : (response.statusCode == 401)
-              ? ErrorType.account_not_confimrmed
               : (response.statusCode == 200)
-                  ? GatemanVisitors.fromJson(response.data)
+                  ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
       if (exception == null ||
@@ -64,17 +52,17 @@ class GatemanService {
     }
   }
 
-  static getAllRequests() async {
+  static dynamic getAllRequests({@required authToken,
+  }) async {
     var uri = Endpoint.showRequests;
+    options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
     try {
       Response response = await dio.get(uri);
-      print(response.data);
-      return (response.statusCode == 404)
+
+      return (response.statusCode == 400)
           ? ErrorType.invalid_credentials
-          : (response.statusCode == 401)
-          ? ErrorType.account_not_confimrmed
           : (response.statusCode == 200)
-          ? Requests.fromJson(response.data)
+          ? json.decode(response.data)
           : ErrorType.generic;
     } on DioError catch (exception) {
       if (exception == null ||

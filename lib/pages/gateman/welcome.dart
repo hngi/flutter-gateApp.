@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 
 class GatemanWelcome extends StatefulWidget {
   final fullname;
@@ -9,10 +10,10 @@ class GatemanWelcome extends StatefulWidget {
 }
 
 class _GatemanWelcomeState extends State<GatemanWelcome> {
-  int invitations = 2;
   TextEditingController emailController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    int invitations = getRequestProvider(context).requestModel.requests;
     return Scaffold(
       body: ListView(
         children: <Widget>[

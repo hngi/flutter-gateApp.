@@ -77,13 +77,9 @@ class ResidentsGateManProvider extends ChangeNotifier {
       status: jsonModel['status'],
       created_at: jsonModel['created_at'],
       updated_at: jsonModel['updated_at']
-
-
-
-
     );
-  
-  
+
+
   }
 
 

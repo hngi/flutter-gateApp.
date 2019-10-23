@@ -17,7 +17,7 @@ class Endpoint {
   //Service Categories
   static String serviceProvider = '/service-provider';
   static String serviceProviderCategory = '/sp-category';
-  //Esate
+  //Estate
   //static String estate = '/estate';
   static String resendOTPtoken = '/resend/token';
   static String getCurrentUser = '/user';
@@ -29,6 +29,8 @@ class Endpoint {
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
+
+  //GateMan
   static String showVisitors = 'gateman/visitors';
   static String showRequests = '/gateman/requests?';
 
@@ -42,6 +44,12 @@ class Endpoint {
       '/search/gateman/phone/$gatemanPhone';
   static String searchGatemanByName({@required String gatemanName}) =>
       '/search/gateman/name/$gatemanName';
+  /*static String serviceProvider = '/service-provider';
+  static String serviceProviderCategory = '/sp-category';*/
+
+  static String addGateMan({@required int gatemanId}) => '/resident/addGateman/$gatemanId';
+  static String searchGatemanByPhone({@required String gatemanPhone}) => '/search/gateman/phone/$gatemanPhone';
+  static String searchGatemanByName({@required String gatemanName}) => '/search/gateman/name/$gatemanName';
   static String viewGatemanThatAccepted = '/resident/acceptedInvitation';
   static String viewGatemanYetToAccept = 'resident/pendingInvitation';
   static String deleteGateman({@required int gatemanId}) =>

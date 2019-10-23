@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final gatemanVisitors = gatemanVisitorsFromJson(jsonString);
-
-import 'dart:convert';
-
+/*
 class GatemanVisitors {
   int visitors;
   List<Visitor> visitor;
@@ -151,3 +146,4 @@ class User {
     "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
   };
 }
+*/

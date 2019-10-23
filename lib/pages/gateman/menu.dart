@@ -1,14 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
+import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/pages/gateman/widgets/listTileMenu.dart';
+import 'package:gateapp/providers/gateman_requests_provider.dart';
+import 'package:gateapp/providers/profile_provider.dart';
+import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'residents.dart';
 
 class Menu extends StatefulWidget {
   @override
@@ -16,13 +18,41 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  String name = 'Danny Evans';
+  String imageLocation = 'assets/images/gateman/VectorHome.png';
   bool badge = true;
   int _counter = 2;
   @override
   Widget build(BuildContext context) {
     final hv = MediaQuery.of(context).size.width / 100;
     Size size = MediaQuery.of(context).size;
+    /*int numberOfRequests = 0;
+    ProfileModel profileModel = setMenuModel(context);
+    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    RequestModel requestModel = RequestModel();
+    requestModel = getRequestProvider(context).requestModel;
+    dynamic _residents = requestModel;
+
+    while(requestModel != null){
+       _residents = json.decode(requestModel.residents.toString());
+        numberOfRequests = requestModel.requests;
+    }*/
+    int numberOfRequests = 0;
+    ProfileModel profileModel = setMenuModel(context);
+    if(!getRequestProvider(context).requestLoaded){loadRequests(context);}
+    RequestModel requestModel = RequestModel();
+    requestModel = getRequestProvider(context).requestModel;
+    dynamic _residents = requestModel;
+    /*ProfileModel profileModel = setMenuModel(context);
+    loadRequests(context);
+    RequestModel requestModel = getRequestProvider(context).requestModel;
+    if(requestModel == null){
+      requestModel = RequestModel();
+      requestModel.requests = 0;
+    }
+*/    while(requestModel != null){
+      _residents = json.decode(requestModel.residents.toString());
+      numberOfRequests = requestModel.requests;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff4F4F4F),
@@ -102,7 +132,7 @@ class _MenuState extends State<Menu> {
                 ],
               ),
             ),
-            title: Text(name,
+            title: Text(profileModel.name,
                 style: TextStyle(
                   color: GateManColors.primaryColor,
                   fontSize: 20.0,
@@ -139,9 +169,11 @@ class _MenuState extends State<Menu> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 4.0),
-                      child: Text('1',
+                      child: Text('$numberOfRequests',
                           style:
-                              TextStyle(fontSize: 13.0, color: Colors.white)),
+                              TextStyle(fontSize: 11.0, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
@@ -183,66 +215,12 @@ class _MenuState extends State<Menu> {
 
       floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar()
-
-      // bottomNavigationBar: new BottomAppBar(
-      //   color: GateManColors.primaryColor,
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(top:15.0, left: 20.0, right: 20.0, bottom: 10.0),
-      //     child: SizedBox(height: hv*14,
-      //       child: new Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: <Widget>[
-      //         InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Menu(name: widget.name,)));},
-      //           child: Column(
-      //             children: <Widget>[
-      //               Image.asset('assets/images/gateman/menu.png'),
-      //               Text('Menu', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ),)
-      //             ],
-      //           ),
-      //         ),
-      //         InkWell(onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => new GatemanNotifications(name: widget.name,)));},
-      //           child: Column(
-      //             children: <Widget>[
-      //               Stack(
-      //                 children: <Widget>[
-      //                   Image.asset('assets/images/gateman/notification.png'),
-      //                   badge ? Positioned(
-      //                     right: 0,
-      //                     child: new Container(
-      //                       padding: EdgeInsets.all(1),
-      //                       decoration: new BoxDecoration(color: Colors.red,borderRadius: BorderRadius.circular(6),),
-      //                       constraints: BoxConstraints(minWidth: 12,minHeight: 12,),
-      //                       child: new Text('$_counter',style: new TextStyle(color: Colors.white,fontSize: 8,),textAlign: TextAlign.center,),
-      //                     ),
-      //                     ):Container()
-      //                 ],
-      //               ),
-      //               Text('Alert', style: TextStyle(color: Colors.white, fontSize: 13.0, fontWeight: FontWeight.bold ))
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButton: SizedBox(width: 110.0, height:110.0,
-      // child:   new FloatingActionButton(backgroundColor: GateManColors.primaryColor,
-      //   child: Column(mainAxisAlignment: MainAxisAlignment.center,
-      //       children: <Widget>[
-      //         Padding(
-      //           padding: const EdgeInsets.only(bottom: 4.0),
-      //           child: Image.asset('assets/images/gateman/residents.png'),
-      //         ),
-      //         Text('Residents', style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.bold),)
-      //         ],
-
-      //         ), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => new Residents(name: widget.name,)));},
-
-      //         ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '$numberOfRequests',
+        onTapLocation: '/visitors-list',
+        nameOfLocation: 'Home',
+        imageLocation: imageLocation,
+      )//CustomBottomAppBar(),
     );
   }
 }

@@ -16,6 +16,7 @@ enum ErrorType {
   username_at_least_2_char,
   no_gateman_found,
   unauthorized,
+  no_requests_available,
   request_already_sent_to_gateman,
   invalid_input_in_register,
   estate_city,
