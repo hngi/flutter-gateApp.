@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class Endpoint {
   //Base URL
   static String baseUrl =
@@ -31,10 +32,18 @@ class Endpoint {
   static String showVisitors = 'gateman/visitors';
   static String showRequests = '/gateman/requests?';
 
-  static String addGateMan({@required int gatemanId}) => '/resident/addGateman/$gatemanId';
-  static String searchGatemanByPhone({@required String gatemanPhone}) => '/search/gateman/phone/$gatemanPhone';
-  static String searchGatemanByName({@required String gatemanName}) => '/search/gateman/name/$gatemanName';
+  //Service Categories
+  // static String serviceProvider = '/service-provider';
+  // static String serviceProviderCategory = '/sp-category';
+
+  static String addGateMan({@required int gatemanId}) =>
+      '/resident/addGateman/$gatemanId';
+  static String searchGatemanByPhone({@required String gatemanPhone}) =>
+      '/search/gateman/phone/$gatemanPhone';
+  static String searchGatemanByName({@required String gatemanName}) =>
+      '/search/gateman/name/$gatemanName';
   static String viewGatemanThatAccepted = '/resident/acceptedInvitation';
   static String viewGatemanYetToAccept = 'resident/pendingInvitation';
-  static String deleteGateman({@required int gatemanId}) => 'resident/removeGateman/$gatemanId';
+  static String deleteGateman({@required int gatemanId}) =>
+      'resident/removeGateman/$gatemanId';
 }

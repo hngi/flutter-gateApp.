@@ -96,7 +96,7 @@ class GateManMenu extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: Text(gateManProvider.gatemanUser.fullName,
+                      child: Text(gateManProvider?.gatemanUser?.fullName ?? '',
                           style: TextStyle(
                             color: GateManColors.primaryColor,
                             fontSize: 20.0,

@@ -5,20 +5,23 @@ class Estate {
   String estateName;
   String city;
   String country;
+  String address;
 
   Estate({
     this.estateId,
     this.estateName,
     this.city,
     this.country,
+    this.address,
   });
 
   factory Estate.fromJson(Map<String, dynamic> json) {
     return Estate(
-      estateId: json['estate_id'],
+      estateId: json['id'],
       estateName: json['estate_name'],
       city: json['city'],
       country: json['country'],
+      address: json['address'] ?? '',
     );
   }
 }
