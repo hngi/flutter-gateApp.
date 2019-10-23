@@ -139,7 +139,9 @@ class _SettingState extends State<Settings> {
                   ),
                   Container(
                     child: BottomMenu(
-                        'Support', () {}, Border(bottom: BorderSide.none)),
+                        'Support',
+                        () => Navigator.pushNamed(context, '/support'),
+                        Border(bottom: BorderSide.none)),
                   ),
                 ],
               )),
