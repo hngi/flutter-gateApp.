@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate_list.dart';
 import 'package:gateapp/core/models/old_user.dart';
+import 'package:gateapp/core/service/estate_service.dart';
 import 'package:gateapp/providers/resident_user_provider.dart';
+import 'package:gateapp/utils/FlushAlert/flush_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
@@ -15,7 +18,7 @@ class AddEstate extends StatefulWidget {
 }
 
 class _AddEstateState extends State<AddEstate> {
-  final _formkey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   //Model model = Model();
@@ -24,6 +27,87 @@ class _AddEstateState extends State<AddEstate> {
   List<String> _countries = ['Nigeria', 'South Africa', 'China'];
   List<String> _cities = ['Lagos', 'Abuja', 'Imo'];
   //Future<dynamic> _estates = EstateService.addEstate(estateName: null, city: null, country: null);
+
+  String _estateName, _address, _country, _city;
+
+  _onSaved() async {
+    var form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+
+      LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+      dialog.show();
+
+      var res = await EstateService.addEstate(
+        city: _city,
+        country: _country,
+        estateName: _estateName,
+        address: _address,
+      );
+
+      dialog.hide();
+
+      if (res == ErrorType.network) {
+        FlushAlert.show(
+          context: context,
+          message: 'No Internet Connection!',
+          isError: true,
+        );
+      } else if (res == ErrorType.timeout) {
+        //Show Timeout error
+        FlushAlert.show(
+          context: context,
+          message: 'Check your Internet connection!',
+          isError: true,
+        );
+      } else if (res == ErrorType.estate_country) {
+        //Show Timeout error
+        FlushAlert.show(
+          context: context,
+          message: 'Country must be provided',
+          isError: true,
+        );
+      } else if (res == ErrorType.estate_address) {
+        //Show Timeout error
+        FlushAlert.show(
+          context: context,
+          message: 'Address must be provided',
+          isError: true,
+        );
+      } else if (res == ErrorType.estate_city) {
+        //Show Timeout error
+        FlushAlert.show(
+          context: context,
+          message: 'City must be provided',
+          isError: true,
+        );
+      } else if (res == ErrorType.estate_estate_name) {
+        //Show Timeout error
+        FlushAlert.show(
+          context: context,
+          message: 'Estate name must be provided',
+          isError: true,
+        );
+      } else if (res == ErrorType.generic) {
+        //Show something went wrong error
+        FlushAlert.show(
+          context: context,
+          message: 'Something went wrong, try again!',
+          isError: true,
+        );
+      } else {
+        //login
+
+        FlushAlert.show(
+          context: context,
+          message: 'Estate added successfully',
+          isError: false,
+        ).then((_) {
+          Navigator.of(context).pushReplacementNamed('/select-estate');
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -63,140 +147,107 @@ class _AddEstateState extends State<AddEstate> {
     AllEstateModel allEstates =
         Provider.of<AllEstateModel>(context, listen: false);
     return Form(
-      key: _formkey,
+      key: _formKey,
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            ListView(
-              padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Text(
-                    'Add New Estate',
-                    style: TextStyle(
-                        fontSize: 32.0,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 50.0),
-                  child: Text(
-                    'Input the current location and estate you are adding',
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.grey,
+            Form(
+              key: _formKey,
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Text(
+                      'Add New Estate',
+                      style: TextStyle(
+                          fontSize: 32.0,
+                          color: Colors.green,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50.0),
+                    child: Text(
+                      'Input the current location and estate you are adding',
+                      style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
 
-                //Enter Estate name
-                CustomTextFormField(
-                  controller: nameController,
-                  labelName: ' Estate Name',
-                  hintText: 'Enter Estate Name',
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Estate name is empty';
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.estateName = value;
-                  },
-                  onChanged: (String value) {
-                    model.estateName = value;
-                  },
-                ),
-                //Enter Address
-                CustomTextFormField(
-                  controller: addressController,
-                  labelName: ' Estate Address',
-                  hintText: 'Enter Estate Address',
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Estate Address is empty';
-                    }
-                    return null;
-                  },
-                  onSaved: (String value) {
-                    model.estateAddress = value;
-                  },
-                  onChanged: (String value) {
-                    model.estateAddress = value;
-                  },
-                ),
-                //Select City
-                CustomDropdownButton(
-                  label: 'Select City',
-                  hintText: _cities.first,
-                  value: city ?? _cities.first,
-                  onChanged: _onCitiesChanged,
-                  items: _cities.map(
-                    (String city) {
-                      return DropdownMenuItem(
-                        child: Text(city),
-                        value: city,
-                      );
-                    },
-                  ).toList(),
-                ),
-                //Select Country
-                CustomDropdownButton(
-                  label: 'Select Country',
-                  hintText: _countries.first,
-                  value: country ?? _countries.first,
-                  onChanged: _onCountriesChanged,
-                  items: _countries.map(
-                    (String country) {
-                      return DropdownMenuItem(
-                        child: Text(country),
-                        value: country,
-                      );
-                    },
-                  ).toList(),
-                ),
-
-                SizedBox(height: 51.0),
-
-                //Save Button
-                ActionButton(
-                  buttonText: 'Add',
-                  onPressed: () async{
-                    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-                    dialog.show();
-
-                    try {
-                      if (_formkey.currentState.validate()) {
-                        model.estateName = nameController.text;
-                        model.estateAddress = addressController.text;
-
-                        // dynamic response = await EstateService.addEstate(
-                        //     estateName: nameController.text,
-                        //     city: city,
-                        //     country: country);
-
-                        // print(response);
-
-                        Navigator.pop(context);
-
-                        // PaysmosmoAlert.showSuccess(context: context,message: "Estate Added Successfull",);
-
-                        allEstates.addEstate(model);
-                        residentUserModel.setResidentEstate(
-                            residentEstate: model);
-                        print(allEstates.estates);
-                      Navigator.pushNamed(context, '/select-estate');
+                  //Enter Country
+                  CustomTextFormField(
+                    labelName: 'Country',
+                    hintText: 'Enter Country',
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Country is empty';
                       }
-                    } catch(error){
-                      print("Here : " + error);
-                      Navigator.pop(context);
-//                      PaysmosmoAlert.showError(context: context,message: error.toString(),);
-                    }
-                  },
-                ),
-              ],
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      _country = value;
+                    },
+                  ),
+
+                  //Enter Address
+                  CustomTextFormField(
+                    controller: addressController,
+                    labelName: 'City',
+                    hintText: 'Enter City',
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'City is empty';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      _city = value;
+                    },
+                  ),
+
+                  //Enter Estate name
+                  CustomTextFormField(
+                    labelName: ' Estate Name',
+                    hintText: 'Enter Estate Name',
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Estate name is empty';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      _estateName = value;
+                    },
+                  ),
+
+                  //Enter Address
+                  CustomTextFormField(
+                    controller: addressController,
+                    labelName: ' Estate Address',
+                    hintText: 'Enter Estate Address',
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Estate Address is empty';
+                      }
+                      return null;
+                    },
+                    onSaved: (String value) {
+                      _address = value;
+                    },
+                  ),
+
+                  SizedBox(height: 51.0),
+
+                  //Save Button
+                  ActionButton(
+                    buttonText: 'Add',
+                    onPressed: _onSaved,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

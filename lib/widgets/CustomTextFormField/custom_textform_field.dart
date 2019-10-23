@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/helpers.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   final String labelName;
   final String initialValue;
   final String hintText;
@@ -35,6 +35,11 @@ class CustomTextFormField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       // alignment: Alignment.center,
@@ -46,25 +51,25 @@ class CustomTextFormField extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
-            child: Text(labelName,
+            child: Text(widget.labelName,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
           ),
           TextFormField(
-            maxLines: maxLines,
-            onChanged: onChanged,
-            onSaved: onSaved,
-            controller: controller,
-            validator: validator,
+            maxLines: widget.maxLines,
+            onChanged: widget.onChanged,
+            onSaved: widget.onSaved,
+            controller: widget.controller,
+            validator: widget.validator,
             initialValue: null,
-            obscureText: isPassword ? true : false,
+            obscureText: widget.isPassword ? true : false,
             style: TextStyle(
               color: GateManColors.textColor,
             ),
-            keyboardType: keyboardType,
+            keyboardType: widget.keyboardType,
             decoration: InputDecoration(
-              hintText: hintText,
-              prefixIcon: prefixIcon ?? null,
-              suffixIcon: suffixIcon ?? null,
+              hintText: widget.hintText,
+              prefixIcon: widget.prefixIcon ?? null,
+              suffixIcon: widget.suffixIcon ?? null,
               // suffix: suffix ?? SizedBox(),
               contentPadding: EdgeInsets.all(10.0),
               focusedBorder: GateManHelpers.textFieldBorder,

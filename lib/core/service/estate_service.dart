@@ -56,6 +56,7 @@ class EstateService {
     @required String estateName,
     @required String city,
     @required String country,
+    @required String address,
   }) async {
     var uri = Endpoint.estate;
 
@@ -64,6 +65,7 @@ class EstateService {
         "estate_name": estateName,
         "city": city,
         "country": country,
+        "address": address,
       });
 
       print(response.statusCode);
@@ -230,7 +232,7 @@ class EstateService {
     var uri = Endpoint.estate + '/choose/$estateId';
 
     Options options = Options(
-      contentType: ContentType.parse('application/x-www-form-urlencoded'),
+      contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
@@ -261,6 +263,34 @@ class EstateService {
       } else {
         return false;
       }
+    }
+  }
+
+  //Search Estates
+  static Future<List<Estate>> searchEstates({
+    @required String authToken,
+    @required String query,
+  }) async {
+    String uri = Endpoint.estate + '/search/$query';
+
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    Response response = await dio.get(uri, options: options);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> mapResponse = json.decode(response.data);
+      print(mapResponse);
+      final items = mapResponse["estates"].cast<Map<String, dynamic>>();
+      List<Estate> listOfEstates = items.map<Estate>((json) {
+        return Estate.fromJson(json);
+      }).toList();
+
+      return listOfEstates;
+    } else {
+      throw Exception('Failed to load internet');
     }
   }
 }

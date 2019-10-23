@@ -5,12 +5,14 @@ class Estate {
   String estateName;
   String city;
   String country;
+  String address;
 
   Estate({
     this.estateId,
     this.estateName,
     this.city,
     this.country,
+    this.address,
   });
 
   factory Estate.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class Estate {
       estateName: json['estate_name'],
       city: json['city'],
       country: json['country'],
+      address: json['address'] ?? '',
     );
   }
 }
