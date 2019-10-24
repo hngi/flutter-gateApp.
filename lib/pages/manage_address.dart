@@ -133,8 +133,8 @@ class _ManageAddressState extends State<ManageAddress> {
                               return InkWell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      Text(_filteredEstates[index].estateName),
+                                  child: Text(
+                                      '${_filteredEstates[index].estateName}, ${_filteredEstates[index].city}, ${_filteredEstates[index].country}'),
                                 ),
                                 onTap: () {
                                   Estate est = _filteredEstates[index];
