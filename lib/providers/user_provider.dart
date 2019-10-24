@@ -22,8 +22,8 @@ class UserTypeProvider extends ChangeNotifier {
 
   Map<String,String> userRouteMapToStr = {
     'RESIDENT':'/welcome-resident',
-    'ADMIN':'/gateman-menu',
-    'GATEMAN':null
+    'GATEMAN':'/gateman-menu',
+    'ADMIN':null
   };
 
   setFirstRunStatus(bool status,{bool loggingoutStatus}){
@@ -37,6 +37,8 @@ class UserTypeProvider extends ChangeNotifier {
 
   void setUserType(user_type type) async{
     this.type = type;
+    if(type == user_type.GATEMAN){userTypeStr = 'GATEMAN';}
+    if(type == user_type.RESIDENT){userTypeStr = 'RESIDENT';}
     try{
     SharedPreferences prefs = await getPrefs;
     prefs.setString('user_type',userTypeMapToStr[type]);

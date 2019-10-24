@@ -131,9 +131,11 @@ class _RegisterState extends State<Register> {
 
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
                                 dialog.hide();
+                                
                                 Navigator.pushNamed(context, '/token-conirmation',arguments: {
                                   'phone':_phoneController.text,
                                   'email':_emailController.text,
+                                  'skip_estate':response['app-hint']!=null && response['app-hint'].toString().toLowerCase() == 'This is an existing user!'.toLowerCase()?true:false
                                 });
 
                                 }

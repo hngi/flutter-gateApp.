@@ -141,7 +141,8 @@ class Routes {
         dynamic info = settings.arguments;
         return MaterialPageRoute(
             builder: (context) =>
-                TokenConfirmation(phone: info['phone'], email: info['email']));
+                TokenConfirmation(phone: info['phone'], email: info['email'],
+                skipSelectEstate:info['skip_estate']));
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
