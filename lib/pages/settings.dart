@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 
 import 'package:gateapp/utils/helpers.dart';
@@ -11,8 +12,10 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
+  
   @override
   Widget build(BuildContext context) {
+    print(getProfileProvider(context).profileModel.homeModel.houseBlock);
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Setting'),
       body: ListView(
@@ -49,7 +52,7 @@ class _SettingState extends State<Settings> {
                   Container(
                     child: BottomMenu(
                         'Manage Address',
-                        () => Navigator.pushNamed(context, '/manage-address'),
+                        () => Navigator.pushNamed(context, '/manage-address',arguments: getProfileProvider(context).profileModel.homeModel.houseBlock),
                         Border(bottom: BorderSide.none)),
                   ),
                 ],
