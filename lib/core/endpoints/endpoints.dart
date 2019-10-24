@@ -48,4 +48,7 @@ class Endpoint {
   static String viewGatemanYetToAccept = 'resident/pendingInvitation';
   static String deleteGateman({@required int gatemanId}) =>
       'resident/removeGateman/$gatemanId';
+
+  //  FAQ endpoint
+  static String getFAQ = '/faq';
 }
