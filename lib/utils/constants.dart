@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
+import 'package:gateapp/providers/faq_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
@@ -58,6 +59,10 @@ ProfileProvider getProfileProvider(BuildContext context){
 
 VisitorProvider getVisitorProvider(BuildContext context) {
   return Provider.of<VisitorProvider>(context);
+}
+
+FAQProvider getFAQProvider(BuildContext context) {
+  return Provider.of<FAQProvider>(context);
 }
 
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {

@@ -26,18 +26,19 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
   TextEditingController secondTokenController = TextEditingController(text: '');
   TextEditingController thirdTokenController = TextEditingController(text: '');
   TextEditingController fourthTokenController = TextEditingController(text: '');
-  TextEditingController fifthTokenController = TextEditingController(text: '');
-  TextEditingController sixthTokenController = TextEditingController(text: '');
+//  TextEditingController fifthTokenController = TextEditingController(text: '');
+//  TextEditingController sixthTokenController = TextEditingController(text: '');
 
   FocusNode firstFocusNode = FocusNode();
   FocusNode secondFocusNode = FocusNode();
   FocusNode thirdFocusNode = FocusNode();
   FocusNode fourthFocusNode = FocusNode();
-  FocusNode fifthFocusNode = FocusNode();
-  FocusNode sixthFocusNode = FocusNode();
+//  FocusNode fifthFocusNode = FocusNode();
+//  FocusNode sixthFocusNode = FocusNode();
   List<TextEditingController> get getControllers {return [
     firstTokenController,secondTokenController,thirdTokenController,
-  fourthTokenController,fifthTokenController,sixthTokenController
+  fourthTokenController
+//    fifthTokenController,sixthTokenController
 
   ];} 
   /*
@@ -63,9 +64,9 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
       firstFocusNode,
       secondFocusNode,
       thirdFocusNode,
-      fourthFocusNode,
-      fifthFocusNode,
-      sixthFocusNode
+      fourthFocusNode
+//      fifthFocusNode,
+//      sixthFocusNode
     ];
   }
 
@@ -176,13 +177,13 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                       String otpCode = firstTokenController.text +
                           secondTokenController.text +
                           thirdTokenController.text +
-                          fourthTokenController.text +
-                          fifthTokenController.text +
-                          sixthTokenController.text;
-                      if (otpCode.length < 6) {
+                          fourthTokenController.text ;
+//                          fifthTokenController.text +
+//                          sixthTokenController.text;
+                      if (otpCode.length < 4) {
                         await PaysmosmoAlert.showError(
                             context: context,
-                            message: 'Token must be 6 digits');
+                            message: 'Token must be 4 digits');
                       } else {
                         dialog.show();
 

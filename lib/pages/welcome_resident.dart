@@ -36,7 +36,7 @@ class WelcomeResident extends StatelessWidget {
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                            
+
                                 getProfileProvider(context)
                                     .profileModel
                                     .name==null?'Hi, ...':'Hi, ' + getProfileProvider(context)
@@ -127,114 +127,7 @@ class WelcomeResident extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                   )),
             ),
-            // Text('Today',
-            //     style: TextStyle(
-            //       color: Colors.grey,
-            //       fontSize: 16.0,
-            //       fontWeight: FontWeight.w800,
-            //     )),
-            // Container(
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: GateManColors.primaryColor,
-            //         style: BorderStyle.solid,
-            //         width: .7,
-            //       ),
-            //       borderRadius: BorderRadius.circular(6.0),
-            //     ),
-            //     padding:
-            //         EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
-            //     margin: EdgeInsets.symmetric(vertical: 8.0),
-            //     child: ListTile(
-            //       contentPadding: EdgeInsets.zero,
-            //       title: Text(
-            //         "Mr. Seun Adeniyi",
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w700,
-            //           fontSize: 18.0,
-            //           color: GateManColors.blackColor,
-            //         ),
-            //       ),
-            //       subtitle: Text(
-            //         "Designation - Cook",
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w500,
-            //           fontSize: 15.0,
-            //           color: Colors.grey,
-            //         ),
-            //       ),
-            //       trailing: //Add Button
-            //           Container(
-            //         alignment: Alignment.center,
-            //         padding: EdgeInsets.all(3.0),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(4.0),
-            //           color: GateManColors.yellowColor,
-            //         ),
-            //         height: 32.0,
-            //         width: 70.0,
-            //         child: Text('Morning',
-            //             style: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: 14.0,
-            //                 fontWeight: FontWeight.w600)),
-            //       ),
-            //     )),
-            // SizedBox(height: 10.0),
-            // Text('Yesterday',
-            //     style: TextStyle(
-            //       color: Colors.grey,
-            //       fontSize: 16.0,
-            //       fontWeight: FontWeight.w800,
-            //     )),
-            // Container(
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: GateManColors.primaryColor,
-            //         style: BorderStyle.solid,
-            //         width: .7,
-            //       ),
-            //       borderRadius: BorderRadius.circular(6.0),
-            //     ),
-            //     padding:
-            //         EdgeInsets.symmetric(vertical: 0.0, horizontal: 14.0),
-            //     margin: EdgeInsets.symmetric(vertical: 8.0),
-            //     child: ListTile(
-            //       contentPadding: EdgeInsets.zero,
-            //       title: Text(
-            //         "Mr. Seun Adeniyi",
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w700,
-            //           fontSize: 18.0,
-            //           color: GateManColors.blackColor,
-            //         ),
-            //       ),
-            //       subtitle: Text(
-            //         "Designation - Cook",
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.w500,
-            //           fontSize: 15.0,
-            //           color: Colors.grey,
-            //         ),
-            //       ),
-            //       trailing: //Add Button
-            //           Container(
-            //         alignment: Alignment.center,
-            //         padding: EdgeInsets.all(3.0),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(4.0),
-            //           color: GateManColors.blueColor,
-            //         ),
-            //         height: 32.0,
-            //         width: 70.0,
-            //         child: Text('Evening',
-            //             style: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: 14.0,
-            //                 fontWeight: FontWeight.w600)),
-            //       ),
-            //     )),
-            // SizedBox(height: 30.0),
+
             ActionButton(
               buttonText: 'Add Visitor',
               onPressed: () {
@@ -278,7 +171,7 @@ class WelcomeResident extends StatelessWidget {
                                                                         width: 0,
                                                                         height: 0,
                                                                       )
-                    
+
                                     ],),
                                     InkWell(
                                       onTap: (){
@@ -338,16 +231,16 @@ class WelcomeResident extends StatelessWidget {
                           
                               return visitors;
                             }
-                          
+
                             void loadInitialVisitorsV(BuildContext context) async {
-                    
+
                             try {
-                            
+
                               dynamic response = await VisitorService.getAllVisitor(
                                   authToken: await authToken(context));
                                   print(response);
                               if (response is ErrorType) {
-                                
+
                                 PaysmosmoAlert.showError(
                                     context: context,
                                     message: GateManHelpers.errorTypeMap(response));
@@ -356,9 +249,9 @@ class WelcomeResident extends StatelessWidget {
                                   PaysmosmoAlert.showSuccess(
                                     context: context,
                                     message: GateManHelpers.errorTypeMap(response));
-                                
-                                }   
-                                    
+
+                                }
+
                               } else {
                                 if (response['visitor'].length == 0) {
                                   PaysmosmoAlert.showSuccess(
@@ -373,13 +266,13 @@ class WelcomeResident extends StatelessWidget {
                                   });
                                   getVisitorProvider(context).setVisitorModels(models);
 
-                                
+
                                 }
                               }
                             } catch (error) {
                               throw error;
                             }
-                        
+
                             }
                     
                       getHeadText(List<dynamic> usedDates,VisitorModel visitorModel) {

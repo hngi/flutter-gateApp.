@@ -22,4 +22,5 @@ enum ErrorType {
   estate_country,
   estate_address,
   estate_estate_name,
+  no_faq_found,
 }
