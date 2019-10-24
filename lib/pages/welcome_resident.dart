@@ -111,7 +111,7 @@ class WelcomeResident extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text('Peace Estate',
+              child: Text(getProfileProvider(context).profileModel.homeModel.estate.estateName??'',
                   style: TextStyle(
                     color: GateManColors.primaryColor,
                     fontSize: 16.0,
@@ -395,7 +395,7 @@ class WelcomeResident extends StatelessWidget {
                       }
 
                       Widget getTodayOrYesterday(usedDates,String dayString) {
-                        print('adddddding something');
+                        // print('adddddding something');
                         usedDates.add(dayString);
                         return Text(dayString,
                             style: TextStyle(
