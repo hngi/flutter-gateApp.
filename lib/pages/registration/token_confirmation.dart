@@ -172,7 +172,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                           secondTokenController.text +
                           thirdTokenController.text +
                           fourthTokenController.text;
-                      if (otpCode.length < 6) {
+                      if (otpCode.length < 4) {
                         await PaysmosmoAlert.showError(
                             context: context,
                             message: 'Token must be 4 digits');
