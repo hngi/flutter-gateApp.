@@ -56,8 +56,8 @@ class Routes {
       case '/pager':
         return MaterialPageRoute(builder: (context) => Pager());
 
-      case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      // case '/manage-address':
+      //   return MaterialPageRoute(builder: (context) => ManageAddress());
 
       case '/about':
         return MaterialPageRoute(builder: (context) => About());
@@ -68,8 +68,8 @@ class Routes {
       case '/faq':
         return MaterialPageRoute(builder: (context) => FAQ());
 
-      case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      // case '/manage-address':
+      //   return MaterialPageRoute(builder: (context) => ManageAddress());
 
       case '/add-location':
         return MaterialPageRoute(builder: (context) => AddLocationPermission());
@@ -121,7 +121,9 @@ class Routes {
         return MaterialPageRoute(builder: (context) => IncomingVisitorsList());
 
       case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      print('printing manage address arguments');
+      print(settings.arguments);
+        return MaterialPageRoute(builder: (context) => ManageAddress(houseBlock: settings.arguments,));
 
       case '/manage-gateman':
         return MaterialPageRoute(builder: (context) => ManageGateman());

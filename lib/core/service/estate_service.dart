@@ -225,7 +225,7 @@ class EstateService {
   }
 
   //Add new Estate
-  static Future<bool> selectEstate({
+  static Future selectEstate({
     @required int estateId,
     @required String authToken,
     houseBlock
@@ -254,7 +254,8 @@ class EstateService {
       //   final responseJson = json.decode(response.data);
       //   return GateManHelpers.getErrorType(responseJson);
       // }
-      if (response.statusCode == 200) return true;
+      if (response.statusCode == 200) return json.decode(response.data);
+      if(response.statusCode >=500 && response.statusCode < 600) return false;
 
       return false;
 

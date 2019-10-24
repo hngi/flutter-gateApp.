@@ -98,7 +98,7 @@ class Homepage extends StatelessWidget {
                                               fontWeight: FontWeight.w800,
                                             )),
                                       ),
-                                      Text("Block 6 | Flat 32",
+                                      Text(getProfileProvider(context).profileModel.homeModel.houseBlock??'not set',
                                           style: TextStyle(
                                             color: GateManColors.grayColor,
                                             fontSize: 18.0,
@@ -149,7 +149,8 @@ class Homepage extends StatelessWidget {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w700,
                                   )),
-                                  onTap: (){Navigator.pushNamed(context, '/manage-gateman');},
+                                  onTap: (){Navigator.pushNamed(context, '/manage-gateman');
+                                  },
                             ),
                             ListTile(
                               onTap: () {

@@ -4,7 +4,6 @@ import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -282,7 +281,7 @@ class WelcomeResident extends StatelessWidget {
                                     ],),
                                     InkWell(
                                       onTap: (){
-                                        Navigator.pushNamed(context, '/visitor-profile',arguments: prefix0.getVisitorProvider(context).visitorModels.indexOf(visitorModel));
+                                        Navigator.pushNamed(context, '/visitor-profile',arguments: getVisitorProvider(context).visitorModels.indexOf(visitorModel));
                                       },
                                                                           child: Container(
                                           decoration: BoxDecoration(
