@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/service_provider.dart';
 import 'package:gateapp/core/service/service_provider_service.dart';
@@ -32,8 +34,8 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
           authToken: await authToken(context))
     ]).then((res) {
       setState(() {
-        isLoading = false;
         _categories = res[0];
+        isLoading = false;
       });
     });
   }
@@ -54,7 +56,7 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
           "phone_number": "+234 703 600 8893",
           "distance": "0.7km",
           "title": "NCH Health Care Clinic",
-          "openingHour": "Always open, 24 Hrs Service",
+          "openingHour": ";Always open, 24 Hrs Service",
           "imgSrc": "assets/images/hospita-nch-logo-img.png"
         },
         {
@@ -81,6 +83,7 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
     {"name": "Fire Service", "image": 'assets/images/fire-service-img.png'}
   ];
 
+  final CategoryFactory _factory = new CategoryFactory();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +95,7 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
                 itemBuilder: (BuildContext context, int index) {
                   return ServiceDirectoryResidentGridTile(
                     directoryName: _categories[index].title,
-                    directoryImg: 'assets/images/cook-img.png',
+                    directoryImg: _factory.getFactory(_categories[index].title.toLowerCase()),
                     isOdd: index < 1 ? true : index % 2 == 0,
                     category: _categories[index],
                   );
@@ -103,5 +106,31 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
               ),
       ),
     );
+  }
+}
+
+enum ServiceCategories{
+  Cook,Carpenter,Cable,Plumber,Fire_Service,Electrician
+}
+
+class CategoryFactory{
+  String getFactory(String category){
+    if('cable payment' == category){
+      return 'assets/images/cable-payment-img.png';
+    }else if ('carpenter' == category){
+      return 'assets/images/carpentar-img.png';
+    }else if('cook' == category){
+      return 'assets/images/cook-img.png';
+    }else if('electrician' == category){
+      return 'assets/images/electrician-img.png';
+    }else if('fire service' == category){
+      return 'assets/images/fire-service-img.png';
+    }
+    else if('doctor' == category || 'nurse' == category || 'clinic' == category){
+      return 'assets/images/clinic-img.png';
+    }
+    else {
+      return 'assets/images/plumber-img.png';
+    }//else return null;
   }
 }

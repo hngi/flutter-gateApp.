@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gateapp/core/models/service_provider.dart';
@@ -22,6 +24,7 @@ class ServiceDirectoryResidentDetail extends StatefulWidget {
 class _ServiceDirectoryResidentDetailState
     extends State<ServiceDirectoryResidentDetail> {
   List<ServiceProvider> _serviceProviders = [];
+  List<String> _logoPaths = [];
 
   bool isLoading = false;
 
@@ -49,6 +52,14 @@ class _ServiceDirectoryResidentDetailState
     });
   }
 
+  double getRandomize(){
+    Random random = new Random();
+    double result = random.nextDouble();
+    while((result > 0.5) && (result < 4)){
+      return result;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
@@ -58,6 +69,12 @@ class _ServiceDirectoryResidentDetailState
     if (_serviceProviders == null || _serviceProviders.length <= 1) {
       result = ' result';
     }
+    _logoPaths.add('assets/images/aqua_logo.PNG');
+    _logoPaths.add('assets/images/box_logo_carpenter.PNG');
+    _logoPaths.add('assets/images/outdoor_table_carpenter.PNG');
+    _logoPaths.add('assets/images/palm_trees_logo.PNG');
+    _logoPaths.add('assets/images/phoenix_logo.PNG');
+    final _random = new Random();
 
     return Scaffold(
         appBar: GateManHelpers.appBar(
@@ -88,10 +105,10 @@ class _ServiceDirectoryResidentDetailState
                         itemCount: _serviceProviders.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ServiceDirectoryResidentListTile(
-                              distance: '0.7km',
-                              openingHour: '24 Hrs',
+                              distance: '0.7 Km',
+                              openingHour: _serviceProviders[index]?.description??'Open 24 Hrs',
                               title: _serviceProviders[index].name,
-                              imgSrc: "assets/images/hospita-nch-logo-img.png",
+                              imgSrc: _logoPaths.elementAt(_random.nextInt(_logoPaths.length)),
                               onCallButtonTap: () {
                                 _showMaterialDialog(
                                   context,
@@ -103,6 +120,8 @@ class _ServiceDirectoryResidentDetailState
                     ],
                   ));
   }
+
+
 
   void _showMaterialDialog(context, phoneNumber) {
     showDialog(

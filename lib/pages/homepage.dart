@@ -46,7 +46,7 @@ class Homepage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                  
+
                             //User Details
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class Homepage extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                        child: Text(getProfileProvider(context).profileModel.name.toString(),
+                                        child: Text(getProfileProvider(context).profileModel?.name.toString(),
                                             style: TextStyle(
                                               color: GateManColors.primaryColor,
                                               fontSize: 20.0,
@@ -109,7 +109,7 @@ class Homepage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                  
+
                             SizedBox(height: 23.0),
                             ListTile(
                               leading: Icon(MdiIcons.newspaper,
@@ -165,7 +165,7 @@ class Homepage extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                   )),
                             ),
-                  
+
                             ListTile(
                               leading: Icon(MdiIcons.settings,
                                   color: GateManColors.primaryColor, size: 25.0),
