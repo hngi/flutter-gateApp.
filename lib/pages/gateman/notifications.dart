@@ -17,6 +17,7 @@ class GatemanNotifications extends StatefulWidget {
 }
 
 class _GatemanNotificationsState extends State<GatemanNotifications> {
+  String imageLocation = 'assets/images/gateman/menu.png';
   bool badge = true;
   int _counter = 1;
   bool isLoading = false;
@@ -76,13 +77,13 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
           )
         ],
       ),
-      floatingActionButton: BottomNavFAB(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
-        },
-        icon: MdiIcons.accountGroup,
-        title: 'Residents',
+      bottomNavigationBar: CustomBottomAppBar(
+        alertText: '${_notifications.length}',
+        onTapLocation: '/menu',
+        nameOfLocation: 'Menu',
+        imageLocation: imageLocation,
       ),
+      floatingActionButton: CustomFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomNavBar(
         leadingIcon: MdiIcons.home,
@@ -99,34 +100,34 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
       body: isLoading
           ? Loader.show()
           : _requests == null || _requests.length == 0
-              ? Center(
-                  child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Icon(Icons.hourglass_empty, size: 50.0),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('You have no Notifications'),
-                    )
-                  ],
-                ))
-              : ListView.builder(
-                  itemCount: _requests.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InvitationTile(
-                      parentContext: context,
-                      requestId: _requests[index].requestId,
-                      rname: _requests[index].name,
-                      raddress: _requests[index].username,
-                      rphone: _requests[index].phone,
-                      func: () {
-                        Navigator.pushNamed(context, '/residents-gate');
-                      },
-                    );
-                  },
-                ),
+          ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Icon(Icons.hourglass_empty, size: 50.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('You have no Notifications'),
+              )
+            ],
+          ))
+          : ListView.builder(
+        itemCount: _requests.length,
+        itemBuilder: (BuildContext context, int index) {
+          return InvitationTile(
+            parentContext: context,
+            requestId: _requests[index].requestId,
+            rname: _requests[index].name,
+            raddress: _requests[index].username,
+            rphone: _requests[index].phone,
+            func: () {
+              Navigator.pushNamed(context, '/residents-gate');
+            },
+          );
+        },
+      ),
     );
   }
 }

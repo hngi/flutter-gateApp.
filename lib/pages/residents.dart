@@ -24,6 +24,7 @@ class Residents extends StatefulWidget {
 }
 
 class _ResidentsState extends State<Residents> {
+
   bool isLoading = false;
 
   List<GatemanResidentVisitors> _residents = [];
@@ -41,6 +42,7 @@ class _ResidentsState extends State<Residents> {
       isLoading = true;
     });
     Future.wait([
+
       GatemanService.allResidentVisitors(
         authToken: await authToken(context),
       ),
@@ -164,6 +166,20 @@ class _ResidentsState extends State<Residents> {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },
       ),
+    );
+  }
+}
+class ResidentUser {
+  //final int index;
+  final String name, address, phone;
+
+  ResidentUser({this.name, this.address, this.phone});
+
+  factory ResidentUser.fromJson(Map<String, dynamic> json){
+    return ResidentUser(
+        name: json['name'],
+        address: json['address'],
+        phone: json['phone']
     );
   }
 }
