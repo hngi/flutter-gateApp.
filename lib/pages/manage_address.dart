@@ -3,16 +3,24 @@ import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/core/service/estate_service.dart';
 import 'package:gateapp/pages/Add_Estate.dart';
 import 'package:gateapp/pages/about.dart';
+import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
+import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 
 class ManageAddress extends StatefulWidget {
+
+  String houseBlock;
+  ManageAddress({this.houseBlock});
+
   @override
   _ManageAddressState createState() => _ManageAddressState();
 }
@@ -21,15 +29,20 @@ class _ManageAddressState extends State<ManageAddress> {
   List<Estate> _filteredEstates = <Estate>[];
   final TextEditingController searchEstateController =
       TextEditingController(text: '');
-
+ TextEditingController houseBlockController = TextEditingController(text: '');
   bool isLoading = false;
   int selectedEstateId;
 
   LoadingDialog dialog;
 
+ 
+
   void initState() {
     super.initState();
     dialog = LoadingDialog(context, LoadingDialogType.Normal);
+    print(this.widget.houseBlock);
+    houseBlockController.text = this.widget.houseBlock??'';
+
   }
 
   _onTextFieldChanged(String value) async {
@@ -51,16 +64,26 @@ class _ManageAddressState extends State<ManageAddress> {
   _onSave() async {
     dialog.show();
 
-    bool result = await EstateService.selectEstate(
-      estateId: selectedEstateId,
+    dynamic result = await EstateService.selectEstate(
+      estateId: selectedEstateId??getProfileProvider(context).profileModel.homeModel.estateId,
       authToken: await authToken(context),
+      houseBlock: houseBlockController.text??''
     );
     dialog.hide();
+    print(result is String);
 
-    if (result) {
+    if (result is ErrorType==false) {
       PaysmosmoAlert.showSuccess(
               context: context, message: 'Estate Successfully Selected')
           .then((_) {
+            getProfileProvider(context).profileModel.homeModel.houseBlock = result['user_details']['house_block'];
+            if(getProfileProvider(context).profileModel.homeModel.estateId != result['user_details']['estate']['id']){
+                getProfileProvider(context).profileModel.homeModel.estateId = result['user_details']['estate']['id'];
+                getProfileProvider(context).profileModel.homeModel.estate = Estate.fromJson(result['user_details']['estate']);
+
+            }
+            // ProfileModel model = getProfileProvider(context).profileModel;
+            getProfileProvider(context).notifyListeners();
         Navigator.pop(context);
       });
     } else {
@@ -133,8 +156,8 @@ class _ManageAddressState extends State<ManageAddress> {
                               return InkWell(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      Text(_filteredEstates[index].estateName),
+                                  child: Text(
+                                      '${_filteredEstates[index].estateName}, ${_filteredEstates[index].city}, ${_filteredEstates[index].country}'),
                                 ),
                                 onTap: () {
                                   Estate est = _filteredEstates[index];
@@ -208,7 +231,12 @@ class _ManageAddressState extends State<ManageAddress> {
                   ],
                 )
               : SizedBox(),
-
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0,bottom: 8.0),
+            child: Text('House Address',style: TextStyle(color: Colors.black),),
+          ),
+          CustomInputField(hint: 'Your House Address', keyboardType: TextInputType.multiline, prefix: null,
+          textEditingController: houseBlockController,),
           SizedBox(height: 22.0),
 
           //Save Button

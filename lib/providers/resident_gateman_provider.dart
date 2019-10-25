@@ -4,6 +4,8 @@ class ResidentsGateManProvider extends ChangeNotifier {
   List<ResidentsGateManModel> residentsGManModels = [];
   List<ResidentsGateManModel> residentsGManModelsAwaiting = [];
     bool initialResidentsGateManLoaded = false;
+
+  bool initialResidentsGateManAwaitingLoaded =false;
   
     void addResidentsGateManModel(ResidentsGateManModel model){
       print('printing model from provider');
@@ -21,6 +23,12 @@ class ResidentsGateManProvider extends ChangeNotifier {
     void setResidentsGateManModels(List<ResidentsGateManModel> models){
       this.residentsGManModels = models;
       this.initialResidentsGateManLoaded = true;
+      notifyListeners();
+    }
+
+    void setResidentsGateManAwaitingModels(List<ResidentsGateManModel> models){
+      this.residentsGManModelsAwaiting = models;
+      this.initialResidentsGateManAwaitingLoaded = true;
       notifyListeners();
     }
 

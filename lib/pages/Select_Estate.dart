@@ -11,6 +11,7 @@ import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart' as prefix0;
+import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
 import 'package:gateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
@@ -52,11 +53,6 @@ class _SelectAddressState extends State<SelectAddress> {
   void initState() {
     super.initState();
     dialog = LoadingDialog(context, LoadingDialogType.Normal);
-    initApp();
-  }
-
-  initApp() async {
-    routeString = await userType(context);
   }
 
   _onTextFieldChanged(String value) async {
@@ -76,9 +72,10 @@ class _SelectAddressState extends State<SelectAddress> {
   }
 
   _onSave() async {
+    routeString = await userType(context);
     dialog.show();
 
-    bool result = await EstateService.selectEstate(
+    dynamic result = await EstateService.selectEstate(
       estateId: selectedEstateId,
       authToken: await authToken(context),
     );
@@ -90,7 +87,7 @@ class _SelectAddressState extends State<SelectAddress> {
       'GATEMAN': '/gateman-menu',
     };
 
-    if (result) {
+    if (result is ErrorType == false) {
       PaysmosmoAlert.showSuccess(
               context: context, message: 'Estate Successfully Selected')
           .then((_) async {
@@ -200,7 +197,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                            _filteredEstates[index].estateName),
+                                            '${_filteredEstates[index].estateName}, ${_filteredEstates[index].city}, ${_filteredEstates[index].country}'),
                                       ),
                                       onTap: () {
                                         Estate est = _filteredEstates[index];

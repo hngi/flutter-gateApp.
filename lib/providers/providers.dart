@@ -1,4 +1,5 @@
 import 'package:gateapp/core/models/estate_list.dart';
+import 'package:gateapp/providers/faq_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/resident_visitor_provider.dart';
@@ -22,6 +23,7 @@ List<SingleChildCloneableWidget> independentServices = [
       value: TokenProvider()), //for persisting Authentication Token
   ChangeNotifierProvider.value(value: AllEstateModel()),
   ChangeNotifierProvider.value(value: UserTypeProvider()),
+  ChangeNotifierProvider.value(value: FAQProvider()),
   ChangeNotifierProvider.value(value: ResidentUserProvider()),
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
   ChangeNotifierProvider.value(value: ProfileProvider()),

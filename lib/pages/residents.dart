@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/gateman_resident_visitors.dart';
+import 'package:gateapp/core/models/user.dart';
 import 'package:gateapp/core/service/gateman_service.dart';
-import 'package:gateapp/pages/gateman/widgets/residentTile.dart';
 import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
-import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
@@ -24,10 +24,9 @@ class Residents extends StatefulWidget {
 }
 
 class _ResidentsState extends State<Residents> {
-
   bool isLoading = false;
 
-  List<ResidentUser> _residents = [];
+  List<GatemanResidentVisitors> _residents = [];
   LoadingDialog dialog;
 
   @override
@@ -42,7 +41,7 @@ class _ResidentsState extends State<Residents> {
       isLoading = true;
     });
     Future.wait([
-      GateManService.allRequests(
+      GatemanService.allResidentVisitors(
         authToken: await authToken(context),
       ),
     ]).then((res) {
@@ -62,128 +61,92 @@ class _ResidentsState extends State<Residents> {
     GatemanUserProvider gateManProvider =
         Provider.of<GatemanUserProvider>(context, listen: false);
 
-    //Residents dummy Data
-    /*List<Map<String, dynamic>> _residents = [
-      {
-        "id": 1,
-        "fullName": "Mr. Seun Adeniyi",
-        "address": "Block 3A, Dele Adebayo Estate",
-        "phoneNumber": "0812345678",
-      },
-      {
-        "id": 2,
-        "fullName": "Janet Thompson",
-        "address": "Block 3A, Dele Adebayo Estate",
-        "phoneNumber": "0812345678",
-      },
-    ];
-
-    //Visitors dummy Data
-    List<Map<String, dynamic>> _visitors = [
-      {
-        "id": 1,
-        "residentId": 1,
-        "fullName": "Jane Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      },
-      {
-        "id": 2,
-        "residentId": 2,
-        "fullName": "John Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      },
-      {
-        "id": 3,
-        "residentId": 2,
-        "fullName": "Jane Doe",
-        "desc": "Tall, Fair & ..",
-        "phoneNumber": "0812345678",
-        "eta": "00:00 - 00:00",
-        "verifiedWith": "LA7739JA",
-      }
-    ];
-*/
-    ProfileModel profileModel = setMenuModel(context);
-
     return Scaffold(
-      body: isLoading? Loader.show
-      : ListView(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-        children: <Widget>[
-          SizedBox(height: size.height * 0.06),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3.0),
-            child: Text('Welcome ${gateManProvider.gatemanUser?.fullName?? profileModel?.name?? 'Loading. . .'}',
-                style: TextStyle(
-                  color: GateManColors.blackColor,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w700,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 7.0),
-            child: Text('Peace Estate',
-                style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w700,
-                )),
-          ),
-          CustomTextFormField(
-            labelName: '',
-            hintText: 'Search by Name, Phone, Address, Visitor Info',
-            onSaved: (str) {},
-            validator: (str) => null,
-            prefixIcon: Icon(Icons.search),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text('Residents',
-                style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 17.0,
-                  fontWeight: FontWeight.w700,
-                )),
-          ),
-            _residents == null || _residents.length == 0
-                ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Icon(Icons.hourglass_empty, size: 50.0),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('No Residents'),
-                    )
-                  ],
-                ))
-                : Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-              _residents.map((ResidentUser res) {
-                //User resident = res.user;
-
-                return ResidentTile(
-                 name: res.name,
-                  address: res.address,
-                  phone: res.phone,
-                );
-              }).toList(),
+      body: isLoading
+          ? Loader.show()
+          : ListView(
+              padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+              children: <Widget>[
+                SizedBox(height: size.height * 0.06),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child: Text('Welcome ${gateManProvider.gatemanUser.fullName}',
+                      style: TextStyle(
+                        color: GateManColors.blackColor,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w700,
+                      )),
                 ),
-          ],
-          ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7.0),
+                  child: Text('Peace Estate',
+                      style: TextStyle(
+                        color: GateManColors.primaryColor,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
+                CustomTextFormField(
+                  labelName: '',
+                  hintText: 'Search by Name, Phone, Address, Visitor Info',
+                  onSaved: (str) {},
+                  validator: (str) => null,
+                  prefixIcon: Icon(Icons.search),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text('Residents',
+                      style: TextStyle(
+                        color: GateManColors.primaryColor,
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
+                _residents == null || _residents.length == 0
+                    ? Center(
+                        child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Icon(Icons.hourglass_empty, size: 50.0),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('No Residents'),
+                          )
+                        ],
+                      ))
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:
+                            _residents.map((GatemanResidentVisitors visitor) {
+                          User resident = visitor.user;
+
+                          return ResidentExpansionTile(
+                            fullName: '${resident.name}',
+                            address: 'Block 3A, Dele Adebayo Estate',
+                            phoneNumber: resident.phone,
+                            visitText: 'Scheduled Visit',
+                            numberCount: '1',
+                            visitorApprovalStatus: visitor.status == 0
+                                ? 'Not Approved'
+                                : 'Approved',
+                            visitorDescription: visitor.description,
+                            visitorETA:
+                                '${visitor.timeIn} - ${visitor.timeOut}',
+                            visitorName: visitor.name,
+                            visitorPhoneNumber: visitor.phoneNo,
+                            visitorVerifyNo: visitor.qrCode,
+                          );
+                        }).toList(),
+                      ),
+              ],
+            ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => GateManMenu()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => GateManMenu()));
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -201,20 +164,6 @@ class _ResidentsState extends State<Residents> {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },
       ),
-    );
-  }
-}
-class ResidentUser {
-  //final int index;
-  final String name, address, phone;
-
-  ResidentUser({this.name, this.address, this.phone});
-
-  factory ResidentUser.fromJson(Map<String, dynamic> json){
-    return ResidentUser(
-        name: json['name'],
-        address: json['address'],
-        phone: json['phone']
     );
   }
 }
