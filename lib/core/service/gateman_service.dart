@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/core/models/visitor.dart';
+import 'package:gateapp/pages/residents.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 
@@ -53,28 +54,34 @@ class GateManService {
     }
   }
 
-  static dynamic getAllRequests({@required authToken,
+  static Future<List<ResidentUser>> getAllRequests({
+    @required authToken,
   }) async {
     var uri = Endpoint.showRequests;
     options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
     try {
       Response response = await dio.get(uri);
+      //List<Resident> listOfRequests = [];
 
-      return (response.statusCode == 400)
-          ? ErrorType.invalid_credentials
-          : (response.statusCode == 200)
-          ? json.decode(response.data)
-          : ErrorType.generic;
-    } on DioError catch (exception) {
-      if (exception == null ||
-          exception.toString().contains('SocketException')) {
-        return ErrorType.network;
-      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
-          exception.type == DioErrorType.CONNECT_TIMEOUT) {
-        return ErrorType.timeout;
-      } else {
-        return ErrorType.generic;
+      List<ResidentUser> users = [];
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = json.decode(response.data);
+        print(responseData);
+
+        if (responseData['requests'] == 0 ||
+            responseData['residents'].length == 0 ||
+            !(responseData.containsKey('residents'))) {
+          return [];
+        }
+        final data = responseData['residents'].cast<Map<String, dynamic>>();
+        users = data
+            .map<ResidentUser>((json) => ResidentUser.fromJson(json))
+            .toList();
       }
+      return users;
+    } on DioError catch (exception) {
+      throw exception;
     }
   }
 
@@ -102,6 +109,37 @@ class GateManService {
       List<GatemanResidentVisitors> listOfGatemanResidentRequests =
       items.map<GatemanResidentVisitors>((json) {
         return GatemanResidentVisitors.fromJson(json);
+      }).toList();
+
+      return listOfGatemanResidentRequests;
+    } else {
+      throw Exception('Failed to load internet');
+    }
+  }
+
+  static Future<List<ResidentUser>> allRequests({
+    @required String authToken,
+  }) async {
+    String uri = Endpoint.showRequests;
+
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    Response response = await dio.get(uri, options: options);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> mapResponse = json.decode(response.data);
+      print(mapResponse);
+
+      if (mapResponse.containsKey('total') && mapResponse['total'] == 0) {
+        return [];
+      }
+      final items = mapResponse['residents'].cast<Map<String, dynamic>>();
+      List<ResidentUser> listOfGatemanResidentRequests =
+      items.map<ResidentUser>((json) {
+        return ResidentUser.fromJson(json);
       }).toList();
 
       return listOfGatemanResidentRequests;
