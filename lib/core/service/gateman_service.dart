@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
+import 'package:gateapp/core/models/gateman_resident_visitors.dart' as prefix1;
 import 'package:gateapp/core/models/visitor.dart';
 import 'package:gateapp/pages/residents.dart';
 import 'package:gateapp/utils/constants.dart';
@@ -114,7 +115,7 @@ class GateManService {
         return [];
       }
       final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
-      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
+      List<prefix1.GatemanResidentVisitors> listOfGatemanResidentRequests =
       items.map<GatemanResidentVisitors>((json) {
         return GatemanResidentVisitors.fromJson(json);
       }).toList();
