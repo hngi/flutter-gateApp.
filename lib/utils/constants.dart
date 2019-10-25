@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/gateman_service.dart';
+import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
@@ -74,28 +75,31 @@ ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
 }
 
 Future loadInitialProfile(BuildContext context) async {
-  try {
-    dynamic response = await ProfileService.getCurrentUserProfile(
-        authToken: await authToken(context));
-    if (response is ErrorType) {
-      PaysmosmoAlert.showError(
-          context: context, message: GateManHelpers.errorTypeMap(response));
-    } else {
-      //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
-      print('Initial Profile Loaded');
-      print(ProfileModel.fromJson(response));
-      getProfileProvider(context)
-          .setProfileModel(ProfileModel.fromJson(response));
-      getProfileProvider(context).setInitialStatus(true);
-      getUserTypeProvider(context).setFirstRunStatus(false);
-    }
-  } catch (error) {
-    print(error);
-    await PaysmosmoAlert.showError(
-        context: context,
-        message: GateManHelpers.errorTypeMap(ErrorType.generic));
-  }
-}
+
+    print('Loading initial profile');
+        try{
+        dynamic response  = await ProfileService.getCurrentUserProfile(
+          authToken: await authToken(context)
+          );
+          if(response is ErrorType){
+            PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+            
+          }else{
+            //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
+                            print('Initial Profile Loaded');
+                            print(ProfileModel.fromJson(response));
+                            getProfileProvider(context).setProfileModel(
+                            ProfileModel.fromJson(response));
+            getProfileProvider(context).setInitialStatus(true);
+            getUserTypeProvider(context).setFirstRunStatus(false);
+          }
+        } catch (error){
+          print(error);
+          await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(ErrorType.generic));
+            
+        }
+
+      }
 
 launchCaller({@required String phone, @required BuildContext context}) async {
   String url = "tel:$phone";
@@ -156,7 +160,7 @@ Future loadInitialVisitors(BuildContext context) async {
           models.add(VisitorModel.fromJson(jsonModel));
         });
         getVisitorProvider(context).setVisitorModels(models);
-        getUserTypeProvider(context).setFirstRunStatus(false);
+        getUserTypeProvider(context).setFirstRunStatus(false,loggingoutStatus: false);
       }
     }
   } catch (error) {
@@ -166,15 +170,14 @@ Future loadInitialVisitors(BuildContext context) async {
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();
-  Provider.of<UserTypeProvider>(context)
-      .setFirstRunStatus(true, loggingoutStatus: true);
+
+  Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: true); 
   Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
-  Navigator.pushNamedAndRemoveUntil(
-      context, '/register', (Route<dynamic> route) => false);
-
-  PaysmosmoAlert.showSuccess(context: context, message: 'Logout successful');
-}
+  Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
+  
+  PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
+}               
 
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }

@@ -4,7 +4,6 @@ import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -17,15 +16,19 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if(getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
-      print('proile not yet loade');
-      loadInitialProfile(context);
+    if((getUserTypeProvider(context).firstRunStatus==true || getUserTypeProvider(context).loggingOut == false)){
+      if(getProfileProvider(context).initialProfileLoaded){
+          loadInitialProfile(context);
+      }
+      
+      if(getVisitorProvider(context).initialVisitorsLoaded == false){
+        loadInitialVisitors(context);
+      }
       }
 
-    if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
-      print('Loading');
-      loadInitialVisitors(context);
-    }
+    // if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == true){
+      
+    // }
       
           return Scaffold(
             body: getVisitorProvider(context).visitorModels.length == 0
@@ -102,7 +105,7 @@ class WelcomeResident extends StatelessWidget {
             SizedBox(height: size.height * 0.06),
             Padding(
               padding: const EdgeInsets.only(bottom: 6.0),
-              child: Text('Hi, ' + getProfileProvider(context).profileModel.name,
+              child: Text('Hi, ' + getProfileProvider(context).profileModel.name??'...',
                   style: TextStyle(
                     color: GateManColors.primaryColor,
                     fontSize: 24.0,
@@ -111,7 +114,7 @@ class WelcomeResident extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text('Peace Estate',
+              child: Text(getProfileProvider(context).profileModel.homeModel.estate.estateName??'',
                   style: TextStyle(
                     color: GateManColors.primaryColor,
                     fontSize: 16.0,
@@ -282,7 +285,7 @@ class WelcomeResident extends StatelessWidget {
                                     ],),
                                     InkWell(
                                       onTap: (){
-                                        Navigator.pushNamed(context, '/visitor-profile',arguments: prefix0.getVisitorProvider(context).visitorModels.indexOf(visitorModel));
+                                        Navigator.pushNamed(context, '/visitor-profile',arguments: getVisitorProvider(context).visitorModels.indexOf(visitorModel));
                                       },
                                                                           child: Container(
                                           decoration: BoxDecoration(
@@ -395,7 +398,7 @@ class WelcomeResident extends StatelessWidget {
                       }
 
                       Widget getTodayOrYesterday(usedDates,String dayString) {
-                        print('adddddding something');
+                        // print('adddddding something');
                         usedDates.add(dayString);
                         return Text(dayString,
                             style: TextStyle(

@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/pages/add_gateman.dart';
@@ -8,21 +10,23 @@ import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:url_launcher/url_launcher.dart';
 class ManageGateman extends StatelessWidget {
-
+  int pendingNumber = 0;
   @override
   Widget build(BuildContext context) {
+    pendingNumber =0;
+    // Future gateman = loadGateManThatArePending(context);
     if(getResidentsGateManProvider(context).initialResidentsGateManLoaded==false){
       print('trying to get initial accepted agteman');
       loadGateManThatAccepted(context);
+      
 
     }
-    return getResidentsGateManProvider(context).residentsGManModels.length==0?
+    
+    if(getResidentsGateManProvider(context).initialResidentsGateManAwaitingLoaded==false){loadGateManThatArePending(context);}
+    return /*getResidentsGateManProvider(context).residentsGManModels.length==0?
     AddGateman()
-    :
+    :*/
     Scaffold(
       appBar: GateManHelpers.appBar(context, 'Manage Gateman'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -45,11 +49,32 @@ class ManageGateman extends StatelessWidget {
         ),
       ),
       body: ListView(
-        
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        children: getResidentsGateManProvider(context).residentsGManModels.length==0?<Widget>[
-          Container(width: 0,height:0,)// SizedBox(height: 20.0),
-        ]:buildChildren(context),
+        children: <Widget>[
+          
+         getResidentsGateManProvider(context).residentsGManModels.length!=0?ListView(shrinkWrap: true,
+            
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            children: getResidentsGateManProvider(context).residentsGManModels.length==0?<Widget>[
+              Container(width: 0,height:0,)// SizedBox(height: 20.0),
+            ]:buildChildren(context),
+          ):Center(
+            child:Padding(
+              padding: const EdgeInsets.only(top:60.0, bottom:60.0),
+              child: Text("You do not have any gateman\nadded to your list", style: TextStyle(color: Colors.grey, fontSize: 19.0, fontWeight:FontWeight.w600 ), textAlign: TextAlign.center,),
+            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0, bottom: 10.0),
+              child: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?Text('Pending(${getResidentsGateManProvider(context).residentsGManModelsAwaiting.length})', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),):Text('Pending(0)', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),),
+            ),
+            getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?ListView(shrinkWrap: true,
+            
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            children: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length==0?<Widget>[
+              Container(width: 0,height:0,)// SizedBox(height: 20.0),
+            ]:buildChildren(context,useAwaiting: true),
+          ):Container()
+        ],
       ),
       // bottomSheet: Row(
       //   children: <Widget>[
@@ -72,7 +97,19 @@ class ManageGateman extends StatelessWidget {
     );
   }
 
-  List<Widget> buildChildren(BuildContext context){
+  List<Widget> buildChildren(BuildContext context,{useAwaiting=false}){
+
+    if(useAwaiting==true){
+          return getResidentsGateManProvider(context).residentsGManModelsAwaiting.map((model){
+      return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
+      phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
+       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);});
+       }).toList();
+
+    }
+
+    
+    
 
     return getResidentsGateManProvider(context).residentsGManModels.map((model){
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
@@ -121,6 +158,29 @@ class ManageGateman extends StatelessWidget {
           
         });
         getResidentsGateManProvider(context).setResidentsGateManModels(models);
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+  Future loadGateManThatArePending(context) async{
+    try{
+      dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
+      if(response is ErrorType){
+        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+      } else {
+        print('gatemen yet to acept loading');
+        print(response);
+
+        List<dynamic> responseData = response['data'];
+        List<ResidentsGateManModel> models= [];
+        responseData.forEach((jsonModel){
+          models.add(ResidentsGateManModel.fromJson(jsonModel));
+          
+        });
+
+        getResidentsGateManProvider(context).setResidentsGateManAwaitingModels(models);
+        return models;
       }
     }catch(error){
       throw error;

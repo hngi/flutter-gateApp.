@@ -232,7 +232,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                             ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(response);
                             getResidentsGateManProvider(context).addAwaitingResidentsGateManModel(gateManModel);
                             
-                            setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);
+                          setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);
                             print('done');
                           }
 

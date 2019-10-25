@@ -23,4 +23,5 @@ enum ErrorType {
   estate_country,
   estate_address,
   estate_estate_name,
+  server
 }

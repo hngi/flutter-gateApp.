@@ -10,6 +10,7 @@ import 'package:gateapp/pages/gateman/welcome.dart';
 import 'package:gateapp/pages/notification_resident.dart';
 import 'package:gateapp/pages/registration/token_confirmation.dart';
 import 'package:gateapp/pages/resident/add_gateman/add_gateman_detail.dart';
+import 'package:gateapp/pages/support.dart';
 import 'package:gateapp/pages/visitor_profile.dart';
 import 'package:gateapp/pages/edit_info.dart';
 import 'package:gateapp/pages/edit_profile.dart';
@@ -56,8 +57,8 @@ class Routes {
       case '/pager':
         return MaterialPageRoute(builder: (context) => Pager());
 
-      case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      // case '/manage-address':
+      //   return MaterialPageRoute(builder: (context) => ManageAddress());
 
       case '/about':
         return MaterialPageRoute(builder: (context) => About());
@@ -68,8 +69,8 @@ class Routes {
       case '/faq':
         return MaterialPageRoute(builder: (context) => FAQ());
 
-      case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      // case '/manage-address':
+      //   return MaterialPageRoute(builder: (context) => ManageAddress());
 
       case '/add-location':
         return MaterialPageRoute(builder: (context) => AddLocationPermission());
@@ -121,13 +122,18 @@ class Routes {
         return MaterialPageRoute(builder: (context) => IncomingVisitorsList());
 
       case '/manage-address':
-        return MaterialPageRoute(builder: (context) => ManageAddress());
+      print('printing manage address arguments');
+      print(settings.arguments);
+        return MaterialPageRoute(builder: (context) => ManageAddress(houseBlock: settings.arguments,));
 
       case '/manage-gateman':
         return MaterialPageRoute(builder: (context) => ManageGateman());
 
       case '/register':
         return MaterialPageRoute(builder: (context) => Register());
+
+      case '/support':
+        return MaterialPageRoute(builder: (context) => SupportPage());
 
       case '/residents':
         return MaterialPageRoute(builder: (context) => Residents());
@@ -136,7 +142,8 @@ class Routes {
         dynamic info = settings.arguments;
         return MaterialPageRoute(
             builder: (context) =>
-                TokenConfirmation(phone: info['phone'], email: info['email']));
+                TokenConfirmation(phone: info['phone'], email: info['email'],
+                skipSelectEstate:info['skip_estate']));
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
