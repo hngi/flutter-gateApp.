@@ -5,6 +5,7 @@ import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +13,12 @@ import 'package:provider/provider.dart';
 class TokenConfirmation extends StatefulWidget {
   String phone;
   String email;
+  bool skipSelectEstate;
   String showAlertMessage;
   TokenConfirmation(
       {this.phone = '08056664098',
       this.email = 'winninggreat@gmail.com',
+      this.skipSelectEstate = false,
       this.showAlertMessage});
   @override
   _TokenConfirmationState createState() => _TokenConfirmationState();
@@ -26,19 +29,14 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
   TextEditingController secondTokenController = TextEditingController(text: '');
   TextEditingController thirdTokenController = TextEditingController(text: '');
   TextEditingController fourthTokenController = TextEditingController(text: '');
-//  TextEditingController fifthTokenController = TextEditingController(text: '');
-//  TextEditingController sixthTokenController = TextEditingController(text: '');
 
   FocusNode firstFocusNode = FocusNode();
   FocusNode secondFocusNode = FocusNode();
   FocusNode thirdFocusNode = FocusNode();
   FocusNode fourthFocusNode = FocusNode();
-//  FocusNode fifthFocusNode = FocusNode();
-//  FocusNode sixthFocusNode = FocusNode();
   List<TextEditingController> get getControllers {return [
     firstTokenController,secondTokenController,thirdTokenController,
-  fourthTokenController
-//    fifthTokenController,sixthTokenController
+  fourthTokenController,
 
   ];} 
   /*
@@ -64,9 +62,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
       firstFocusNode,
       secondFocusNode,
       thirdFocusNode,
-      fourthFocusNode
-//      fifthFocusNode,
-//      sixthFocusNode
+      fourthFocusNode,
     ];
   }
 
@@ -125,6 +121,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                 height: 50,
                                 child: Center(
                                   child: TextField(
+                                    keyboardType: TextInputType.number,
                                     decoration: tokenBoxDecoration(),
                                     obscureText: true,
                                     focusNode: getFocusNodes[
@@ -133,7 +130,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                       if (str.length == 1) {
                                         if (getControllers.indexOf(controller) +
                                                 1 <
-                                            6) {
+                                            4) {
                                           FocusScope.of(context).requestFocus(
                                               getFocusNodes[getControllers
                                                       .indexOf(controller) +
@@ -177,9 +174,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                       String otpCode = firstTokenController.text +
                           secondTokenController.text +
                           thirdTokenController.text +
-                          fourthTokenController.text ;
-//                          fifthTokenController.text +
-//                          sixthTokenController.text;
+                          fourthTokenController.text;
                       if (otpCode.length < 4) {
                         await PaysmosmoAlert.showError(
                             context: context,
@@ -187,7 +182,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                       } else {
                         dialog.show();
 
-                        try {
+                        // try {
                           print(otpCode);
                           dynamic response = await AuthService.verifyAccount(
                               verificationCode: otpCode);
@@ -212,16 +207,22 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                   response['token'].toString().split(' ')[1]);
                               print(tokenProvider.authToken);
                               dialog.hide();
-                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: false);  
+                              if (this.widget.skipSelectEstate == true){
+                                print(await getUserTypeProvider(context).getUserTypeRoute);
+                                Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
+                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                              } else {
+                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
                                 Navigator.pushReplacementNamed(
                                     context, '/select-estate');
+                              }
                             }
                           }
                           print(response);
-                        } catch (error) {
-                          print(error);
-                          throw error;
-                        }
+                        // } catch (error) {
+                        //   print(error);
+                        //   throw error;
+                        // }
                       }
                     },
                   ),

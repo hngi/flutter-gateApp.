@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
@@ -70,6 +71,7 @@ ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
 }
 
 Future loadInitialProfile(BuildContext context) async {
+    print('Loading initial profile');
         try{
         dynamic response  = await ProfileService.getCurrentUserProfile(
           authToken: await authToken(context)
@@ -153,6 +155,7 @@ Future loadInitialVisitors(BuildContext context) async {
           models.add(VisitorModel.fromJson(jsonModel));
         });
         getVisitorProvider(context).setVisitorModels(models);
+        getUserTypeProvider(context).setFirstRunStatus(false,loggingoutStatus: false);
       }
     }
   } catch (error) {
@@ -211,10 +214,10 @@ Future loadInitialVisitors(BuildContext context) async {
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();
-  Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: true); 
+  Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: true); 
   Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
-  Navigator.pushNamedAndRemoveUntil(context, '/register',(Route<dynamic> route) => false);
+  Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
   
   PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
 }               

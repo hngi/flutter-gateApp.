@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gateapp/core/models/estate.dart';
 
 class ProfileProvider extends ChangeNotifier {
   ProfileModel profileModel = ProfileModel();
   bool initialProfileLoaded = false;
 
+  
   void setProfileModel(ProfileModel model){
     print('printing model from provider');
     // print(model.toString());
@@ -18,6 +20,7 @@ class ProfileProvider extends ChangeNotifier {
 }
 
 class ProfileModel {
+  HomeModel homeModel;
   String name, username, email, phone, image, created_at, updated_at;
   int id;
   ProfileModel(
@@ -27,6 +30,7 @@ class ProfileModel {
       this.phone,
       this.email,
       this.image,
+      this.homeModel,
       this.created_at,
       this.updated_at});
 
@@ -40,7 +44,9 @@ class ProfileModel {
         phone: jsonModel['phone'],
         image: jsonModel['image'],
         created_at: jsonModel['created_at'],
-        updated_at: jsonModel['updated_at']);
+        updated_at: jsonModel['updated_at'],
+        homeModel: HomeModel.fromJson(jsonModel['home'])
+        );
   }
 
   @override

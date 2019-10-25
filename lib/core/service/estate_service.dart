@@ -225,9 +225,10 @@ class EstateService {
   }
 
   //Add new Estate
-  static Future<bool> selectEstate({
+  static Future selectEstate({
     @required int estateId,
     @required String authToken,
+    houseBlock
   }) async {
     var uri = Endpoint.estate + '/choose/$estateId';
 
@@ -237,7 +238,12 @@ class EstateService {
     );
 
     try {
-      Response response = await dio.post(uri, options: options);
+      Response response;
+      if(houseBlock==null){
+      response = await dio.post(uri, options: options);
+      } else {
+      response = await dio.post(uri,data:{'house_block':houseBlock}, options: options);
+      }
 
       print(response.statusCode);
       print(response.data);
@@ -248,7 +254,8 @@ class EstateService {
       //   final responseJson = json.decode(response.data);
       //   return GateManHelpers.getErrorType(responseJson);
       // }
-      if (response.statusCode == 200) return true;
+      if (response.statusCode == 200) return json.decode(response.data);
+      if(response.statusCode >=500 && response.statusCode < 600) return false;
 
       return false;
 

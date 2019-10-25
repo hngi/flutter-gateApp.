@@ -21,10 +21,11 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _initApp() {
-    Future.delayed(Duration(seconds: 5), () async {
+    Future.delayed(Duration(seconds: 1), () async {
       if (await authToken(context) == null || await userType(context) == null) {
-        Navigator.pushReplacementNamed(context, '/pager');
         getUserTypeProvider(context).setFirstRunStatus(true);
+        Navigator.pushReplacementNamed(context, '/pager');
+        
       } else {
         print(await authToken(context));
         // Navigator.pushReplacementNamed(

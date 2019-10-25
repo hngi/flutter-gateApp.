@@ -25,3 +25,26 @@ class Estate {
     );
   }
 }
+
+
+
+class HomeModel{
+int id,userId,estateId;
+String houseBlock;
+Estate estate;
+
+HomeModel({this.id,this.userId,this.estateId,this.houseBlock,this.estate});
+
+factory HomeModel.fromJson(dynamic json){
+  return HomeModel(
+
+    id: json['id']??null,
+    userId: json['user_id']??null,
+    estateId: json['estate_id']??null,
+    houseBlock: json['house_block']??null,
+    estate: Estate.fromJson(json['estate'])
+
+  );
+}
+
+}
