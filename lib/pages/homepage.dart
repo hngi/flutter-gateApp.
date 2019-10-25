@@ -98,7 +98,7 @@ class Homepage extends StatelessWidget {
                                               fontWeight: FontWeight.w800,
                                             )),
                                       ),
-                                      Text(getProfileProvider(context).profileModel.homeModel.houseBlock??'not set',
+                                      Text(getProfileProvider(context).profileModel.homeModel!=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
                                           style: TextStyle(
                                             color: GateManColors.grayColor,
                                             fontSize: 18.0,

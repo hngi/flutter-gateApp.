@@ -5,6 +5,7 @@ import 'package:gateapp/providers/user_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +13,12 @@ import 'package:provider/provider.dart';
 class TokenConfirmation extends StatefulWidget {
   String phone;
   String email;
+  bool skipSelectEstate;
   String showAlertMessage;
   TokenConfirmation(
       {this.phone = '08056664098',
       this.email = 'winninggreat@gmail.com',
+      this.skipSelectEstate = false,
       this.showAlertMessage});
   @override
   _TokenConfirmationState createState() => _TokenConfirmationState();
@@ -179,7 +182,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                       } else {
                         dialog.show();
 
-                        try {
+                        // try {
                           print(otpCode);
                           dynamic response = await AuthService.verifyAccount(
                               verificationCode: otpCode);
@@ -204,16 +207,22 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                                   response['token'].toString().split(' ')[1]);
                               print(tokenProvider.authToken);
                               dialog.hide();
-                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(true,loggingoutStatus: false);  
+                              if (this.widget.skipSelectEstate == true){
+                                print(await getUserTypeProvider(context).getUserTypeRoute);
+                                Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
+                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                              } else {
+                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
                                 Navigator.pushReplacementNamed(
                                     context, '/select-estate');
+                              }
                             }
                           }
                           print(response);
-                        } catch (error) {
-                          print(error);
-                          throw error;
-                        }
+                        // } catch (error) {
+                        //   print(error);
+                        //   throw error;
+                        // }
                       }
                     },
                   ),

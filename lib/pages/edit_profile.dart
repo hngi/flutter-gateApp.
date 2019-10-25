@@ -10,7 +10,6 @@ import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/dialogs.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
@@ -171,7 +170,6 @@ class _EditProfileState extends State<EditProfile> {
                   dialog.hide();
                 }
               } catch (error) {
-                ;
                 print(error);
                 await PaysmosmoAlert.showError(
                     context: context,

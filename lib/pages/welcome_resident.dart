@@ -16,15 +16,19 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if(getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
-      print('proile not yet loade');
-      loadInitialProfile(context);
+    if((getUserTypeProvider(context).firstRunStatus==true || getUserTypeProvider(context).loggingOut == false)){
+      if(getProfileProvider(context).initialProfileLoaded){
+          loadInitialProfile(context);
+      }
+      
+      if(getVisitorProvider(context).initialVisitorsLoaded == false){
+        loadInitialVisitors(context);
+      }
       }
 
-    if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == false){
-      print('Loading');
-      loadInitialVisitors(context);
-    }
+    // if (getUserTypeProvider(context).firstRunStatus==true && getUserTypeProvider(context).loggingOut == true){
+      
+    // }
       
           return Scaffold(
             body: getVisitorProvider(context).visitorModels.length == 0
@@ -101,7 +105,7 @@ class WelcomeResident extends StatelessWidget {
             SizedBox(height: size.height * 0.06),
             Padding(
               padding: const EdgeInsets.only(bottom: 6.0),
-              child: Text('Hi, ' + getProfileProvider(context).profileModel.name,
+              child: Text('Hi, ' + getProfileProvider(context).profileModel.name??'...',
                   style: TextStyle(
                     color: GateManColors.primaryColor,
                     fontSize: 24.0,
