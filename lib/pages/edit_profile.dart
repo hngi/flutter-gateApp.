@@ -83,7 +83,7 @@ class _EditProfileState extends State<EditProfile> {
                             getProfileProvider(context).profileModel.image ==
                                 "no_image.jpg" ||
                             getProfileProvider(context).profileModel.image ==
-                                'file:///noimage.jpg'
+                                'file://noimage.jpg'
                         ? Image.asset(
                             'assets/images/woman-cooking.png',
                           )
@@ -204,7 +204,6 @@ class _EditProfileState extends State<EditProfile> {
       } else {
         await PaysmosmoAlert.showSuccess(
             context: context, message: 'Profile Updated');
-        print('fffffffffffffffffff');
         print(ProfileModel.fromJson(response).image);
         getProfileProvider(context)
             .setProfileModel(ProfileModel.fromJson(response));
