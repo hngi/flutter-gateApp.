@@ -12,10 +12,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
-  
   @override
   Widget build(BuildContext context) {
-    print(getProfileProvider(context).profileModel.homeModel.houseBlock);
+    // print(getProfileProvider(context).profileModel.homeModel.houseBlock);
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Setting'),
       body: ListView(
@@ -52,7 +51,17 @@ class _SettingState extends State<Settings> {
                   Container(
                     child: BottomMenu(
                         'Manage Address',
-                        () => Navigator.pushNamed(context, '/manage-address',arguments: getProfileProvider(context).profileModel.homeModel.houseBlock),
+                        () => Navigator.pushNamed(context, '/manage-address',
+                            arguments: getProfileProvider(context)
+                                        .profileModel
+                                        .homeModel
+                                        .houseBlock ==
+                                    null
+                                ? 'Block 34'
+                                : getProfileProvider(context)
+                                    .profileModel
+                                    .homeModel
+                                    .houseBlock),
                         Border(bottom: BorderSide.none)),
                   ),
                 ],
