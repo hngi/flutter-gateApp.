@@ -91,7 +91,7 @@ class Homepage extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                        child: Text(getProfileProvider(context).profileModel.name.toString(),
+                                        child: Text(getProfileProvider(context).profileModel?.name?.toString() ?? 'Name',
                                             style: TextStyle(
                                               color: GateManColors.primaryColor,
                                               fontSize: 20.0,
