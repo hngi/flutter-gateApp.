@@ -570,22 +570,22 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
             SizedBox(
               height: 40,
             ),
-            Text(
-              'Visitors',
-              style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // Text(
+            //   'Visitors',
+            //   style: TextStyle(
+            //       color: GateManColors.primaryColor,
+            //       fontSize: 12,
+            //       fontWeight: FontWeight.w600),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
           ],
         ),
       ),
