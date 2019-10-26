@@ -91,14 +91,14 @@ class Homepage extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                        child: Text(getProfileProvider(context).profileModel?.name?.toString() ?? 'Name',
+                                        child: Text(getProfileProvider(context).profileModel?.name == null ? 'Name' : getProfileProvider(context).profileModel?.name.toString() ?? 'Name',
                                             style: TextStyle(
                                               color: GateManColors.primaryColor,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.w800,
                                             )),
                                       ),
-                                      Text(getProfileProvider(context).profileModel.homeModel!=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
+                                      Text(getProfileProvider(context).profileModel.homeModel?.houseBlock !=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
                                           style: TextStyle(
                                             color: GateManColors.grayColor,
                                             fontSize: 18.0,
