@@ -1,3 +1,5 @@
+import 'dart:core' as prefix0;
+import 'dart:core';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -51,7 +53,7 @@ Future<user_type> userType(BuildContext context) async {
 
 UserTypeProvider getUserTypeProvider(BuildContext context){
   return Provider.of<UserTypeProvider>(context);
-} 
+}
 
 ProfileProvider getProfileProvider(BuildContext context){
 
@@ -164,14 +166,14 @@ Future loadInitialVisitors(BuildContext context) async {
 }
 
 //  Future loadInitialVisitors(BuildContext context) async {
-                        
+
 //                                 try {
-                                
+
 //                                   dynamic response = await VisitorService.getAllVisitor(
 //                                       authToken: await authToken(context));
 //                                   if (response is ErrorType) {
-                                    
-                                    
+
+
 //                                      if(response == ErrorType.no_visitors_found){
 //                                       getVisitorProvider(context).setInitialStatus(true);
 //                                       PaysmosmoAlert.showSuccess(
@@ -184,8 +186,8 @@ Future loadInitialVisitors(BuildContext context) async {
 //                                         context: context,
 //                                         message: GateManHelpers.errorTypeMap(response));
 //                                     }
-                                     
-                                        
+
+
 //                                   } else {
 //                                     if (response['visitor'].length == 0) {
 //                                       PaysmosmoAlert.showSuccess(
@@ -201,26 +203,27 @@ Future loadInitialVisitors(BuildContext context) async {
 //                                       getVisitorProvider(context).setVisitorModels(models);
 //                                       getUserTypeProvider(context).setFirstRunStatus(false);
 
-                                    
+
 //                                     }
 //                                   }
 //                                 } catch (error) {
 //                                   throw error;
 //                                 }
-                            
+
 //                                 }
 
 
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();
+
   Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: true); 
   Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
   Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
   
   PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
-}               
+}
 
 //UserType enum
 enum user_type { ADMIN, GATEMAN, RESIDENT }

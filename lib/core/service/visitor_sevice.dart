@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/constants.dart' as prefix1;
+import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:intl/intl.dart';
 
@@ -31,8 +32,8 @@ class VisitorService {
   static BaseOptions options = BaseOptions(
     baseUrl: Endpoint.baseUrl,
     responseType: ResponseType.plain,
-    connectTimeout: prefix1.CONNECT_TIMEOUT,
-    receiveTimeout: prefix1.RECEIVE_TIMEOUT,
+    connectTimeout: CONNECT_TIMEOUT,
+    receiveTimeout: RECEIVE_TIMEOUT,
     validateStatus: (code) {
       return (code >= 200) ? true : false;
     },
@@ -131,7 +132,7 @@ class VisitorService {
 
 
 
-  static deleteVisitor() async{
+  static  deleteVisitor() async{
     BigInt id;
     var uri = Endpoint.visitor;
     try{
@@ -196,6 +197,4 @@ class VisitorService {
       }
     }
   }
-
-
 }

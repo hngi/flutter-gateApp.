@@ -7,7 +7,7 @@ class VisitorProvider extends ChangeNotifier {
   
     void addVisitorModel(VisitorModel model){
       print('printing model from provider');
-      print('model.toString()');
+      print(model.toString());
       this.visitorModels.add(model);
       notifyListeners();
     }
