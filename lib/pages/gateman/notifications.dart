@@ -4,6 +4,7 @@ import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:gateapp/pages/gateman/widgets/customFab.dart';
 import 'package:gateapp/pages/gateman/widgets/invitationTile.dart';
+import 'package:gateapp/pages/residents.dart';
 import 'package:gateapp/utils/Loader/loader.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/constants.dart';
@@ -22,7 +23,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
   int _counter = 1;
   bool isLoading = false;
 
-  List<GatemanResidentRequest> _requests = [];
+  List<ResidentUser> _requests = [];
   LoadingDialog dialog;
 
   @override
@@ -37,7 +38,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
       isLoading = true;
     });
     Future.wait([
-      GatemanService.allRequests(
+      GateManService.allRequests(
         authToken: await authToken(context),
       ),
     ]).then((res) {
@@ -77,14 +78,14 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(
+    /*  bottomNavigationBar: CustomBottomAppBar(
         alertText: '${_notifications.length}',
         onTapLocation: '/menu',
         nameOfLocation: 'Menu',
         imageLocation: imageLocation,
       ),
       floatingActionButton: CustomFAB(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,*/
       bottomNavigationBar: CustomBottomNavBar(
         leadingIcon: MdiIcons.home,
         leadingText: 'Home',
@@ -118,9 +119,9 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
         itemBuilder: (BuildContext context, int index) {
           return InvitationTile(
             parentContext: context,
-            requestId: _requests[index].requestId,
+            requestId: index,
             rname: _requests[index].name,
-            raddress: _requests[index].username,
+            raddress: _requests[index].address,
             rphone: _requests[index].phone,
             func: () {
               Navigator.pushNamed(context, '/residents-gate');

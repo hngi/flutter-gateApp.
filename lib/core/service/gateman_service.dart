@@ -115,7 +115,7 @@ class GateManService {
         return [];
       }
       final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
-      List<prefix1.GatemanResidentVisitors> listOfGatemanResidentRequests =
+      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
       items.map<GatemanResidentVisitors>((json) {
         return GatemanResidentVisitors.fromJson(json);
       }).toList();
@@ -157,6 +157,7 @@ class GateManService {
     }
   }
 
+/*
   //Get Gateman requests
   static Future<List<GatemanResidentRequest>> allRequests({
     @required String authToken,
@@ -188,6 +189,7 @@ class GateManService {
       throw Exception('Failed to load internet');
     }
   }
+*/
 
   //Accept a Request
   static acceptRequest({
@@ -265,7 +267,7 @@ class GateManService {
     }
   }
 
-  //Get Gateman requests
+/*  //Get Gateman requests
   static Future<List<GatemanResidentVisitors>> allResidentVisitors({
     @required String authToken,
   }) async {
@@ -296,5 +298,5 @@ class GateManService {
     } else {
       throw Exception('Failed to load internet');
     }
-  }
+  }*/
 }

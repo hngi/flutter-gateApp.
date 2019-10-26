@@ -2,7 +2,7 @@
 
 import 'package:gateapp/core/models/user.dart';
 
-class GatemanResidentVisitors {
+class GatemanResidentVisitorsNew {
   int id;
   String name;
   String arrivalDate;
@@ -21,7 +21,7 @@ class GatemanResidentVisitors {
   String updatedAt;
   User user;
 
-  GatemanResidentVisitors({
+  GatemanResidentVisitorsNew({
     this.id,
     this.name,
     this.arrivalDate,
@@ -41,8 +41,8 @@ class GatemanResidentVisitors {
     this.user,
   });
 
-  factory GatemanResidentVisitors.fromJson(Map<String, dynamic> json) {
-    return GatemanResidentVisitors(
+  factory GatemanResidentVisitorsNew.fromJson(Map<String, dynamic> json) {
+    return GatemanResidentVisitorsNew(
       arrivalDate: json['arrival_date'],
       carPlateNo: json['car_plate_no'],
       createdAt: json['created_at'],

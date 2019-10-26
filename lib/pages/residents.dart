@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/gateman_resident_visitors.dart';
 import 'package:gateapp/core/models/user.dart';
+import 'package:gateapp/core/models/visitor.dart';
 import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman_menu.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
@@ -43,7 +44,7 @@ class _ResidentsState extends State<Residents> {
     });
     Future.wait([
 
-      GatemanService.allResidentVisitors(
+      GateManService.allResidentVisitors(
         authToken: await authToken(context),
       ),
     ]).then((res) {

@@ -8,6 +8,7 @@ import 'package:gateapp/core/service/profile_service.dart';
 import 'package:gateapp/core/service/resident_service.dart';
 import 'package:gateapp/core/service/visitor_sevice.dart';
 import 'package:gateapp/providers/faq_provider.dart';
+import 'package:gateapp/providers/gateman_requests_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/providers/token_provider.dart';
@@ -66,6 +67,15 @@ VisitorProvider getVisitorProvider(BuildContext context) {
 
 FAQProvider getFAQProvider(BuildContext context) {
   return Provider.of<FAQProvider>(context);
+}
+
+GateManRequestProvider getRequestProvider (BuildContext context){
+  return Provider.of<GateManRequestProvider>(context);
+}
+
+ProfileModel setMenuModel(BuildContext context) {
+  ProfileModel model = getProfileProvider(context).profileModel;
+  return model;
 }
 
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {

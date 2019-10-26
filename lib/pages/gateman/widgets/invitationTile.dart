@@ -45,7 +45,7 @@ class _InvitationTileState extends State<InvitationTile> {
 
     print('Request ID: ${widget.requestId}');
 
-    var res = await GatemanService.acceptRequest(
+    var res = await GateManService.acceptRequest(
       requestId: widget.requestId,
       authToken: await authToken(context),
     );
@@ -70,7 +70,7 @@ class _InvitationTileState extends State<InvitationTile> {
   _declineResident(LoadingDialog dialog) async {
     dialog.show();
 
-    var res = await GatemanService.rejectRequest(
+    var res = await GateManService.rejectRequest(
       requestId: widget.requestId,
       authToken: await authToken(context),
     );

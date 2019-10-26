@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/models/gateman_resident_visitors.dart';
+import 'package:gateapp/core/models/visitor.dart';
 import 'package:gateapp/core/service/gateman_service.dart';
 import 'package:gateapp/pages/gateman/welcome.dart';
 import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
@@ -10,6 +12,7 @@ import 'package:gateapp/providers/gateman_requests_provider.dart';
 import 'package:gateapp/providers/gateman_user_provider.dart';
 import 'package:gateapp/providers/profile_provider.dart';
 import 'package:gateapp/providers/resident_visitor_provider.dart';
+import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/helpers.dart';
 
@@ -20,54 +23,38 @@ class ResidentsGate extends StatefulWidget {
 
 class _ResidentsGateState extends State<ResidentsGate> {
   //String name = '';
-  bool badge = true;
-  int _counter = 1;
-  bool details = false;
-  bool details2 = false;
+  String imageLocation = 'assets/images/gateman/menu.png';
 
-  void toggle() {
+  bool isLoaded = false;
+  List<GatemanResidentVisitors> _listOfResidents = [];
+  LoadingDialog loader;
+
+  @override
+  void initState(){
+    super.initState();
+    loader = LoadingDialog(context, LoadingDialogType.Normal);
+    initApp();
+  }
+
+  initApp() async {
     setState(() {
-      details = !details;
+      isLoaded = true;
+    });
+
+    Future.wait([
+      /*GateManService.allResidentVisitors(
+        authToken: await authToken(context),*/
+      GateManService.allResidentVisitors(authToken: await authToken(context),)
+
+    ]).then((x){
+      print(x);
+      setState(() {
+        _listOfResidents = x[0];
+        isLoaded = false;
+      });
     });
   }
 
-  void toggle2() {
-    setState(() {
-      details2 = !details2;
-    });
-  }
-
-  /*var _residents = [
-    {
-      "name": "Janet Thompson",
-      "address": "Block 3A, Dele Adebayo Estate",
-      "phone": "08038000000",
-      "numberVisit" : 1,
-      "visitor" : {
-        "nameV" : "John Doe",
-        "phoneV": "09099886625",
-        "descriptionV":"Bald, Tall and ...",
-        "etaV":"00:00 - 00:00",
-        "verificationV":"QR CODE",
-        "visitStatus" : "Approved",
-      },
-    },
-    {
-      "name": "Mr. Seun Adeyini",
-      "address": " Block 3B, Dele Adebayo Estate",
-      "phone": "08038000000",
-      "numberVisit" : 1,
-      */ /*"visitor" : {
-        "nameV" : "John Doe",
-        "phoneV": "09099886625",
-        "descriptionV":"Bald, Tall and ...",
-        "etaV":"00:00 - 00:00",
-        "verificationV":"QR CODE",
-        "visitStatus" : "Approved",
-      },*/ /*
-    },
-  ];
-  */
   var _visitor = {
     "nameV": "John Doe",
     "phoneV": "09099886625",
@@ -82,10 +69,10 @@ class _ResidentsGateState extends State<ResidentsGate> {
     String imageLocation = 'assets/images/gateman/menu.png';
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
-    int numberOfRequests = 0;
+    int numberOfRequests = _listOfResidents.length;
     int numberOfVisitors = 0;
     ProfileModel profileModel = setMenuModel(context);
-    if(!getRequestProvider(context).requestLoaded){
+/*    if(!getRequestProvider(context).requestLoaded){
       loadRequests(context);
       if(!getRealVisitorProvider(context).isLoaded){
         loadVisitorsList(context);
@@ -100,7 +87,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
     while(requestModel != null){
        _residents = json.decode(requestModel.residents.toString());
         numberOfRequests = requestModel.requests;
-    }
+    }*/
     return Scaffold(
       bottomNavigationBar: CustomBottomAppBar(
         alertText: '$numberOfRequests',
@@ -165,9 +152,9 @@ class _ResidentsGateState extends State<ResidentsGate> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
-                    itemCount: (requestModel == null)? 1 : numberOfRequests,
+                    itemCount: (_listOfResidents == null)? 1 : numberOfRequests,
                     itemBuilder: (BuildContext context, int index) {
-                      if (requestModel == null){
+                      if (_listOfResidents == null){
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Container(
@@ -186,9 +173,9 @@ class _ResidentsGateState extends State<ResidentsGate> {
                       return (Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: ResidentTile(
-                                name: _residents[index]['name'],
+                                name: _listOfResidents[index].name,
                                 //address: _residents[index]['address'],
-                                phone: _residents[index]['phone'],
+                                phone: _listOfResidents[index].phoneNo,
                                 //numberVisit: 1,
                                 visitStatus: _visitor['nameV'],
                                 verificationV: _visitor['verificationV'],
