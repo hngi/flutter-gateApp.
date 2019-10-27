@@ -310,14 +310,21 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         onChanged: (date){
           print('date as been changed to ' + date);
           _arrivalDateController.text = date;
-          arrivalDate=date;
+          // arrivalDate=date;
         },
         onSaved: (date){
         _arrivalDateController.text = date;
-        arrivalDate=date;
+        // arrivalDate=date;
         },
         now: DateTime.now(),minimumAllowedDate: DateTime.now(),
         includeInput: true,
+        showingDetail: true,
+        selectedDate: _arrivalDateController.text==DateTime.now().day.toString()+
+        DateTime.now().month.toString()+
+        DateTime.now().year.toString() ||_arrivalDateController.text==''?null:
+        _arrivalDateController.text.split('/').map((f){
+          return int.parse(f);
+        }).toList(),
       ),
      Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -551,7 +558,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         // print(response);
                         dialog.hide();
                         getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
-                        prefix0.loadInitialVisitors(context,skipAlert:true);
+                       loadInitialVisitors(context,skipAlert:true);
                         
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                         print("qt image");

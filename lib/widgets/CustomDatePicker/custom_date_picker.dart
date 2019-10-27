@@ -48,14 +48,16 @@ class CustomDatePicker extends StatefulWidget {
 
   bool includeInput;
   bool showingDetail = true;
- CustomDatePicker({this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate,this.dateController}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
+
+  List<int> selectedDate;
+ CustomDatePicker({this.selectedDate,this.showingDetail,this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate,this.dateController}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
 minimumAllowedDate==null&&maximumAllowedDate!=null?DateTime.now().compareTo(maximumAllowedDate)<1:minimumAllowedDate!=null&&maximumAllowedDate==null?minimumAllowedDate.compareTo(DateTime.now())<1:true){
   if(this.now==null){
     this.now = DateTime.now();
   }
-  if(this.includeInput==true){
-    showingDetail=false;
-  }
+  // if(this.includeInput==true){
+  //   showingDetail=false;
+  // }
    
   this.currentMonthValue = now.month;
   this.currentWeekIndex = now.weekday - 1;
@@ -63,24 +65,16 @@ minimumAllowedDate==null&&maximumAllowedDate!=null?DateTime.now().compareTo(maxi
   this.currentDay = now.day;
   this.currentMonthIndex = this.currentMonthValue - 1;
 this.currentDayFull = [this.currentDay, this.currentMonthValue, this.currentYear];
-  selectedMonthValue = now.month;
+  selectedMonthValue = this.selectedDate!=null?this.selectedDate[1]:now.month;
   calendarCurrentViewMonth = now.month;
   calendarCurrentViewYear= now.year;
-  selectedYearValue = now.year;
+  selectedYearValue = this.selectedDate!=null?this.selectedDate[2]:now.year;
   weekIndexOfFirstDayOfSelectedMonth = DateTime(currentYear,currentMonthValue,1).weekday -1;
   
   weeks = ['MON', 'TUE', 'WED', 'THUR', 'FRI', 'SAT', 'SUN'];
 
-  
-  // List<List<int>> dayRows = [
-  //   [28, 29, 30, 31, 1, 2, 3],
-  //   [4, 5, 6, 7, 8, 9, 10],
-  //   [11, 12, 13, 14, 15, 16, 17],
-  //   [18, 19, 20, 21, 22, 23, 24],
-  //   [25, 26, 27, 28, 29, 30, 1]
-  // ];
-
-  selectedDayFull = currentDayFull;
+  print(this.selectedDate);
+  selectedDayFull = this.selectedDate!=null?[this.selectedDate[0],this.selectedDate[1],this.selectedDate[2]]:currentDayFull;
 }
   @override
   _CustomDatePickerState createState() => _CustomDatePickerState();
@@ -244,13 +238,13 @@ void buildDateItemsWithChangeState(){
      }
    }
    }
-   print(daysRowCC);
+  //  print(daysRowCC);
    this.widget.dayRows = daysRowCC;
    return daysRowCC;
     }
 
     void _onChanged() {
-      print("current weekday is " + this.widget.currentWeekIndex.toString());
+      // print("current weekday is " + this.widget.currentWeekIndex.toString());
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
       }
@@ -321,9 +315,8 @@ void buildDateItemsWithChangeState(){
         stateSelectedMonthValue = this.widget.calendarCurrentViewMonth;
         // print("5 case");
       }
-      print([stateSelectedYearValue,stateSelectedMonthValue,value[0]]);
-      print("ddddddddddd nice seems u are working well");
-      print([this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day]);
+      // print([stateSelectedYearValue,stateSelectedMonthValue,value[0]]);
+      // print([this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day]);
       // print(selectedMonthIndex);
       if(this.widget.minimumAllowedDate!=null && DateTime(stateSelectedYearValue,stateSelectedMonthValue,value[0]).compareTo(DateTime(this.widget.minimumAllowedDate.year,this.widget.minimumAllowedDate.month,this.widget.minimumAllowedDate.day))<0){
 
@@ -353,7 +346,7 @@ void buildDateItemsWithChangeState(){
           IconButton(
             icon: Icon(Icons.keyboard_arrow_right),
             onPressed: () {
-              print("moving to nextmonth view");
+              // print("moving to nextmonth view");
               nextMonth();},
           )
         ],
@@ -382,8 +375,8 @@ void buildDateItemsWithChangeState(){
                 //print("month tappe is " + months[selectedMonthIndex]);
                 _onChanged();
                 
-                print(this.widget.currentDayFull);
-                print(this.widget.selectedDayFull);
+                // print(this.widget.currentDayFull);
+                // print(this.widget.selectedDayFull);
               },
               child: Container(
                   decoration: BoxDecoration(

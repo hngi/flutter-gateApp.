@@ -275,8 +275,19 @@ class WelcomeResident extends StatelessWidget {
                                  DateTime.now().day + 1 &&
                              usedDates.contains('Tomorrow') == false?
                              getTodayOrYesterday(usedDates, 'Tomorrow')
-                                             : usedDates.contains(visitorModel.arrival_date) == false
-                                                 ? getHeadText(usedDates,visitorModel)
+                                             : usedDates.contains(int.parse(arrival_date_array[0]) == DateTime.now().year &&
+                             int.parse(arrival_date_array[1]) ==
+                                 DateTime.now().month && int.parse(arrival_date_array[2]) ==
+                                 DateTime.now().day?'Today':int.parse(arrival_date_array[0]) == DateTime.now().year &&
+                             int.parse(arrival_date_array[1]) ==
+                                 DateTime.now().month && int.parse(arrival_date_array[2]) ==
+                                 DateTime.now().day + 1?'Tomorrow':int.parse(arrival_date_array[0]) == DateTime.now().year &&
+                             int.parse(arrival_date_array[1]) ==
+                                 DateTime.now().month && int.parse(arrival_date_array[2]) ==
+                                 DateTime.now().day -1?'Yesterday': 
+                                               visitorModel.arrival_date
+                                               ) == false
+                                            ? getHeadText(usedDates,visitorModel)
                                                                          : Container(
                                                                              width: 0,
                                                                              height: 0,
