@@ -6,6 +6,7 @@ import 'package:gateapp/providers/resident_gateman_provider.dart';
 import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'dart:async';
@@ -231,6 +232,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
 
                             ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(response);
                             getResidentsGateManProvider(context).addAwaitingResidentsGateManModel(gateManModel);
+                            prefix0.loadGateManThatArePending(context);
                             
                           setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);
                             print('done');

@@ -98,12 +98,7 @@ BaseOptions formOption = BaseOptions(
        // options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(formOption);
         try {
-          Response response = await dio.post(uri,data: {
-            'name':name,
-            'email':email,
-            'phone':phone,
-
-          });
+          Response response = await dio.post(uri,data: data);
     
           print(response.statusCode);
           print(response.data);

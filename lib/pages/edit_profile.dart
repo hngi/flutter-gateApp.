@@ -10,7 +10,7 @@ import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/dialogs.dart';
+import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -87,7 +87,7 @@ class _EditProfileState extends State<EditProfile> {
                         ? Image.asset(
                             'assets/images/woman-cooking.png',
                           )
-                        : Image.network(
+                        : Image.network(Endpoint.imageBaseUrl+
                             getProfileProvider(context).profileModel.image),
                   ),
                   Center(
@@ -148,7 +148,7 @@ class _EditProfileState extends State<EditProfile> {
               print(_phoneNumberController.text +
                   _emailController.text +
                   _nameController.text);
-              try {
+              // try {
                 dynamic response = await ProfileService.setCurrentUserProfile(
                     phone: _phoneNumberController.text,
                     email: _emailController.text,
@@ -166,16 +166,17 @@ class _EditProfileState extends State<EditProfile> {
                       context: context, message: 'Proile Updated');
                   print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
                   getProfileProvider(context)
-                      .setProfileModel(ProfileModel.fromJson(response['user']));
+                      .profileModel.updateFromMapOrJson(response['user']);
+                  getProfileProvider(context).notifyListeners();
                   dialog.hide();
                 }
-              } catch (error) {
-                print(error);
-                await PaysmosmoAlert.showError(
-                    context: context,
-                    message: GateManHelpers.errorTypeMap(ErrorType.generic));
-                dialog.hide();
-              }
+              // } catch (error) {
+              //   throw error;
+              //   await PaysmosmoAlert.showError(
+              //       context: context,
+              //       message: GateManHelpers.errorTypeMap(ErrorType.generic));
+              //   dialog.hide();
+              // }
             },
           ),
         ],
@@ -206,7 +207,7 @@ class _EditProfileState extends State<EditProfile> {
             context: context, message: 'Profile Updated');
         print(ProfileModel.fromJson(response).image);
         getProfileProvider(context)
-            .setProfileModel(ProfileModel.fromJson(response));
+            .setProfileModel(ProfileModel.fromJson(response),jsonString: response);
         getProfileProvider(context).setInitialStatus(true);
       }
     } catch (error) {

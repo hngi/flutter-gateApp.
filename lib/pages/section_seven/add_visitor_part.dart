@@ -11,6 +11,7 @@ import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
+import 'package:gateapp/utils/constants.dart' as prefix0;
 import 'package:gateapp/utils/errors.dart';
 import 'package:gateapp/utils/helpers.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
@@ -550,6 +551,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         // print(response);
                         dialog.hide();
                         getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
+                        prefix0.loadInitialVisitors(context,skipAlert:true);
                         
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                         print("qt image");

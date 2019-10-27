@@ -16,15 +16,21 @@ class ManageGateman extends StatelessWidget {
   Widget build(BuildContext context) {
     pendingNumber =0;
     // Future gateman = loadGateManThatArePending(context);
-    if(getResidentsGateManProvider(context).initialResidentsGateManLoaded==false){
+    appIsConnected().then((isConnected) {
+      if(isConnected == true){
+if(getResidentsGateManProvider(context).loadedFromApi==false){
       print('trying to get initial accepted agteman');
       loadGateManThatAccepted(context);
-      
+     }
+     if(getResidentsGateManProvider(context).pendingloadedFromApi == false){
+       loadGateManThatArePending(context);
+     }
+     }
+    });
 
-    }
     
-    if(getResidentsGateManProvider(context).initialResidentsGateManAwaitingLoaded==false){loadGateManThatArePending(context);}
-    return /*getResidentsGateManProvider(context).residentsGManModels.length==0?
+    
+   return /*getResidentsGateManProvider(context).residentsGManModels.length==0?
     AddGateman()
     :*/
     Scaffold(
@@ -163,27 +169,4 @@ class ManageGateman extends StatelessWidget {
       throw error;
     }
   }
-  Future loadGateManThatArePending(context) async{
-    try{
-      dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
-      if(response is ErrorType){
-        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-        print('gatemen yet to acept loading');
-        print(response);
-
-        List<dynamic> responseData = response['data'];
-        List<ResidentsGateManModel> models= [];
-        responseData.forEach((jsonModel){
-          models.add(ResidentsGateManModel.fromJson(jsonModel));
-          
-        });
-
-        getResidentsGateManProvider(context).setResidentsGateManAwaitingModels(models);
-        return models;
-      }
-    }catch(error){
-      throw error;
-    }
   }
-}

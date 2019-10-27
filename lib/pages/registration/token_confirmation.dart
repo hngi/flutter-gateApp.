@@ -105,7 +105,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    'Please enter the 6 digit verification code sent to ' +
+                    'Please enter the 4 digit verification code sent to ' +
                         this.widget.email,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
@@ -210,9 +210,9 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                               if (this.widget.skipSelectEstate == true){
                                 print(await getUserTypeProvider(context).getUserTypeRoute);
                                 Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
-                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: false);  
                               } else {
-                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: false);  
                                 Navigator.pushReplacementNamed(
                                     context, '/select-estate');
                               }

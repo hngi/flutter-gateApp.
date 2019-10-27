@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
@@ -7,7 +10,29 @@ import 'package:gateapp/providers/providers.dart';
 
 void main() => runApp(GateMan());
 
-class GateMan extends StatelessWidget {
+class GateMan extends StatefulWidget {
+  @override
+  _GateManState createState() => _GateManState();
+}
+
+class _GateManState extends State<GateMan> {
+  dynamic subscription;
+  @override
+  void dispose() {
+    subscription.dispose();
+    super.dispose();
+  }
+  @override
+  initState(){
+    super.initState();
+    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      print('Connection just changed');
+      setState(() {
+        
+      });
+    // Got a new connectivity status!
+  });
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(

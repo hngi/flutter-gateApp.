@@ -90,11 +90,7 @@ if(image!=null){
       
       Response response = await dio.post(uri,data: await formData1());
 
-      print(response.statusCode);
-      print(response.data);
-      final resp=json.decode(response.data);
-      qr_code=resp['qr_image_src'];
-      print('QR Code :'+qr_code);
+    
 
       if (response == null) return ErrorType.generic;
       if (response.statusCode != 200) return ErrorType.generic;

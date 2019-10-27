@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
 import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
@@ -60,7 +61,7 @@ class Homepage extends StatelessWidget {
                                   child: Stack(
                                     alignment: Alignment.topLeft,
                                     children: <Widget>[
-                                      Positioned(
+                                       Positioned(
                                         right: 25.0,
                                         child: Container(
                                           height: 68.0,
@@ -74,12 +75,21 @@ class Homepage extends StatelessWidget {
                                       ),
                                       Positioned(
                                         // left: 3.0,
-                                        child: CircleAvatar(
-                                          backgroundImage:
-                                              AssetImage('assets/images/woman-cooking.png'),
-                                          maxRadius: 32.0,
+                                        
+                                        child: ClipOval(
+                                                                                  child: CircleAvatar(
+                                            radius: 32,
+                                            child:
+                                            getProfileProvider(context).profileModel.image!='no_image'?
+                                            FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ getProfileProvider(context).profileModel.image,
+                                            placeholder:'assets/images/gateman_white.png',):
+                                                AssetImage('assets/images/gateman_white.png'),
+                                            
+                                          ),
                                         ),
                                       ),
+                                     
+                                      
                                     ],
                                   ),
                                 ),

@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:gateapp/core/models/estate.dart';
 import 'package:gateapp/core/service/profile_service.dart';
@@ -79,9 +81,7 @@ Future loadInitialProfile(BuildContext context) async {
                             print('Initial Profile Loaded');
                             print(ProfileModel.fromJson(response));
                             getProfileProvider(context).setProfileModel(
-                            ProfileModel.fromJson(response));
-            getProfileProvider(context).setInitialStatus(true);
-            getUserTypeProvider(context).setFirstRunStatus(false);
+                            ProfileModel.fromJson(response),jsonString: json.encode(response));
           }
         } catch (error){
           print(error);
@@ -125,7 +125,7 @@ Future loadGateManThatAccepted(context) async {
   }
 }
 
-Future loadInitialVisitors(BuildContext context) async {
+Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
   try {
     dynamic response =
         await VisitorService.getAllVisitor(authToken: await authToken(context));
@@ -134,6 +134,7 @@ Future loadInitialVisitors(BuildContext context) async {
         getVisitorProvider(context).setInitialStatus(true);
         PaysmosmoAlert.showSuccess(
             context: context, message: GateManHelpers.errorTypeMap(response));
+            getVisitorProvider(context).setVisitorModels([]);
       } else {
         PaysmosmoAlert.showError(
             context: context, message: GateManHelpers.errorTypeMap(response));
@@ -141,6 +142,7 @@ Future loadInitialVisitors(BuildContext context) async {
     } else {
       if (response['visitor'] == 0) {
         PaysmosmoAlert.showSuccess(context: context, message: 'No visitors');
+        getVisitorProvider(context).setVisitorModels([]);
       } else {
         print('linking data for visitors');
         print(response['visitor']);
@@ -149,8 +151,10 @@ Future loadInitialVisitors(BuildContext context) async {
         jsonVisitorModels.forEach((jsonModel) {
           models.add(VisitorModel.fromJson(jsonModel));
         });
-        getVisitorProvider(context).setVisitorModels(models);
-        getUserTypeProvider(context).setFirstRunStatus(false,loggingoutStatus: false);
+        getVisitorProvider(context).setVisitorModels(models,jsonString:json.encode(response['visitor']));
+        
+        
+        getUserTypeProvider(context).setFirstRunStatus(false,loggedOut: false);
       }
     }
   } catch (error) {
@@ -209,9 +213,15 @@ Future loadInitialVisitors(BuildContext context) async {
 
 void logOut(context) {
   Provider.of<TokenProvider>(context).clearToken();
-  Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: true); 
+  Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: true); 
   Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
+  Provider.of<ProfileProvider>(context).loadedFromApi = false;
+  Provider.of<ProfileProvider>(context).notifyListeners();
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
+  Provider.of<VisitorProvider>(context).loadedFromApi = false;
+  Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
+  Provider.of<ResidentsGateManProvider>(context).clear();
+  Provider.of<ResidentsGateManProvider>(context).pendingloadedFromApi = false;
   Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
   
   PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
@@ -226,3 +236,51 @@ Future getImage(Function(File img) action, ImageSource source) async {
     action(img);
 
   }
+
+   Future<bool> appIsConnected()async {
+       ConnectivityResult connectivityResult  =  await  (Connectivity().checkConnectivity());
+            if (connectivityResult == ConnectivityResult.mobile ||connectivityResult == ConnectivityResult.wifi  ){
+try {
+  final result = await InternetAddress.lookup('google.com');
+  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    return true;
+  }
+} on SocketException catch (_) {
+  return false;
+}
+            
+} else if(connectivityResult == ConnectivityResult.none){
+  return false;
+  
+} else{
+  return false;
+}
+return false;
+
+}
+
+Future loadGateManThatArePending(context) async{
+    try{
+      dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
+      if(response is ErrorType){
+        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+      } else {
+        print('gatemen yet to acept loading');
+        print(response);
+
+        List<dynamic> responseData = response['data'];
+        List<ResidentsGateManModel> models= [];
+        responseData.forEach((jsonModel){
+          models.add(ResidentsGateManModel.fromJson(jsonModel));
+          
+        });
+
+        getResidentsGateManProvider(context).setResidentsGateManAwaitingModels(models);
+        return models;
+      }
+    }catch(error){
+      throw error;
+    }
+  }
+
+

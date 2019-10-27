@@ -57,7 +57,7 @@ class _SettingState extends State<Settings> {
                                         .homeModel
                                         .houseBlock ==
                                     null
-                                ? 'Block 34'
+                                ? ''
                                 : getProfileProvider(context)
                                     .profileModel
                                     .homeModel
