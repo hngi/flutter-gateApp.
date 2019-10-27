@@ -163,7 +163,7 @@ class _SettingState extends State<Settings> {
           Container(
               child: ActionButton(
             buttonText: 'Logout',
-            onPressed: () {},
+            onPressed: () {logOut(context);},
           )),
         ],
       ),
