@@ -279,29 +279,30 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-  Future loadInitialProfile(BuildContext context) async {
-    try {
-      dynamic response = await ProfileService.getCurrentUserProfile(
-          authToken: await authToken(context));
-      if (response is ErrorType) {
-        print('Error Getting Proile');
-        await PaysmosmoAlert.showError(
-            context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-        await PaysmosmoAlert.showSuccess(
-            context: context, message: 'Profile Updated');
-        print(ProfileModel.fromJson(response).image);
-        getProfileProvider(context)
-            .setProfileModel(ProfileModel.fromJson(response),jsonString: response);
-        getProfileProvider(context).setInitialStatus(true);
-      }
-    } catch (error) {
-      print(error);
-      await PaysmosmoAlert.showError(
-          context: context,
-          message: GateManHelpers.errorTypeMap(ErrorType.generic));
-    }
-  }
+  // Future loadInitialProfile(BuildContext context) async {
+  //   try {
+  //     dynamic response = await ProfileService.getCurrentUserProfile(
+  //         authToken: await authToken(context));
+  //     if (response is ErrorType) {
+  //       print('Error Getting Proile');
+  //       await PaysmosmoAlert.showError(
+  //           context: context, message: GateManHelpers.errorTypeMap(response));
+  //     } else {
+  //       await PaysmosmoAlert.showSuccess(
+  //           context: context, message: 'Profile Updated');
+  //           print('was able to get profile');
+  //       print(ProfileModel.fromJson(response).image);
+  //       getProfileProvider(context)
+  //           .setProfileModel(ProfileModel.fromJson(response),jsonString: response);
+  //       getProfileProvider(context).setInitialStatus(true);
+  //     }
+  //   } catch (error) {
+  //     print(error);
+  //     await PaysmosmoAlert.showError(
+  //         context: context,
+  //         message: GateManHelpers.errorTypeMap(ErrorType.generic));
+  //   }
+  // }
 
  
               

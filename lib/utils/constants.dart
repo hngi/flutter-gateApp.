@@ -212,17 +212,17 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
 
 
 void logOut(context) {
+  Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
   Provider.of<TokenProvider>(context).clearToken();
   Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: true); 
-  Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel());
-  Provider.of<ProfileProvider>(context).loadedFromApi = false;
-  Provider.of<ProfileProvider>(context).notifyListeners();
+  Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel(),clean:true);
+  Provider.of<ProfileProvider>(context).setLoadedFromApi(false);
   Provider.of<VisitorProvider>(context).setVisitorModels([]);
-  Provider.of<VisitorProvider>(context).loadedFromApi = false;
+  Provider.of<VisitorProvider>(context).setLoadedFromApi(false);
   Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
   Provider.of<ResidentsGateManProvider>(context).clear();
   Provider.of<ResidentsGateManProvider>(context).pendingloadedFromApi = false;
-  Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
+  
   
   PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
 }               

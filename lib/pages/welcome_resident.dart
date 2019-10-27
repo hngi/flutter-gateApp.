@@ -19,12 +19,16 @@ class WelcomeResident extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
      appIsConnected().then((isConnected){
+        print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
+         print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
          if(getProfileProvider(context).loadedFromApi == false){
+           print('Loading initial profile nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
                loadInitialProfile(context);
            }
            
            if(getVisitorProvider(context).loadedFromApi == false){
+             print('Loading initial visitor nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
              loadInitialVisitors(context);
            }
        }

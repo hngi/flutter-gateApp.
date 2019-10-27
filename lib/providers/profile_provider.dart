@@ -10,14 +10,26 @@ class ProfileProvider extends ChangeNotifier {
   bool loadedFromApi = false;
   bool loadedFromPrefs = false;
 
-  
-void setProfileModel(ProfileModel model,{String jsonString})async {
+void setLoadedFromApi(bool loaded){
+  loadedFromApi = loaded;
+  notifyListeners();
+}
+
+void setProfileModel(ProfileModel model,{String jsonString, bool clean})async {
     print('printing model from provider');
     // print(model.toString());
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(jsonString != null){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('profile', jsonString);
+    }
+    if (clean!=null && clean == true){
+       loadedFromApi =false;
+    } else {
+      loadedFromApi =true;
+    }
     this.profileModel = model;
-    loadedFromApi =true;
+
+   
     notifyListeners();
   }
 

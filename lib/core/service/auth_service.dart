@@ -98,8 +98,6 @@ class AuthService {
           );
           //await getDeviceId();;
           print(deviceId);
-          
-          print('vvvvvvvvvvvvvv');
           print([name,email,phone,deviceId].join(' '));
           var data = {
                 "name": name,

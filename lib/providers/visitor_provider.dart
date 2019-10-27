@@ -61,6 +61,11 @@ class VisitorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLoadedFromApi(bool loaded){
+  loadedFromApi = loaded;
+  notifyListeners();
+}
+
   void setVisitorModels(List<VisitorModel> models, {String jsonString}) async {
     print('Loadddddddddedd from Api');
     this.visitorModels = models;

@@ -80,8 +80,10 @@ class Homepage extends StatelessWidget {
                                                                                   child: CircleAvatar(
                                             radius: 32,
                                             child:
-                                            getProfileProvider(context).profileModel.image!='no_image'?
-                                            FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ getProfileProvider(context).profileModel.image,
+                                            getProfileProvider(context).profileModel.image!='no_image'||
+                                            getProfileProvider(context).profileModel.image!=null
+                                            ?
+                                            FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ '${getProfileProvider(context).profileModel.image}',
                                             placeholder:'assets/images/gateman_white.png',):
                                                 AssetImage('assets/images/gateman_white.png'),
                                             
