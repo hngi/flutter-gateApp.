@@ -30,7 +30,9 @@ class Homepage extends StatelessWidget {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context,'/support');
+                  },
                 ),
 
                 //Logout
