@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * A delegate class doing the heavy lifting for the plugin.
@@ -87,6 +89,7 @@ public class ImagePickerDelegate
   private final IntentResolver intentResolver;
   private final FileUriResolver fileUriResolver;
   private final FileUtils fileUtils;
+  
 
   interface PermissionManager {
     boolean isPermissionGranted(String permissionName);
@@ -111,6 +114,7 @@ public class ImagePickerDelegate
   private Uri pendingCameraMediaUri;
   private MethodChannel.Result pendingResult;
   private MethodCall methodCall;
+  private Handler handler;
 
   public ImagePickerDelegate(
       final Activity activity, File externalFilesDirectory, ImageResizer imageResizer) {
@@ -159,6 +163,7 @@ public class ImagePickerDelegate
           }
         },
         new FileUtils());
+        handler = new Handler(Looper.getMainLooper());
   }
 
   /**
@@ -482,7 +487,16 @@ public class ImagePickerDelegate
   }
 
   private void finishWithSuccess(String imagePath) {
-    pendingResult.success(imagePath);
+    //Minor modification to avoid crashing when using Camera
+    final String imagePathF = imagePath;
+    final MethodChannel.Result result = pendingResult;
+    handler.post(
+      new Runnable() {
+        @Override
+        public void run() {
+          result.success(imagePathF);
+        }
+      });
     clearMethodCallAndResult();
   }
 
