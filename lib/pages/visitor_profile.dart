@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/core/endpoints/endpoints.dart';
 import 'package:gateapp/providers/visitor_provider.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/utils/constants.dart';
@@ -29,6 +30,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     VisitorModel model = getVisitorProvider(context).visitorModels[this.widget.index];
+    print(model.image);
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -63,18 +65,22 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                     minWidth: 100,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    // padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.teal.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Center(
+                    child: model.image==null||model.image=='noimage.jpg'?Center(
                       child: Icon(
                         Icons.person,
                         color: Colors.black54,
                         size: 60,
                       ),
-                    ),
+                    ):CircleAvatar(
+                      radius: 80,
+                      child: FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ getProfileProvider(context).profileModel.image,
+                                            placeholder:'assets/images/gateman_white.png',),
+                    )
                   ),
                 ),
                 Padding(
@@ -161,7 +167,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                           ),
                         ),
                         Text(
-                          '056343039034',// visitor.phone,dummy no plate number from backend
+                          '056343039034',// visitor.phone,dummy no phone number from backend
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
