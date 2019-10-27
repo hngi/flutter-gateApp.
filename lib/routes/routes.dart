@@ -34,7 +34,6 @@ import 'package:gateapp/pages/privacypolicy.dart';
 import 'package:gateapp/pages/settings.dart';
 import 'package:gateapp/pages/splash_screen.dart';
 import 'package:gateapp/pages/welcome_resident.dart';
-import 'package:gateapp/pages/welcomepage1.dart';
 import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/pages/user_type.dart';
 import 'package:gateapp/pages/gateman/register.dart';

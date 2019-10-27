@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:gateapp/pages/add_permission.dart';
 import 'package:gateapp/utils/colors.dart';
 import 'package:gateapp/routes/routes.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,6 @@ class _GateManState extends State<GateMan> {
         ),
         // home: ScanQRCode(),
         debugShowCheckedModeBanner: false,
-        // home: TokenConfirmation(),
       ),
     );
   }

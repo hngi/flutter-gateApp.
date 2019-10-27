@@ -99,7 +99,8 @@ class GateManHelpers {
       case ErrorType.unauthorized: return 'Unauthorized';
       case ErrorType.request_already_sent_to_gateman: return 'Request already Sent,Please await Confirmation';
       case ErrorType.invalid_input_in_register: return 'Invalid Input';
-      case ErrorType.server: return 'Server Error';
+      case ErrorType.server: return 'Server Error, Please try again';
+    
       default:
         return 'Unknown Error Occurred';
     }

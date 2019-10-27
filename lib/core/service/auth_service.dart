@@ -117,7 +117,10 @@ class AuthService {
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);
-          } else {
+          } else if(response.statusCode == 405){
+              return ErrorType.server;
+          }
+           else {
             final responseJson = json.decode(response.data);
             return responseJson;
           }
@@ -154,6 +157,7 @@ class AuthService {
           if (response.statusCode == 200) return json.decode(response.data);
           if (response.statusCode == 208) return ErrorType.account_already_verified;
           if (response.statusCode == 404) return ErrorType.verify_code_not_found;
+          if(response.statusCode == 405) return ErrorType.server;
           
     
           // }

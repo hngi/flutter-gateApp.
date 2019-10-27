@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:gateapp/widgets/ActionButton/action_button.dart';
-
-
+import 'package:geolocator/geolocator.dart';
+import 'package:android_intent/android_intent.dart';
+import 'package:location_permissions/location_permissions.dart';
+// import 'package:geocoder/geocoder.dart';
 class AddLocationPermission extends StatefulWidget {
   //static final String routeName = '/add_location_permisiion';
 
@@ -68,11 +71,62 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
             padding: EdgeInsets.all(20.0),
               child: ActionButton(
                 buttonText: 'Ok, turn on permission',
-                onPressed: () {
-                      Navigator.pushReplacementNamed(
-                    context, '/user-type');
+                onPressed: () async{
+                  try{
 
-                  },
+                 
+                      final PermissionStatus permission = await _getLocationPermission(request: false
+
+                      );
+                      if(permission != PermissionStatus.granted){
+                        await PaysmosmoAlert.showWarning(context: context,message: 'Location Permission Denied');
+                      }
+                      else{
+                        print('elsing');
+                        ServiceStatus locationServiceStatus= await LocationPermissions().checkServiceStatus();
+                        if (locationServiceStatus != ServiceStatus.enabled){
+                          await PaysmosmoAlert.showWarning(context: context,message: 'Please turn on location in settings');
+                         final AndroidIntent intent = new AndroidIntent(
+                      action: 'android.settings.LOCATION_SOURCE_SETTINGS',
+                      );
+                      await intent.launch();
+                      if (await LocationPermissions().checkServiceStatus()== ServiceStatus.enabled){
+                        Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                        if(position != null){
+                          print(position);
+                        // List<Placemark> placemark = await Geolocator().placemarkFromPosition(position);
+                        // print(placemark.first);
+
+                        return Navigator.pushReplacementNamed(
+                    context, '/user-type');
+                      }else{
+                        await PaysmosmoAlert.showWarning(context: context,message: 'Location Inaccessible');
+                          
+                      }
+                        
+                      } else {
+                         await PaysmosmoAlert.showWarning(context: context,message: 'Please turn on Location');
+                         
+
+                      }
+                        } else{
+                          Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                        
+                        if(position != null){
+                          print(position);
+                        //  List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(position.latitude,position.longitude);
+                        // print(placemark.first);
+                        return Navigator.pushReplacementNamed(
+                    context, '/user-type');
+                      }else{
+                        await PaysmosmoAlert.showWarning(context: context,message: 'Location Inaccessible');
+                          
+                      }
+                        }
+                        } } catch(error){
+                          print(error);
+                        }
+                         },
               )
           ),
         ],
@@ -80,5 +134,23 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
     ),
   );
 
+  }
+  Future<PermissionStatus> _getLocationPermission({@required bool request}) async {
+    PermissionStatus permission;
+    if (request == true){
+      permission =await LocationPermissions().requestPermissions();
+    } else {
+      print('just checking');
+      permission =await LocationPermissions().checkPermissionStatus();
+    }
+    
+    if (permission != PermissionStatus.granted) {
+      final PermissionStatus permissionStatus = await LocationPermissions()
+          .requestPermissions();
+
+      return permissionStatus;
+    } else {
+      return permission;
+    }
   }
 }
