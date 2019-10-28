@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gateapp/core/models/service_provider.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:xgateapp/core/models/service_provider.dart';
+import 'package:xgateapp/utils/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServiceDirectoryResidentGridTile extends StatelessWidget {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/auth_service.dart';
-import 'package:gateapp/providers/token_provider.dart';
-import 'package:gateapp/providers/user_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/service/auth_service.dart';
+import 'package:xgateapp/providers/token_provider.dart';
+import 'package:xgateapp/providers/user_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'package:provider/provider.dart';
 
 class TokenConfirmation extends StatefulWidget {
@@ -105,7 +105,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    'Please enter the 6 digit verification code sent to ' +
+                    'Please enter the 4 digit verification code sent to ' +
                         this.widget.email,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
@@ -210,9 +210,9 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                               if (this.widget.skipSelectEstate == true){
                                 print(await getUserTypeProvider(context).getUserTypeRoute);
                                 Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
-                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                                Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: false);  
                               } else {
-                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggingoutStatus: false);  
+                              Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: false);  
                                 Navigator.pushReplacementNamed(
                                     context, '/select-estate');
                               }

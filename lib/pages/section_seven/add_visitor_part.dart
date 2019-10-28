@@ -5,20 +5,21 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gateapp/core/service/visitor_service_new.dart';
-import 'package:gateapp/providers/visitor_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
-import 'package:gateapp/widgets/CustomDatePicker/custom_date_picker.dart';
-import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
-import 'package:gateapp/widgets/DashedRectangle/dashed_rectangle.dart';
-import 'package:gateapp/widgets/VisitorsBox/VisitorsBox.dart';
+import 'package:xgateapp/core/service/visitor_service_new.dart';
+import 'package:xgateapp/providers/visitor_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomCheckBox/custom_checkbox.dart';
+import 'package:xgateapp/widgets/CustomDatePicker/custom_date_picker.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
+import 'package:xgateapp/widgets/DashedRectangle/dashed_rectangle.dart';
+import 'package:xgateapp/widgets/VisitorsBox/VisitorsBox.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -309,14 +310,21 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         onChanged: (date){
           print('date as been changed to ' + date);
           _arrivalDateController.text = date;
-          arrivalDate=date;
+          // arrivalDate=date;
         },
         onSaved: (date){
         _arrivalDateController.text = date;
-        arrivalDate=date;
+        // arrivalDate=date;
         },
         now: DateTime.now(),minimumAllowedDate: DateTime.now(),
         includeInput: true,
+        showingDetail: true,
+        selectedDate: _arrivalDateController.text==DateTime.now().day.toString()+
+        DateTime.now().month.toString()+
+        DateTime.now().year.toString() ||_arrivalDateController.text==''?null:
+        _arrivalDateController.text.split('/').map((f){
+          return int.parse(f);
+        }).toList(),
       ),
      Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -550,6 +558,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         // print(response);
                         dialog.hide();
                         getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
+                       loadInitialVisitors(context,skipAlert:true);
                         
                         PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                         print("qt image");
@@ -570,22 +579,22 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
             SizedBox(
               height: 40,
             ),
-            Text(
-              'Visitors',
-              style: TextStyle(
-                  color: GateManColors.primaryColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            VisitorsBox(
-                visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // Text(
+            //   'Visitors',
+            //   style: TextStyle(
+            //       color: GateManColors.primaryColor,
+            //       fontSize: 12,
+            //       fontWeight: FontWeight.w600),
+            // ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+            // VisitorsBox(
+            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
           ],
         ),
       ),

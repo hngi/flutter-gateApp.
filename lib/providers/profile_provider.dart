@@ -1,16 +1,54 @@
+import 'dart:convert';
+import 'dart:core';
 import 'package:flutter/cupertino.dart';
-import 'package:gateapp/core/models/estate.dart';
+import 'package:xgateapp/core/models/estate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider extends ChangeNotifier {
   ProfileModel profileModel = ProfileModel();
   bool initialProfileLoaded = false;
+  bool loadedFromApi = false;
+  bool loadedFromPrefs = false;
 
-  
-  void setProfileModel(ProfileModel model){
+void setLoadedFromApi(bool loaded){
+  loadedFromApi = loaded;
+  notifyListeners();
+}
+
+void setProfileModel(ProfileModel model,{String jsonString, bool clean})async {
     print('printing model from provider');
     // print(model.toString());
+    if(jsonString != null){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('profile', jsonString);
+    }
+    if (clean!=null && clean == true){
+       loadedFromApi =false;
+    } else {
+      loadedFromApi =true;
+    }
     this.profileModel = model;
+
+   
     notifyListeners();
+  }
+
+  void setProfileModelFromPrefs() async {
+    if (profileModel.name != null){
+      return;
+     
+    } else {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('profile')== null){
+      return;
+    }
+    String profileString = prefs.getString('profile');
+      print('profilellllllllllllll');
+      print(profileString);
+    this.profileModel = ProfileModel.fromJson(json.decode(profileString));
+    loadedFromPrefs = true;
+    notifyListeners();
+    }
   }
 
   void setInitialStatus(bool status){
@@ -35,9 +73,8 @@ class ProfileModel {
       this.updated_at});
 
   factory ProfileModel.fromJson(dynamic jsonModel) {
-    
     return ProfileModel(
-        id: jsonModel['id'],
+        id: jsonModel["id"],
         name: jsonModel['name'],
         username: jsonModel['username'],
         email: jsonModel['email'],
@@ -60,9 +97,9 @@ class ProfileModel {
   updateFromMapOrJson(dynamic map) {
     this.id = !map.containsKey('id') ? this.id : map['id'];
     this.name =
-        !map.containsKey('first_name') ? this.name : map['first_name'];
+        !map.containsKey('name') ? this.name : map['name'];
     this.username =
-        !map.containsKey('last-name') ? this.username : map['last_name'];
+        !map.containsKey('username') ? this.username : map['username'];
     this.email = !map.containsKey('email') ? this.email : map['email'];
     this.phone = !map.containsKey('phone') ? this.phone : map['phone'];
     this.image = !map.containsKey('image') ? this.image : map['image'];

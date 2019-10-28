@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/utils/constants.dart' as prefix1;
-import 'package:gateapp/utils/errors.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix1;
+import 'package:xgateapp/utils/errors.dart';
 import 'package:intl/intl.dart';
 
 class VisitorService {

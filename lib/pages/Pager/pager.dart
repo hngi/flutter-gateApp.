@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gateapp/utils/colors.dart';
-
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 class Pager extends StatelessWidget {
   @override
@@ -150,8 +150,17 @@ class _MainPagerState extends State<MainPager> {
                       ),
                       Spacer(),
                       FlatButton(
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, '/add-location'),
+                        onPressed: () async{
+                          GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
+                          if (geolocationStatus == GeolocationStatus.denied || geolocationStatus == GeolocationStatus.disabled || geolocationStatus == GeolocationStatus.restricted){
+                            return Navigator.pushReplacementNamed(
+                            context, '/add-location');
+                          } else {
+                            return Navigator.pushReplacementNamed(
+                            context, '/user-type');
+                          }
+                          
+                        },
                         child: Text(
                           'SKIP',
                           style: TextStyle(color: Colors.white),

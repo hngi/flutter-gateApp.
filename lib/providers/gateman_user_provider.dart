@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:gateapp/core/models/old_user.dart';
+import 'package:xgateapp/core/models/old_user.dart';
 
 class GatemanUserProvider extends ChangeNotifier {
   //nothing yet

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
-import 'package:gateapp/utils/intro_view/Models/slide_update_model.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Models/slide_update_model.dart';
 
 /// This class provides the animation controller
 /// used when then user stops dragging and page

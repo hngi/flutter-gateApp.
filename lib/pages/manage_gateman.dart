@@ -1,30 +1,36 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/resident_service.dart';
-import 'package:gateapp/pages/add_gateman.dart';
-import 'package:gateapp/providers/resident_gateman_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
+import 'package:xgateapp/core/service/resident_service.dart';
+import 'package:xgateapp/pages/add_gateman.dart';
+import 'package:xgateapp/providers/resident_gateman_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
 class ManageGateman extends StatelessWidget {
   int pendingNumber = 0;
   @override
   Widget build(BuildContext context) {
     pendingNumber =0;
     // Future gateman = loadGateManThatArePending(context);
-    if(getResidentsGateManProvider(context).initialResidentsGateManLoaded==false){
+    appIsConnected().then((isConnected) {
+      if(isConnected == true){
+if(getResidentsGateManProvider(context).loadedFromApi==false){
       print('trying to get initial accepted agteman');
       loadGateManThatAccepted(context);
-      
+     }
+     if(getResidentsGateManProvider(context).pendingloadedFromApi == false){
+       loadGateManThatArePending(context);
+     }
+     }
+    });
 
-    }
     
-    if(getResidentsGateManProvider(context).initialResidentsGateManAwaitingLoaded==false){loadGateManThatArePending(context);}
-    return /*getResidentsGateManProvider(context).residentsGManModels.length==0?
+    
+   return /*getResidentsGateManProvider(context).residentsGManModels.length==0?
     AddGateman()
     :*/
     Scaffold(
@@ -163,27 +169,4 @@ class ManageGateman extends StatelessWidget {
       throw error;
     }
   }
-  Future loadGateManThatArePending(context) async{
-    try{
-      dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
-      if(response is ErrorType){
-        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-        print('gatemen yet to acept loading');
-        print(response);
-
-        List<dynamic> responseData = response['data'];
-        List<ResidentsGateManModel> models= [];
-        responseData.forEach((jsonModel){
-          models.add(ResidentsGateManModel.fromJson(jsonModel));
-          
-        });
-
-        getResidentsGateManProvider(context).setResidentsGateManAwaitingModels(models);
-        return models;
-      }
-    }catch(error){
-      throw error;
-    }
   }
-}

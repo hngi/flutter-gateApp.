@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gateapp/core/models/service_provider.dart';
-import 'package:gateapp/core/service/service_provider_service.dart';
-import 'package:gateapp/pages/service_directory/widgets/service_directory_list_tile.dart';
-import 'package:gateapp/utils/Loader/loader.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/models/service_provider.dart';
+import 'package:xgateapp/core/service/service_provider_service.dart';
+import 'package:xgateapp/pages/service_directory/widgets/service_directory_list_tile.dart';
+import 'package:xgateapp/utils/Loader/loader.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 class ServiceDirectoryResidentDetail extends StatefulWidget {
   static final String routeName = '/service_directory_resident_detail';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:gateapp/pages/gateman/widgets/customFab.dart';
+import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ScheduledVisit extends StatefulWidget {

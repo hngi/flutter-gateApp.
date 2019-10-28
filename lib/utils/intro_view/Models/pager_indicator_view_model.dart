@@ -1,6 +1,6 @@
 
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
-import 'package:gateapp/utils/intro_view/Models/page_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Models/page_view_model.dart';
 
 class PagerIndicatorViewModel {
   final List<PageViewModel> pages;

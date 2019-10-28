@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:gateapp/providers/user_provider.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/core/models/old_user.dart';
+import 'package:xgateapp/providers/user_provider.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/core/models/old_user.dart';
 import 'package:provider/provider.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class UserType extends StatelessWidget {
   @override

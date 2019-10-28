@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/gateman_service.dart';
-import 'package:gateapp/pages/gateman/widgets/button.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
+import 'package:xgateapp/pages/gateman/widgets/button.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'customDialog.dart';

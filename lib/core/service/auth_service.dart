@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 class AuthService {
   static String deviceId;
@@ -98,8 +98,6 @@ class AuthService {
           );
           //await getDeviceId();;
           print(deviceId);
-          
-          print('vvvvvvvvvvvvvv');
           print([name,email,phone,deviceId].join(' '));
           var data = {
                 "name": name,
@@ -119,7 +117,10 @@ class AuthService {
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);
-          } else {
+          } else if(response.statusCode == 405){
+              return ErrorType.server;
+          }
+           else {
             final responseJson = json.decode(response.data);
             return responseJson;
           }
@@ -156,6 +157,7 @@ class AuthService {
           if (response.statusCode == 200) return json.decode(response.data);
           if (response.statusCode == 208) return ErrorType.account_already_verified;
           if (response.statusCode == 404) return ErrorType.verify_code_not_found;
+          if(response.statusCode == 405) return ErrorType.server;
           
     
           // }

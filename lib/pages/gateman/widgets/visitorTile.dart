@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/widgets/button.dart';
+import 'package:xgateapp/pages/gateman/widgets/button.dart';
 
 class VisitorTile extends StatefulWidget {
   final String name, address, time;

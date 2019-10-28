@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/welcome.dart';
-import 'package:gateapp/providers/gateman_user_provider.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:xgateapp/pages/gateman/welcome.dart';
+import 'package:xgateapp/providers/gateman_user_provider.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class GatemanRegister extends StatefulWidget {

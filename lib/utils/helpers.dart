@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class
@@ -99,7 +99,8 @@ class GateManHelpers {
       case ErrorType.unauthorized: return 'Unauthorized';
       case ErrorType.request_already_sent_to_gateman: return 'Request already Sent,Please await Confirmation';
       case ErrorType.invalid_input_in_register: return 'Invalid Input';
-      case ErrorType.server: return 'Server Error';
+      case ErrorType.server: return 'Server Error, Please try again';
+    
       default:
         return 'Unknown Error Occurred';
     }

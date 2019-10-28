@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -31,10 +31,12 @@ class _SplashScreenState extends State<SplashScreen> {
         // Navigator.pushReplacementNamed(
         //     context, mapUserTypeToPage[await userType(context)]);
         user_type routeString = await userType(context);
-        await loadInitialProfile(context);
+        getProfileProvider(context).setProfileModelFromPrefs();
         if (routeString == user_type.RESIDENT) {
-          await loadGateManThatAccepted(context);
-          await loadInitialVisitors(context);
+          // await loadGateManThatAccepted(context);
+         getVisitorProvider(context).setVisitorModelsFromPrefs();
+         getResidentsGateManProvider(context).setResidentsGateManAwaitingModelsFromPrefs();
+          getResidentsGateManProvider(context).setResidentsGateManModelsFromPrefs();
         }
 
         print("initial route: " + mapUserTypeToPage[routeString]);

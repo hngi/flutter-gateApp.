@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/core/models/gateman_resident_visitors.dart';
-import 'package:gateapp/core/models/gateman_residents_request.dart';
-import 'package:gateapp/core/models/request.dart';
-import 'package:gateapp/providers/gateman_visitors.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
-import 'package:gateapp/utils/errors.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/core/models/gateman_resident_visitors.dart';
+import 'package:xgateapp/core/models/gateman_residents_request.dart';
+import 'package:xgateapp/core/models/request.dart';
+import 'package:xgateapp/providers/gateman_visitors.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
+import 'package:xgateapp/utils/errors.dart';
 
 class GatemanService {
   static String authToken;

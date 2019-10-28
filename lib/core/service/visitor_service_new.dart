@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
 import 'package:http_parser/http_parser.dart';
 class NewVisitorService {
   static BaseOptions options = BaseOptions(
@@ -90,11 +90,7 @@ if(image!=null){
       
       Response response = await dio.post(uri,data: await formData1());
 
-      print(response.statusCode);
-      print(response.data);
-      final resp=json.decode(response.data);
-      qr_code=resp['qr_image_src'];
-      print('QR Code :'+qr_code);
+    
 
       if (response == null) return ErrorType.generic;
       if (response.statusCode != 200) return ErrorType.generic;

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:gateapp/core/models/old_user.dart';
+import 'package:xgateapp/core/models/old_user.dart';
 
 class AllEstateModel extends ChangeNotifier {
   List<EstateModel> estates = [

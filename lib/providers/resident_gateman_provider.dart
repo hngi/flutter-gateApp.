@@ -1,58 +1,155 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResidentsGateManProvider extends ChangeNotifier {
   List<ResidentsGateManModel> residentsGManModels = [];
   List<ResidentsGateManModel> residentsGManModelsAwaiting = [];
     bool initialResidentsGateManLoaded = false;
+    bool pendingloadedFromApi = false;
+    bool pendingloadedFromPrefs = false;
+    bool loadedFromApi = false;
+    bool loadedFromPrefs = false;
 
+void clear(){
+  pendingloadedFromApi = false;
+  loadedFromApi = false;
+  residentsGManModels = [];
+  residentsGManModelsAwaiting = [];
+
+}
   bool initialResidentsGateManAwaitingLoaded =false;
   
-    void addResidentsGateManModel(ResidentsGateManModel model){
+    void addResidentsGateManModel(ResidentsGateManModel model,{String jsonString})async{
       print('printing model from provider');
       print('model.toString()');
       this.residentsGManModels.add(model);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(jsonString !=null){
+      if(prefs.getString('resident_gateman')!=null){
+        dynamic jsonObjects = json.decode(prefs.getString('resident_gateman'));
+        jsonObjects.add(json.decode(jsonString));
+        prefs.setString('resident_gateman',json.encode(jsonObjects));
+
+      } else {
+        prefs.setString('resident_gateman','[$jsonString]');
+      }
+      }
+      
       notifyListeners();
     }
 
-    void addResidentsGateManModels(List<ResidentsGateManModel> models){
+    void addResidentsGateManModels(List<ResidentsGateManModel> models,{String jsonString})async{
       this.residentsGManModels.addAll(models);
       this.initialResidentsGateManLoaded = true;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (jsonString !=null){
+      if(prefs.getString('resident_gateman')!=null){
+        dynamic jsonObjects = json.decode(prefs.getString('resident_gateman'));
+        jsonObjects.add(json.decode(jsonString));
+        prefs.setString('resident_gateman',json.encode(jsonObjects));
+
+      } else {
+        prefs.setString('resident_gateman',jsonString);
+      }
+      }
+      
       notifyListeners();
     }
 
-    void setResidentsGateManModels(List<ResidentsGateManModel> models){
+    void setResidentsGateManModels(List<ResidentsGateManModel> models,{String jsonString}) async{
       this.residentsGManModels = models;
-      this.initialResidentsGateManLoaded = true;
+      loadedFromApi = true;
+      if(jsonString !=null){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('resident_gateman',jsonString);
+      }
       notifyListeners();
     }
 
-    void setResidentsGateManAwaitingModels(List<ResidentsGateManModel> models){
+    void setResidentsGateManModelsFromPrefs() async{
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+        if(prefs.getString('resident_gateman')!=null){
+          dynamic jsonObject  = json.decode(prefs.getString('resident_gateman'));
+          List<ResidentsGateManModel> models = [];
+          jsonObject.forEach((jsonObject){
+                  models.add(ResidentsGateManModel.fromJson(jsonObject));
+          });
+          this.residentsGManModels = models;
+        }
+        notifyListeners();
+    }
+
+    void setResidentsGateManAwaitingModelsFromPrefs() async{
+         SharedPreferences prefs = await SharedPreferences.getInstance();
+        if(prefs.getString('resident_gateman_pending_acceptance')!=null){
+          dynamic jsonObject  = json.decode(prefs.getString('resident_gateman_pending_acceptance'));
+          List<ResidentsGateManModel> models = [];
+          jsonObject.forEach((jsonObject){
+                  models.add(ResidentsGateManModel.fromJson(jsonObject));
+          });
+          this.residentsGManModels = models;
+        }
+        notifyListeners();
+    }
+
+    void setResidentsGateManAwaitingModels(List<ResidentsGateManModel> models,{String jsonString})async {
       this.residentsGManModelsAwaiting = models;
-      this.initialResidentsGateManAwaitingLoaded = true;
+      
+      pendingloadedFromApi = true;
+      if(jsonString !=null){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('resident_gateman_pending_acceptance',jsonString);
+      }
+
       notifyListeners();
     }
 
-    void deleteResidentsGateManFromAccepted(ResidentsGateManModel model){
+    void deleteResidentsGateManFromAccepted(ResidentsGateManModel model)async{
       print('deleting');
       int index = this.residentsGManModels.indexOf(model);
       this.residentsGManModels.removeAt(index);
+
       notifyListeners();
     }
 
-    void deleteResidentsGateManFromPending(ResidentsGateManModel model){
+    void deleteResidentsGateManFromPending(ResidentsGateManModel model)async {
       int index = this.residentsGManModelsAwaiting.indexOf(model);
-      this.residentsGManModels.removeAt(index);
+      this.residentsGManModelsAwaiting.removeAt(index);
       notifyListeners();
     }
 
-    void addAwaitingResidentsGateManModel(ResidentsGateManModel model){
+    void addAwaitingResidentsGateManModel(ResidentsGateManModel model,{String jsonString})async{
       print('printing model from provider');
       this.residentsGManModelsAwaiting.add(model);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(jsonString !=null){
+      if(prefs.getString('resident_gateman_pending_acceptance')!=null){
+        dynamic jsonObjects = json.decode(prefs.getString('resident_gateman_pending_acceptance'));
+        jsonObjects.add(json.decode(jsonString));
+        prefs.setString('resident_gateman_pending_acceptance',json.encode(jsonObjects));
+
+      } else {
+        prefs.setString('resident_gateman_pending_acceptance','[$jsonString]');
+      }
+      }
       notifyListeners();
     }
-     void addAwaitingResidentsGateManModels(List<ResidentsGateManModel> models){
+     void addAwaitingResidentsGateManModels(List<ResidentsGateManModel> models, {String jsonString})async{
       this.residentsGManModels.addAll(models);
       this.initialResidentsGateManLoaded = true;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if(jsonString!=null){
+      if(prefs.getString('resident_gateman_pending_acceptance')!=null){
+        dynamic jsonObjects = json.decode(prefs.getString('resident_gateman_pending_acceptance'));
+        jsonObjects.add(json.decode(jsonString));
+        prefs.setString('resident_gateman_pending_acceptance',json.encode(jsonObjects));
+
+      }else {
+        prefs.setString('resident_gateman_pending_acceptance',jsonString);
+      }
+      }
       notifyListeners();
     }
 

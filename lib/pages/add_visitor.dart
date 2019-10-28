@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
-import 'package:gateapp/widgets/VisitorExpansionTile/visitor_expansion_tile.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:xgateapp/widgets/VisitorExpansionTile/visitor_expansion_tile.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AddAVisitor extends StatelessWidget {

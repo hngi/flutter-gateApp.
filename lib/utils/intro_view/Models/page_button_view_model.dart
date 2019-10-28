@@ -1,6 +1,6 @@
 
 
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
 
 /// This is view model for the skip and done buttons.
 

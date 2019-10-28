@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/BottomMenu/bottom_menu.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
 
 class About extends StatefulWidget {
   @override

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class Homepage extends StatelessWidget {
@@ -29,7 +30,9 @@ class Homepage extends StatelessWidget {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context,'/support');
+                  },
                 ),
 
                 //Logout
@@ -60,7 +63,7 @@ class Homepage extends StatelessWidget {
                                   child: Stack(
                                     alignment: Alignment.topLeft,
                                     children: <Widget>[
-                                      Positioned(
+                                       Positioned(
                                         right: 25.0,
                                         child: Container(
                                           height: 68.0,
@@ -74,12 +77,23 @@ class Homepage extends StatelessWidget {
                                       ),
                                       Positioned(
                                         // left: 3.0,
-                                        child: CircleAvatar(
-                                          backgroundImage:
-                                              AssetImage('assets/images/woman-cooking.png'),
-                                          maxRadius: 32.0,
+                                        
+                                        child: ClipOval(
+                                                                                  child: CircleAvatar(
+                                            radius: 32,
+                                            child:
+                                            getProfileProvider(context).profileModel.image!='no_image'||
+                                            getProfileProvider(context).profileModel.image!=null
+                                            ?
+                                            FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ '${getProfileProvider(context).profileModel.image}',
+                                            placeholder:'assets/images/gateman_white.png',):
+                                                AssetImage('assets/images/gateman_white.png'),
+                                            
+                                          ),
                                         ),
                                       ),
+                                     
+                                      
                                     ],
                                   ),
                                 ),
@@ -91,14 +105,14 @@ class Homepage extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                        child: Text(getProfileProvider(context).profileModel.name.toString(),
+                                        child: Text(getProfileProvider(context).profileModel?.name == null ? 'Name' : getProfileProvider(context).profileModel?.name.toString() ?? 'Name',
                                             style: TextStyle(
                                               color: GateManColors.primaryColor,
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.w800,
                                             )),
                                       ),
-                                      Text(getProfileProvider(context).profileModel.homeModel!=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
+                                      Text(getProfileProvider(context).profileModel.homeModel?.houseBlock !=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
                                           style: TextStyle(
                                             color: GateManColors.grayColor,
                                             fontSize: 18.0,

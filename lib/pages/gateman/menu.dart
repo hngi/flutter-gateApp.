@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/notifications.dart';
-import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/pages/gateman/widgets/listTileMenu.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:xgateapp/pages/gateman/notifications.dart';
+import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
+import 'package:xgateapp/pages/gateman/widgets/listTileMenu.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'residents.dart';
