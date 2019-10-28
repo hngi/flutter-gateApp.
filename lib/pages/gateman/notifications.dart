@@ -89,6 +89,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        alerts: _requests.length.toString(),
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },
