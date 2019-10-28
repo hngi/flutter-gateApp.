@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/gateman_residents_request.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
-import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
 import 'package:xgateapp/pages/gateman/widgets/invitationTile.dart';
 import 'package:xgateapp/utils/Loader/loader.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';

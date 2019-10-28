@@ -134,7 +134,7 @@ class _SettingState extends State<Settings> {
                   Container(
                     child: BottomMenu(
                         'About GatePass',
-                        () => Navigator.pushReplacementNamed(context, '/about'),
+                        () => Navigator.pushNamed(context, '/about'),
                         Border(bottom: BorderSide(color: Colors.grey[300]))),
                   ),
                   Container(

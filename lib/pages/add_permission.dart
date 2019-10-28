@@ -93,7 +93,7 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
                       if (await LocationPermissions().checkServiceStatus()== ServiceStatus.enabled){
                         Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
                         if(position != null){
-                          print(position);
+                        //   print(position);
                         // List<Placemark> placemark = await Geolocator().placemarkFromPosition(position);
                         // print(placemark.first);
 
