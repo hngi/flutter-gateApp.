@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
 import 'package:http_parser/http_parser.dart';
 class ProfileService {
 static BaseOptions options = BaseOptions(

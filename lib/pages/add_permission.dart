@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:android_intent/android_intent.dart';
 import 'package:location_permissions/location_permissions.dart';

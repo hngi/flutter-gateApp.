@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
-import 'package:gateapp/utils/intro_view/Models/page_bubble_view_model.dart';
-import 'package:gateapp/utils/intro_view/Models/pager_indicator_view_model.dart';
-import 'package:gateapp/utils/intro_view/UI/page_bubble.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Models/page_bubble_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Models/pager_indicator_view_model.dart';
+import 'package:xgateapp/utils/intro_view/UI/page_bubble.dart';
 
 
 /// This class contains the UI elements associated with bottom page indicator.

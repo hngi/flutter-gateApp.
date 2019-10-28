@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/DashSeperator/dash_seperator.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 //import 'package:qrcode_reader/QRCodeReader.dart';
 //import 'package:qr_mobile_vision/qr_camera.dart';

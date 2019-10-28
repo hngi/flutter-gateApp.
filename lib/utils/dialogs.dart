@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:xgateapp/utils/colors.dart';
 
 class GateManDialogs {
   GateManDialogs._();

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/old_user.dart';
-import 'package:gateapp/core/service/auth_service.dart';
-import 'package:gateapp/providers/gateman_user_provider.dart';
-import 'package:gateapp/providers/resident_user_provider.dart';
-import 'package:gateapp/providers/user_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:xgateapp/core/models/old_user.dart';
+import 'package:xgateapp/core/service/auth_service.dart';
+import 'package:xgateapp/providers/gateman_user_provider.dart';
+import 'package:xgateapp/providers/resident_user_provider.dart';
+import 'package:xgateapp/providers/user_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:provider/provider.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class Register extends StatefulWidget {
   @override

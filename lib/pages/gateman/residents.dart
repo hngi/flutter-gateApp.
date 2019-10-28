@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/gateman_service.dart';
-import 'package:gateapp/pages/gateman/welcome.dart';
-import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/pages/gateman/widgets/residentTile.dart';
-import 'package:gateapp/providers/gateman_user_provider.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
+import 'package:xgateapp/pages/gateman/welcome.dart';
+import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
+import 'package:xgateapp/pages/gateman/widgets/residentTile.dart';
+import 'package:xgateapp/providers/gateman_user_provider.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 
 class ResidentsGate extends StatefulWidget {

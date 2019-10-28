@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/intro_view/Models/page_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Models/page_view_model.dart';
 
 /// This is the class which contains the Page UI.
 class Page extends StatelessWidget {

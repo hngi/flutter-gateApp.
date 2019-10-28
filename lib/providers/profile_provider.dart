@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
-import 'package:gateapp/core/models/estate.dart';
+import 'package:xgateapp/core/models/estate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider extends ChangeNotifier {

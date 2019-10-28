@@ -3,7 +3,7 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:gateapp/core/models/old_user.dart';
+//import 'package:xgateapp/core/models/old_user.dart';
 
 class VisitorProvider extends ChangeNotifier {
   List<VisitorModel> visitorModels = [];

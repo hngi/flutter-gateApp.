@@ -1,15 +1,15 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/resident_service.dart';
-import 'package:gateapp/pages/add_gateman.dart';
-import 'package:gateapp/providers/resident_gateman_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
+import 'package:xgateapp/core/service/resident_service.dart';
+import 'package:xgateapp/pages/add_gateman.dart';
+import 'package:xgateapp/providers/resident_gateman_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
 class ManageGateman extends StatelessWidget {
   int pendingNumber = 0;
   @override

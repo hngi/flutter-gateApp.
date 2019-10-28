@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/providers/visitor_provider.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:xgateapp/providers/visitor_provider.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:connectivity/connectivity.dart';
 

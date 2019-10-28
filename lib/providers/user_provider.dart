@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:gateapp/core/models/old_user.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/core/models/old_user.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

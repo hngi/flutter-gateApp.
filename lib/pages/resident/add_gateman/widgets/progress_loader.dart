@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 
 class ProgressLoader extends StatefulWidget {
   double width;

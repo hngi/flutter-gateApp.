@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenProvider extends ChangeNotifier {

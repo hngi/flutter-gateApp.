@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/core/models/service_provider.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/core/models/service_provider.dart';
+import 'package:xgateapp/utils/constants.dart';
 
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class ServiceProviderService {
   static String authTokenStr = '';

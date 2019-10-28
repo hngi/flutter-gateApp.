@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/pages/gateman/widgets/visitorTile.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/pages/gateman/widgets/visitorTile.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 import 'scheduledVisit.dart';
 import 'widgets/bottomAppbar.dart';

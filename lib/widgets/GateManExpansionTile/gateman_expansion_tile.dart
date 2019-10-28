@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:xgateapp/utils/colors.dart';
 
 const Duration _kExpand = Duration(milliseconds: 500);
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/BottomMenu/bottom_menu.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
 
 class Settings extends StatefulWidget {
   @override

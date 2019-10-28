@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gateapp/core/service/resident_service.dart';
-import 'package:gateapp/pages/resident/add_gateman/widgets/progress_loader.dart';
-import 'package:gateapp/providers/resident_gateman_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/constants.dart' as prefix0;
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/service/resident_service.dart';
+import 'package:xgateapp/pages/resident/add_gateman/widgets/progress_loader.dart';
+import 'package:xgateapp/providers/resident_gateman_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'dart:async';
-import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
-import 'package:gateapp/widgets/ResidentExpansionTile/resident_expansion_tile.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
+import 'package:xgateapp/widgets/ResidentExpansionTile/resident_expansion_tile.dart';
 
 enum AddGateManDetailStatus {
   NONE,

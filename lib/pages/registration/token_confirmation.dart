@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/auth_service.dart';
-import 'package:gateapp/providers/token_provider.dart';
-import 'package:gateapp/providers/user_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/core/service/auth_service.dart';
+import 'package:xgateapp/providers/token_provider.dart';
+import 'package:xgateapp/providers/user_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'package:provider/provider.dart';
 
 class TokenConfirmation extends StatefulWidget {

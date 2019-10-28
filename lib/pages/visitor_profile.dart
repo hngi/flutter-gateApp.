@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/providers/visitor_provider.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/providers/visitor_provider.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class VisitorProfile extends StatefulWidget {
   final int index;
@@ -78,7 +78,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                       ),
                     ):CircleAvatar(
                       radius: 80,
-                      child: FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ getProfileProvider(context).profileModel.image,
+                      child: FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ model.image,
                                             placeholder:'assets/images/gateman_white.png',),
                     )
                   ),

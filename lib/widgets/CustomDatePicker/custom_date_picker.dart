@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {

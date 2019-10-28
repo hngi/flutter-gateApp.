@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/service/profile_service.dart';
-import 'package:gateapp/providers/profile_provider.dart';
-import 'package:gateapp/utils/GateManAlert/gateman_alert.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/core/endpoints/endpoints.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/utils/helpers.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:xgateapp/core/service/profile_service.dart';
+import 'package:xgateapp/providers/profile_provider.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {

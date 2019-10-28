@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:gateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gateapp/utils/colors.dart';
+import 'package:xgateapp/utils/colors.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 class Pager extends StatelessWidget {
   @override

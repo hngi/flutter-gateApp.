@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/dialogs.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/dialogs.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 
 class AddGateman extends StatelessWidget {
   @override

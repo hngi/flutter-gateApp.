@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/helpers.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 
 enum VisitingTime { morning, afternoon, evening }
 

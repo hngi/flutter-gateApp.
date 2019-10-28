@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
-import 'package:gateapp/utils/intro_view/Models/page_button_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Models/page_button_view_model.dart';
 
 /// Skip button class
 

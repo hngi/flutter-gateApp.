@@ -1,12 +1,12 @@
-import 'package:gateapp/core/models/estate_list.dart';
-import 'package:gateapp/providers/profile_provider.dart';
-import 'package:gateapp/providers/resident_gateman_provider.dart';
-import 'package:gateapp/providers/token_provider.dart';
-import 'package:gateapp/providers/user_provider.dart';
-import 'package:gateapp/providers/visitor_provider.dart';
+import 'package:xgateapp/core/models/estate_list.dart';
+import 'package:xgateapp/providers/profile_provider.dart';
+import 'package:xgateapp/providers/resident_gateman_provider.dart';
+import 'package:xgateapp/providers/token_provider.dart';
+import 'package:xgateapp/providers/user_provider.dart';
+import 'package:xgateapp/providers/visitor_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:gateapp/providers/resident_user_provider.dart';
-import 'package:gateapp/providers/gateman_user_provider.dart';
+import 'package:xgateapp/providers/resident_user_provider.dart';
+import 'package:xgateapp/providers/gateman_user_provider.dart';
 
 List<SingleChildCloneableWidget> providers = [
   ...independentServices,

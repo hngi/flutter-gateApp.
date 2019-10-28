@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/core/models/gateman_residents_request.dart';
-import 'package:gateapp/core/service/gateman_service.dart';
-import 'package:gateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:gateapp/pages/gateman/widgets/customFab.dart';
-import 'package:gateapp/pages/gateman/widgets/invitationTile.dart';
-import 'package:gateapp/utils/Loader/loader.dart';
-import 'package:gateapp/utils/LoadingDialog/loading_dialog.dart';
-import 'package:gateapp/utils/constants.dart';
-import 'package:gateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
-import 'package:gateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+import 'package:xgateapp/core/models/gateman_residents_request.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
+import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
+import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
+import 'package:xgateapp/pages/gateman/widgets/invitationTile.dart';
+import 'package:xgateapp/utils/Loader/loader.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class GatemanNotifications extends StatefulWidget {

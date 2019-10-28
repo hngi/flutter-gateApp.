@@ -3,16 +3,16 @@ library intro_views_flutter;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/intro_view/Animation_Gesture/animated_page_dragger.dart';
-import 'package:gateapp/utils/intro_view/Animation_Gesture/page_dragger.dart';
-import 'package:gateapp/utils/intro_view/Animation_Gesture/page_reveal.dart';
-import 'package:gateapp/utils/intro_view/Constants/constants.dart';
-import 'package:gateapp/utils/intro_view/Models/page_view_model.dart';
-import 'package:gateapp/utils/intro_view/Models/pager_indicator_view_model.dart';
-import 'package:gateapp/utils/intro_view/Models/slide_update_model.dart';
-import 'package:gateapp/utils/intro_view/UI/page.dart';
-import 'package:gateapp/utils/intro_view/UI/page_indicator_buttons.dart';
-import 'package:gateapp/utils/intro_view/UI/pager_indicator.dart';
+import 'package:xgateapp/utils/intro_view/Animation_Gesture/animated_page_dragger.dart';
+import 'package:xgateapp/utils/intro_view/Animation_Gesture/page_dragger.dart';
+import 'package:xgateapp/utils/intro_view/Animation_Gesture/page_reveal.dart';
+import 'package:xgateapp/utils/intro_view/Constants/constants.dart';
+import 'package:xgateapp/utils/intro_view/Models/page_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Models/pager_indicator_view_model.dart';
+import 'package:xgateapp/utils/intro_view/Models/slide_update_model.dart';
+import 'package:xgateapp/utils/intro_view/UI/page.dart';
+import 'package:xgateapp/utils/intro_view/UI/page_indicator_buttons.dart';
+import 'package:xgateapp/utils/intro_view/UI/pager_indicator.dart';
 
 
 /// This is the IntroViewsFlutter widget of app which is a stateful widget as its state is dynamic and updates asynchronously.

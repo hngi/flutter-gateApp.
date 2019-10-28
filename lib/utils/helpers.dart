@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/utils/errors.dart';
-import 'package:gateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/widgets/IncomingVisitorListTile/incoming_visitor_list_tile.dart';
 
 class GateManHelpers {
   GateManHelpers._(); //this helps to instantiate the class

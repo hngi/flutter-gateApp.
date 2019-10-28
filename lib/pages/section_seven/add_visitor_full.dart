@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gateapp/utils/colors.dart';
-import 'package:gateapp/widgets/ActionButton/action_button.dart';
-import 'package:gateapp/widgets/CustomCheckBox/custom_checkbox.dart';
-import 'package:gateapp/widgets/CustomInputField/custom_input_field.dart';
-import 'package:gateapp/widgets/DashedRectangle/dashed_rectangle.dart';
+import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomCheckBox/custom_checkbox.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
+import 'package:xgateapp/widgets/DashedRectangle/dashed_rectangle.dart';
 
 class AddVisitorFull extends StatefulWidget {
   @override
