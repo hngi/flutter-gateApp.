@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:xgateapp/pages/gateman/widgets/visitorTile.dart';
+import 'package:xgateapp/pages/gateman_menu.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 
 import 'scheduledVisit.dart';
 import 'widgets/bottomAppbar.dart';
@@ -14,6 +19,7 @@ class VisitorsList extends StatefulWidget {
 }
 
 class _VisitorsListState extends State<VisitorsList> {
+  bool visitorsExist = true;
   String name = 'Danny Evans';
   var _visitors = [
     {
@@ -56,7 +62,11 @@ class _VisitorsListState extends State<VisitorsList> {
         children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(top:35.0, left: 20.0, bottom: 5.0),
-              child: Text('Welcome $name', style: TextStyle(fontSize: 22.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
+              child: Text(getProfileProvider(context)
+                                         .profileModel
+                                         .name==null?'Welcome, ...':'Welcome, ' + getProfileProvider(context)
+                                         .profileModel
+                                         .name.toString(), style: TextStyle(fontSize: 22.0, color: Color(0xff49A347), fontWeight: FontWeight.w600)),
             ),
             Padding(
               padding: const EdgeInsets.only(left:20.0),
@@ -77,7 +87,7 @@ class _VisitorsListState extends State<VisitorsList> {
               ),
               
             ),
-            Row(
+            visitorsExist ? Row(
               children: <Widget>[
                 Expanded(
                   child: SizedBox(height: 400.0,
@@ -92,20 +102,43 @@ class _VisitorsListState extends State<VisitorsList> {
                       address: _visitors[index]['address'],
                       time: _visitors[index]['time'],
                       color: _visitors[index]['color'],
-                      func: (){Navigator.pushNamed(context, '/scheduled-visit');},),
+                      func: (){},),
           );
         },
       ),
                   ),
                 ),
               ],
+            ) : Container(
+              child: Center(child: Padding(
+                padding: const EdgeInsets.only(top:60.0),
+                child: Text('No visitors awaited', style: TextStyle(fontSize: 20.0, color: Colors.grey, fontWeight: FontWeight.w600),),
+              )),
             ),
 
         ],
       ),
-      floatingActionButton: CustomFAB(),
+      floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => GateManMenu()));
+        },
+        icon: MdiIcons.accountGroup,
+        title: 'Residents',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar(),
+      bottomNavigationBar: CustomBottomNavBar(
+        leadingIcon: MdiIcons.apps,
+        leadingText: 'Menu',
+        traillingIcon: MdiIcons.bell,
+        traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/gateman-menu');
+        },
+        onTrailingClicked: () {
+          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+        },
+      ),
     );
   }
 }
