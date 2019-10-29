@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:215715150551:android:0da6752126e681f9e90e92",
+        "mobilesdk_app_id": "1:215715150551:android:61339564f7f860a5e90e92",
         "android_client_info": {
-          "package_name": "com.example.gateapp"
+          "package_name": "com.example.xgateapp"
         }
       },
       "oauth_client": [

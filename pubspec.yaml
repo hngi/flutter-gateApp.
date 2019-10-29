@@ -50,6 +50,8 @@ dependencies:
   connectivity: ^0.4.5+2
   android_intent: ^0.3.4+4
   location_permissions: ^2.0.3
+  flutter_local_notifications: ^0.8.4
+  screenshot: ^0.1.1
   image_picker:
     path: ./image_picker
   flutter_sms: ^1.0.1

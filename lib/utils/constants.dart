@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/estate.dart';
+import 'package:xgateapp/core/models/gateman_residents_request.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/core/service/profile_service.dart';
 import 'package:xgateapp/core/service/resident_service.dart';
 import 'package:xgateapp/core/service/visitor_sevice.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
+import 'package:xgateapp/providers/requestProvider.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
 import 'package:xgateapp/providers/token_provider.dart';
 import 'package:xgateapp/providers/user_provider.dart';
@@ -61,6 +64,10 @@ ProfileProvider getProfileProvider(BuildContext context){
 
 VisitorProvider getVisitorProvider(BuildContext context) {
   return Provider.of<VisitorProvider>(context);
+}
+
+RequestProvider getRequestProvider(BuildContext context){
+  return Provider.of<RequestProvider>(context);
 }
 
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
@@ -121,6 +128,31 @@ Future loadGateManThatAccepted(context) async {
       getResidentsGateManProvider(context).setResidentsGateManModels(models);
     }
   } catch (error) {
+    throw error;
+  }
+}
+
+Future loadInitRequests(BuildContext context, {bool alertNotifier}) async {
+  try{
+    dynamic response = await GatemanService.getAllRequests(authToken: await authToken(context));
+    while(response != ErrorType){
+      if(response['residents'] == 0){
+        PaysmosmoAlert.showSuccess(context: context, message: 'No requests yet');
+        getRequestProvider(context).setRequestModels([]);
+      } else {
+        print(response['residents']);
+        dynamic requests = response['residents'];
+        List<GatemanResidentRequest> models = [];
+        requests.forEach((model){
+          models.add(GatemanResidentRequest.fromJson(model));
+        });
+
+        getRequestProvider(context).setRequestModels(models, jsonStr: json.encode(response['residents']));
+
+        getUserTypeProvider(context).setFirstRunStatus(false, loggedOut: false);
+      }
+    }
+  } catch (error){
     throw error;
   }
 }
@@ -282,5 +314,7 @@ Future loadGateManThatArePending(context) async{
       throw error;
     }
   }
+
+  
 
 

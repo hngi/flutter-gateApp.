@@ -93,7 +93,7 @@ if(image!=null){
     
 
       if (response == null) return ErrorType.generic;
-      if (response.statusCode != 200) return ErrorType.generic;
+      if (response.statusCode != 200 /*|| response.statusCode !=201*/) return ErrorType.generic;
       if (response.statusCode == 200) return json.decode(response.data);
 
       // }

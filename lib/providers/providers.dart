@@ -1,6 +1,7 @@
 import 'package:xgateapp/core/models/estate_list.dart';
 import 'package:xgateapp/providers/faqBloc.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
+import 'package:xgateapp/providers/requestProvider.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
 import 'package:xgateapp/providers/token_provider.dart';
 import 'package:xgateapp/providers/user_provider.dart';
@@ -24,6 +25,7 @@ List<SingleChildCloneableWidget> independentServices = [
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
   ChangeNotifierProvider.value(value: ProfileProvider()),
   ChangeNotifierProvider.value(value: VisitorProvider()),
+  ChangeNotifierProvider.value(value: RequestProvider())
   ChangeNotifierProvider.value(value: FaqBloc()),
   ChangeNotifierProvider.value(value: ResidentsGateManProvider(),)
 ];

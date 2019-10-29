@@ -9,6 +9,7 @@ import 'package:xgateapp/core/models/gateman_residents_request.dart';
 import 'package:xgateapp/core/models/request.dart';
 import 'package:xgateapp/providers/gateman_visitors.dart';
 import 'package:xgateapp/utils/constants.dart' as prefix0;
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 
 class GatemanService {
@@ -32,8 +33,8 @@ class GatemanService {
   static BaseOptions options = BaseOptions(
     baseUrl: Endpoint.baseUrl,
     responseType: ResponseType.plain,
-    connectTimeout: prefix0.CONNECT_TIMEOUT,
-    receiveTimeout: prefix0.RECEIVE_TIMEOUT,
+    connectTimeout: CONNECT_TIMEOUT,
+    receiveTimeout: RECEIVE_TIMEOUT,
     validateStatus: (code) {
       return (code >= 200) ? true : false;
     },
@@ -67,9 +68,13 @@ class GatemanService {
     }
   }
 
-  static getAllRequests() async {
+  static getAllRequests(
+      {@required String authToken,}
+      ) async {
     var uri = Endpoint.showRequests;
     try {
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
       Response response = await dio.get(uri);
       print(response.data);
       return (response.statusCode == 404)
@@ -77,7 +82,7 @@ class GatemanService {
           : (response.statusCode == 401)
               ? ErrorType.account_not_confimrmed
               : (response.statusCode == 200)
-                  ? Requests.fromJson(response.data)
+                  ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
       if (exception == null ||
