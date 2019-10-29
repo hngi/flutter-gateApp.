@@ -19,7 +19,7 @@ class VisitorsList extends StatefulWidget {
 }
 
 class _VisitorsListState extends State<VisitorsList> {
-  bool visitorsExist = true;
+  bool visitorsExist = false;
   String name = 'Danny Evans';
   var _visitors = [
     {
