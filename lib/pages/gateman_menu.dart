@@ -76,7 +76,7 @@ class _GateManMenuState extends State<GateManMenu> {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: ()=>logOut(context),
                 ),
               ],
             ),

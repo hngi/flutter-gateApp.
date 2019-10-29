@@ -19,7 +19,7 @@ class CustomBottomNavBar extends StatelessWidget {
     @required this.traillingIcon,
     @required this.onLeadingClicked,
     @required this.onTrailingClicked,
-    @required this.alerts,
+    this.alerts,
   }) : super(key: key);
 
   @override
@@ -71,7 +71,7 @@ class CustomBottomNavBar extends StatelessWidget {
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
-                        child: Text(alerts,
+                        child: Text(alerts??' ',
                             style:
                                 TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),

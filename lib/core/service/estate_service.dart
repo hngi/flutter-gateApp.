@@ -19,6 +19,8 @@ class EstateService {
   static Future<String> getAuthToken() async {
     try {
       String authTokenStr = await authToken(context);
+      print(authTokenStr);
+      print('tatatata');
       return authTokenStr;
     } catch (error) {
       print('unknown error occured while getting authtoken');
@@ -47,6 +49,9 @@ class EstateService {
   static String getAuth() {
     String token = '';
     getPrefs.then((prefs) => token = prefs.getString('authToken'));
+    print('jxkzkjh');
+    print(token);
+    print('jajajaja');
     return token;
     // return prefs.getString('authToken');
   }

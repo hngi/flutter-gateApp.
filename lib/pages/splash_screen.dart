@@ -39,13 +39,13 @@ class _SplashScreenState extends State<SplashScreen> {
           getResidentsGateManProvider(context).setResidentsGateManModelsFromPrefs();
         }
 
-        /*if (routeString == user_type.GATEMAN) {
+       /* if (routeString == user_type.GATEMAN) {
           // await loadGateManThatAccepted(context);
           getVisitorProvider(context).setVisitorModelsFromPrefs();
           getResidentsGateManProvider(context).setResidentsGateManAwaitingModelsFromPrefs();
           getResidentsGateManProvider(context).setResidentsGateManModelsFromPrefs();
-        }*/
-
+        }
+*/
         print("initial route: " + mapUserTypeToPage[routeString]);
 
         getUserTypeProvider(context).setFirstRunStatus(false);
