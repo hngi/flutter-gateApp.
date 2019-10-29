@@ -202,7 +202,7 @@ class GateManMenu extends StatelessWidget {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        onLeadingClicked: () {},
+        onLeadingClicked: () {Navigator.pushReplacementNamed(context, '/visitors-list');},
         onTrailingClicked: () {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },
