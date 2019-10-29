@@ -234,6 +234,7 @@ class _GateManMenuState extends State<GateManMenu> {
         traillingText: 'Alerts',
         alerts: _alerts.toString(),
         onLeadingClicked: () {},
+
         onTrailingClicked: () {
           Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },

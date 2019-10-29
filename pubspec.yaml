@@ -54,6 +54,7 @@ dependencies:
   screenshot: ^0.1.1
   image_picker:
     path: ./image_picker
+  flutter_sms: ^1.0.1
 dependency_overrides:
   path: ^1.6.4
 dev_dependencies:
