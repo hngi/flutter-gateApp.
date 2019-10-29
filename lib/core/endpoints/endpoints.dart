@@ -52,4 +52,8 @@ class Endpoint {
       'resident/removeGateman/$gatemanId';
 
 
+  //Notifications
+  static String allNotifications = 'notifications';
+
+
 }

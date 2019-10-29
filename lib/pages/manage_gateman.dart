@@ -148,25 +148,4 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
     }
   }
 
-  Future loadGateManThatAccepted(context) async{
-    try{
-      dynamic response = await ResidentsGatemanRelatedService.getGateManThatAccepted(authToken: await authToken(context));
-      if(response is ErrorType){
-        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-
-        print(response);
-
-        List<dynamic> responseData = response['data'];
-        List<ResidentsGateManModel> models= [];
-        responseData.forEach((jsonModel){
-          models.add(ResidentsGateManModel.fromJson(jsonModel));
-          
-        });
-        getResidentsGateManProvider(context).setResidentsGateManModels(models);
-      }
-    }catch(error){
-      throw error;
-    }
-  }
   }
