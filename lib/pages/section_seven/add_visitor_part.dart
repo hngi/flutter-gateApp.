@@ -24,6 +24,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:screenshot/screenshot.dart';
 class AddVisitorPart extends StatefulWidget {
   @override
   _AddVisitorPartState createState() => _AddVisitorPartState();
@@ -47,6 +48,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   String _base64;
 
+  ScreenshotController screenshotController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -54,6 +57,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _fullNameController = TextEditingController(text:'');
     _carPlateNumberController = TextEditingController(text:'');
     _purposeController=TextEditingController(text: '');
+    screenshotController = ScreenshotController();
   }
 
   @override
@@ -63,6 +67,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _fullNameController.dispose();
     _carPlateNumberController.dispose();
     _purposeController.dispose();
+
   }
 
   List<File> _images;
@@ -70,14 +75,28 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   File image;
 
   Future shareInvite() async{
-    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
-    Uint8List bytes = base64.decode(_base64);
+    screenshotController.capture(
+    pixelRatio: 1.5
+);
+    screenshotController.capture().then((File image)async {
+    //Capture Done
     print('sharing');
     await Share.file('Estate Invite',
         'qr.png',
-        bytes.buffer.asUint8List(),
+       image.readAsBytesSync(),
         'image/png',
         text: 'Show this at the security gate.');
+}).catchError((onError) {
+    print(onError);
+});
+    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
+    // Uint8List bytes = base64.decode(_base64);
+    // print('sharing');
+    // await Share.file('Estate Invite',
+    //     'qr.png',
+    //     bytes.buffer.asUint8List(),
+    //     'image/png',
+    //     text: 'Show this at the security gate.');
 
 
     //Share.text('Visitor Invite', 'This is my text to share with other applications.', 'text/plain');
@@ -95,170 +114,173 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            contentPadding: EdgeInsets.only(top: 0.0),
-            titlePadding: EdgeInsets.only(top: 0),
+          return Screenshot(
+            controller: screenshotController,
+                      child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              contentPadding: EdgeInsets.only(top: 0.0),
+              titlePadding: EdgeInsets.only(top: 0),
 
-            content: Container(
-              //width: 300.0,
-              child: Container(
-                color: GateManColors.primaryColor,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: GateManColors.primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(top: 15.0, bottom: 5),
-                              child: Image.asset('assets/images/success.png'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom:8.0),
-                              child: Text(
-                                'Visitor added successfully',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
+              content: Container(
+                //width: 300.0,
+                child: Container(
+                  color: GateManColors.primaryColor,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: GateManColors.primaryColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 5),
+                                child: Image.asset('assets/images/success.png'),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5.0,
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      Container(
-                        color: Colors.white,
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Text(
-                                'Send Invitation',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF466446)),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Visitor : ',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF4f4f4f)),
-                                  ),
-                                  Text(
-                                    _fullNameController.text,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xFF4f4f4f)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Image.memory(base64.decode(_base64)),
-                              /*child: Image.network(
-                                  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
-                              ),*/
-                              ),
-
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 30),
-                              child: RaisedButton(
-                                color: Color(0xFFffa700),
-                                onPressed: () {},
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom:8.0),
+                                child: Text(
+                                  'Visitor added successfully',
+                                  style: TextStyle(fontSize: 16, color: Colors.white),
                                 ),
-                                child: Container(
-                                  height: 50.0,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    code,
-                                    style: TextStyle(
-                                      fontSize: 25.0,
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  'Send Invitation',
+                                  style: TextStyle(
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                      color: Color(0xFF466446)),
                                 ),
                               ),
-                            ),
-                            Text(
-                              'Show this at the security gate',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w300,
-                                  color: Color(0xFF49A347)),
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                shareInvite();
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16,horizontal: 16
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                      border: Border.all(
-                                          width: 1,
-                                          style: BorderStyle.solid,
-                                          color: GateManColors.primaryColor)),
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.asset('assets/images/share.png'),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Share',
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xFF49A347)),
-                                        ),
-                                      ],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Visitor : ',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF4f4f4f)),
                                     ),
-                                  ),
+                                    Text(
+                                      _fullNameController.text,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xFF4f4f4f)),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                child: Image.memory(base64.decode(_base64)),
+                                /*child: Image.network(
+                                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
+                                ),*/
+                                ),
 
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 30),
+                                child: RaisedButton(
+                                  color: Color(0xFFffa700),
+                                  onPressed: () {},
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: Container(
+                                    height: 50.0,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      code,
+                                      style: TextStyle(
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Show this at the security gate',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color(0xFF49A347)),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  shareInvite();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 16,horizontal: 16
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                        border: Border.all(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: GateManColors.primaryColor)),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image.asset('assets/images/share.png'),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'Share',
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xFF49A347)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                ),
               ),
             ),
           );
@@ -519,6 +541,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                   print('PURPOSE: '+_purposeController.text);
                   print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
+                  print(this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening');
 
 
                   if(_fullNameController.text==""){

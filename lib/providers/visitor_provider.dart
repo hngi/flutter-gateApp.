@@ -87,7 +87,7 @@ class VisitorProvider extends ChangeNotifier {
 
 class VisitorModel {
   int id, user_id, home_id, status;
-  String name, arrival_date, car_plate_no, purpose, image, time_in, time_out;
+  String name, arrival_date, car_plate_no, purpose, image, time_in, time_out, visiting_period;
 
   VisitorModel(
       {this.id,
@@ -100,7 +100,8 @@ class VisitorModel {
       this.time_in,
       this.time_out,
       this.user_id,
-      this.home_id});
+      this.home_id,
+      this.visiting_period});
 
   factory VisitorModel.fromJson(dynamic jsonModel) {
     return VisitorModel(
@@ -114,6 +115,7 @@ class VisitorModel {
         time_in: jsonModel['time_in'],
         time_out: jsonModel['time_out'],
         user_id: jsonModel['user_id'],
-        home_id: jsonModel['home_id']);
+        home_id: jsonModel['home_id'],
+        visiting_period:jsonModel['visiting_period']);
   }
 }

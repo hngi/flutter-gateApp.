@@ -341,8 +341,8 @@ class WelcomeResident extends StatelessWidget {
                                                      ),
                                                      height: 32.0,
                                                      width: 70.0,
-                                                     child: Text(visitorModel.time_in==null?
-                                                     'morning':visitorModel.time_in,
+                                                     child: Text(visitorModel.visiting_period==null?
+                                                     '...':visitorModel.visiting_period,
                                                          style: TextStyle(
                                                              color: Colors.black,
                                                              fontSize: 14.0,
