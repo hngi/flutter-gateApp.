@@ -167,6 +167,18 @@ class Homepage extends StatelessWidget {
                                   },
                             ),
                             ListTile(
+                              leading: Icon(MdiIcons.accountChildCircle,
+                                  color: GateManColors.primaryColor, size: 25.0),
+                              title: Text("My Visitors",
+                                  style: TextStyle(
+                                    color: GateManColors.grayColor,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                                  onTap: (){Navigator.pushNamed(context, '/manage-gateman');
+                                  },
+                            ),
+                            ListTile(
                               onTap: () {
                                 Navigator.pushNamed(context, '/service_directory_resident');
                               },

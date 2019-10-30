@@ -38,9 +38,25 @@ class CustomBottomNavBar extends StatelessWidget {
           backgroundColor: GateManColors.primaryColor,
           showSelectedLabels: true,
           showUnselectedLabels: true,
+          onTap:(int index){
+            switch (index) {
+              case 0:
+                onLeadingClicked();
+                break;
+              case 2:
+                onTrailingClicked();
+                break;
+
+                
+                break;
+              default:
+              break;
+            }
+          },
           items: [
             BottomNavigationBarItem(
-              icon: InkWell(child: Icon(leadingIcon, color: Colors.white, size: 35.0),onTap: onLeadingClicked,),
+              
+              icon: Icon(leadingIcon, color: Colors.white, size: 35.0),
               title: Text(leadingText,
                   style: TextStyle(
                     color: Colors.white,
@@ -54,9 +70,7 @@ class CustomBottomNavBar extends StatelessWidget {
               title: Text(''),
             ),
             BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: onTrailingClicked,
-                              child: Stack(
+              icon: Stack(
                   children: <Widget>[
                     Icon(traillingIcon, color: Colors.white, size: 35.0),
                     Positioned(
@@ -72,12 +86,11 @@ class CustomBottomNavBar extends StatelessWidget {
                         ),
                         child: Text('1',
                             style:
-                                TextStyle(fontSize: 13.0, color: Colors.white)),
+                TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),
                     ),
                   ],
                 ),
-              ),
               title: Text(traillingText,
                   style: TextStyle(
                     color: Colors.white,
@@ -86,7 +99,6 @@ class CustomBottomNavBar extends StatelessWidget {
                   )),
             )
           ],
-          onTap: (index) {},
         ),
       ),
     );

@@ -41,6 +41,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   TextEditingController _fullNameController;
   TextEditingController _carPlateNumberController;
   TextEditingController _purposeController;
+  TextEditingController _phoneController;
+
 
   String _fullname;
   
@@ -57,6 +59,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _fullNameController = TextEditingController(text:'');
     _carPlateNumberController = TextEditingController(text:'');
     _purposeController=TextEditingController(text: '');
+    _phoneController = TextEditingController(text: '');
     screenshotController = ScreenshotController();
   }
 
@@ -67,6 +70,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _fullNameController.dispose();
     _carPlateNumberController.dispose();
     _purposeController.dispose();
+    _phoneController.dispose();
 
   }
 
@@ -412,6 +416,22 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         textEditingController: _purposeController, prefix: Icon(Icons.assignment_ind),
       ),
       Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
+          "Visitor's phone number",
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+
+      CustomInputField(
+        hint: "Visitor's phone number",
+        keyboardType: TextInputType.text,
+        textEditingController: _phoneController, prefix: Icon(Icons.contact_phone),
+      ),
+      Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 16),
         child: Text(
           'Visitor\'s Image (Optional)',
@@ -539,6 +559,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
                   print('PURPOSE: '+_purposeController.text);
+                  print('PHONE: ' + _phoneController.text);
                   print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
                   print(this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening');
@@ -563,6 +584,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                       arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
                       carPlateNo: _carPlateNumberController.text,
                       purpose: _purposeController.text.isEmpty? 'none':_purposeController.text,
+                      phone: _phoneController.text.isEmpty?'':_phoneController.text,
                       status: '8',
                       estateId: '7',//image: image==null?null:image.path.toString(),
                       authToken: await authToken(context),

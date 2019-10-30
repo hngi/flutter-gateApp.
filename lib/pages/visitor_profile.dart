@@ -166,9 +166,12 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                                 .copyWith(color: Colors.green),
                           ),
                         ),
-                        Text(
-                          '056343039034',// visitor.phone,dummy no phone number from backend
-                          style: Theme.of(context).textTheme.subtitle,
+                        InkWell(
+                          onTap: (){launchCaller(context: context, phone: model.phone_no??'',);},
+                                                  child: Text(
+                            model.phone_no??'',// visitor.phone,dummy no phone number from backend
+                            style: Theme.of(context).textTheme.subtitle,
+                          ),
                         ),
                       ],
                     ),
@@ -264,27 +267,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'View more details.',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          SizedBox(width: 10),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.green)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+               ],
             ),
           ],
         ),

@@ -12,6 +12,20 @@ class ResidentsGateManProvider extends ChangeNotifier {
     bool loadedFromApi = false;
     bool loadedFromPrefs = false;
 
+  bool loadingAccepted;
+
+  bool loadingPending;
+
+setAcceptedLoadingState(bool stat){
+  loadingAccepted = stat;
+  notifyListeners();
+}
+
+setPendingLoadingState(bool stat){
+  loadingPending = stat;
+  notifyListeners();
+}
+
 void clear(){
   pendingloadedFromApi = false;
   loadedFromApi = false;
@@ -19,6 +33,17 @@ void clear(){
   residentsGManModelsAwaiting = [];
 
 }
+
+setLoadedFromApi({bool stat,bool pendingStat}){
+  loadedFromApi = stat??loadedFromApi;
+  pendingloadedFromApi = pendingStat??pendingloadedFromApi;
+  notifyListeners();
+}
+setLoadedFromApiForPending(bool stat){
+  pendingloadedFromApi = stat;
+  notifyListeners();
+}
+
   bool initialResidentsGateManAwaitingLoaded =false;
   
     void addResidentsGateManModel(ResidentsGateManModel model,{String jsonString})async{

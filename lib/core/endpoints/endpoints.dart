@@ -54,6 +54,10 @@ class Endpoint {
 
   //Notifications
   static String allNotifications = 'notifications';
+  static String markNotificationAsRead({String notificationId}) => allNotifications + '/$notificationId';
+
+  //FCM Token Id enpoint
+  static String editFCMToken = 'user/edit-fcm';
 
 
 }

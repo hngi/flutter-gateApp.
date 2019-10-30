@@ -8,7 +8,6 @@ import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:connectivity/connectivity.dart';
 
 
 
@@ -19,16 +18,15 @@ class WelcomeResident extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
      appIsConnected().then((isConnected){
-        print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
-         print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
-         if(getProfileProvider(context).loadedFromApi == false){
-           print('Loading initial profile nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
+         print('I am loading from emi prfoeile ${getProfileProvider(context).loadedFromApi}');
+         if(getProfileProvider(context).loadedFromApi == false && getProfileProvider(context).loading != true){
+               
                loadInitialProfile(context);
            }
            
-           if(getVisitorProvider(context).loadedFromApi == false){
-             print('Loading initial visitor nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
+           if(getVisitorProvider(context).loadedFromApi == false && getVisitorProvider(context).loading != true){
+             
              loadInitialVisitors(context);
            }
        }

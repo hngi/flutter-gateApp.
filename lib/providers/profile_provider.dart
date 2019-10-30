@@ -9,6 +9,12 @@ class ProfileProvider extends ChangeNotifier {
   bool initialProfileLoaded = false;
   bool loadedFromApi = false;
   bool loadedFromPrefs = false;
+  bool loading = false;
+
+  void setLoadingState(bool stat){
+    loading = stat;
+    notifyListeners();
+  }
 
 void setLoadedFromApi(bool loaded){
   loadedFromApi = loaded;

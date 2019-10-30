@@ -10,6 +10,12 @@ class VisitorProvider extends ChangeNotifier {
   bool initialVisitorsLoaded = false;
   bool loadedFromApi = false;
   bool loadedFromPrefs = false;
+  bool loading = false;
+
+  void setLoadingState(bool stat){
+    loading = stat;
+    notifyListeners();
+  }
 
   void addVisitorModel(VisitorModel model, {String jsonString}) async {
     print('printing model from provider');
@@ -87,7 +93,7 @@ class VisitorProvider extends ChangeNotifier {
 
 class VisitorModel {
   int id, user_id, home_id, status;
-  String name, arrival_date, car_plate_no, purpose, image, time_in, time_out, visiting_period;
+  String name, arrival_date, car_plate_no, purpose,phone_no, image, time_in, time_out, visiting_period;
 
   VisitorModel(
       {this.id,
@@ -95,6 +101,7 @@ class VisitorModel {
       this.arrival_date,
       this.car_plate_no,
       this.purpose,
+      this.phone_no,
       this.image,
       this.status,
       this.time_in,
@@ -110,6 +117,7 @@ class VisitorModel {
         arrival_date: jsonModel['arrival_date'],
         car_plate_no: jsonModel['car_plate_no'],
         purpose: jsonModel['purpose'],
+        phone_no: jsonModel['phone_no'],
         image: jsonModel['image'],
         status: jsonModel['status'],
         time_in: jsonModel['time_in'],

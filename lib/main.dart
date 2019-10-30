@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:core';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -10,6 +12,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:xgateapp/providers/providers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 
 void main() {
   var gateMan = MultiProvider(
@@ -42,7 +47,7 @@ class _GateManState extends State<GateMan> {
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
-      print('Connection just changed');
+      // print('Connection just changed');
       setState(() {});
       // Got a new connectivity status!
     });
@@ -50,12 +55,27 @@ class _GateManState extends State<GateMan> {
     var ios = new IOSInitializationSettings();
     var platform = new InitializationSettings(android, ios);
     flutterLocalNotificationsPlugin.initialize(platform,
-        onSelectNotification: (String payload) async {});
+        onSelectNotification: (String payload) async {
+          if(payload != null){
+          dynamic jsonPayload = json.decode(payload);
+          // print('printing payload');
+          // print(payload);
+          String route = jsonPayload['route'];
+          // print(route);
+          if (route!=null && route.length > 0){
+              // Navigator.pushNamed(navigatorKey.currentContext, route);
+              navigatorKey.currentState.pushNamed(route);
+          }
+          } 
+        });
     _firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) {
-          showNotification(
-              message['notification'].cast<Map<String, dynamic>>());
-          handleOnNotificationReceived(message);
+        onMessage: (Map<String, dynamic> message) async {
+          // print(message);
+          handleOnNotificationReceived(message,viewWhen: 'onMessage');
+          
+          
+          
+          
         },
         onResume: (Map<String, dynamic> message) {
           handleOnNotificationReceived(message);
@@ -66,8 +86,13 @@ class _GateManState extends State<GateMan> {
         onBackgroundMessage: myBackgroundMessageHandler);
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.getToken().then((token) {
-      print(token);
+    _firebaseMessaging.getToken().then((token) async{
+    getFCMTokenProvider(context).setFCMToken(fcmToken: token);
+    appIsConnected().then((isConnected){
+      if (isConnected == true && getFCMTokenProvider(context).loading !=true){setFCMTokenInServer(context);
+      }
+    });
+    
     });
   }
 
@@ -76,10 +101,19 @@ class _GateManState extends State<GateMan> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
+    appIsConnected().then((isConnected){
+      if (isConnected == true){
+        if(authToken(context)!=null && getFCMTokenProvider(context).fcmToken !=null && getFCMTokenProvider(context).loading !=true && getFCMTokenProvider(context).loadedToServer != true){
+          setFCMTokenInServer(context);
+        }
+      }
+
+    });
 
     return MaterialApp(
       title: 'GateMan App',
       initialRoute: '/',
+      navigatorKey: navigatorKey,
       onGenerateRoute: Routes.generateRoute,
       theme: ThemeData(
         primarySwatch: GateManColors.primarySwatchColor,
@@ -94,31 +128,35 @@ class _GateManState extends State<GateMan> {
     );
   }
 
-  showNotification(Map<String, dynamic> msg) async {
-    var android = new AndroidNotificationDetails(
-      'sdffds dsffds',
-      "CHANNLE NAME",
-      "channelDescription",
+  showNotification(Map<String, dynamic> msg,{Map<String,String> payload}) async {
+    var android = AndroidNotificationDetails(
+      'id-general',
+      "general",
+      "general notification",
+      importance: Importance.Max, priority: Priority.High, ticker: 'ticker'
     );
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, iOS);
+    // try{
     await flutterLocalNotificationsPlugin.show(
-        0, msg['title'] ?? 'GateGuard', msg['body'] ?? 'GateGuard', platform,
-        payload: msg['data'] ?? '');
+        0, msg['notification']['title'] ?? 'GateGuard', msg['notification']['body'] ?? 'GateGuard', platform,
+        payload: json.encode(payload ?? ''));
+    // } catch(error){
+    //   th
+    // }
   }
 
-  handleOnNotificationReceived(dynamic message) async {
+  Future handleOnNotificationReceived(dynamic message,{String viewWhen}) async {
     String authTokenStr = await authToken(context);
-    print(authTokenStr);
-    if (authTokenStr != null &&
-        await getUserTypeProvider(context).getUserType != user_type.RESIDENT) {
+    // print(authTokenStr);
+    if (authTokenStr != null) {
       //handle common notifications
-      print(authTokenStr);
-      print('on message to Gateman $message');
+      // print(authTokenStr);
+      // print('on message to Gateman $message');
       if (await getUserTypeProvider(context).getUserType ==
           user_type.RESIDENT) {
         //handle resident notifications
-        handleOnNotiicationReceivedForResident(message);
+        handleOnNotiicationReceivedForResident(message,viewWhen: viewWhen);
       } else if (await getUserTypeProvider(context).getUserType ==
           user_type.GATEMAN) {
         //handle gateman notifications
@@ -127,21 +165,46 @@ class _GateManState extends State<GateMan> {
     }
   }
 
-  void handleOnNotiicationReceivedForResident(Map<String,dynamic> message) {
-    // if (message['data']['type'] ==
-    //     GateGuardNotificationTypes.gateManAcceptedRequest) {
-    //   loadGateManThatAccepted(context);
-    //   loadGateManThatArePending(context);
-    // } else if (message['data']['type'] ==
-    //     GateGuardNotificationTypes.visitorArrivalNotification) {}
+  void handleOnNotiicationReceivedForResident(Map<String, dynamic> message,{String viewWhen}) {
     String type = message['data']['type'];
+    // print(type);
+    getResidentNotificationProvider(context).setLoadedFromApi(false);
     switch (type) {
-      case GateGuardNotificationTypes.gateManAcceptedRequest:
-        loadGateManThatAccepted(context);
-        loadGateManThatArePending(context);
+      case GateGuardNotificationType.gateManAcceptedRequest:
+        getResidentsGateManProvider(context)
+            .setLoadedFromApi(stat: false, pendingStat: false);
+           if (ModalRoute.of(navigatorKey.currentContext)?.settings?.name != '/manage-gateman'){
+              
+       if (viewWhen != 'onMessage'){
+         print('should push');
+         navigatorKey.currentState.pushNamed('/manage-gateman');
+           } else {
+             showNotification(message.cast<String,dynamic>(),payload:{"route":"/manage-gateman"});
+           }
+        } else{
+          if (viewWhen == 'onMessage'){
+           showNotification(message.cast<String,dynamic>());
+          }
+         
+        }
         break;
 
-      case GateGuardNotificationTypes.visitorArrivalNotification:
+      case GateGuardNotificationType.visitorArrivalNotification:
+      
+           if (ModalRoute.of(context)?.settings?.name != '/resident-notifications'){
+             if (viewWhen != 'onMessage'){
+               print('should push');
+              navigatorKey.currentState.pushNamed('/resident-notifications');
+
+           }else {
+             showNotification(message.cast<String,dynamic>(),payload:{"route":"/resident-notifications"});
+           }
+        } else{
+          if (viewWhen == 'onMessage'){
+          showNotification(message.cast<String,dynamic>());
+          }
+
+        }
         break;
 
       default:

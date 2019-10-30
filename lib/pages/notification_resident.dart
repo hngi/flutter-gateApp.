@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
 import 'package:xgateapp/pages/gateman/widgets/residents_notification.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
@@ -14,34 +16,56 @@ class NotificationResident extends StatefulWidget {
 }
 
 class _NotificationResidentState extends State<NotificationResident> {
-  var _visitors = [
-    {
-      "name": "Samuel Charles has Arrived",
-      "time": "5mins Ago",
-    },
-    {
-      "name": "Jacob Charles has Arrived",
-      "time": "10 mins Ago",
-    },
-  ];
-  var _gatemen = [
-    {
-      "name": "Grant Chukwu Accepted to be\n your gateman ",
-      "time": "5 mins Ago",
-    },
-    {
-      "name": "Grant Chukwu Acceptedto be\n  your gateman ",
-      "time": "10 mins Ago",
-    },
-  ];
+
+ 
 
   @override
   Widget build(BuildContext context) {
+    appIsConnected().then((isConnected){
+      if (isConnected == true){
+        if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
+      
+      loadResidentNotificationFromApi(context);
+    }
+      }
+
+    });
+    
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Notifications'),
-      body: ListView(
+      body: buildNotificationBody() == null?Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+      ):ListView(
         
-        children: <Widget>[
+        children:buildNotificationBody()),
+    
+      floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: MdiIcons.account,
+        title: 'Visitors',
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CustomBottomNavBar(
+        leadingIcon: MdiIcons.apps,
+        leadingText: 'Menu',
+        traillingIcon: MdiIcons.bell,
+        traillingText: 'Alerts',
+        onLeadingClicked: () {
+          print("leading clicked");
+          Navigator.pushReplacementNamed(context, '/homepage');
+        },
+        onTrailingClicked: () {},
+      ),
+    );
+  }
+  
+
+  List<Widget> buildNotificationBody(){
+    List<Widget> bodyView;
+    if(getResidentNotificationProvider(context).forVisitorModels != null && getResidentNotificationProvider(context).forVisitorModels.length > 0){
+        bodyView.add(
+
           Row(
             children: <Widget>[
               Container(
@@ -66,20 +90,23 @@ class _NotificationResidentState extends State<NotificationResident> {
                 ),
               ),
             ],
-          ),
-          Row(
+          )
+
+        );
+
+      bodyView.add( Row(
             children: <Widget>[
               Expanded(
                 child: SizedBox(
                   height: 130.0,
                   child: ListView.builder(
-                    itemCount: _visitors.length,
+                    itemCount: getResidentNotificationProvider(context).forVisitorModels.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: ResidentsNotificationList(
-                          name: _visitors[index]['name'],
-                          time: _visitors[index]['time'],
+                          name: getResidentNotificationProvider(context).forVisitorModels[index].notificationData['title'],
+                          time: getResidentNotificationProvider(context).forVisitorModels[index].createdAt??'',
                           
                         ),
                       );
@@ -89,12 +116,17 @@ class _NotificationResidentState extends State<NotificationResident> {
                 ),
               ),
             ],
-          ),
-          
+          )
+
+);
+    }
+if(getResidentNotificationProvider(context).forInviteModels!= null && getResidentNotificationProvider(context).forInviteModels.length > 0){
+        bodyView.add(
+
           Row(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top: 20.0, left: 20.0),
+                padding: EdgeInsets.only(top: 30.0, left: 20.0),
                 child: Text(
                   'Invites',
                   style: TextStyle(
@@ -104,21 +136,34 @@ class _NotificationResidentState extends State<NotificationResident> {
                   ),
                 ),
               ),
+              Container(
+                padding: EdgeInsets.only(top: 30.0, left: 160.0),
+                child: Text(
+                  'Mark all as read',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: GateManColors.textColor,
+                  ),
+                ),
+              ),
             ],
-          ),
-           Row(
+          )
+
+        );
+
+      bodyView.add(Row(
             children: <Widget>[
               Expanded(
                 child: SizedBox(
-                  height: 170.0,
+                  height: 130.0,
                   child: ListView.builder(
-                    itemCount: _gatemen.length,
+                    itemCount: getResidentNotificationProvider(context).forInviteModels.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: ResidentsNotificationList(
-                          name: _gatemen[index]['name'],
-                          time: _gatemen[index]['time'],
+                          name: getResidentNotificationProvider(context).forInviteModels[index].notificationData['title'],
+                          time: getResidentNotificationProvider(context).forInviteModels[index].createdAt??'',
                           
                         ),
                       );
@@ -128,29 +173,13 @@ class _NotificationResidentState extends State<NotificationResident> {
                 ),
               ),
             ],
-          ),
-          
-        ],
-      ),
-      floatingActionButton: BottomNavFAB(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: MdiIcons.account,
-        title: 'Visitors',
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomNavBar(
-        leadingIcon: MdiIcons.apps,
-        leadingText: 'Menu',
-        traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
-        onLeadingClicked: () {
-          print("leading clicked");
-          Navigator.pushReplacementNamed(context, '/homepage');
-        },
-        onTrailingClicked: () {},
-      ),
-    );
+          )
+          );
+    }
+    return bodyView;
+
   }
+  
+
+  
 }

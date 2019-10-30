@@ -4,11 +4,16 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/estate.dart';
+import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
+import 'package:xgateapp/core/service/fcm_token_service.dart';
+import 'package:xgateapp/core/service/notification_service/resident_notification_service.dart';
 import 'package:xgateapp/core/service/profile_service.dart';
 import 'package:xgateapp/core/service/resident_service.dart';
 import 'package:xgateapp/core/service/visitor_sevice.dart';
+import 'package:xgateapp/providers/fcm_token_provider.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
+import 'package:xgateapp/providers/resident_notificaton_provider.dart';
 import 'package:xgateapp/providers/token_provider.dart';
 import 'package:xgateapp/providers/user_provider.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
@@ -67,8 +72,10 @@ ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
   return Provider.of<ResidentsGateManProvider>(context);
 }
 
+
 Future loadInitialProfile(BuildContext context) async {
     print('Loading initial profile');
+    getProfileProvider(context).setLoadingState(true);
         try{
         dynamic response  = await ProfileService.getCurrentUserProfile(
           authToken: await authToken(context)
@@ -83,10 +90,12 @@ Future loadInitialProfile(BuildContext context) async {
                             getProfileProvider(context).setProfileModel(
                             ProfileModel.fromJson(response),jsonString: json.encode(response));
           }
+
+        getProfileProvider(context).setLoadingState(false);
         } catch (error){
           print(error);
           await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(ErrorType.generic));
-            
+          getProfileProvider(context).setLoadingState(false);  
         }
 
       }
@@ -103,6 +112,7 @@ launchCaller({@required String phone, @required BuildContext context}) async {
 }
 
 Future loadGateManThatAccepted(context) async {
+  getResidentsGateManProvider(context).setAcceptedLoadingState(true);
   try {
     dynamic response =
         await ResidentsGatemanRelatedService.getGateManThatAccepted(
@@ -123,9 +133,11 @@ Future loadGateManThatAccepted(context) async {
   } catch (error) {
     throw error;
   }
+  getResidentsGateManProvider(context).setAcceptedLoadingState(false);
 }
 
 Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
+  getVisitorProvider(context).setLoadingState(true);
   try {
     dynamic response =
         await VisitorService.getAllVisitor(authToken: await authToken(context));
@@ -156,10 +168,12 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
         
         getUserTypeProvider(context).setFirstRunStatus(false,loggedOut: false);
       }
+      
     }
   } catch (error) {
     throw error;
   }
+  getVisitorProvider(context).setLoadingState(false);
 }
 
 //  Future loadInitialVisitors(BuildContext context) async {
@@ -260,6 +274,7 @@ return false;
 }
 
 Future loadGateManThatArePending(context) async{
+  getResidentsGateManProvider(context).setPendingLoadingState(true);
     try{
       dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
       if(response is ErrorType){
@@ -281,7 +296,67 @@ Future loadGateManThatArePending(context) async{
     }catch(error){
       throw error;
     }
+    getResidentsGateManProvider(context).setPendingLoadingState(false);
   }
+
+
+ResidentNotificationProvider getResidentNotificationProvider(BuildContext context){
+  return Provider.of<ResidentNotificationProvider>(context);
+}
+
+Future  loadResidentNotificationFromApi(BuildContext context)async{
+  getResidentNotificationProvider(context).setLoadingState(true);
+  dynamic response = await ResidentNotificationService.getAllNotifications(authToken: await authToken(context));
+  print(response);
+  if (response is ErrorType){
+    print('Error');
+  } else {
+    dynamic data = response['data'];
+    List<ResidentNotificationModel> visitorsNot = [];
+    List<ResidentNotificationModel> inviteNot = [];
+
+    data.forEach((json){
+      if (json['type'].toString().contains('visitor')){
+          visitorsNot.add(ResidentNotificationModel.fromJson(json: json));
+
+      } else{
+        inviteNot.add(ResidentNotificationModel.fromJson(json: json));
+      }
+        
+      });
+      if (inviteNot.isEmpty && visitorsNot.isEmpty){
+        print('Empty Notification');
+        getResidentNotificationProvider(context).setLoadedFromApi(true);
+
+      } else {
+      getResidentNotificationProvider(context).setNotificationModels(forInviteModels: inviteNot,forVisitorModels: visitorsNot);
+      }
+
+    
+
+  }
+  getResidentNotificationProvider(context).setLoadingState(false);
+  
+}
+
+FCMTokenProvider getFCMTokenProvider(BuildContext context){
+  return Provider.of<FCMTokenProvider>(context);
+}
+
+void setFCMTokenInServer(BuildContext context)async{
+  getFCMTokenProvider(context).setLoadingState(true);
+  dynamic response = await FCMTokenService.editFCMToken(authToken: await authToken(context), fcmToken: getFCMTokenProvider(context).fcmToken);
+  print('I am printing token response');
+  print(response);
+  if (response is ErrorType){
+    print(response);
+  } else {
+    getFCMTokenProvider(context).setFCMTokenLoadeToServerStatus(true);
+
+  }
+  getFCMTokenProvider(context).setLoadingState(false);
+
+}
 
   
 
