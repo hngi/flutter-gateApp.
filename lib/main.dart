@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/pages/add_permission.dart';
-import 'package:xgateapp/providers/faqBloc.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/routes/routes.dart';
 import 'package:provider/provider.dart';
@@ -77,23 +76,20 @@ class _GateManState extends State<GateMan> {
 
     return MultiProvider(
       providers: providers,
-      child: ChangeNotifierProvider<FaqBloc>.value(
-        value: FaqBloc(),
-        child: MaterialApp(
-          title: 'GateMan App',
-          initialRoute: '/',
-          onGenerateRoute: Routes.generateRoute,
-          theme: ThemeData(
-            primarySwatch: GateManColors.primarySwatchColor,
-            textTheme: Theme.of(context).textTheme.apply(
-                  bodyColor: GateManColors.textColor,
-                  displayColor: GateManColors.textColor,
-                ),
-            fontFamily: 'OpenSans',
-          ),
-          // home: ScanQRCode(),
-          debugShowCheckedModeBanner: false,
+      child: MaterialApp(
+        title: 'GateMan App',
+        initialRoute: '/',
+        onGenerateRoute: Routes.generateRoute,
+        theme: ThemeData(
+          primarySwatch: GateManColors.primarySwatchColor,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: GateManColors.textColor,
+                displayColor: GateManColors.textColor,
+              ),
+          fontFamily: 'OpenSans',
         ),
+        // home: ScanQRCode(),
+        debugShowCheckedModeBanner: false,
       ),
       // home: ScanQRCode(),
       debugShowCheckedModeBanner: false,
