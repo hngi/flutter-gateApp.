@@ -156,6 +156,7 @@ class _EditProfileState extends State<EditProfile> {
                         name: _nameController.text,
                         image: _image,
                         authToken: await authToken(context));
+                    print(response.toString());
                     if (response is ErrorType) {
                       await PaysmosmoAlert.showError(
                           context: context,
