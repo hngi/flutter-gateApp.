@@ -3,6 +3,9 @@ import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
+import 'package:dio/dio.dart';
+
+import 'gateman/widgets/customDialog.dart';
 
 class SupportPage extends StatefulWidget {
   @override
@@ -10,13 +13,63 @@ class SupportPage extends StatefulWidget {
 }
 
 class _SupportPageState extends State<SupportPage> {
-  TextEditingController _emailController;
-  TextEditingController _subjectController;
-  TextEditingController _msgController;
+  final _supportKey = GlobalKey<FormState>();
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _subjectController = new TextEditingController();
+  TextEditingController _msgController = new TextEditingController();
 
   String _email;
   String _subject;
   String _msg;
+  String email;
+  String subject;
+  String issues;
+
+  Future send() async {
+    final form = _supportKey.currentState;
+    if(form.validate()){
+      Dio dio = new Dio();
+      Response response;
+      try{
+         response = await dio.post("http://gateappapi.herokuapp.com/api/v1/support/send", data: {"subject": subject, "email": email, "message":issues});
+         print(response.data['message'].toString());
+         if (response.data['message'].toString() == "Thanks for contacting us!"){
+           showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+          title: "",
+          description: "Your request have been successfully received",
+          buttonText: "okay",
+          func: () {
+            // Navigator.pushNamed(context, '/residents-gate');
+            Navigator.pop(context);
+          }),
+           );
+           setState(() {
+             _emailController.text = "";
+             _subjectController.text = "";
+             _msgController.text = "";
+           });
+
+           print("yeah");
+         }
+         else {
+           print("failed");
+         }
+         
+      }
+      catch(e){
+        print(e);
+      }
+      
+      print("valid form: $email $subject $issues");
+
+
+    }
+    else {
+      print("not valid");
+    }
+  }
 
 
   @override
@@ -25,50 +78,56 @@ class _SupportPageState extends State<SupportPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: GateManHelpers.appBar(context, 'Support'),
-        body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-        children: <Widget>[
+        body: ListView(          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+          children: <Widget>[
+            Form(key: _supportKey,
+              child: Column(
+              children: <Widget>[
 
-          CustomTextFormField(
-            controller: _emailController,
-            labelName: 'Email',
-            onSaved: (str) => _email = str,
-            validator: (str) =>
-                str.isEmpty ? 'Email cannot be empty' : null,
-          ),
+                CustomTextFormField(onChanged: (s)=> setState(()=>email = s),
+                  controller: _emailController,
+                  labelName: 'Email',
+                  onSaved: (str) => _email = str,
+                  validator: (str) =>
+                      str.isEmpty ? 'Email cannot be empty' : null,
+                ),
 
-          CustomTextFormField(
-            controller: _subjectController,
-            labelName: 'Subject',
-            onSaved: (str) => _subject = str,
-            validator: (str) =>
-                str.isEmpty ? 'Subject cannot be empty' : null,
-          ),
+                CustomTextFormField(onChanged: (s)=> setState(()=>subject = s),
+                  controller: _subjectController,
+                  labelName: 'Subject',
+                  onSaved: (str) => _subject = str,
+                  validator: (str) =>
+                      str.isEmpty ? 'Subject cannot be empty' : null,
+                ),
 
-          CustomTextFormField(
-            maxLines: 4,
-            controller: _msgController,
-            labelName: 'Issues',
-            onSaved: (str) => _msg = str,
-            validator: (str) =>
-                str.isEmpty ? 'Message cannot be empty' : null,
-          ),
+                CustomTextFormField(onChanged: (s)=> setState(()=>issues = s),
+                  maxLines: 4,
+                  controller: _msgController,
+                  labelName: 'Issues',
+                  onSaved: (str) => _msg = str,
+                  validator: (str) =>
+                      str.isEmpty ? 'Message cannot be empty' : null,
+                ),
 
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 26.0),
-            child: Text(
-                'Please describe the issue with as much details as possible to enable our support staff get a clear picture and offer solutions to the problem',
-                style: TextStyle(
-                    fontSize: 12.0,
-                    color: GateManColors.grayColor)),
-          ),
-
-          SizedBox(height: 40.0),
-          ActionButton(
-            buttonText: 'SAVE',
-            onPressed: (){},
-          )
-        ]));
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 26.0),
+                  child: Text(
+                      'Please describe the issue with as much details as possible to enable our support staff get a clear picture and offer solutions to the problem',
+                      style: TextStyle(
+                          fontSize: 12.0,
+                          color: GateManColors.grayColor)),
+                ),
+               
+                SizedBox(height: 40.0),
+                
+                ActionButton(
+                  buttonText: 'SAVE',
+                  onPressed: send,
+                )
+              ]),
+            ),
+          ],
+        ));
     }
               
 }
