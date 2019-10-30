@@ -36,9 +36,6 @@ class ResidentNotificationService {
     try {
           Response response = await dio.get(uri);
     
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;
           if (response.statusCode != 200) return ErrorType.generic;
@@ -87,8 +84,7 @@ class ResidentNotificationService {
     try {
           Response response = await dio.patch(uri);
     
-          print(response.statusCode);
-          print(response.data);
+          
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;

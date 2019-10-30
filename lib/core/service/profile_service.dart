@@ -32,9 +32,7 @@ static BaseOptions options = BaseOptions(
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
-    
-          print(response.statusCode);
-          print(response.data);
+   
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 422) return ErrorType.username_at_least_2_char;

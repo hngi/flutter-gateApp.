@@ -79,7 +79,9 @@ class _AddGateManDetailState extends State<AddGateManDetail>
               ),
               onPressed: () {
                 if(_textEditingController.text.length > 0){
-                  _showMaterialDialog(context, _textEditingController.text);
+                    _showMaterialDialog(context, _textEditingController.text);
+                  
+                  
                 } else {
                   PaysmosmoAlert.showWarning(context: context,message: 'Phone number cannot be empty');
                 }
@@ -111,13 +113,18 @@ class _AddGateManDetailState extends State<AddGateManDetail>
           return StatefulBuilder(
             builder: (BuildContext context, setState) {
               if(gateManAddRun == false){
+                print('Running check to see if its been added twice');
                 addGateMan(phoneNumber,context,(status,nameFound){
                   setState((){
                     loadStatus = status;
                     gateManAddRun = true;
                     gateManName = nameFound;
                     
-              });});
+              });},(gatemanAddRunStatus){
+                setState((){
+                    gateManAddRun = gatemanAddRunStatus;
+                });
+              });
               } else{
 
               }
@@ -180,7 +187,9 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                       });
                 }
               
-                void addGateMan(String phoneNumber,BuildContext context,Function(AddGateManDetailStatus status,String nameFound) setLoadingStateInDialog) async {
+                void addGateMan(String phoneNumber,BuildContext context,Function(AddGateManDetailStatus status,String nameFound) setLoadingStateInDialog,
+                Function(bool gatemanAddrun) setRun) async {
+                  setRun(true);
                   try{
                   String token = await authToken(context);
                   dynamic response = await ResidentsGatemanRelatedService.findGateManByPhone(authToken: token, phone: phoneNumber);
@@ -227,12 +236,9 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                     }
 
                           } else {
-                            // var mapList = [gateManJson, gateManRequest['residentGateman']];
-                            // var combinedMap = mapList.reduce((map1,map2)=> map1..addAll(map2));
-
                             ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(response);
                             getResidentsGateManProvider(context).addAwaitingResidentsGateManModel(gateManModel);
-                            prefix0.loadGateManThatArePending(context);
+                            loadGateManThatArePending(context);
                             
                           setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);
                             print('done');
@@ -243,6 +249,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                   }catch(error){
                     throw error;
                   }
+
 
 
                     

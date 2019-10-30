@@ -13,10 +13,9 @@ class AuthService {
   static Future<String> getDeviceId() async{
     try{
     deviceId = await FlutterUdid.udid;
-    print(deviceId);
     return deviceId;
     } catch (error){
-      print('unknown Error occured in getting device id');
+      print(error);
     }
 
   }
@@ -53,9 +52,7 @@ class AuthService {
             "device_id": await getDeviceId()
           });
     
-          print(response.statusCode);
-          print(response.data);
-    
+          
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;
           if (response.statusCode == 404) return ErrorType.invalid_credentials;
@@ -97,8 +94,6 @@ class AuthService {
             contentType: 'application/json',
           );
           //await getDeviceId();;
-          print(deviceId);
-          print([name,email,phone,deviceId].join(' '));
           var data = {
                 "name": name,
                 "email": email,
