@@ -19,7 +19,7 @@ class WelcomeResident extends StatelessWidget {
 
      appIsConnected().then((isConnected){
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
-         print('I am loading from emi prfoeile ${getProfileProvider(context).loadedFromApi}');
+         print('Appppppppppppppp is connected');
          if(getProfileProvider(context).loadedFromApi == false && getProfileProvider(context).loading != true){
                
                loadInitialProfile(context);
