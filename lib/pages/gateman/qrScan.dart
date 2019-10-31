@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/gateman_resident_visitors.dart';
+import 'package:xgateapp/pages/gateman/visitor_check.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:qrcode/qrcode.dart';
@@ -32,9 +34,9 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
 
     _captureController.onCapture((data) {
       //pause camera
-      _captureController.pause();
       print('onCapture----$data');
       _checkoutQR(data, CheckoutAction.scan);
+      _captureController.pause();
     });
   }
 
@@ -56,6 +58,26 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
           : _isValidating = false;
       _visitor = res.first;
     });
+
+    if (_visitor == null) {
+      PaysmosmoAlert.showError(
+          context: context, message: 'Cannot validate Vistor');
+    } else {
+      Navigator.of(context)
+          .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+        return new VisitorCheckout(
+          name: '${_visitor.user.firstName} ${_visitor.user.lastName}',
+          houseAddr: 'Block 2A',
+          phoneNumber: _visitor.user.phone,
+          qrCode: _visitor.qrCode,
+          visitorDesc: _visitor.purpose ?? '',
+          visitorETA:
+              '${_visitor.timeIn ?? '00:00'} - ${_visitor.timeOut ?? '00:00'}',
+          visitorName: _visitor.name,
+          visitorPhoneNumber: _visitor.phoneNo,
+        );
+      }));
+    }
   }
 
   @override
@@ -208,8 +230,11 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
             ),
           ),
 
-          Text(
-              _isScanning ? 'Scanning..' : _isValidating ? 'Validating..' : ''),
+          Center(
+            child: Text(_isScanning
+                ? 'Scanning..'
+                : _isValidating ? 'Validating..' : ''),
+          ),
         ],
       ),
     );

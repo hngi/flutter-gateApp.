@@ -38,7 +38,7 @@ class GatemanService {
     validateStatus: (code) {
       return (code >= 200) ? true : false;
     },
-    headers: headers,
+    // headers: headers,
   );
 
   static Dio dio = Dio(options);
@@ -250,7 +250,41 @@ class GatemanService {
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
-    Response response = await dio.get(uri, options: options);
+    Response response = await dio.put(uri, options: options);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> mapResponse = json.decode(response.data);
+      print(mapResponse);
+
+      if (!mapResponse.containsKey('visitor') ||
+          mapResponse['visitor'].length == 0) {
+        return [];
+      }
+      final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
+      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
+          items.map<GatemanResidentVisitors>((json) {
+        return GatemanResidentVisitors.fromJson(json);
+      }).toList();
+
+      return listOfGatemanResidentRequests;
+    } else {
+      throw Exception('Failed to load internet');
+    }
+  }
+
+  //Gateman checkout visitors.
+  static Future<List<GatemanResidentVisitors>> admitVisitor({
+    @required String authToken,
+    @required String qrCode,
+  }) async {
+    String uri = Endpoint.gateman + '/admit';
+
+    Options options = Options(
+      contentType: 'application/x-www-form-urlencoded',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    Response response = await dio.put(uri, options: options);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
