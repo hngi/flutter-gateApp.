@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/models/gateman_resident_visitors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
+import 'package:qrcode/qrcode.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 //import 'package:qrcode_reader/QRCodeReader.dart';
 //import 'package:qr_mobile_vision/qr_camera.dart';
+
+enum CheckoutAction { scan, validate }
 
 class ScanQRCode2 extends StatefulWidget {
   @override
@@ -11,6 +17,47 @@ class ScanQRCode2 extends StatefulWidget {
 }
 
 class _ScanQRCode2State extends State<ScanQRCode2> {
+  QRCaptureController _captureController = QRCaptureController();
+  TextEditingController _qrTextField = TextEditingController();
+
+  GatemanResidentVisitors _visitor;
+  bool _isScanning = false;
+  bool _isValidating = false;
+
+  bool _isTorchOn = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _captureController.onCapture((data) {
+      //pause camera
+      _captureController.pause();
+      print('onCapture----$data');
+      _checkoutQR(data, CheckoutAction.scan);
+    });
+  }
+
+  // _onValidate()
+
+  _checkoutQR(String qrCode, CheckoutAction action) async {
+    setState(() {
+      action == CheckoutAction.scan ? _isScanning = true : _isValidating = true;
+    });
+
+    var res = await GatemanService.checkVisitors(
+      authToken: await authToken(context),
+      qrCode: qrCode,
+    );
+
+    setState(() {
+      action == CheckoutAction.scan
+          ? _isScanning = false
+          : _isValidating = false;
+      _visitor = res.first;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -83,7 +130,7 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
                       //     borderWidth: 3.0,
                       //   ),
                       // ),
-                      child: Container(),
+                      child: QRCaptureView(controller: _captureController),
                     ),
                     DashSeparator(
                       color: Colors.grey,
@@ -100,9 +147,59 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
                       ),
                     ),
 
-                    // TextField(
-                    //   decoration: InputDecoration(
-
+                    //Button
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //     horizontal: 20.0,
+                    //     vertical: 12.0,
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     mainAxisSize: MainAxisSize.max,
+                    //     children: <Widget>[
+                    //       Flexible(
+                    //                                   child: TextField(
+                    //           controller: _qrTextField,
+                    //           decoration: InputDecoration(
+                    //             border: OutlineInputBorder(
+                    //               borderRadius: BorderRadius.only(
+                    //                 topLeft: Radius.circular(6.0),
+                    //                 bottomLeft: Radius.circular(6.0),
+                    //               ),
+                    //               borderSide: BorderSide(
+                    //                 style: BorderStyle.solid,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           _checkoutQR(
+                    //               _qrTextField.text, CheckoutAction.validate);
+                    //         },
+                    //         child: Container(
+                    //           padding: EdgeInsets.symmetric(
+                    //             horizontal: 4.0,
+                    //             vertical: 4.0,
+                    //           ),
+                    //           decoration: BoxDecoration(
+                    //             color: GateManColors.primaryColor,
+                    //             borderRadius: BorderRadius.only(
+                    //               topRight: Radius.circular(6.0),
+                    //               bottomRight: Radius.circular(6.0),
+                    //             ),
+                    //           ),
+                    //           child: Text(
+                    //             'Validate',
+                    //             style: TextStyle(
+                    //               fontWeight: FontWeight.w500,
+                    //               fontSize: 19.0,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
                     //   ),
                     // ),
                   ],
@@ -110,6 +207,9 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
               ),
             ),
           ),
+
+          Text(
+              _isScanning ? 'Scanning..' : _isValidating ? 'Validating..' : ''),
         ],
       ),
     );
