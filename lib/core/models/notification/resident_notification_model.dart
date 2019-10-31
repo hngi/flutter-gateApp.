@@ -22,9 +22,9 @@ factory ResidentNotificationModel.fromJson({dynamic json}){
     createdAt: DateTime(int.parse(json['created_at'].split(' ')[0].split('-')[0]),
     int.parse(json['created_at'].split(' ')[0].split('-')[1]),
     int.parse(json['created_at'].split(' ')[0].split('-')[2]),
-    int.parse(json['created_at'].split(' ')[1].split('-')[0]),
-    int.parse(json['created_at'].split(' ')[1].split('-')[1]),
-    int.parse(json['created_at'].split(' ')[1].split('-')[2]))
+    int.parse(json['created_at'].split(' ')[1].split(':')[0]),
+    int.parse(json['created_at'].split(' ')[1].split(':')[1]),
+    int.parse(json['created_at'].split(' ')[1].split(':')[2]))
   );
 }
 

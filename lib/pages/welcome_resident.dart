@@ -29,6 +29,17 @@ class WelcomeResident extends StatelessWidget {
              
              loadInitialVisitors(context);
            }
+           if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
+      
+                  loadResidentNotificationFromApi(context);
+           }
+           if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
+            print('trying to get initial accepted agteman');
+      loadGateManThatAccepted(context);
+     }
+     if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
+       loadGateManThatArePending(context);
+     }
        }
        
      });

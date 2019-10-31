@@ -11,10 +11,18 @@ class ResidentsGateManProvider extends ChangeNotifier {
     bool pendingloadedFromPrefs = false;
     bool loadedFromApi = false;
     bool loadedFromPrefs = false;
+    bool adding = false;
+
+  
 
   bool loadingAccepted;
 
   bool loadingPending;
+
+setAdding(bool ad){
+  adding = ad;
+  notifyListeners();
+}
 
 setAcceptedLoadingState(bool stat){
   loadingAccepted = stat;

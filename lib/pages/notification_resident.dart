@@ -21,22 +21,26 @@ class _NotificationResidentState extends State<NotificationResident> {
 
   @override
   Widget build(BuildContext context) {
-    appIsConnected().then((isConnected){
-      if (isConnected == true){
-        if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
+    // appIsConnected().then((isConnected){
+    //   if (isConnected == true){
+    //     if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
       
-      loadResidentNotificationFromApi(context);
-    }
-      }
+    //   loadResidentNotificationFromApi(context);
+    // }
+    //   }
 
-    });
+    // });
     
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Notifications'),
-      body: buildNotificationBody() == null?Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+      body:RefreshIndicator(child:buildNotificationBody() == null || buildNotificationBody().isEmpty?Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
       ):ListView(
         
-        children:buildNotificationBody()),
+        children:buildNotificationBody()), onRefresh: (){
+          return loadResidentNotificationFromApi(context);
+        }
+        ,),
+
     
       floatingActionButton: BottomNavFAB(
         onPressed: () {
@@ -62,7 +66,7 @@ class _NotificationResidentState extends State<NotificationResident> {
   
 
   List<Widget> buildNotificationBody(){
-    List<Widget> bodyView;
+    List<Widget> bodyView = [];
     if(getResidentNotificationProvider(context).forVisitorModels != null && getResidentNotificationProvider(context).forVisitorModels.length > 0){
         bodyView.add(
 
@@ -105,8 +109,10 @@ class _NotificationResidentState extends State<NotificationResident> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: ResidentsNotificationList(
-                          name: getResidentNotificationProvider(context).forVisitorModels[index].notificationData['title'],
-                          time: getResidentNotificationProvider(context).forVisitorModels[index].createdAt??'',
+                          name: getResidentNotificationProvider(context).forVisitorModels[index].notificationData['body'],
+                          time: getResidentNotificationProvider(context).forVisitorModels[index].createdAt.toString()??'',
+                          notificationId: getResidentNotificationProvider(context).forVisitorModels[index].id,
+                          model: getResidentNotificationProvider(context).forVisitorModels[index],
                           
                         ),
                       );
@@ -162,8 +168,10 @@ if(getResidentNotificationProvider(context).forInviteModels!= null && getResiden
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: ResidentsNotificationList(
-                          name: getResidentNotificationProvider(context).forInviteModels[index].notificationData['title'],
-                          time: getResidentNotificationProvider(context).forInviteModels[index].createdAt??'',
+                          name: getResidentNotificationProvider(context).forInviteModels[index].notificationData['body']??'',
+                          time: getResidentNotificationProvider(context).forInviteModels[index].createdAt.toString()??'',
+                          notificationId: getResidentNotificationProvider(context).forInviteModels[index].id??'',
+                          model: getResidentNotificationProvider(context).forInviteModels[index],
                           
                         ),
                       );

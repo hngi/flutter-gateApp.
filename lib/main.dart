@@ -87,6 +87,7 @@ class _GateManState extends State<GateMan> {
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.getToken().then((token) async{
+      print('fcm Token is $token');
     getFCMTokenProvider(context).setFCMToken(fcmToken: token);
     appIsConnected().then((isConnected){
       if (isConnected == true && getFCMTokenProvider(context).loading !=true){setFCMTokenInServer(context);
@@ -167,7 +168,7 @@ class _GateManState extends State<GateMan> {
 
   void handleOnNotiicationReceivedForResident(Map<String, dynamic> message,{String viewWhen}) {
     String type = message['data']['type'];
-    // print(type);
+    print(type);
     getResidentNotificationProvider(context).setLoadedFromApi(false);
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:
@@ -176,7 +177,6 @@ class _GateManState extends State<GateMan> {
            if (ModalRoute.of(navigatorKey.currentContext)?.settings?.name != '/manage-gateman'){
               
        if (viewWhen != 'onMessage'){
-         print('should push');
          navigatorKey.currentState.pushNamed('/manage-gateman');
            } else {
              showNotification(message.cast<String,dynamic>(),payload:{"route":"/manage-gateman"});

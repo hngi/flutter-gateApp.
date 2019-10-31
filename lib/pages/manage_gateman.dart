@@ -17,18 +17,18 @@ class ManageGateman extends StatelessWidget {
   Widget build(BuildContext context) {
     pendingNumber =0;
     // Future gateman = loadGateManThatArePending(context);
-    appIsConnected().then((isConnected) {
-      if(isConnected == true){
-        print('app is connected gateman');
-if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
-      print('trying to get initial accepted agteman');
-      loadGateManThatAccepted(context);
-     }
-     if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
-       loadGateManThatArePending(context);
-     }
-     }
-    });
+//     appIsConnected().then((isConnected) {
+//       if(isConnected == true){
+//         print('app is connected gateman');
+// if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
+//       print('trying to get initial accepted agteman');
+//       loadGateManThatAccepted(context);
+//      }
+//      if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
+//        loadGateManThatArePending(context);
+//      }
+//      }
+//     });
 
     
     

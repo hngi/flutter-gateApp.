@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/models/estate.dart';
 import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
 import 'package:xgateapp/core/service/fcm_token_service.dart';
@@ -255,7 +256,7 @@ Future getImage(Function(File img) action, ImageSource source) async {
        ConnectivityResult connectivityResult  =  await  (Connectivity().checkConnectivity());
             if (connectivityResult == ConnectivityResult.mobile ||connectivityResult == ConnectivityResult.wifi  ){
 try {
-  final result = await InternetAddress.lookup('google.com');
+  final result = await InternetAddress.lookup(Endpoint.baseUrl);
   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
     return true;
   }
@@ -326,6 +327,7 @@ Future  loadResidentNotificationFromApi(BuildContext context)async{
       });
       if (inviteNot.isEmpty && visitorsNot.isEmpty){
         print('Empty Notification');
+        getResidentNotificationProvider(context).setNotificationModels(forInviteModels: null,forVisitorModels: null);
         getResidentNotificationProvider(context).setLoadedFromApi(true);
 
       } else {
