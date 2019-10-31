@@ -262,7 +262,8 @@ class WelcomeResident extends StatelessWidget {
            
                visitors
                    .addAll(getVisitorProvider(context).visitorModels.reversed.map((visitorModel) {
-                 List<String> arrival_date_array = visitorModel.arrival_date.split('-');
+                    
+                 List<String> arrival_date_array = visitorModel.arrival_date==null?"00-00-00".split('-'):visitorModel.arrival_date.split('-');
                  return Column(
                    children: <Widget>[
                      Row(
