@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 
 class CustomInputField extends StatelessWidget {

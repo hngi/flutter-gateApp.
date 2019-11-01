@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/providers/gateman_user_provider.dart';
 import 'package:xgateapp/utils/colors.dart';
@@ -44,13 +45,15 @@ class _GateManMenuState extends State<GateManMenu> {
     GatemanUserProvider gateManProvider =
         Provider.of<GatemanUserProvider>(context, listen: false);
 
+    print('IMAGE URL :'+Endpoint.imageBaseUrl+getProfileProvider(context).profileModel.image.toString());
+
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 1.0),
         children: <Widget>[
           SizedBox(height: size.height * 0.05),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +67,9 @@ class _GateManMenuState extends State<GateManMenu> {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: () {
+                    print('IMAGE URL :'+Endpoint.imageBaseUrl+getProfileProvider(context).profileModel.image.toString());
+                  },
                 ),
 
                 //Logout
@@ -110,8 +115,10 @@ class _GateManMenuState extends State<GateManMenu> {
                     Positioned(
                       // left: 3.0,
                       child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/gateman/Ellipse.png'),
+                        backgroundImage:getProfileProvider(context).profileModel.image!=null?
+                        NetworkImage(Endpoint.imageBaseUrl+
+                            getProfileProvider(context).profileModel.image.toString()):AssetImage('assets/images/gateman/Ellipse.png'),
+
                         maxRadius: 32.0,
                       ),
                     ),
@@ -133,7 +140,7 @@ class _GateManMenuState extends State<GateManMenu> {
                             fontWeight: FontWeight.w800,
                           )),
                     ),
-                    Text("GateMan",
+                    Text("Gateman",
                         style: TextStyle(
                           color: GateManColors.grayColor,
                           fontSize: 18.0,

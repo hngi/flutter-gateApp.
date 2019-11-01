@@ -25,7 +25,7 @@ List<SingleChildCloneableWidget> independentServices = [
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
   ChangeNotifierProvider.value(value: ProfileProvider()),
   ChangeNotifierProvider.value(value: VisitorProvider()),
-  ChangeNotifierProvider.value(value: RequestProvider())
+  ChangeNotifierProvider.value(value: RequestProvider()),
   ChangeNotifierProvider.value(value: FaqBloc()),
   ChangeNotifierProvider.value(value: ResidentsGateManProvider(),)
 ];

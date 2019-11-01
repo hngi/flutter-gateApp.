@@ -78,17 +78,18 @@ class _EditProfileState extends State<EditProfile> {
                       ClipOval(
                         child: CircleAvatar(
                           radius: 60,
-                          child: _image!=null?Image.file(_image,width: 200,height:200):getProfileProvider(context).profileModel.image ==
+                          child: _image!=null?Image.file(_image,width: 200,height:250):getProfileProvider(context).profileModel.image ==
                                     null ||
                                 getProfileProvider(context).profileModel.image ==
                                     "no_image.jpg" ||
                                 getProfileProvider(context).profileModel.image ==
                                     'file://noimage.jpg'
                             ? Image.asset(
-                                'assets/images/woman-cooking.png',
+                                'assets/images/gateman_white.png',
                               )
                             : Image.network(Endpoint.imageBaseUrl+
-                                getProfileProvider(context).profileModel.image),
+                                getProfileProvider(context).profileModel.image
+                          ),
                       ),
                         ),
                       Center(
@@ -156,6 +157,7 @@ class _EditProfileState extends State<EditProfile> {
                         name: _nameController.text,
                         image: _image,
                         authToken: await authToken(context));
+                    print(response.toString());
                     if (response is ErrorType) {
                       await PaysmosmoAlert.showError(
                           context: context,
