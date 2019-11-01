@@ -33,6 +33,7 @@ import 'package:xgateapp/pages/manage_address.dart';
 import 'package:xgateapp/pages/privacypolicy.dart';
 import 'package:xgateapp/pages/settings.dart';
 import 'package:xgateapp/pages/splash_screen.dart';
+import 'package:xgateapp/pages/visitors.dart';
 import 'package:xgateapp/pages/welcome_resident.dart';
 import 'package:xgateapp/pages/add_permission.dart';
 import 'package:xgateapp/pages/user_type.dart';
@@ -184,6 +185,9 @@ class Routes {
 
       case '/add-gateman-detail':
         return MaterialPageRoute(builder: (context) => AddGateManDetail());
+      
+      case '/my-visitors':
+        return MaterialPageRoute(builder: (context) => MyVisitors());
 
       default:
         return MaterialPageRoute(

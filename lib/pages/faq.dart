@@ -116,7 +116,11 @@ class _FAQMenuState extends State<FaqMenuItem> {
             ],
           ),
         ),
-        subtitle: isVisible ? Text(widget.desc) : null,
+        subtitle: isVisible ? 
+        Padding(
+          child: Text(widget.desc), padding: const EdgeInsets.all(13.0),
+        )
+         : null,
         trailing: isVisible
             ? Icon(Icons.keyboard_arrow_up, size: 25.0, color: Colors.grey)
             : Icon(Icons.keyboard_arrow_down),
