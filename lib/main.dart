@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/pages/add_permission.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/routes/routes.dart';
@@ -92,7 +94,6 @@ class _GateManState extends State<GateMan> {
         debugShowCheckedModeBanner: false,
       ),
       // home: ScanQRCode(),
-      debugShowCheckedModeBanner: false,
     );
   }
 
@@ -112,24 +113,26 @@ class _GateManState extends State<GateMan> {
   handleOnNotificationReceived(dynamic message) async {
     String authTokenStr = await authToken(context);
     print(authTokenStr);
-    if (authTokenStr != null && await getUserTypeProvider(context).getUserType != user_type.RESIDENT) {
+    if (authTokenStr != null &&
+        await getUserTypeProvider(context).getUserType != user_type.RESIDENT) {
       //handle common notifications
       print(authTokenStr);
       print('on message to Gateman $message');
-      if(await getUserTypeProvider(context).getUserType == user_type.RESIDENT){
+      if (await getUserTypeProvider(context).getUserType ==
+          user_type.RESIDENT) {
         //handle resident notifications
         handleOnNotiicationReceivedForResident(message);
-        
-              } else if(await getUserTypeProvider(context).getUserType == user_type.GATEMAN){
-                //handle gateman notifications
-                handleOnNotiicationReceivedForGateman(message);
-                              }
-                          }
-                          }
-                        
-                          void handleOnNotiicationReceivedForResident(message) {}
-                
-                  void handleOnNotiicationReceivedForGateman(message) {}
+      } else if (await getUserTypeProvider(context).getUserType ==
+          user_type.GATEMAN) {
+        //handle gateman notifications
+        handleOnNotiicationReceivedForGateman(message);
+      }
+    }
+  }
+
+  void handleOnNotiicationReceivedForResident(message) {}
+
+  void handleOnNotiicationReceivedForGateman(message) {}
 }
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
