@@ -19,6 +19,26 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
 
   List<GatemanResidentRequest> _requests = [];
 
+  @override
+  void initState() {
+    super.initState();
+    initApp();
+  }
+
+  initApp() async {
+     appIsConnected().then((isConn){
+      if(isConn && !getUserTypeProvider(context).loggeOut){
+        if(!getRequestProvider(context).isLoadedFromApi){
+          loadInitRequests(context);
+        }
+      }
+    });
+    setState((){
+    _requests = getRequestProvider(context).requestList;
+    });
+  }
+
+
   var _notifications = [
     {
       "name": "Janet Thompson",
@@ -37,14 +57,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
 
-    appIsConnected().then((isConn){
-      if(isConn && !getUserTypeProvider(context).loggeOut){
-        if(!getRequestProvider(context).isLoadedFromApi){
-          loadInitRequests(context);
-        }
-      }
-    });
-    _requests = getRequestProvider(context).requestList;
+   
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
