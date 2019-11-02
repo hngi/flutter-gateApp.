@@ -239,7 +239,8 @@ class GatemanService {
   }
 
   //Gateman checkout visitors.
-  static Future<List<GatemanResidentVisitors>> checkVisitors({
+  // static Future<List<GatemanResidentVisitors>> checkVisitors({
+  static Future<dynamic> checkVisitors({
     @required String authToken,
     @required String qrCode,
   }) async {
@@ -252,13 +253,18 @@ class GatemanService {
 
     Response response = await dio.put(uri, options: options);
 
+    if (response.statusCode == 403) {
+      //no permission
+      return ErrorType.cannot_check_visitor;
+    }
+
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
 
       if (!mapResponse.containsKey('visitor') ||
           mapResponse['visitor'].length == 0) {
-        return [];
+        return ErrorType.no_visitor_with_code;
       }
       final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
       List<GatemanResidentVisitors> listOfGatemanResidentRequests =

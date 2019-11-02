@@ -85,35 +85,41 @@ class GateManHelpers {
 
     //verify_code_not_found
   }
-  
+
   static String errorTypeMap(ErrorType errorType) {
     switch (errorType) {
-      case ErrorType.email_taken: 
+      case ErrorType.email_taken:
         return 'Email has been used';
-      case ErrorType.phone : return 'Phone Error';
-      case ErrorType.verify_code_not_found: return 'Wrong Verification Code';
-      case ErrorType.network: return 'Please make sure your device is connected to the internet';
-      case ErrorType.no_visitors_found: return 'You are not expecting any Visitor';
-      case ErrorType.username_at_least_2_char: return 'Name must be at least two characters';
-      case ErrorType.no_gateman_found: return 'No GateMan Found with this number in your estate';
-      case ErrorType.unauthorized: return 'Unauthorized';
-      case ErrorType.request_already_sent_to_gateman: return 'Request already Sent,Please await Confirmation';
-      case ErrorType.invalid_input_in_register: return 'Invalid Input';
-      case ErrorType.server: return 'Server Error, Please try again';
-    
+      case ErrorType.phone:
+        return 'Phone Error';
+      case ErrorType.verify_code_not_found:
+        return 'Wrong Verification Code';
+      case ErrorType.network:
+        return 'Please make sure your device is connected to the internet';
+      case ErrorType.no_visitors_found:
+        return 'You are not expecting any Visitor';
+      case ErrorType.username_at_least_2_char:
+        return 'Name must be at least two characters';
+      case ErrorType.no_gateman_found:
+        return 'No GateMan Found with this number in your estate';
+      case ErrorType.unauthorized:
+        return 'Unauthorized';
+      case ErrorType.request_already_sent_to_gateman:
+        return 'Request already Sent,Please await Confirmation';
+      case ErrorType.invalid_input_in_register:
+        return 'Invalid Input';
+      case ErrorType.server:
+        return 'Server Error, Please try again';
+      case ErrorType.cannot_check_visitor:
+        return 'You do not have the permission to checkout this Visitor';
+      case ErrorType.no_visitor_with_code:
+        return 'No visitor with such code';
+
       default:
         return 'Unknown Error Occurred';
     }
   }
-   
-    
-    
-    
-
 }
-
-
-
 
 class MyBullet extends StatelessWidget {
   @override

@@ -6,6 +6,8 @@ import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:qrcode/qrcode.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/DashSeperator/dash_seperator.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 //import 'package:qrcode_reader/QRCodeReader.dart';
@@ -27,6 +29,7 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
   bool _isValidating = false;
 
   bool _isTorchOn = false;
+  String response = '';
 
   @override
   void initState() {
@@ -38,6 +41,8 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
       _checkoutQR(data, CheckoutAction.scan);
       _captureController.pause();
     });
+
+    // _checkoutQR('49nost', CheckoutAction.scan);
   }
 
   // _onValidate()
@@ -56,10 +61,18 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
       action == CheckoutAction.scan
           ? _isScanning = false
           : _isValidating = false;
-      _visitor = res.first;
+
+      if (res is ErrorType) {
+        response = GateManHelpers.errorTypeMap(res);
+      } else {
+        _visitor = res.first;
+      }
     });
 
-    if (_visitor == null) {
+    if (res is ErrorType) {
+      PaysmosmoAlert.showError(context: context, message: response);
+      _captureController.resume();
+    } else if (_visitor == null) {
       PaysmosmoAlert.showError(
           context: context, message: 'Cannot validate Vistor');
     } else {
