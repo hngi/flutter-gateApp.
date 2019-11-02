@@ -5,7 +5,9 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:xgateapp/core/models/notification/notification_types.dart';
+import 'package:xgateapp/core/service/auth_service.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/pages/add_permission.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/routes/routes.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +46,35 @@ class _GateManState extends State<GateMan> {
   @override
   initState() {
     super.initState();
+    new Timer.periodic(Duration(minutes: 1), (Timer t)async{
+      if(await getUserTypeProvider(context).getUserType != null && await appIsConnected() == true && await authToken(context) != null){
+          loadInitialProfile(context);
+      if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading != true){
+        print(':::::::::::::::::::::::::FCM TOKEN NOT SENT FOR SOME WEIRD REASON RESETTING NOW');
+        setFCMTokenInServer(context);
+      }
+      if (await getUserTypeProvider(context).getUserType == user_type.RESIDENT){
+        loadGateManThatAccepted(context);
+        loadInitialVisitors(context);
+        loadScheduledVisitors(context);
+        loadResidentsVisitorHistory(context);
+        loadGateManThatArePending(context);
+        loadResidentNotificationFromApi(context);
+       
+       }else if(
+         await getUserTypeProvider(context).getUserType == user_type.GATEMAN){
+
+      } 
+      }
+
+
+    });
+
+
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
-      // print('Connection just changed');
       setState(() {});
-      // Got a new connectivity status!
     });
     var android = new AndroidInitializationSettings('mipmap/ic_launcher');
     var ios = new IOSInitializationSettings();
@@ -58,10 +83,7 @@ class _GateManState extends State<GateMan> {
         onSelectNotification: (String payload) async {
           if(payload != null){
           dynamic jsonPayload = json.decode(payload);
-          // print('printing payload');
-          // print(payload);
           String route = jsonPayload['route'];
-          // print(route);
           if (route!=null && route.length > 0){
               // Navigator.pushNamed(navigatorKey.currentContext, route);
               navigatorKey.currentState.pushNamed(route);
@@ -89,8 +111,9 @@ class _GateManState extends State<GateMan> {
     _firebaseMessaging.getToken().then((token) async{
       print('fcm Token is $token');
     getFCMTokenProvider(context).setFCMToken(fcmToken: token);
-    appIsConnected().then((isConnected){
-      if (isConnected == true && getFCMTokenProvider(context).loading !=true){setFCMTokenInServer(context);
+    appIsConnected().then((isConnected)async{
+      if (isConnected == true && getFCMTokenProvider(context).loading !=true && await authToken(context) != null){
+        setFCMTokenInServer(context);
       }
     });
     
@@ -102,9 +125,14 @@ class _GateManState extends State<GateMan> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
       statusBarColor: Colors.transparent,
     ));
-    appIsConnected().then((isConnected){
+    appIsConnected().then((isConnected)async{
       if (isConnected == true){
-        if(authToken(context)!=null && getFCMTokenProvider(context).fcmToken !=null && getFCMTokenProvider(context).loading !=true && getFCMTokenProvider(context).loadedToServer != true){
+        print(await authToken(context));
+        print(getFCMTokenProvider(context).fcmToken);
+        print(getFCMTokenProvider(context).loading);
+        print(getFCMTokenProvider(context).loadedToServer);
+        if(await authToken(context) !=null && getFCMTokenProvider(context).fcmToken !=null && getFCMTokenProvider(context).loading !=true && getFCMTokenProvider(context).loadedToServer != true){
+          print('trying to setup fcm');
           setFCMTokenInServer(context);
         }
       }

@@ -13,6 +13,17 @@ class ResidentNotificationProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  int get getTotalNumberOfNotifications{
+    int total = forVisitorModels!=null && forInviteModels != null?forVisitorModels.length + forInviteModels.length
+    :
+    forVisitorModels!=null?forVisitorModels.length
+    :
+    forInviteModels!=null?forInviteModels.length
+    :
+    null;
+    return total==null || total ==0 ?null:total;
+  }
+
   setLoadedFromApi(bool stat){
   loadedFromApi = stat;
   notifyListeners();

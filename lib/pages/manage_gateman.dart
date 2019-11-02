@@ -11,11 +11,38 @@ import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/GateManExpansionTile/gateman_expansion_tile.dart';
-class ManageGateman extends StatelessWidget {
-  int pendingNumber = 0;
+import 'package:flutter_sms/flutter_sms.dart';
+class ManageGateman extends StatefulWidget {
+  //static TextEditingController _smsController = new TextEditingController();
+
   @override
+  _ManageGatemanState createState() => _ManageGatemanState();
+}
+
+class _ManageGatemanState extends State<ManageGateman> {
+  int pendingNumber = 0;
+
+  void _sendSMS(String message, List<String> recipents) async {
+    String _result = await FlutterSms
+        .sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+  print(_result);
+  }
+
+  //String message = ManageGateman._smsController.text;
+  //TextEditingController _controller;
+  @override
+  void initState() {
+    //_controller = new TextEditingController(text: 'Hello, i need you as a gateman');
+    super.initState();
+  }
+  
   Widget build(BuildContext context) {
-    pendingNumber =0;
+    String nameP = getProfileProvider(context)
+                                         .profileModel
+                                         .name.toString();
     // Future gateman = loadGateManThatArePending(context);
 //     appIsConnected().then((isConnected) {
 //       if(isConnected == true){
@@ -111,12 +138,15 @@ class ManageGateman extends StatelessWidget {
   }
 
   List<Widget> buildChildren(BuildContext context,{useAwaiting=false}){
-
+    String nameProfile = getProfileProvider(context).profileModel.name.toString();
     if(useAwaiting==true){
           return getResidentsGateManProvider(context).residentsGManModelsAwaiting.map((model){
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model,fromAccepted: false);}, onMessagePressed: null,//will change when implemented in backend
-       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);});
+       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
+       onSmsPressed: (){
+         print('heyyyy sms'); 
+         _sendSMS("Message from GateGuard by $nameProfile:\nHello ${model.name}, i need you as a gateman.", ["${model.phone}"]);},);
        }).toList();
 
     }
@@ -127,7 +157,7 @@ class ManageGateman extends StatelessWidget {
     return getResidentsGateManProvider(context).residentsGManModels.map((model){
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
-       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);});
+       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, /*smsController: ManageGateman._smsController,*/);
 
 
     }).toList();

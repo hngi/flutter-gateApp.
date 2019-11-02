@@ -77,7 +77,7 @@ class AuthService {
       static dynamic registerUser({
         @required String name,
         // @required String lastName,
-        @required String email,
+        // @required String email,
         @required String phone,
         @required user_type userType,
         // @required String password,
@@ -96,16 +96,13 @@ class AuthService {
           //await getDeviceId();;
           var data = {
                 "name": name,
-                "email": email,
+                // "email": email,
                 "phone": phone,
                 "device_id": await getDeviceId()};//
 
-          print(data);
           Response response = await dio.post(uri,
               data: data,
               options: options);
-    
-          print(response.data);
     
           if (response.statusCode >= 500 && response.statusCode <= 509) {
             return ErrorType.generic;

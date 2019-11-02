@@ -8,6 +8,14 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'add_visitor_part.dart';
 
 class AddVisitor extends StatefulWidget {
+  bool editMode = false;
+  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup;
+
+  int visitorId;
+
+  AddVisitor({this.editMode,this.initName,this.initArrivalDate,this.initArrivalPeriod,this.initCarPlateNumber,
+  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.initialGroup,this.visitorId});
+
   @override
   _AddVisitorState createState() => _AddVisitorState();
 }
@@ -45,14 +53,25 @@ class _AddVisitorState extends State<AddVisitor>
           },
         ),
         title: Text(
-          'Add Visitor',
+          '${this.widget.editMode==true?"Edit":"Add"} Visitor',
           style: TextStyle(color: GateManColors.primaryColor, fontSize: 20),
         ),
         elevation: 0,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body:  AddVisitorPart(),
+      body:  AddVisitorPart(
+        visitorId: this.widget.visitorId,
+        editMode: this.widget.editMode??false,
+        initName: this.widget.initName,
+        initArrivalDate:this.widget.initArrivalDate,
+        initArrivalPeriod: this.widget.initArrivalPeriod,
+        initCarPlateNumber: this.widget.initCarPlateNumber,
+        initPurpose: this.widget.initPurpose,
+        initVisitorsPhoneNo: this.widget.initVisitorsPhoneNo,
+        initVisitorsImageLink: this.widget.initVisitorsImageLink,
+        initialGroup: this.widget.initialGroup,
+      ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
           Navigator.pop(context);

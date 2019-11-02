@@ -120,7 +120,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                               size: 14,
                             ),
                             SizedBox(width: 10),
-                            Text(getProfileProvider(context).profileModel.name,
+                            Text(getProfileProvider(context).profileModel.name??'',
                               style: Theme.of(context).textTheme.headline,
                             ),
                           ],

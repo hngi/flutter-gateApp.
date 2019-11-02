@@ -17,20 +17,23 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-     appIsConnected().then((isConnected){
+     appIsConnected().then((isConnected)async{
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
          print('Appppppppppppppp is connected');
+         print(await authToken(context));
+        print(getFCMTokenProvider(context).fcmToken);
+        print(getFCMTokenProvider(context).loading);
+        print(getFCMTokenProvider(context).loadedToServer);
+         if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           setFCMTokenInServer(context);
+         }
          if(getProfileProvider(context).loadedFromApi == false && getProfileProvider(context).loading != true){
-               
                loadInitialProfile(context);
            }
-           
            if(getVisitorProvider(context).loadedFromApi == false && getVisitorProvider(context).loading != true){
-             
              loadInitialVisitors(context);
            }
            if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
-      
                   loadResidentNotificationFromApi(context);
            }
            if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
@@ -39,6 +42,12 @@ class WelcomeResident extends StatelessWidget {
      }
      if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
        loadGateManThatArePending(context);
+     }
+     if(getVisitorProvider(context).scheduledVisitorsLoadedFromApi == false && getVisitorProvider(context).scheduledVisitorsLoading == false){
+       loadScheduledVisitors(context);
+     }
+     if(getVisitorProvider(context).historyVisitorsLoadedFromApi == false && getVisitorProvider(context).historyVisitorsLoading == false){
+      loadResidentsVisitorHistory(context);
      }
        }
        

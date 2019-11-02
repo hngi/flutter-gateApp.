@@ -13,6 +13,7 @@ class VisitorService {
 
   static BuildContext context;
 
+
   static Future<String> getAuthToken() async {
     try {
       authToken = await prefix1.authToken(context);
@@ -179,10 +180,175 @@ class VisitorService {
       } else if
          ((response.statusCode == 401)) {
           return ErrorType.account_not_confimrmed;
-        } else if
+        }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+         else if
         (response.statusCode == 200){
                   return json.decode(response.data);
         }
+      
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
+
+   static getAllScheduledVisitor({
+    @required String authToken, 
+  }) async {
+    var uri = Endpoint.scheduledVisitors;
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
+      Response response = await dio.get(uri);
+
+      print(response.statusCode);
+      print(response.data);
+
+      if ((response.statusCode == 404)) {
+        return ErrorType.no_visitors_found;
+      } else if
+         ((response.statusCode == 401)) {
+          return ErrorType.account_not_confimrmed;
+        } else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+        else if
+        (response.statusCode == 200){
+                  return json.decode(response.data);
+        }
+      
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
+
+  static getResidentsVisitorHistory({
+    @required String authToken, 
+  }) async {
+    var uri = Endpoint.historyVisitors;
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
+      Response response = await dio.get(uri);
+
+      print(response.statusCode);
+      print(response.data);
+
+      if ((response.statusCode == 404)) {
+        return ErrorType.no_visitors_found;
+      } else if
+         ((response.statusCode == 401)) {
+          return ErrorType.account_not_confimrmed;
+        }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+         else if
+        (response.statusCode == 200){
+                  return json.decode(response.data);
+        }
+      
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
+
+  static deleteScheduledVisitor({
+    @required String authToken, 
+    @required int visitorId,
+  }) async {
+    var uri = Endpoint.deleteScheduledVisitors(visitorId: visitorId);
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
+      Response response = await dio.delete(uri);
+
+      print(response.statusCode);
+      print(response.data);
+
+      if ((response.statusCode == 404)) {
+        return ErrorType.no_visitors_found;
+      } else if
+         ((response.statusCode == 401)) {
+          return ErrorType.account_not_confimrmed;
+        }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+         else if
+        (response.statusCode == 200){
+                  return json.decode(response.data);
+        }
+      
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
+
+
+  static scheduleAVisit({
+    @required String authToken, 
+    @required int visitorId,
+    @required String arrival_date,
+    @required String visiting_period,
+  }) async {
+    var uri = Endpoint.scheduleAVisit(visitorId: visitorId);
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      options.headers['Content-Type'] = 'multipart/form-data';
+      FormData data = FormData.fromMap({
+        'arrival_date':arrival_date,
+        'visiting_period':visiting_period,
+      });
+      Dio dio = Dio(options);
+      Response response = await dio.post(uri,data: data);
+
+      print(response.statusCode);
+      print(response.data);
+
+      if((response.statusCode == 401))  return ErrorType.account_not_confimrmed;
+       if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+       if(response.statusCode == 200) return json.decode(response.data);
+      if(response.statusCode != 200 && response.statusCode != 201) return ErrorType.generic;
       
     } on DioError catch (exception) {
       if (exception == null ||

@@ -45,7 +45,6 @@ class FCMTokenService{
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
     
-          // }
         } on DioError catch (exception) {
           if (exception == null ||
               exception.toString().contains('SocketException')) {

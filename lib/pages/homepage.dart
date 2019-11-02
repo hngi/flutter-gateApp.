@@ -167,7 +167,7 @@ class Homepage extends StatelessWidget {
                                   },
                             ),
                             ListTile(
-                              leading: Icon(MdiIcons.accountChildCircle,
+                              leading: Icon(MdiIcons.accountMultiple,
                                   color: GateManColors.primaryColor, size: 25.0),
                               title: Text("My Visitors",
                                   style: TextStyle(
@@ -175,7 +175,7 @@ class Homepage extends StatelessWidget {
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w700,
                                   )),
-                                  onTap: (){Navigator.pushNamed(context, '/manage-gateman');
+                                  onTap: (){Navigator.pushNamed(context, '/my-visitors');
                                   },
                             ),
                             ListTile(
@@ -218,6 +218,7 @@ class Homepage extends StatelessWidget {
                           leadingText: 'Home',
                           traillingIcon: MdiIcons.bell,
                           traillingText: 'Alerts',
+                          alerts: getResidentNotificationProvider(context).getTotalNumberOfNotifications == null?null:getResidentNotificationProvider(context).getTotalNumberOfNotifications.toString(),
                           onLeadingClicked: () {
                             Navigator.pop(context);
                           },

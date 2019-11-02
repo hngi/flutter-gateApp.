@@ -29,7 +29,7 @@ class _ResidentsGateState extends State<ResidentsGate> {
      details2 = !details2; 
     });
   }
-  var _residents = GatemanService.getAllRequests();
+  var _residents = GatemanService.getAllRequests(authToken: null);
   /*[
     {
       "name": "Janet Thompson",

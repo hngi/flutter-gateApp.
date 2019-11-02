@@ -33,10 +33,13 @@ class _NotificationResidentState extends State<NotificationResident> {
     
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Notifications'),
-      body:RefreshIndicator(child:buildNotificationBody() == null || buildNotificationBody().isEmpty?Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
-      ):ListView(
+      body:RefreshIndicator(child:ListView(
         
-        children:buildNotificationBody()), onRefresh: (){
+        children:buildNotificationBody() == null || buildNotificationBody().isEmpty?<Widget>[Container(
+          width:MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/2,
+          child: Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)))]:buildNotificationBody()
+        ), 
+        onRefresh: (){
           return loadResidentNotificationFromApi(context);
         }
         ,),

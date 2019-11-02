@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class FCMTokenProvider extends ChangeNotifier{
   String fcmToken;
 
-  bool loadedToServer;
-  bool loading;
+  bool loadedToServer = false;
+  bool loading = false;
 
   setFCMToken({@required fcmToken}){
     this.fcmToken = fcmToken;
@@ -22,7 +22,7 @@ class FCMTokenProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  setFCMTokenLoadeToServerStatus(bool stat){
+  setFCMTokenLoadedToServerStatus(bool stat){
     loadedToServer = stat;
     notifyListeners();
   }

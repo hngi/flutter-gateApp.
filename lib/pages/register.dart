@@ -24,13 +24,17 @@ class _RegisterState extends State<Register> {
   TextEditingController _fullNameController;
 
   String _email;
-  TextEditingController _emailController;
+  // TextEditingController _emailController;
   TextEditingController _phoneController;
 
   String _phone;
+
+  String countryCode = '+234';
+
+  var validateMessage = 'Input Fields Cannot be Empty';
   @override
   void initState(){
-    _emailController = TextEditingController(text:'');
+    // _emailController = TextEditingController(text:'');
     _fullNameController = TextEditingController(text:'');
     _phoneController = TextEditingController(text:'');
   }
@@ -78,27 +82,72 @@ class _RegisterState extends State<Register> {
             //initialValue: _fullName,
           ),
 
-          CustomTextFormField(
-            controller: _emailController,
-            labelName: 'Email',
-            onSaved: (str) => _email = str,
-            onChanged: (str) {
-              this._email = str;
-            },
-            validator: (str) =>
-                str.isEmpty ? 'Email cannot be empty' : null,
-            //initialValue: _email,
+          // CustomTextFormField(
+          //   controller: _emailController,
+          //   labelName: 'Email',
+          //   onSaved: (str) => _email = str,
+          //   onChanged: (str) {
+          //     this._email = str;
+          //   },
+          //   validator: (str) =>
+          //       str.isEmpty ? 'Email cannot be empty' : null,
+          //   //initialValue: _email,
+          // ),
+          Column(
+            children: <Widget>[
+               Padding(
+            padding: const EdgeInsets.symmetric(vertical: 7.0),
+            child: Text('Phone Number',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
           ),
-          CustomTextFormField(
-            controller: _phoneController,
-            labelName: 'Phone Number',
-            onSaved: (str) => _phone = str,
-            onChanged: (str) {
-              this._phone = str;
-            },
-            validator: (str) =>
-                str.isEmpty ? 'Phone number cannot be empty' : null,
-            initialValue: _phone,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 3),
+                    child: Container(
+                      width: 80,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: GateManColors.primaryColor),
+                        borderRadius: BorderRadius.circular(6)
+                      )
+,                child:
+                    Center(
+                                    child: DropdownButton<String>(
+                        iconEnabledColor: GateManColors.primaryColor,
+                        items:<String>['+234','+233','+232'].map<DropdownMenuItem<String>>((String str){
+                        return DropdownMenuItem<String>(
+                          value: str,
+                          child: Text(str)
+                        );
+                      }).toList(),
+                      value: countryCode,
+                      onChanged: (String newValue){
+                        setState(() {
+                           countryCode = newValue;
+                        });
+                       
+                      },
+                      ),
+                    )),
+                  ),
+                  Expanded(
+                                  child: CustomTextFormField(
+                      controller: _phoneController,
+                      onSaved: (str) => _phone = str,
+                      onChanged: (str) {
+                        this._phone = str;
+                      },
+                      validator: (str) =>
+                          str.isEmpty ? 'Phone number cannot be empty' : null,
+                      initialValue: _phone,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
 
           SizedBox(height: 40.0),
@@ -107,7 +156,7 @@ class _RegisterState extends State<Register> {
             buttonText: 'Join',
             onPressed: () async {
               if(!validateInputs()){
-                PaysmosmoAlert.showError(context: context,message: 'Inuput fields cannot be empty');
+                PaysmosmoAlert.showError(context: context,message: validateMessage);
               
 
 
@@ -116,7 +165,8 @@ class _RegisterState extends State<Register> {
                             dialog.show();
                             
                             try{
-                              dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, email: _emailController.text, phone: _phoneController.text, name: _fullNameController.text,)
+                              print(countryCode.replaceFirst('+', '')+_phoneController.text);
+                              dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, /*email: _emailController.text,*/ phone: countryCode.replaceFirst('+', '')+_phoneController.text, name: _fullNameController.text,)
                               ;
                               
                               print('printing eesponse');
@@ -133,8 +183,8 @@ class _RegisterState extends State<Register> {
                                 dialog.hide();
                                 
                                 Navigator.pushNamed(context, '/token-conirmation',arguments: {
-                                  'phone':_phoneController.text,
-                                  'email':_emailController.text,
+                                  'phone':countryCode+_phoneController.text,
+                                  // 'email':_emailController.text,
                                   'skip_estate':response['app-hint']!=null && response['app-hint'].toString().toLowerCase() == 'This is an existing user!'.toLowerCase()?true:false
                                 });
 
@@ -167,11 +217,23 @@ class _RegisterState extends State<Register> {
                 }
               
                 bool validateInputs() {
-                    if(_fullNameController.text == ''||_phoneController.text == ''||_emailController.text==''){
-                      return false;
+                    if(_fullNameController.text == ''||_phoneController.text == '' || validateRegExpPattern(_phoneController.text,r'^[0-9]{10}$')==false){
+                                          return false;
+                                        } else {
+                                          return true;
+                                        }
+                                    }
+                    
+                      validateRegExpPattern(String text,String pattern) {
+                            RegExp regExp = RegExp(pattern);
+                            if (regExp.hasMatch(text)){
+                              return true;
+                            } else{
+                              setState(() {
+                               validateMessage = 'Invalid Phone Number'; 
+                              });
+                              return false;
+                            }
 
-                    } else {
-                      return true;
-                    }
-                }
+                      }
 }

@@ -15,9 +15,9 @@ class ResidentsGateManProvider extends ChangeNotifier {
 
   
 
-  bool loadingAccepted;
+  bool loadingAccepted = false;
 
-  bool loadingPending;
+  bool loadingPending = false;
 
 setAdding(bool ad){
   adding = ad;

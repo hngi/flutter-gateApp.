@@ -4,10 +4,12 @@ import 'package:xgateapp/core/models/user.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/pages/gateman_menu.dart';
 import 'package:xgateapp/providers/gateman_user_provider.dart';
+import 'package:xgateapp/providers/profile_provider.dart';
 import 'package:xgateapp/utils/Loader/loader.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
@@ -28,6 +30,7 @@ class _ResidentsState extends State<Residents> {
 
   List<GatemanResidentVisitors> _residents = [];
   LoadingDialog dialog;
+  int _alerts = 0;
 
   @override
   void initState() {
@@ -44,6 +47,12 @@ class _ResidentsState extends State<Residents> {
       GatemanService.allResidentVisitors(
         authToken: await authToken(context),
       ),
+      GatemanService.allRequests(authToken: await authToken(context)).then((alerts){
+        print(alerts);
+        setState(() {
+          _alerts = alerts.length;
+        });
+      }),
     ]).then((res) {
       print(res);
       setState(() {
@@ -61,7 +70,19 @@ class _ResidentsState extends State<Residents> {
     GatemanUserProvider gateManProvider =
         Provider.of<GatemanUserProvider>(context, listen: false);
 
-    return Scaffold(
+    // appIsConnected().then((bool isConn){
+    //   if (isConn && !getUserTypeProvider(context).loggeOut){
+    //     if(!getProfileProvider(context).loadedFromApi){
+    //             loadInitialProfile(context);
+    //           }
+              
+    //     if(!getRequestProvider(context).isLoadedFromApi){
+    //       loadInitRequests(context);
+    //     }
+    //   }
+    // });
+      
+      return Scaffold(
       body: isLoading
           ? Loader.show()
           : ListView(
@@ -70,7 +91,7 @@ class _ResidentsState extends State<Residents> {
                 SizedBox(height: size.height * 0.06),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3.0),
-                  child: Text('Welcome ${gateManProvider.gatemanUser.fullName}',
+                  child: Text('Welcome ${getProfileProvider(context).profileModel?.name??'Loading. . .'}',
                       style: TextStyle(
                         color: GateManColors.blackColor,
                         fontSize: 24.0,
@@ -157,6 +178,7 @@ class _ResidentsState extends State<Residents> {
         leadingText: 'Menu',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        alerts: _alerts.toString(),
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },

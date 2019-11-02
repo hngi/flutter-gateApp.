@@ -7,7 +7,7 @@ class CustomBottomNavBar extends StatelessWidget {
   final String traillingText;
   final IconData leadingIcon;
   final IconData traillingIcon;
-
+  final String alerts;
   final Function onLeadingClicked;
   final Function onTrailingClicked;
 
@@ -19,6 +19,7 @@ class CustomBottomNavBar extends StatelessWidget {
     @required this.traillingIcon,
     @required this.onLeadingClicked,
     @required this.onTrailingClicked,
+    this.alerts,
   }) : super(key: key);
 
   @override
@@ -84,7 +85,7 @@ class CustomBottomNavBar extends StatelessWidget {
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
-                        child: Text('1',
+                        child: Text(alerts??' ',
                             style:
                 TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),

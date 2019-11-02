@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 
 class VisitorTile extends StatefulWidget {
   final String name,
-      relation,
+      group,
       phone,
       timeline,
       date,
       buttonText1,
       buttonText2,
-      avatarLink;
+      avatarLink,
+      backUpAvatarLink = 'assets/images/avatar2.jpg';
   final Function buttonFunc1, buttonFunc2;
 
   const VisitorTile(
       {Key key,
       @required this.name,
-      @required this.relation,
+      @required this.group,
       @required this.phone,
       @required this.timeline,
       @required this.date,
@@ -50,7 +52,7 @@ class _VisitorTileState extends State<VisitorTile> {
           children: <Widget>[
             ListTile(
               leading: CircleAvatar(
-                backgroundImage: AssetImage(widget.avatarLink),
+                backgroundImage: this.widget.avatarLink==null || this.widget.avatarLink == 'noimage.jpg'?AssetImage(this.widget.backUpAvatarLink):NetworkImage(Endpoint.imageBaseUrl+this.widget.avatarLink),
                 radius: 30.0,
               ),
               title: InkWell(
@@ -103,7 +105,7 @@ class _VisitorTileState extends State<VisitorTile> {
                       children: <Widget>[
                         drag
                             ? Text(
-                                widget.relation,
+                                widget.group,
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.grey),
                               )

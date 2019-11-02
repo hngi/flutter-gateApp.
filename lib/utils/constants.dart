@@ -7,11 +7,14 @@ import 'package:xgateapp/core/models/estate.dart';
 import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
 import 'package:xgateapp/core/service/fcm_token_service.dart';
 import 'package:xgateapp/core/service/notification_service/resident_notification_service.dart';
+import 'package:xgateapp/core/models/gateman_residents_request.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/core/service/profile_service.dart';
 import 'package:xgateapp/core/service/resident_service.dart';
 import 'package:xgateapp/core/service/visitor_sevice.dart';
 import 'package:xgateapp/providers/fcm_token_provider.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
+import 'package:xgateapp/providers/requestProvider.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
 import 'package:xgateapp/providers/resident_notificaton_provider.dart';
 import 'package:xgateapp/providers/token_provider.dart';
@@ -21,6 +24,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 
 import 'GateManAlert/gateman_alert.dart';
 import 'errors.dart';
@@ -68,12 +72,16 @@ VisitorProvider getVisitorProvider(BuildContext context) {
   return Provider.of<VisitorProvider>(context);
 }
 
+RequestProvider getRequestProvider(BuildContext context){
+  return Provider.of<RequestProvider>(context);
+}
+
 ResidentsGateManProvider getResidentsGateManProvider(BuildContext context) {
   return Provider.of<ResidentsGateManProvider>(context);
 }
 
 
-Future loadInitialProfile(BuildContext context) async {
+Future loadInitialProfile(BuildContext context,{bool showAlert = false}) async {
     print('Loading initial profile');
     getProfileProvider(context).setLoadingState(true);
         try{
@@ -81,7 +89,10 @@ Future loadInitialProfile(BuildContext context) async {
           authToken: await authToken(context)
           );
           if(response is ErrorType){
-            PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+            if (showAlert){
+              PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+            }
+            
             
           }else{
             //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
@@ -94,7 +105,6 @@ Future loadInitialProfile(BuildContext context) async {
         getProfileProvider(context).setLoadingState(false);
         } catch (error){
           print(error);
-          await PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(ErrorType.generic));
           getProfileProvider(context).setLoadingState(false);  
         }
 
@@ -111,15 +121,18 @@ launchCaller({@required String phone, @required BuildContext context}) async {
   }
 }
 
-Future loadGateManThatAccepted(context) async {
+Future loadGateManThatAccepted(context, {bool showAlert = false}) async {
   getResidentsGateManProvider(context).setAcceptedLoadingState(true);
   try {
     dynamic response =
         await ResidentsGatemanRelatedService.getGateManThatAccepted(
             authToken: await authToken(context));
     if (response is ErrorType) {
-      PaysmosmoAlert.showError(
+      if (showAlert){
+        PaysmosmoAlert.showError(
           context: context, message: GateManHelpers.errorTypeMap(response));
+      }
+      
     } else {
       print(response);
 
@@ -131,12 +144,41 @@ Future loadGateManThatAccepted(context) async {
       getResidentsGateManProvider(context).setResidentsGateManModels(models);
     }
   } catch (error) {
-    throw error;
+    print(error);
   }
   getResidentsGateManProvider(context).setAcceptedLoadingState(false);
 }
 
-Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
+Future loadInitRequests(BuildContext context, {bool alertNotifier = false}) async {
+  try{
+    dynamic response = await GatemanService.getAllRequests(authToken: await authToken(context));
+    print(response);
+    while(response != ErrorType){
+      if(response['residents'] == 0){
+        if(alertNotifier){
+          PaysmosmoAlert.showSuccess(context: context, message: 'No requests yet');
+        }
+        
+        getRequestProvider(context).setRequestModels([]);
+      } else {
+        print(response['residents']);
+        dynamic requests = response['residents'];
+        List<GatemanResidentRequest> models = [];
+        requests.forEach((model){
+          models.add(GatemanResidentRequest.fromJson(model));
+        });
+
+        getRequestProvider(context).setRequestModels(models, jsonStr: json.encode(response['residents']));
+
+        getUserTypeProvider(context).setFirstRunStatus(false, loggedOut: false);
+      }
+    }
+  } catch (error){
+    print(error);
+  }
+}
+
+Future loadInitialVisitors(BuildContext context,{bool skipAlert = true}) async {
   getVisitorProvider(context).setLoadingState(true);
   try {
     dynamic response =
@@ -152,8 +194,7 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
             context: context, message: GateManHelpers.errorTypeMap(response));
       }
     } else {
-      if (response['visitor'] == 0) {
-        PaysmosmoAlert.showSuccess(context: context, message: 'No visitors');
+      if (response== null || (response.containsKey('visitor') && response['visitor'] == 0)) {
         getVisitorProvider(context).setVisitorModels([]);
       } else {
         print('linking data for visitors');
@@ -176,63 +217,69 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert}) async {
   getVisitorProvider(context).setLoadingState(false);
 }
 
-//  Future loadInitialVisitors(BuildContext context) async {
-                        
-//                                 try {
-                                
-//                                   dynamic response = await VisitorService.getAllVisitor(
-//                                       authToken: await authToken(context));
-//                                   if (response is ErrorType) {
-                                    
-                                    
-//                                      if(response == ErrorType.no_visitors_found){
-//                                       getVisitorProvider(context).setInitialStatus(true);
-//                                       PaysmosmoAlert.showSuccess(
-//                                         context: context,
-//                                         message: GateManHelpers.errorTypeMap(response));
-//                                         getVisitorProvider(context).setVisitorModels([]);
-//                                     }
-//                                     else{
-//                                       PaysmosmoAlert.showError(
-//                                         context: context,
-//                                         message: GateManHelpers.errorTypeMap(response));
-//                                     }
-                                     
-                                        
-//                                   } else {
-//                                     if (response['visitor'].length == 0) {
-//                                       PaysmosmoAlert.showSuccess(
-//                                           context: context, message: 'No visitors');
-//                                     } else {
-//                                       print('linking data for visitors');
-//                                       print(response['visitor'] );
-//                                       dynamic jsonVisitorModels = response['visitor'] ;
-//                                       List<VisitorModel> models = [];
-//                                       jsonVisitorModels.forEach((jsonModel) {
-//                                         models.add(VisitorModel.fromJson(jsonModel));
-//                                       });
-//                                       getVisitorProvider(context).setVisitorModels(models);
-//                                       getUserTypeProvider(context).setFirstRunStatus(false);
+Future loadScheduledVisitors(BuildContext context)async{
+  getVisitorProvider(context).setScheduledVisitorsLoadingState(true);
 
-                                    
-//                                     }
-//                                   }
-//                                 } catch (error) {
-//                                   throw error;
-//                                 }
-                            
-//                                 }
+  dynamic response = await VisitorService.getAllScheduledVisitor(authToken: await authToken(context));
+  print(response);
+  if(response is ErrorType == false){
+    //update visitors provider
+    if (response.containsKey('scheduled') && response['scheduled'].length != 0){
+      List<VisitorModel> models = [];
+      response['scheduled'].forEach((jsonObject){
+        if(jsonObject['visitor']!=null){
+           models.add(VisitorModel.fromJson(jsonObject['visitor']));
+        }
+       
+      }
+      );
 
+      getVisitorProvider(context).setScheduledVisitorFromApi(models,jsonString: json.encode(response['scheduled']));
+      
+    } else {
+      getVisitorProvider(context).setScheduledVisitorFromApi([]);
+    }
+  } 
+  getVisitorProvider(context).setScheduledVisitorsLoadingState(true);
 
+}
+Future loadResidentsVisitorHistory(BuildContext context)async{
+  getVisitorProvider(context).setHistoryVisitorsLoadingState = true;
+
+  dynamic response = await VisitorService.getResidentsVisitorHistory(authToken: await authToken(context));
+  print('tttttttttttttttttttffffffffffffffff');
+  print(response);
+  if(response is ErrorType == false){
+    //update visitors provider
+    if (response.containsKey('visitor_details') && response['visitor_details'].length != 0){
+      List<VisitorModel> models = [];
+      response['visitor_details'].forEach((jsonObject){
+        models.add(VisitorModel.fromJson(jsonObject['visitor']));
+      }
+      );
+
+      getVisitorProvider(context).setHistoryVisitorFromApi(models,jsonString: json.encode(response['visitor']));
+      
+    } else {
+      getVisitorProvider(context).setHistoryVisitorFromApi([]);
+    }
+  } 
+  getVisitorProvider(context).setHistoryVisitorsLoadingState = true;
+
+}
 
 void logOut(context) {
   Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
   Provider.of<TokenProvider>(context).clearToken();
   Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: true); 
-  Provider.of<ProfileProvider>(context).setProfileModel(ProfileModel(),clean:true);
-  Provider.of<ProfileProvider>(context).setLoadedFromApi(false);
-  Provider.of<VisitorProvider>(context).setVisitorModels([]);
-  Provider.of<VisitorProvider>(context).setLoadedFromApi(false);
+  Provider.of<ProfileProvider>(context)
+                                ..setProfileModel(ProfileModel(),clean:true)
+                                ..setLoadedFromApi(false);
+  Provider.of<VisitorProvider>(context)
+                                ..setVisitorModels([])
+                                ..setLoadedFromApi(false)
+                                ..setScheduledVisitorFromApi([],fromApi:false)
+                                ..setScheduledVisitorsLoadedFromApiStatus(false);
   Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
   Provider.of<ResidentsGateManProvider>(context).clear();
   Provider.of<ResidentsGateManProvider>(context).pendingloadedFromApi = false;
@@ -278,7 +325,7 @@ Future loadGateManThatArePending(context) async{
     try{
       dynamic response = await ResidentsGatemanRelatedService.getGateManThatArePending(authToken: await authToken(context));
       if(response is ErrorType){
-        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+        // PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
       } else {
         print('gatemen yet to acept loading');
         print(response);
@@ -352,13 +399,54 @@ void setFCMTokenInServer(BuildContext context)async{
   if (response is ErrorType){
     print(response);
   } else {
-    getFCMTokenProvider(context).setFCMTokenLoadeToServerStatus(true);
+    getFCMTokenProvider(context).setFCMTokenLoadedToServerStatus(true);
 
   }
   getFCMTokenProvider(context).setLoadingState(false);
 
 }
 
+
+Future<dynamic> deleteVisitors(BuildContext context,int visitorId,{@required String from,@required int index})async{
+  print('::::::::starting deletion::::;;');
+  LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+  dialog.show();
+  dynamic response = await VisitorService.deleteScheduledVisitor(authToken: await authToken(context), visitorId: visitorId);
+  print(response);
+  if (response is ErrorType){
+    await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(response)}\n Please Try again');
+    Navigator.pop(context);
+  }else{
+    await PaysmosmoAlert.showSuccess(context: context,message: 'Visitor Deleted Succesfully');
+    if(from == 'scheduled'){
+    getVisitorProvider(context).removeVisitorFromScheduled(visitorId: visitorId,index:index);
+    } else if (from == 'history'){
+
+      getVisitorProvider(context).removeVisitorFromHistory(visitorId: visitorId,index: index);
+
+    }
+    Navigator.pop(context);
+
+  }
+
+}
+
+Future<dynamic> 
+scheduleVisit(BuildContext context,String visiting_period,int visitorId,String arrival_date)async{
+  LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+  dialog.show();
+  dynamic response = await VisitorService.scheduleAVisit(authToken: await authToken(context),visiting_period: visiting_period,visitorId: visitorId,
+  arrival_date: arrival_date);
+
+  if (response is ErrorType){
+      await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(response)} \n Could not Schedule Visit,Please try again');
+      Navigator.pop(context);
+  }else{
+
+      await PaysmosmoAlert.showSuccess(context: context,message: 'You have Succesfully Schedule a Visit');
+      Navigator.pop(context);
+  }
+}
   
 
 
