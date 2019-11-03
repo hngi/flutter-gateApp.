@@ -36,6 +36,7 @@ class NewVisitorService {
     @required String estateId,
     @required String authToken,
     @required String visitingPeriod,
+    @required String description,
     File image, String visitorsGroup
   }) async {
     print('prrrrrrrr');
@@ -57,6 +58,7 @@ class NewVisitorService {
       "home_id": estateId??'',
       'visiting_period': visitingPeriod??'',
       'visitor_group': visitorsGroup??'none',
+      'description':description??''
       
     }
     );
@@ -130,6 +132,7 @@ if(image!=null){
     @required String estateId,
     @required String authToken,
     @required String visitingPeriod,
+    @required String description,
     String visitorsGroup,
     @required int visitorId,
     File image
@@ -152,6 +155,7 @@ if(image!=null){
       "status": status??'',
       "home_id": estateId??'',
       'visitor_group': visitorsGroup??'none',
+      'description':description??''
       
     }
     );
@@ -218,7 +222,7 @@ if(image!=null){
 
 
 
-  static dynamic getQrImageSrcForVisitoy({
+  static dynamic getQrImageSrcForVisitor({
     @required String authToken, @required int visitorId
 
   })async{
@@ -239,15 +243,12 @@ if(image!=null){
       }
 
     );
-    String uri = Endpoint.getQRImageSrc;
+    String uri = Endpoint.getQRImageSrc(visitorId);
     Dio dio = new Dio(options);
     try{
 
             print('$visitorId :::::::::::::::::::::;;');
-            Response response = await dio.request(uri,options: Options(method:"GET"),
-            queryParameters: {
-              'id':visitorId
-            });
+            Response response = await dio.get(uri);
       print(response.statusCode);
       print(response.data);
 

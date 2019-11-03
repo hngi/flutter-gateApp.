@@ -36,8 +36,8 @@ class Endpoint {
   static String historyVisitors = 'visitorHistory';
   static String showVisitors = 'gateman/visitors';
   static String deleteScheduledVisitors({int visitorId}) => '$visitor/deleteScheduled/$visitorId';
-  static String scheduleAVisit({int visitorId}) => '$visitor/$visitorId';
-  static String getQRImageSrc = visitor+'/getQrImage';
+  static String scheduleAVisit({int visitorId}) => 'visitor/$visitorId?';
+  static String getQRImageSrc(int visitorId) => visitor+'/getQrImage/$visitorId';
   static String showRequests = '/gateman/requests';
   static String gatemanRequests = '/gateman/requests';
   static String gateman = '/gateman';
