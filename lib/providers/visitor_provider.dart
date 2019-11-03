@@ -38,9 +38,13 @@ class VisitorProvider extends ChangeNotifier {
     String jsonString = prefs.getString('scheduled_visitors');
     if(jsonString!=null){
        List<VisitorModel> models = [];
-      json.decode(jsonString).forEach((jsonObject){
+       dynamic decoded = json.decode(jsonString);
+       if (decoded !=null){
+         decoded.forEach((jsonObject){
         models.add(VisitorModel.fromJson(jsonObject['visitor']));
       });
+       }
+      
       scheduledVisitorModels = models;
       scheduledVisitorsLoadedFromPrefs = true;
 
@@ -127,10 +131,12 @@ class VisitorProvider extends ChangeNotifier {
         String jsonString = prefs.getString('history_visitors');
         if(jsonString!=null){
            List<VisitorModel> models = [];
-          json.decode(jsonString).forEach((jsonObject){
+           dynamic decoded = json.decode(jsonString);
+           if(decoded != null){
+              decoded.forEach((jsonObject){
             models.add(VisitorModel.fromJson(jsonObject['visitor']));
           });
-    
+           }
           historyVisitorModels = models;
           historyVisitorsLoadedFromPrefs = true;
     
@@ -198,10 +204,13 @@ class VisitorProvider extends ChangeNotifier {
             print('Am not null joor');
             dynamic jsonList = json.decode(prefs.get('visitors'));
             print(jsonList);
-            jsonList.forEach((jsonObject) {
+            if(jsonList!=null){
+              jsonList.forEach((jsonObject) {
               print(jsonObject);
                         visitorModels.add(VisitorModel.fromJson(jsonObject));
             });
+            }
+            
             loadedFromPrefs = true;
             notifyListeners();
             return;
