@@ -52,8 +52,9 @@ class WelcomeResident extends StatelessWidget {
        }
        
      });
+     List<VisitorModel> pageModel = getVisitorProvider(context).scheduledVisitorModels;
                return Scaffold(
-                 body: getVisitorProvider(context).visitorModels.length == 0
+                 body: pageModel.length == 0
                      ? ListView(
                          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
                          children: <Widget>[
@@ -96,7 +97,7 @@ class WelcomeResident extends StatelessWidget {
                        )
                      : ListView(
                          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-                         children: getVisitors(context, size),
+                         children: getVisitors(context, size, pageModel),
                        ),
                  floatingActionButton: BottomNavFAB(
                    onPressed: () {
@@ -122,7 +123,7 @@ class WelcomeResident extends StatelessWidget {
                );
              }
            
-             getVisitors(BuildContext context, size) {
+             getVisitors(BuildContext context, size,List<VisitorModel> pageModel) {
                List<Widget> visitors = <Widget>[
                  SizedBox(height: size.height * 0.06),
                  Padding(
@@ -270,7 +271,7 @@ class WelcomeResident extends StatelessWidget {
                List usedDates = [];
            
                visitors
-                   .addAll(getVisitorProvider(context).visitorModels.reversed.map((visitorModel) {
+                   .addAll(pageModel.reversed.map((visitorModel) {
                     
                  List<String> arrival_date_array = visitorModel.arrival_date==null?"00-00-00".split('-'):visitorModel.arrival_date.split('-');
                  return Column(
@@ -330,7 +331,7 @@ class WelcomeResident extends StatelessWidget {
                                                margin: EdgeInsets.symmetric(vertical: 8.0),
                                                child: InkWell(
                                                  onTap: (){
-                                             Navigator.pushNamed(context, '/visitor-profile',arguments: getVisitorProvider(context).visitorModels.indexOf(visitorModel));
+                                             Navigator.pushNamed(context, '/visitor-profile',arguments: visitorModel);
                                            },
                                                                                                 child: ListTile(
                                                    contentPadding: EdgeInsets.zero,

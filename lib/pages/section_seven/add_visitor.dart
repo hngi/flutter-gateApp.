@@ -9,12 +9,12 @@ import 'add_visitor_part.dart';
 
 class AddVisitor extends StatefulWidget {
   bool editMode = false;
-  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup;
+  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup,description;
 
   int visitorId;
 
   AddVisitor({this.editMode,this.initName,this.initArrivalDate,this.initArrivalPeriod,this.initCarPlateNumber,
-  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.initialGroup,this.visitorId});
+  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.initialGroup,this.visitorId,this.description});
 
   @override
   _AddVisitorState createState() => _AddVisitorState();
@@ -61,6 +61,7 @@ class _AddVisitorState extends State<AddVisitor>
       ),
       backgroundColor: Colors.white,
       body:  AddVisitorPart(
+        description: this.widget.description,
         visitorId: this.widget.visitorId,
         editMode: this.widget.editMode??false,
         initName: this.widget.initName,

@@ -138,15 +138,17 @@ class _ManageGatemanState extends State<ManageGateman> {
   }
 
   List<Widget> buildChildren(BuildContext context,{useAwaiting=false}){
+    TextEditingController smsController = TextEditingController(text: '');
     String nameProfile = getProfileProvider(context).profileModel.name.toString();
     if(useAwaiting==true){
           return getResidentsGateManProvider(context).residentsGManModelsAwaiting.map((model){
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model,fromAccepted: false);}, onMessagePressed: null,//will change when implemented in backend
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
-       onSmsPressed: (){
+       onSmsPressed: (String smss){
          print('heyyyy sms'); 
-         _sendSMS("Message from GateGuard by $nameProfile:\nHello ${model.name}, i need you as a gateman.", ["${model.phone}"]);},);
+         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         smsController: smsController,);
        }).toList();
 
     }
@@ -155,9 +157,14 @@ class _ManageGatemanState extends State<ManageGateman> {
     
 
     return getResidentsGateManProvider(context).residentsGManModels.map((model){
+      TextEditingController smsController = TextEditingController(text: '');
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
-       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, /*smsController: ManageGateman._smsController,*/);
+       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
+       onSmsPressed: (String smss){
+         print('heyyyy sms'); 
+         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         smsController: smsController,/*smsController: ManageGateman._smsController,*/);
 
 
     }).toList();

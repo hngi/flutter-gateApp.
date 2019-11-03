@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:xgateapp/core/models/screen_models.dart';
+import 'package:xgateapp/core/service/visitor_service_new.dart';
+import 'package:xgateapp/core/service/visitor_sevice.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomCheckBox/custom_checkbox.dart';
@@ -100,17 +105,16 @@ class _MyVisitorsState extends State<MyVisitors> {
         traillingText: 'Alerts',
         onLeadingClicked: () {
           print("leading clicked");
-          Navigator.pushNamed(context, '/homepage');
+          Navigator.pop(context);
         },
         onTrailingClicked: () {
-          Navigator.pushNamed(context, '/resident-notifications');
+          Navigator.pushReplacementNamed(context, '/resident-notifications');
         },
       ),
       body: RefreshIndicator(
         onRefresh: ()async{
           await loadScheduledVisitors(context);
           return loadResidentsVisitorHistory(context);
-          ;
         },
               child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
@@ -185,6 +189,7 @@ return ListView.builder(
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: VisitorTile(
+        model: _visitors[index],
         name: _visitors[index].name,
         phone: _visitors[index].phone_no,
         group: _visitors[index].visitor_group,
@@ -192,6 +197,7 @@ return ListView.builder(
         timeline: "Expected Arrival",
         buttonText1: "Edit",
         buttonText2: "Remove",
+        buttonText3: "Share",
         buttonFunc1: () {
           print(_visitors[index].visitor_group);
           print('${_visitors[index].id}::::::::::::::::::::::::::::::::::::;\n::::::::::::::::');          
@@ -225,6 +231,22 @@ return ListView.builder(
                 );
               });
         },
+        buttonFunc3: ()async{
+          LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+          dialog.show();
+          dynamic qr_image_src = await NewVisitorService.getQrImageSrcForVisitor(authToken: await authToken(context),visitorId: _visitors[index].id);
+
+          if (qr_image_src is ErrorType){
+            await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(qr_image_src)}\ncould not retrieve qr image');
+            Navigator.pop(context);
+          } else{
+            Navigator.pop(context);
+            ScreenshotController screenShotController = ScreenshotController();
+          openAlertBox(base64String: qr_image_src['qr_image'].toString().split(',')[1], code: qr_image_src['qr_code']??'Nil',
+            context: context, fullName: _visitors[index].name, screenshotController: screenShotController);
+          }
+          
+        },
       ),
     );
   },
@@ -241,6 +263,7 @@ return ListView.builder(
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: VisitorTile(
+        model: _visitors[index],
         name: _visitors[index].name??'',
         phone: _visitors[index]?.phone_no??'',
         group: _visitors[index]?.visitor_group??'',
@@ -264,7 +287,9 @@ return ListView.builder(
                             return AlertDialog(actions: <Widget>[
               FlatButton(child: Text('Schedule Visit'), 
                 onPressed: () async {
-                  scheduleVisit(context, morningChecked?'morning':afternoonChecked?'afternoon':'Evening', _visitors[index].id, _arrivalDateController.text.split('/').reversed.join('-'));
+                  ScreenshotController screenshotController = ScreenshotController();
+                                    scheduleVisit(context, morningChecked?'morning':afternoonChecked?'afternoon':'Evening', _visitors[index].id, _arrivalDateController.text.split('/').reversed.join('-'),
+                                    _visitors[index].name,screenshotController);
                  
               },),
               FlatButton(child: Text('Cancel'),onPressed: (){
@@ -379,6 +404,7 @@ Widget historyTab(BuildContext context){
      itemBuilder: (BuildContext context, int index) {
        VisitorModel visitor = _visitorsHistory[index];
        return VisitorTile(
+      model: _visitors[index],
       avatarLink: visitor.image=='noimage.jpg' || visitor.image == null?null:visitor.image,
       name: visitor.name??'',
       group: visitor.visitor_group??'',

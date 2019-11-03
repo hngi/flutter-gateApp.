@@ -56,12 +56,8 @@ class _SettingState extends State<Settings> {
                       child: BottomMenu(
                           'Manage Address',
                           () => Navigator.pushNamed(context, '/manage-address',
-                              arguments: getProfileProvider(context)
-                                          .profileModel
-                                          .homeModel
-                                          .houseBlock ==
-                                      null
-                                  ? ''
+                              arguments: getProfileProvider(context).profileModel.homeModel == null
+                              ? ''
                                   : getProfileProvider(context)
                                       .profileModel
                                       .homeModel

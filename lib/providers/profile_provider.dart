@@ -88,7 +88,7 @@ class ProfileModel {
         image: jsonModel['image'],
         created_at: jsonModel['created_at'],
         updated_at: jsonModel['updated_at'],
-        homeModel: HomeModel.fromJson(jsonModel['home'])
+        homeModel: jsonModel.containsKey('home') && jsonModel['home']!=null?HomeModel.fromJson(jsonModel['home']):null
         );
   }
 

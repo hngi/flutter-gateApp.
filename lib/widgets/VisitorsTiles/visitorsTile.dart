@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/providers/visitor_provider.dart';
 
 class VisitorTile extends StatefulWidget {
   final String name,
@@ -10,9 +11,11 @@ class VisitorTile extends StatefulWidget {
       date,
       buttonText1,
       buttonText2,
+      buttonText3,
       avatarLink,
       backUpAvatarLink = 'assets/images/avatar2.jpg';
-  final Function buttonFunc1, buttonFunc2;
+  final Function buttonFunc1, buttonFunc2,buttonFunc3;
+  final VisitorModel model;
 
   const VisitorTile(
       {Key key,
@@ -25,6 +28,9 @@ class VisitorTile extends StatefulWidget {
       @required this.buttonText2,
       @required this.buttonFunc1,
       @required this.buttonFunc2,
+      this.buttonFunc3,
+      this.buttonText3,
+      @required this.model,
       this.avatarLink = 'assets/images/avatar2.jpg'})
       : super(key: key);
 
@@ -56,6 +62,9 @@ class _VisitorTileState extends State<VisitorTile> {
                 radius: 30.0,
               ),
               title: InkWell(
+                onLongPress: (){
+                  Navigator.pushNamed(context, '/visitor-profile',arguments: this.widget.model);
+                },
                 onTap: toggle,
                 child: Column(
                   children: <Widget>[
@@ -150,7 +159,33 @@ class _VisitorTileState extends State<VisitorTile> {
                       SizedBox(height: 15.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
+                        children: <Widget>[this.widget.buttonText3!=null?
+                           InkWell(
+                            onTap: widget.buttonFunc3,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.green),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(3.0))),
+                              padding: widget.buttonText3.length < 5
+                                  ? EdgeInsets.only(
+                                      left: 15.0,
+                                      right: 15.0,
+                                      top: 2.0,
+                                      bottom: 2.0)
+                                  : EdgeInsets.only(
+                                      left: 5.0,
+                                      right: 5.0,
+                                      top: 2.0,
+                                      bottom: 2.0),
+                              child: Text(widget.buttonText3,
+                                  style: TextStyle(color: Colors.green)),
+                            ),
+                          ):Container(width: 0,height: 0,),
+                          SizedBox(
+                            width: 10.0,
+                          ),
                           InkWell(
                             onTap: widget.buttonFunc1,
                             child: Container(

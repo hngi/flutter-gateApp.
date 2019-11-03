@@ -40,8 +40,11 @@ class _GateManMenuState extends State<GateManMenu> {
 
   @override
   Widget build(BuildContext context) {
-    appIsConnected().then((bool isConn){
-      if (isConn && !getUserTypeProvider(context).loggeOut){
+    appIsConnected().then((bool isConn)async{
+      if (isConn && !getUserTypeProvider(context).loggeOut && await getUserTypeProvider(context).getUserType == user_type.GATEMAN){
+        if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           setFCMTokenInServer(context);
+         }
         if(!getProfileProvider(context).loadedFromApi){
                 loadInitialProfile(context);
               }

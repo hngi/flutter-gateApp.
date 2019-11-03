@@ -39,6 +39,7 @@ void clear(){
   loadedFromApi = false;
   residentsGManModels = [];
   residentsGManModelsAwaiting = [];
+  notifyListeners();
 
 }
 

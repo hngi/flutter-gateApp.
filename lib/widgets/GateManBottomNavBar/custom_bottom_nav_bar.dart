@@ -77,7 +77,7 @@ class CustomBottomNavBar extends StatelessWidget {
                     Positioned(
                       right: 1.0,
                       top: 1.0,
-                      child: Container(
+                      child:alerts==null||alerts.isEmpty?Container(width: 0,height: 0,): Container(
                         height: 16.0,
                         width: 16.0,
                         alignment: Alignment.center,
@@ -85,9 +85,9 @@ class CustomBottomNavBar extends StatelessWidget {
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
-                        child: alerts==null||alerts.isEmpty?Text(alerts??' ',
+                        child: Text(alerts??' ',
                             style:
-                TextStyle(fontSize: 13.0, color: Colors.white)):Container(width: 0,height: 0,),
+                TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),
                     ),
                   ],

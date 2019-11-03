@@ -103,9 +103,12 @@ class AuthService {
           Response response = await dio.post(uri,
               data: data,
               options: options);
+          
+          print(response.statusCode);
+          print(response.data);
     
           if (response.statusCode >= 500 && response.statusCode <= 509) {
-            return ErrorType.generic;
+            return ErrorType.server;
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);

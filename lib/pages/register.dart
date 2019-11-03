@@ -41,8 +41,6 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    ResidentUserProvider residentUserModelProvider =
-        Provider.of<ResidentUserProvider>(context, listen: false);
     UserTypeProvider userTypeProvider =
         Provider.of<UserTypeProvider>(context, listen: false);
 
@@ -94,6 +92,7 @@ class _RegisterState extends State<Register> {
           //   //initialValue: _email,
           // ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
                Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
@@ -116,8 +115,9 @@ class _RegisterState extends State<Register> {
 ,                child:
                     Center(
                                     child: DropdownButton<String>(
+                                      underline: Container(width: 0,height: 0,),
                         iconEnabledColor: GateManColors.primaryColor,
-                        items:<String>['+234','+233','+232'].map<DropdownMenuItem<String>>((String str){
+                        items:<String>['+234','+233','+232','+235',].map<DropdownMenuItem<String>>((String str){
                         return DropdownMenuItem<String>(
                           value: str,
                           child: Text(str)
@@ -230,7 +230,7 @@ class _RegisterState extends State<Register> {
                               return true;
                             } else{
                               setState(() {
-                               validateMessage = 'Invalid Phone Number'; 
+                               validateMessage = 'Invalid Phone Number, Please enter a 10 digit code and select your country code'; 
                               });
                               return false;
                             }

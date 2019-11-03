@@ -102,6 +102,7 @@ BaseOptions formOption = BaseOptions(
           print(response.data);
     
           if (response == null) return ErrorType.generic;
+          if(response.statusCode == 401) return ErrorType.unauthorized;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
     

@@ -30,10 +30,10 @@ import 'package:screenshot/screenshot.dart';
 class AddVisitorPart extends StatefulWidget {
   bool editMode = false;
    int visitorId;
-  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup;
+  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup,description;
 
   AddVisitorPart({this.editMode,this.initName,this.initArrivalDate,this.initArrivalPeriod,this.initCarPlateNumber,
-  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.visitorId,this.initialGroup='none'});
+  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.visitorId,this.initialGroup='none',this.description});
   @override
   _AddVisitorPartState createState() => _AddVisitorPartState();
 }
@@ -49,7 +49,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   TextEditingController _fullNameController;
   TextEditingController _carPlateNumberController;
   TextEditingController _purposeController;
-  TextEditingController _phoneController;
+  TextEditingController _phoneController,_descriptionController;
 
 
   String _fullname;
@@ -64,6 +64,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   String initialGroup = 'none';
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -72,6 +73,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _carPlateNumberController = TextEditingController(text:this.widget.initCarPlateNumber??'');
     _purposeController=TextEditingController(text: this.widget.initPurpose??'');
     _phoneController = TextEditingController(text: this.widget.initVisitorsPhoneNo??'');
+    _descriptionController = TextEditingController(text: this.widget.description??'');
     screenshotController = ScreenshotController();
     if(this.widget.initArrivalPeriod != null){
       if(this.widget.initArrivalPeriod.toLowerCase() == 'afternoon'){
@@ -119,17 +121,6 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 }).catchError((onError) {
     print(onError);
 });
-    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
-    // Uint8List bytes = base64.decode(_base64);
-    // print('sharing');
-    // await Share.file('Estate Invite',
-    //     'qr.png',
-    //     bytes.buffer.asUint8List(),
-    //     'image/png',
-    //     text: 'Show this at the security gate.');
-
-
-    //Share.text('Visitor Invite', 'This is my text to share with other applications.', 'text/plain');
   }
 
   
@@ -179,7 +170,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               Padding(
                                 padding: const EdgeInsets.only(bottom:8.0),
                                 child: Text(
-                                  'Visitor added successfully',
+                                  'Visitor ${!this.widget.editMode?"added":"updated"} successfully',
                                   style: TextStyle(fontSize: 16, color: Colors.white),
                                 ),
                               ),
@@ -430,6 +421,21 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 15),
         child: Text(
+          "Visitor's Description",
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+      CustomInputField(
+        hint: 'Description',
+        keyboardType: TextInputType.text,
+        textEditingController: _descriptionController, prefix: Icon(Icons.assignment_ind),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
           "Visitor's phone number",
           style: TextStyle(
               color: GateManColors.textColor,
@@ -597,7 +603,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                             authToken: await authToken(context),
                                             image: image??null,
                                             visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening',
-                                            visitorsGroup: initialGroup
+                                            visitorsGroup: initialGroup,
+                                            description: _descriptionController.text
                                           );
                       
                                           print(response);
@@ -649,7 +656,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                             authToken: await authToken(context),
                                             image: image??null,
                                             visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening',
-                                            visitorsGroup: initialGroup, visitorId: this.widget.visitorId
+                                            visitorsGroup: initialGroup, visitorId: this.widget.visitorId,
+                                            description: _descriptionController.text
                                           );
                       
                                           print(response);
@@ -683,13 +691,13 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                               print("qt image");
                                               print(response['qr_image_src']);
                                               print('${model.id} ::::::::id:::here');
-                                              dynamic qr_image_src = await NewVisitorService.getQrImageSrcForVisitoy(authToken: await authToken(context), visitorId: model.id);
+                                              dynamic qr_image_src = await NewVisitorService.getQrImageSrcForVisitor(authToken: await authToken(context), visitorId: model.id);
 
                                               if (qr_image_src is ErrorType){
                                                 await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(qr_image_src)}\ncould not retrieve qr image');
-                                                dialog.hide();
+                                                Navigator.pop(context);
                                               } else{
-                                                dialog.hide();
+                                                Navigator.pop(context);
                                                 setState(() {
                                                _base64 =  qr_image_src['qr_image'].toString().split(',')[1];
                                               });

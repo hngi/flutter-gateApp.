@@ -29,7 +29,8 @@ class GateManExpansionTile extends StatefulWidget {
   final ValueChanged<bool> onExpansionChanged;
   final String dutyTime;
   final bool initiallyExpanded;
-  final Function onDeletePressed,onMessagePressed,onPhonePressed,onSmsPressed;
+  final Function onDeletePressed,onMessagePressed,onPhonePressed;
+  final Function(String) onSmsPressed;
   final TextEditingController smsController;
 
   @override
@@ -307,16 +308,23 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
                     Padding(
                       padding: const EdgeInsets.all(25.0),
                       child: Material(elevation: 10.0, shadowColor: Colors.green.withOpacity(0.4), borderRadius: BorderRadius.circular(5.0),
-                        child: TextFormField(controller: this.widget.smsController, decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter Message', hintStyle: TextStyle(color: Colors.blueGrey.withOpacity(0.5)), contentPadding: EdgeInsets.only(top:13.0, left: 20.0),
-                          suffixIcon: GestureDetector(child: Column(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                                          child: TextFormField(controller: this.widget.smsController, decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Enter Message', hintStyle: TextStyle(color: Colors.blueGrey.withOpacity(0.5)), contentPadding: EdgeInsets.only(top:13.0, left: 20.0),
+                               
+                              ),),
+                            ),
+                            InkWell(child: Column(
                             children: <Widget>[
                               Icon(Icons.send, color: Colors.green,),
                               Text("Send", style: TextStyle(color: Colors.green, fontSize: 11.0, fontWeight: FontWeight.w600),)
                             ],
-                          ), onTap: this.widget.onSmsPressed,)
-                        ),),
+                          ), onTap: this.widget.onSmsPressed(this.widget.smsController.text),)
+                          ],
+                        ),
                       ),
                     ),
                     Padding(

@@ -23,7 +23,7 @@ List<SingleChildCloneableWidget> independentServices = [
       value: TokenProvider()), //for persisting Authentication Token
   ChangeNotifierProvider.value(value: AllEstateModel()),
   ChangeNotifierProvider.value(value: UserTypeProvider()),
-  ChangeNotifierProvider.value(value: ResidentUserProvider()),
+  // ChangeNotifierProvider.value(value: ResidentUserProvider()),
   ChangeNotifierProvider.value(value: GatemanUserProvider()),
   ChangeNotifierProvider.value(value: ProfileProvider()),
   ChangeNotifierProvider.value(value: VisitorProvider()),

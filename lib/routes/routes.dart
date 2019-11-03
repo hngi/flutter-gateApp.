@@ -97,6 +97,7 @@ class Routes {
       case '/add_visitor':
         AddEditVisitorScreenModel screenModel= settings.arguments;
         return MaterialPageRoute(builder: (context) => AddVisitor(
+          description: screenModel?.description,
           visitorId: screenModel?.visitorId,
           editMode: screenModel?.editMode,
           initName: screenModel?.initName,
@@ -109,7 +110,7 @@ class Routes {
         ));
 
       case '/visitor-profile':
-        return MaterialPageRoute(builder: (context) => VisitorProfile(index: settings.arguments,));
+        return MaterialPageRoute(builder: (context) => VisitorProfile(model: settings.arguments,));
 
       case '/add-gateman':
         return MaterialPageRoute(builder: (context) => AddGateman());

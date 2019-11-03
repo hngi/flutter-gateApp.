@@ -13,7 +13,7 @@ class FCMTokenProvider extends ChangeNotifier{
   }
 
   clear(){
-    fcmToken = null;
+    loadedToServer = false;
     notifyListeners();
   }
 

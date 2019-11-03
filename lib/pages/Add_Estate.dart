@@ -142,10 +142,6 @@ class _AddEstateState extends State<AddEstate> {
 
   @override
   Widget build(BuildContext context) {
-    ResidentUserProvider residentUserModel =
-        Provider.of<ResidentUserProvider>(context, listen: false);
-    AllEstateModel allEstates =
-        Provider.of<AllEstateModel>(context, listen: false);
     return Form(
       key: _formKey,
       child: Scaffold(

@@ -114,6 +114,7 @@ class GateManHelpers {
         return 'You do not have the permission to checkout this Visitor';
       case ErrorType.no_visitor_with_code:
         return 'No visitor with such code';
+      case ErrorType.visitior_has_not_checked_out: return 'Visitor is yet to be Checked Out';
 
       default:
         return 'Unknown Error Occurred';

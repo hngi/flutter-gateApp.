@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:xgateapp/core/models/estate.dart';
 import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
 import 'package:xgateapp/core/service/fcm_token_service.dart';
@@ -25,6 +27,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/colors.dart';
 
 import 'GateManAlert/gateman_alert.dart';
 import 'errors.dart';
@@ -95,7 +98,9 @@ Future loadInitialProfile(BuildContext context,{bool showAlert = false}) async {
             
             
           }else{
-            //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated');
+            //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated')
+            print(':::::::::::::::::::::\n::::::::::::::::::::::::::::::::::\::::::::::::::::::::::;;;;');
+            print(response);
                             print('Initial Profile Loaded');
                             print(ProfileModel.fromJson(response));
                             getProfileProvider(context).setProfileModel(
@@ -189,7 +194,10 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert = true}) async {
         PaysmosmoAlert.showSuccess(
             context: context, message: GateManHelpers.errorTypeMap(response));
             getVisitorProvider(context).setVisitorModels([]);
-      } else {
+      }else if(response == ErrorType.unauthorized){
+
+      }
+      else {
         PaysmosmoAlert.showError(
             context: context, message: GateManHelpers.errorTypeMap(response));
       }
@@ -258,7 +266,7 @@ Future loadResidentsVisitorHistory(BuildContext context)async{
       }
       );
 
-      getVisitorProvider(context).setHistoryVisitorFromApi(models,jsonString: json.encode(response['visitor']));
+      getVisitorProvider(context).setHistoryVisitorFromApi(models,jsonString: json.encode(response['visitor_details']));
       
     } else {
       getVisitorProvider(context).setHistoryVisitorFromApi([]);
@@ -268,9 +276,12 @@ Future loadResidentsVisitorHistory(BuildContext context)async{
 
 }
 
-void logOut(context) {
-  Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
-  Provider.of<TokenProvider>(context).clearToken();
+void logOut(context)async {
+  LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+  dialog.show();
+  setFCMTokenToEmpty(context).then((value){
+    if(value){
+      Provider.of<TokenProvider>(context).clearToken();
   Provider.of<UserTypeProvider>(context).setFirstRunStatus(false,loggedOut: true); 
   Provider.of<ProfileProvider>(context)
                                 ..setProfileModel(ProfileModel(),clean:true)
@@ -282,10 +293,19 @@ void logOut(context) {
                                 ..setScheduledVisitorsLoadedFromApiStatus(false);
   Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
   Provider.of<ResidentsGateManProvider>(context).clear();
-  Provider.of<ResidentsGateManProvider>(context).pendingloadedFromApi = false;
+  getFCMTokenProvider(context).clear();
+       PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful'); 
+       Navigator.pushNamedAndRemoveUntil(context, '/user-type',(Route<dynamic> route) => false);
+    } else{
+       PaysmosmoAlert.showError(context: context,message: 'Logout not Succesful,Please try again'); 
+    }
+  });
   
   
-  PaysmosmoAlert.showSuccess(context: context,message: 'Logout successful');        
+  
+  
+  
+         
 }               
 
 //UserType enum
@@ -432,21 +452,246 @@ Future<dynamic> deleteVisitors(BuildContext context,int visitorId,{@required Str
 }
 
 Future<dynamic> 
-scheduleVisit(BuildContext context,String visiting_period,int visitorId,String arrival_date)async{
+scheduleVisit(BuildContext context,String visiting_period,int visitorId,String arrival_date,String fullName,ScreenshotController screenshotController)async{
   LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
   dialog.show();
   dynamic response = await VisitorService.scheduleAVisit(authToken: await authToken(context),visiting_period: visiting_period,visitorId: visitorId,
   arrival_date: arrival_date);
+ 
+  if (response is ErrorType){ 
+    print(response);
+      if (response == ErrorType.visitior_has_not_checked_out){
+        Navigator.pop(context);
+      await PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(response));
+      
+      }else{
+        Navigator.pop(context);
+        await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
 
-  if (response is ErrorType){
-      await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(response)} \n Could not Schedule Visit,Please try again');
-      Navigator.pop(context);
+  
+      }
+      
   }else{
-
-      await PaysmosmoAlert.showSuccess(context: context,message: 'You have Succesfully Schedule a Visit');
-      Navigator.pop(context);
+    
+       await PaysmosmoAlert.showSuccess(context: context,message: 'You have Succesfully Schedule a Visit');
+       Navigator.pop(context);
+        VisitorModel model = VisitorModel.fromJson(response['visitor']);
+        getVisitorProvider(context).addVisitorModel(model);
+        getVisitorProvider(context).addVisitorModelToScheduled(model);
+       String _base64 =  response['qr_image_src'].toString().split(',')[1];
+      openAlertBox(base64String: _base64, code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
+      getVisitorProvider(context).setScheduledVisitorsLoadedFromApiStatus(false);
+      getVisitorProvider(context).setLoadedFromApi(false);
+     
   }
 }
+
+
+Future<dynamic> setFCMTokenToEmpty(BuildContext context) async {
+  dynamic response = await FCMTokenService.editFCMToken(authToken: await authToken(context), fcmToken: '');
+  print('::::::::::-trying to set fcm to empty:::::');
+  print(response);
+  if (response is ErrorType){
+    return false;
+  } else {
+    
+    return true;
+  }
+}
+
+openAlertBox({@required String code,@required BuildContext context,@required String base64String,@required ScreenshotController screenshotController,@required String fullName}) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Screenshot(
+            controller: screenshotController,
+                      child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
+              contentPadding: EdgeInsets.only(top: 0.0),
+              titlePadding: EdgeInsets.only(top: 0),
+
+              content: Container(
+                //width: 300.0,
+                child: Container(
+                  color: GateManColors.primaryColor,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            color: GateManColors.primaryColor,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0)),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 5),
+                                child: Image.asset('assets/images/success.png'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom:8.0),
+                                child: Text(
+                                  'Visitor Scheduled successfully',
+                                  style: TextStyle(fontSize: 16, color: Colors.white),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  'Send Invitation',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF466446)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Visitor : ',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF4f4f4f)),
+                                    ),
+                                    Text(
+                                      fullName,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xFF4f4f4f)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15),
+                                child: Image.memory(base64.decode(base64String),width: 150,height: 150,filterQuality: FilterQuality.low,),
+                                /*child: Image.network(
+                                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
+                                ),*/
+                                ),
+
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 30),
+                                child: RaisedButton(
+                                  color: Color(0xFFffa700),
+                                  onPressed: () {},
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  child: Container(
+                                    height: 50.0,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      code,
+                                      style: TextStyle(
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Show this at the security gate',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300,
+                                    color: Color(0xFF49A347)),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  shareInvite(screenshotController: screenshotController);
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 16,horizontal: 16
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                        border: Border.all(
+                                            width: 1,
+                                            style: BorderStyle.solid,
+                                            color: GateManColors.primaryColor)),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image.asset('assets/images/share.png'),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            'Share',
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(0xFF49A347)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+    Future shareInvite({ScreenshotController screenshotController}) async{
+    screenshotController.capture(
+    pixelRatio: 1.5
+);
+    screenshotController.capture().then((File image)async {
+    //Capture Done
+    print('sharing');
+    await Share.file('Estate Invite',
+        'qr.png',
+       image.readAsBytesSync(),
+        'image/png',
+        text: 'Show this at the security gate.');
+}).catchError((onError) {
+    print(onError);
+});
+  }
   
 
 

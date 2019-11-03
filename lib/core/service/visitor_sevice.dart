@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/utils/constants.dart' as prefix1;
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:intl/intl.dart';
 
@@ -178,8 +179,8 @@ class VisitorService {
       if ((response.statusCode == 404)) {
         return ErrorType.no_visitors_found;
       } else if
-         ((response.statusCode == 401)) {
-          return ErrorType.account_not_confimrmed;
+         (response.statusCode == 401) {
+          return ErrorType.unauthorized;
         }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
          else if
         (response.statusCode == 200){
@@ -219,7 +220,7 @@ class VisitorService {
         return ErrorType.no_visitors_found;
       } else if
          ((response.statusCode == 401)) {
-          return ErrorType.account_not_confimrmed;
+          return ErrorType.unauthorized;
         } else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
         else if
         (response.statusCode == 200){
@@ -259,7 +260,7 @@ class VisitorService {
         return ErrorType.no_visitors_found;
       } else if
          ((response.statusCode == 401)) {
-          return ErrorType.account_not_confimrmed;
+          return ErrorType.unauthorized;
         }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
          else if
         (response.statusCode == 200){
@@ -300,7 +301,7 @@ class VisitorService {
         return ErrorType.no_visitors_found;
       } else if
          ((response.statusCode == 401)) {
-          return ErrorType.account_not_confimrmed;
+          return ErrorType.unauthorized;
         }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
          else if
         (response.statusCode == 200){
@@ -331,21 +332,39 @@ class VisitorService {
     // var data = {
     //   "name": 
     // };
+    BaseOptions formOption = BaseOptions(
+      
+      baseUrl: Endpoint.baseUrl,
+      responseType: ResponseType.plain,
+      connectTimeout: CONNECT_TIMEOUT,
+      receiveTimeout: RECEIVE_TIMEOUT,
+      headers:{
+        'Accept':'application/json',
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer $authToken',
+      },
+      validateStatus: (code) {
+        if (code >= 200) {
+          return true;
+        }
+        return false;
+      }
+
+    );
     try {
 
-      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
-      options.headers['Content-Type'] = 'multipart/form-data';
       FormData data = FormData.fromMap({
         'arrival_date':arrival_date,
         'visiting_period':visiting_period,
       });
-      Dio dio = Dio(options);
+      Dio dio = Dio(formOption);
       Response response = await dio.post(uri,data: data);
-
+      print(Endpoint.baseUrl+uri);
       print(response.statusCode);
       print(response.data);
 
-      if((response.statusCode == 401))  return ErrorType.account_not_confimrmed;
+      if(response.statusCode == 401)  return ErrorType.unauthorized;
+      if(response.statusCode == 404) return ErrorType.visitior_has_not_checked_out;
        if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
        if(response.statusCode == 200) return json.decode(response.data);
       if(response.statusCode != 200 && response.statusCode != 201) return ErrorType.generic;

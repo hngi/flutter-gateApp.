@@ -263,7 +263,7 @@ class VisitorProvider extends ChangeNotifier {
 
 class VisitorModel {
   int id, user_id, home_id, status;
-  String name, arrival_date, car_plate_no, purpose,phone_no, image, time_in, time_out, visiting_period,visitor_group,qr_code;
+  String name, arrival_date, car_plate_no, purpose,phone_no, image, time_in, time_out, visiting_period,visitor_group,qr_code,description;
 
   VisitorModel(
       {this.id,
@@ -281,6 +281,7 @@ class VisitorModel {
       this.visiting_period,
       this.visitor_group,
       this.qr_code,
+      this.description,
       });
 
   factory VisitorModel.fromJson(dynamic jsonModel) {
@@ -300,6 +301,7 @@ class VisitorModel {
         visiting_period:jsonModel['visiting_period'],
         visitor_group: jsonModel['visitor_group'],
         qr_code: jsonModel.containsKey('qr_code')?jsonModel['qr_code']:null,
+        description: jsonModel['description']
 
         );
   }
@@ -320,7 +322,8 @@ class VisitorModel {
       'home_id': model.home_id??null,
       'visiting_period': model.visiting_period??null,
       'visiting_group': model.visitor_group??'',
-      'qr_code': model.qr_code??''
+      'qr_code': model.qr_code??'',
+      'description':model.description??''
 
 
 
