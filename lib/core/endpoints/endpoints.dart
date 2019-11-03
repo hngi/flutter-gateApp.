@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class Endpoint {
   //Image Base Url
-  static String imageBaseUrl = 'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
+  static String imageBaseUrl =
+      'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
   static String baseUrl =  'https://gateappapi.herokuapp.com/api/v1/'; // http://52.200.161.52/api/v1/';
 // 'https://4c85a6ea.ngrok.io/api/v1/';//'https://4c85a6ea.ngrok.io/api/v1/';//

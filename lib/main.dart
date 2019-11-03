@@ -153,7 +153,6 @@ class _GateManState extends State<GateMan> {
         fontFamily: 'OpenSans',
       ),
       // home: ScanQRCode(),
-      debugShowCheckedModeBanner: false,
     );
   }
 

@@ -212,7 +212,8 @@ class _GateManMenuState extends State<GateManMenu> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, '/scan-qr');
+              // Navigator.pushNamed(context, '/scan-qr');
+              Navigator.pushNamed(context, '/qrReader');
             },
             leading: Icon(MdiIcons.qrcode,
                 color: GateManColors.primaryColor, size: 25.0),

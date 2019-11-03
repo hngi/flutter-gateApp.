@@ -85,9 +85,9 @@ class CustomBottomNavBar extends StatelessWidget {
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
-                        child: Text(alerts??' ',
+                        child: alerts==null||alerts.isEmpty?Text(alerts??' ',
                             style:
-                TextStyle(fontSize: 13.0, color: Colors.white)),
+                TextStyle(fontSize: 13.0, color: Colors.white)):Container(width: 0,height: 0,),
                       ),
                     ),
                   ],

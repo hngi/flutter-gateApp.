@@ -16,8 +16,51 @@ class GatemanNotifications extends StatefulWidget {
 }
 
 class _GatemanNotificationsState extends State<GatemanNotifications> {
-
   List<GatemanResidentRequest> _requests = [];
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initApp();
+  }
+
+  initApp() async {
+    setState(() {
+      isLoading = true;
+    });
+    Future.wait([
+      GatemanService.allRequests(
+        authToken: await authToken(context),
+      ),
+      // GatemanService.allRequests(authToken: await authToken(context)).then((alerts){
+      //   print(alerts);
+      //   setState(() {
+      //     _alerts = alerts.length;
+      //   });
+      // }),
+    ]).then((res) {
+      print(res);
+      setState(() {
+        _requests = res[0];
+
+        isLoading = false;
+      });
+    });
+  }
+
+  // initApp() async {
+  //   appIsConnected().then((isConn) {
+  //     if (isConn && !getUserTypeProvider(context).loggeOut) {
+  //       if (!getRequestProvider(context).isLoadedFromApi) {
+  //         loadInitRequests(context);
+  //       }
+  //     }
+  //   });
+  //   setState(() {
+  //     _requests = getRequestProvider(context).requestList;
+  //   });
+  // }
 
   var _notifications = [
     {
@@ -62,7 +105,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        alerts: getRequestProvider(context).requestList.length.toString(),
+        alerts: _requests.length.toString(),
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },
@@ -70,9 +113,9 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
           // Navigator.pushReplacementNamed(context, '/gateman-notifications');
         },
       ),
-      body: /*isLoading
+      body: isLoading
           ? Loader.show()
-          :*/ _requests == null || _requests.length == 0
+          : _requests == null || _requests.length == 0
               ? Center(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -508,13 +508,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
-  qrcode_reader:
+  qrcode:
     dependency: "direct main"
     description:
-      name: qrcode_reader
+      name: qrcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.4"
+    version: "1.0.2"
   quiver:
     dependency: transitive
     description:
@@ -550,6 +550,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
+  show_qrcode:
+    dependency: "direct main"
+    description:
+      name: show_qrcode
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   sky_engine:
     dependency: transitive
     description: flutter
