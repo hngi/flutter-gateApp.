@@ -47,7 +47,7 @@ class _GateManState extends State<GateMan> {
   @override
   initState() {
     super.initState();
-    new Timer.periodic(Duration(minutes: 1), (Timer t)async{
+    new Timer.periodic(Duration(minutes: 10), (Timer t)async{
       if(await getUserTypeProvider(context).getUserType != null && await appIsConnected() == true && await authToken(context) != null){
           loadInitialProfile(context);
       if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading != true){
