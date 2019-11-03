@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:xgateapp/core/models/notification/notification_types.dart';
 import 'package:xgateapp/core/service/auth_service.dart';
+import 'package:xgateapp/pages/register.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/pages/add_permission.dart';
 import 'package:xgateapp/utils/colors.dart';
@@ -152,7 +153,8 @@ class _GateManState extends State<GateMan> {
             ),
         fontFamily: 'OpenSans',
       ),
-      // home: ScanQRCode(),
+      // home: Register(),
+      debugShowCheckedModeBanner: false
     );
   }
 
@@ -188,7 +190,7 @@ class _GateManState extends State<GateMan> {
       } else if (await getUserTypeProvider(context).getUserType ==
           user_type.GATEMAN) {
         //handle gateman notifications
-        handleOnNotiicationReceivedForGateman(message);
+        handleOnNotiicationReceivedForGateman(message,viewWhen:"onMessage");
       }
     }
   }
@@ -240,7 +242,15 @@ class _GateManState extends State<GateMan> {
     }
   }
 
-  void handleOnNotiicationReceivedForGateman(message) {}
+  void handleOnNotiicationReceivedForGateman(message,{String viewWhen}) {
+    if (viewWhen != null && viewWhen == 'onMessage'){
+
+      showNotification(message.cast<String,dynamic>());
+
+    }
+
+
+  }
 }
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
