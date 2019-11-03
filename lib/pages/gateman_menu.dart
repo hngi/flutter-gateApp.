@@ -45,13 +45,10 @@ class _GateManMenuState extends State<GateManMenu> {
         if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
            setFCMTokenInServer(context);
          }
-        if(!getProfileProvider(context).loadedFromApi){
+        if(getProfileProvider(context).loadedFromApi==false &&  getProfileProvider(context).loading == false){
                 loadInitialProfile(context);
               }
-              
-        if(!getRequestProvider(context).isLoadedFromApi){
-          loadInitRequests(context);
-        }
+            
       }
     });
     Size size = MediaQuery.of(context).size;
@@ -245,7 +242,7 @@ class _GateManMenuState extends State<GateManMenu> {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pushNamed(context, '/residents');
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -260,7 +257,7 @@ class _GateManMenuState extends State<GateManMenu> {
         onLeadingClicked: () {},
 
         onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+          Navigator.pushNamed(context, '/gateman-notifications');
         },
       ),
     );

@@ -93,7 +93,7 @@ Future loadInitialProfile(BuildContext context,{bool showAlert = false}) async {
           );
           if(response is ErrorType){
             if (showAlert){
-              PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
+              // PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
             }
             
             
@@ -158,7 +158,7 @@ Future loadInitRequests(BuildContext context, {bool alertNotifier = false}) asyn
   try{
     dynamic response = await GatemanService.getAllRequests(authToken: await authToken(context));
     print(response);
-    while(response != ErrorType){
+    if(response is ErrorType == false){
       if(response['residents'] == 0){
         if(alertNotifier){
           PaysmosmoAlert.showSuccess(context: context, message: 'No requests yet');
