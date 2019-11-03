@@ -24,5 +24,6 @@ enum ErrorType {
   estate_estate_name,
   server,
   cannot_check_visitor,
-  no_visitor_with_code
+  no_visitor_with_code,
+  visitior_has_not_checked_out
 }

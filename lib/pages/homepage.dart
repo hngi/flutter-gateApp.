@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/pages/gateman/widgets/residents_notification.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
@@ -10,6 +11,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    int notifications = getResidentNotificationProvider(context).getTotalNumberOfNotifications;
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
@@ -138,7 +140,7 @@ class Homepage extends StatelessWidget {
                                       )),
                                   Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                    child: Container(
+                                    child: notifications==null || notifications==0?Container(width: 0,height: 0,):Container(
                                       height: 16.0,
                                       width: 16.0,
                                       alignment: Alignment.center,
@@ -146,7 +148,7 @@ class Homepage extends StatelessWidget {
                                         color: Colors.red,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Text('1',
+                                      child: Text('',
                                           style: TextStyle(fontSize: 13.0, color: Colors.white)),
                                     ),
                                   ),
@@ -218,6 +220,7 @@ class Homepage extends StatelessWidget {
                           leadingText: 'Home',
                           traillingIcon: MdiIcons.bell,
                           traillingText: 'Alerts',
+                          alerts: getResidentNotificationProvider(context).getTotalNumberOfNotifications == null?null:getResidentNotificationProvider(context).getTotalNumberOfNotifications.toString(),
                           onLeadingClicked: () {
                             Navigator.pop(context);
                           },

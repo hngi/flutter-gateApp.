@@ -5,9 +5,8 @@ class Endpoint {
   static String imageBaseUrl =
       'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
-  static String baseUrl = 'https://gateappapi.herokuapp.com/api/v1';
-  //'https://b51df2ea.ngrok.io/api/v1'
-
+  static String baseUrl =  'https://gateappapi.herokuapp.com/api/v1/'; // http://52.200.161.52/api/v1/';
+// 'https://4c85a6ea.ngrok.io/api/v1/';//'https://4c85a6ea.ngrok.io/api/v1/';//
   //Auth
   static String login = '/login';
   static String adminRegister = '/register/admin';
@@ -32,7 +31,13 @@ class Endpoint {
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
+  static String editVisitor({@required int visitorId}) => visitor + '/edit/$visitorId';
+  static String scheduledVisitors = visitor + '/allScheduled';
+  static String historyVisitors = 'visitorHistory';
   static String showVisitors = 'gateman/visitors';
+  static String deleteScheduledVisitors({int visitorId}) => '$visitor/deleteScheduled/$visitorId';
+  static String scheduleAVisit({int visitorId}) => 'visitor/$visitorId?';
+  static String getQRImageSrc(int visitorId) => visitor+'/getQrImage/$visitorId';
   static String showRequests = '/gateman/requests';
   static String gatemanRequests = '/gateman/requests';
   static String gateman = '/gateman';
@@ -51,4 +56,14 @@ class Endpoint {
   static String viewGatemanYetToAccept = 'resident/pendingInvitation';
   static String deleteGateman({@required int gatemanId}) =>
       'resident/removeGateman/$gatemanId';
+
+
+  //Notifications
+  static String allNotifications = 'notifications';
+  static String markNotificationAsRead({String notificationId}) => allNotifications + '/$notificationId';
+  static String deleteNotification({String notificationId}) => allNotifications + '/$notificationId';
+  //FCM Token Id enpoint
+  static String editFCMToken = 'user/edit-fcm';
+
+
 }

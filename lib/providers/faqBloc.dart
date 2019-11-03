@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/models/faq.dart';
 
 class FaqBloc extends ChangeNotifier {
@@ -15,7 +16,7 @@ class FaqBloc extends ChangeNotifier {
   }
 
   Future<List<Faq>> fetchFaq() async {
-    final response = await http.get("http://gateappapi.herokuapp.com/api/v1/faq");
+    final response = await http.get("${Endpoint.baseUrl}faq");
     Map<String, dynamic> res = jsonDecode(response.body);
     List<Faq> data = [];
 

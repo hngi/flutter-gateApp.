@@ -47,7 +47,6 @@ class GatemanService {
     var uri = Endpoint.showVisitors;
     try {
       Response response = await dio.get(uri);
-      print(response.data);
       return (response.statusCode == 404)
           ? ErrorType.invalid_credentials
           : (response.statusCode == 401)
@@ -76,7 +75,6 @@ class GatemanService {
       options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
       Dio dio = Dio(options);
       Response response = await dio.get(uri);
-      print(response.data);
       return (response.statusCode == 404)
           ? ErrorType.invalid_credentials
           : (response.statusCode == 401)

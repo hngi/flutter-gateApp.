@@ -1,6 +1,7 @@
 // import 'pages/splash_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/models/screen_models.dart';
 import 'package:xgateapp/pages/Add_Estate.dart';
 import 'package:xgateapp/pages/Pager/pager.dart';
 import 'package:xgateapp/pages/add_gateman.dart';
@@ -94,10 +95,22 @@ class Routes {
                 ));
 
       case '/add_visitor':
-        return MaterialPageRoute(builder: (context) => AddVisitor());
+        AddEditVisitorScreenModel screenModel= settings.arguments;
+        return MaterialPageRoute(builder: (context) => AddVisitor(
+          description: screenModel?.description,
+          visitorId: screenModel?.visitorId,
+          editMode: screenModel?.editMode,
+          initName: screenModel?.initName,
+          initArrivalDate: screenModel?.initArrivalDate,
+          initArrivalPeriod: screenModel?.initArrivalPeriod,
+          initCarPlateNumber: screenModel?.initCarPlateNumber,
+          initPurpose: screenModel?.initPurpose,
+          initVisitorsImageLink: screenModel?.initVisitorsImageLink,
+          initVisitorsPhoneNo: screenModel?.initVisitorsPhoneNo,
+        ));
 
       case '/visitor-profile':
-        return MaterialPageRoute(builder: (context) => VisitorProfile(index: settings.arguments,));
+        return MaterialPageRoute(builder: (context) => VisitorProfile(model: settings.arguments,));
 
       case '/add-gateman':
         return MaterialPageRoute(builder: (context) => AddGateman());
@@ -141,7 +154,7 @@ class Routes {
         dynamic info = settings.arguments;
         return MaterialPageRoute(
             builder: (context) =>
-                TokenConfirmation(phone: info['phone'], email: info['email'],
+                TokenConfirmation(phone: info['phone'], /*email: info['email']*/
                 skipSelectEstate:info['skip_estate']));
 
       case '/welcome-resident':

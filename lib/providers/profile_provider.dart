@@ -9,6 +9,12 @@ class ProfileProvider extends ChangeNotifier {
   bool initialProfileLoaded = false;
   bool loadedFromApi = false;
   bool loadedFromPrefs = false;
+  bool loading = false;
+
+  void setLoadingState(bool stat){
+    loading = stat;
+    notifyListeners();
+  }
 
 void setLoadedFromApi(bool loaded){
   loadedFromApi = loaded;
@@ -82,7 +88,7 @@ class ProfileModel {
         image: jsonModel['image'],
         created_at: jsonModel['created_at'],
         updated_at: jsonModel['updated_at'],
-        homeModel: HomeModel.fromJson(jsonModel['home'])
+        homeModel: jsonModel.containsKey('home') && jsonModel['home']!=null?HomeModel.fromJson(jsonModel['home']):null
         );
   }
 

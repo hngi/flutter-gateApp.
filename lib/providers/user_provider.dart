@@ -32,6 +32,11 @@ class UserTypeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setLoggedOutStatus(bool stat){
+    loggeOut = stat;
+    notifyListeners();
+  }
+
   
   
 

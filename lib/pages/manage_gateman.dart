@@ -5,6 +5,7 @@ import 'package:xgateapp/core/service/resident_service.dart';
 import 'package:xgateapp/pages/add_gateman.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
@@ -43,17 +44,18 @@ class _ManageGatemanState extends State<ManageGateman> {
                                          .profileModel
                                          .name.toString();
     // Future gateman = loadGateManThatArePending(context);
-    appIsConnected().then((isConnected) {
-      if(isConnected == true){
-if(getResidentsGateManProvider(context).loadedFromApi==false){
-      print('trying to get initial accepted agteman');
-      loadGateManThatAccepted(context);
-     }
-     if(getResidentsGateManProvider(context).pendingloadedFromApi == false){
-       loadGateManThatArePending(context);
-     }
-     }
-    });
+//     appIsConnected().then((isConnected) {
+//       if(isConnected == true){
+//         print('app is connected gateman');
+// if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
+//       print('trying to get initial accepted agteman');
+//       loadGateManThatAccepted(context);
+//      }
+//      if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
+//        loadGateManThatArePending(context);
+//      }
+//      }
+//     });
 
     
     
@@ -81,33 +83,38 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
           
         ),
       ),
-      body: ListView(
-        children: <Widget>[
-          
-         getResidentsGateManProvider(context).residentsGManModels.length!=0?ListView(shrinkWrap: true,
+      body: RefreshIndicator(
+              child: ListView(
+          children: <Widget>[
             
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-            children: getResidentsGateManProvider(context).residentsGManModels.length==0?<Widget>[
-              Container(width: 0,height:0,)// SizedBox(height: 20.0),
-            ]:buildChildren(context),
-          ):Center(
-            child:Padding(
-              padding: const EdgeInsets.only(top:60.0, bottom:60.0),
-              child: Text("You do not have any gateman\nadded to your list", style: TextStyle(color: Colors.grey, fontSize: 19.0, fontWeight:FontWeight.w600 ), textAlign: TextAlign.center,),
-            )
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, bottom: 10.0),
-              child: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?Text('Pending(${getResidentsGateManProvider(context).residentsGManModelsAwaiting.length})', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),):Text('Pending(0)', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),),
-            ),
-            getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?ListView(shrinkWrap: true,
-            
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-            children: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length==0?<Widget>[
-              Container(width: 0,height:0,)// SizedBox(height: 20.0),
-            ]:buildChildren(context,useAwaiting: true),
-          ):Container()
-        ],
+           getResidentsGateManProvider(context).residentsGManModels.length!=0?ListView(shrinkWrap: true,
+              
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              children: getResidentsGateManProvider(context).residentsGManModels.length==0?<Widget>[
+                Container(width: 0,height:0,)// SizedBox(height: 20.0),
+              ]:buildChildren(context),
+            ):Center(
+              child:Padding(
+                padding: const EdgeInsets.only(top:60.0, bottom:60.0),
+                child: Text("You do not have any gateman\nadded to your list", style: TextStyle(color: Colors.grey, fontSize: 19.0, fontWeight:FontWeight.w600 ), textAlign: TextAlign.center,),
+              )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0, bottom: 10.0),
+                child: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?Text('Pending(${getResidentsGateManProvider(context).residentsGManModelsAwaiting.length})', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),):Text('Pending(0)', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w700),),
+              ),
+              getResidentsGateManProvider(context).residentsGManModelsAwaiting.length!=0?ListView(shrinkWrap: true,
+              
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              children: getResidentsGateManProvider(context).residentsGManModelsAwaiting.length==0?<Widget>[
+                Container(width: 0,height:0,)// SizedBox(height: 20.0),
+              ]:buildChildren(context,useAwaiting: true),
+            ):Container()
+          ],
+        ), onRefresh: (){
+          loadGateManThatArePending(context);
+          return loadGateManThatAccepted(context);
+        },
       ),
       // bottomSheet: Row(
       //   children: <Widget>[
@@ -131,15 +138,17 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
   }
 
   List<Widget> buildChildren(BuildContext context,{useAwaiting=false}){
+    TextEditingController smsController = TextEditingController(text: '');
     String nameProfile = getProfileProvider(context).profileModel.name.toString();
     if(useAwaiting==true){
           return getResidentsGateManProvider(context).residentsGManModelsAwaiting.map((model){
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
-      phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
+      phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model,fromAccepted: false);}, onMessagePressed: null,//will change when implemented in backend
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
-       onSmsPressed: (){
+       onSmsPressed: (String smss){
          print('heyyyy sms'); 
-         _sendSMS("Message from GateGuard by $nameProfile:\nHello ${model.name}, i need you as a gateman.", ["${model.phone}"]);},);
+         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         smsController: smsController,);
        }).toList();
 
     }
@@ -148,9 +157,14 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
     
 
     return getResidentsGateManProvider(context).residentsGManModels.map((model){
+      TextEditingController smsController = TextEditingController(text: '');
       return GateManExpansionTile(dutyTime: 'morning', fullName: model.name??'not set',
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
-       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, /*smsController: ManageGateman._smsController,*/);
+       onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
+       onSmsPressed: (String smss){
+         print('heyyyy sms'); 
+         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         smsController: smsController,/*smsController: ManageGateman._smsController,*/);
 
 
     }).toList();
@@ -159,6 +173,8 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
   }
 
   Future deleteGateMan(BuildContext context,ResidentsGateManModel gateManModel,{bool fromAccepted = true}) async{
+    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+    dialog.show();
     try{
       print('sending delete request');
       dynamic response = await ResidentsGatemanRelatedService.removeGateman(gatemanId: gateManModel.id, authToken: await authToken(context));
@@ -166,37 +182,18 @@ if(getResidentsGateManProvider(context).loadedFromApi==false){
     if(response is ErrorType){
       PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
     } else {
+      print(response);
       if(fromAccepted==true){
         getResidentsGateManProvider(context).deleteResidentsGateManFromAccepted(gateManModel);
       } else {
           getResidentsGateManProvider(context).deleteResidentsGateManFromPending(gateManModel);
       }
-        PaysmosmoAlert.showSuccess(context: context, message: 'Succesfully removed '+ gateManModel.name);
+        await PaysmosmoAlert.showSuccess(context: context, message: 'Succesfully removed '+ gateManModel.name);
     }
     }catch(error){
         throw error;
     }
+    Navigator.pop(context);
   }
 
-  Future loadGateManThatAccepted(context) async{
-    try{
-      dynamic response = await ResidentsGatemanRelatedService.getGateManThatAccepted(authToken: await authToken(context));
-      if(response is ErrorType){
-        PaysmosmoAlert.showError(context: context, message: GateManHelpers.errorTypeMap(response));
-      } else {
-
-        print(response);
-
-        List<dynamic> responseData = response['data'];
-        List<ResidentsGateManModel> models= [];
-        responseData.forEach((jsonModel){
-          models.add(ResidentsGateManModel.fromJson(jsonModel));
-          
-        });
-        getResidentsGateManProvider(context).setResidentsGateManModels(models);
-      }
-    }catch(error){
-      throw error;
-    }
   }
-}

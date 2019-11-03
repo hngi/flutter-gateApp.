@@ -80,6 +80,8 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
 
+    
+    // _requests = getRequestProvider(context).requestList;
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
@@ -103,7 +105,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
-        alerts: getRequestProvider(context).requestList.length.toString(),
+        alerts: _requests.length.toString(),
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },
