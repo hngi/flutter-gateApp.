@@ -6,6 +6,7 @@ import 'package:xgateapp/pages/Pager/pager.dart';
 import 'package:xgateapp/pages/add_gateman.dart';
 import 'package:xgateapp/pages/add_visitor.dart';
 import 'package:xgateapp/pages/gateman/qrScan.dart';
+import 'package:xgateapp/pages/gateman_manage_address.dart';
 import 'package:xgateapp/pages/notification_resident.dart';
 import 'package:xgateapp/pages/registration/token_confirmation.dart';
 import 'package:xgateapp/pages/resident/add_gateman/add_gateman_detail.dart';
@@ -68,8 +69,8 @@ class Routes {
       case '/faq':
         return MaterialPageRoute(builder: (context) => FAQ());
 
-      // case '/manage-address':
-      //   return MaterialPageRoute(builder: (context) => ManageAddress());
+      case '/gateman-manage-address':
+        return MaterialPageRoute(builder: (context) => GatemanManageAddress());
 
       case '/add-location':
         return MaterialPageRoute(builder: (context) => AddLocationPermission());

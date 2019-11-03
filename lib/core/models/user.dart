@@ -27,13 +27,13 @@ class User {
     return User(
       id: json['id'],
       name: json['name'] ?? '',
-      firstName: json['first_name'] ?? '',
-      lastName: json['last_name'] ?? '',
-      phone: json['phone'] ?? '',
-      email: json['email'] ?? '',
-      image: json['image'] ?? '',
-      createdAt: json['created_at'] ?? '',
-      updatedAt: json['updated_at'] ?? '',
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      phone: json['phone'],
+      email: json['email'],
+      image: json['image'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
     );
   }
 }

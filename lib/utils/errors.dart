@@ -22,7 +22,5 @@ enum ErrorType {
   estate_country,
   estate_address,
   estate_estate_name,
-  server,
-  cannot_check_visitor,
-  no_visitor_with_code
+  server
 }

@@ -54,8 +54,10 @@ class _SettingState extends State<Settings> {
                     ),
                     Container(
                       child: BottomMenu(
-                          'Manage Address',
-                          () => Navigator.pushNamed(context, '/manage-address',
+                          'Manage Address', 
+                          () async {
+                            if(await getUserTypeProvider(context).getUserType == user_type.RESIDENT){
+                              return Navigator.pushNamed(context, '/manage-address',
                               arguments: getProfileProvider(context)
                                           .profileModel
                                           .homeModel
@@ -65,7 +67,18 @@ class _SettingState extends State<Settings> {
                                   : getProfileProvider(context)
                                       .profileModel
                                       .homeModel
-                                      .houseBlock),
+                                      .houseBlock);
+                            }else{
+                              return Navigator.pushNamed(context, '/gateman-manage-address',
+                              arguments: getProfileProvider(context)
+                                          .profileModel
+                                          .homeModel != null
+                                  ? ''
+                                  : getProfileProvider(context)
+                                      .profileModel
+                                      .homeModel);
+                            }
+                          },
                           Border(bottom: BorderSide.none)),
                     ),
                   ],
@@ -177,18 +190,19 @@ class _SettingState extends State<Settings> {
 }
 
 class _NotifAndTracking extends StatelessWidget {
-  String text;
-  Function _setState;
+  _NotifAndTracking(this.text, this.decoration, this.isSwitched);
+
   Border decoration;
   bool isSwitched = false;
+  String text;
+
+  Function _setState;
 
   void _onchanged(bool value) {
     _setState(() {
       isSwitched = value;
     });
   }
-
-  _NotifAndTracking(this.text, this.decoration, this.isSwitched);
 
   @override
   Widget build(BuildContext context) {
