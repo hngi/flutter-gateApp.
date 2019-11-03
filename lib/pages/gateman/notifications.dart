@@ -81,7 +81,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
     final hv = MediaQuery.of(context).size.width / 100;
 
     
-    _requests = getRequestProvider(context).requestList;
+    // _requests = getRequestProvider(context).requestList;
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
