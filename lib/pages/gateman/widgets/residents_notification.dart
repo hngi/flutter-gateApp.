@@ -30,8 +30,14 @@ class ResidentsNotificationList extends StatefulWidget {
 class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Column(children: <Widget>[
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
         InkWell(
           onTap: () {},
           child: Row(
@@ -70,7 +76,6 @@ class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
         ]),
       ]),
       Container(
-        padding: EdgeInsets.only(left: 300.0),
         child: PopupMenuButton(
           onSelected: (value)async{
             if (value == "delete"){
