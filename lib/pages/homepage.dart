@@ -148,7 +148,7 @@ class Homepage extends StatelessWidget {
                                         color: Colors.red,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Text('',
+                                      child: Text(notifications.toString(),
                                           style: TextStyle(fontSize: 13.0, color: Colors.white)),
                                     ),
                                   ),

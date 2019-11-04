@@ -133,6 +133,7 @@ if(getResidentNotificationProvider(context).forInviteModels!= null && getResiden
         bodyView.add(
 
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(top: 30.0, left: 20.0),
@@ -146,7 +147,7 @@ if(getResidentNotificationProvider(context).forInviteModels!= null && getResiden
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 30.0, left: 160.0),
+                padding: EdgeInsets.only(top: 30.0,right:20.0),
                 child: Text(
                   'Mark all as read',
                   style: TextStyle(
