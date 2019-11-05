@@ -12,7 +12,6 @@ import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
-import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
