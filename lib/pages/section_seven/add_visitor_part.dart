@@ -20,7 +20,7 @@ import 'package:xgateapp/widgets/CustomDatePicker/custom_date_picker.dart';
 import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:xgateapp/widgets/DashedRectangle/dashed_rectangle.dart';
-import 'package:xgateapp/widgets/VisitorsBox/VisitorsBox.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -218,7 +218,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Image.memory(base64.decode(_base64),width: 150,height: 150,filterQuality: FilterQuality.low,),
+                                child: QrImage(
+                                            data: code,
+                                            version: QrVersions.auto,
+                                            size: 200.0,
+                                          ),
+                                // Image.memory(base64.decode(_base64),width: 150,height: 150,filterQuality: FilterQuality.low,),
                                 /*child: Image.network(
                                     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
                                 ),*/

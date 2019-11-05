@@ -72,6 +72,10 @@ class _MyVisitorsState extends State<MyVisitors> {
   static Color savedColor = Colors.grey;
   static Color historyColor = Colors.grey;
 
+  PageController _pageController = PageController();
+
+  
+
    Map<int, Widget> icons(BuildContext context) => <int, Widget>{
     0: Center(
       child: scheduledTab(context),
@@ -130,26 +134,7 @@ class _MyVisitorsState extends State<MyVisitors> {
                         children: children,
                         onValueChanged: (int newValue) {
                           setState(() {
-                            sharedValue = newValue;
-                            /*if(newValue == 0){
-                          setState(() {
-                           scheduledColor = Colors.green; 
-                           savedColor = Colors.grey; 
-                           historyColor = Colors.grey; 
-                          });
-                        }else if(newValue == 1){
-                          setState(() {
-                           scheduledColor = Colors.grey; 
-                           savedColor = Colors.green; 
-                           historyColor = Colors.grey; 
-                          });
-                        } else {
-                          setState(() {
-                           scheduledColor = Colors.grey; 
-                           savedColor = Colors.grey; 
-                           historyColor = Colors.green; 
-                          });
-                        }*/
+                            _pageController.jumpToPage(newValue);
                           });
 
                           print('$newValue');
@@ -166,7 +151,21 @@ class _MyVisitorsState extends State<MyVisitors> {
                           horizontal: 12.0,
                         ),
                         child: Container(
-                          child: icons(context)[sharedValue],
+                          child: PageView(
+                            onPageChanged: (newValue){
+                              setState(() {
+                                sharedValue = newValue;
+                              });
+                              
+                            },
+                            controller: _pageController,
+                            children: <Widget>[
+                              icons(context)[0],
+                              icons(context)[1],
+                              icons(context)[2]
+
+                            ],)
+                            // child: icons(context)[sharedValue]),
                         ),
                       ),
                     ),
