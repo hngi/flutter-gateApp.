@@ -19,7 +19,7 @@ class CustomTextFormField extends StatefulWidget {
 
   const CustomTextFormField({
     Key key,
-    @required this.labelName,
+    this.labelName,
     this.initialValue,
     this.icon,
     this.controller,
@@ -49,11 +49,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          widget.labelName != null?
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 7.0),
             child: Text(widget.labelName,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
-          ),
+          ):Container(width: 0,height: 0,),
           TextFormField(
             maxLines: widget.maxLines,
             onChanged: widget.onChanged,

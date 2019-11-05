@@ -106,8 +106,6 @@ class _SelectAddressState extends State<SelectAddress> {
 
   @override
   Widget build(BuildContext context) {
-    ResidentUserProvider residentUserModel =
-        Provider.of<ResidentUserProvider>(context, listen: false);
     AllEstateModel allEstates =
         Provider.of<AllEstateModel>(context, listen: false);
     // filteredEstate = allEstates.estates.where((estateModel) {

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 
 const Duration _kExpand = Duration(milliseconds: 500);
 
@@ -18,6 +19,8 @@ class GateManExpansionTile extends StatefulWidget {
     @required this.onDeletePressed,
     @required this.onPhonePressed,
     @required this.onMessagePressed,
+    this.onSmsPressed,
+    this.smsController
   })  : assert(initiallyExpanded != null),
         super(key: key);
 
@@ -27,6 +30,8 @@ class GateManExpansionTile extends StatefulWidget {
   final String dutyTime;
   final bool initiallyExpanded;
   final Function onDeletePressed,onMessagePressed,onPhonePressed;
+  final Function(String) onSmsPressed;
+  final TextEditingController smsController;
 
   @override
   GateManExpansionTileState createState() => GateManExpansionTileState();
@@ -55,7 +60,8 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
   Animation<Color> _backgroundColor;
 
   bool _isExpanded = false;
-
+  bool sms = false;
+  TextEditingController _smscontroller;
   @override
   void initState() {
     super.initState();
@@ -71,6 +77,7 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
     _isExpanded =
         PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
     if (_isExpanded) _controller.value = 1.0;
+    _smscontroller = new TextEditingController(text: 'Please be my gateman bro');
   }
 
   @override
@@ -129,6 +136,12 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
     });
     if (widget.onExpansionChanged != null)
       widget.onExpansionChanged(_isExpanded);
+  }
+  
+  void openSms(){
+    setState(() { 
+      sms = !sms;
+    });
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
@@ -245,48 +258,81 @@ class GateManExpansionTileState extends State<GateManExpansionTile>
           ? null
           : Padding(
               padding: EdgeInsets.symmetric(vertical: 20.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Column(
                 children: <Widget>[
-                  //Phone
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: GateManColors.primaryColor,
-                    ),
-                    height: 50.0,
-                    width: 50.0,
-                    child: IconButton(icon:Icon(Icons.phone, color: Colors.white, size: 22.0),onPressed: this.widget.onPhonePressed,)
-                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      //Phone
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: GateManColors.primaryColor,
+                        ),
+                        height: 50.0,
+                        width: 50.0,
+                        child: IconButton(icon:Icon(Icons.phone, color: Colors.white, size: 22.0),onPressed: this.widget.onPhonePressed,)
+                      ),
 
-                  //Message
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: GateManColors.primaryColor,
-                    ),
-                    height: 50.0,
-                    width: 50.0,
-                    child: IconButton(icon:Icon(Icons.message, color: Colors.white, size: 22.0),onPressed: this.widget.onMessagePressed,)
-                  ),
+                      //Message
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: GateManColors.primaryColor,
+                        ),
+                        height: 50.0,
+                        width: 50.0,
+                        child: IconButton(icon:Icon(Icons.message, color: Colors.white, size: 22.0),onPressed: openSms,)
+                      ),
 
-                  //Delete
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: GateManColors.primaryColor,
-                    ),
-                    height: 50.0,
-                    width: 50.0,
-                    child: IconButton( icon:Icon(Icons.delete, color: Colors.white, size: 22.0), onPressed:this.widget.onDeletePressed,),
+                      //Delete
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: GateManColors.primaryColor,
+                        ),
+                        height: 50.0,
+                        width: 50.0,
+                        child: IconButton( icon:Icon(Icons.delete, color: Colors.white, size: 22.0), onPressed:this.widget.onDeletePressed,),
+                      ),
+                    ],
                   ),
+                  sms?Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(25.0),
+                      child: Material(elevation: 10.0, shadowColor: Colors.green.withOpacity(0.4), borderRadius: BorderRadius.circular(5.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                                          child: TextFormField(controller: this.widget.smsController, decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Enter Message', hintStyle: TextStyle(color: Colors.blueGrey.withOpacity(0.5)), contentPadding: EdgeInsets.only(top:13.0, left: 20.0),
+                               
+                              ),),
+                            ),
+                            InkWell(child: Column(
+                            children: <Widget>[
+                              Icon(Icons.send, color: Colors.green,),
+                              Text("Send", style: TextStyle(color: Colors.green, fontSize: 11.0, fontWeight: FontWeight.w600),)
+                            ],
+                          ), onTap: this.widget.onSmsPressed(this.widget.smsController.text),)
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:25.0, top: 10.0),
+                      child: Text('Note: Standered Carrier SMS rate\napply for messages sent', style: TextStyle(fontSize: 12.0),),
+                    )
+                  ],)
+                  :Container()
                 ],
               ),
             ),

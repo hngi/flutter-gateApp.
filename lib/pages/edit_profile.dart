@@ -43,8 +43,6 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
     LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
@@ -59,41 +57,51 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Edit Profile'),
       body: WillPopScope(
-              child: Stack(
-                children: <Widget>[ListView(
+        child: Stack(children: <Widget>[
+          ListView(
             padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 23.0),
                 child: InkWell(
-                  onTap: (){
-                        print('object');
-                          setState((){
-                            showingImagePickerDialog = true;
-                          });
-                      },
-                              child: Stack(
+                  onTap: () {
+                    print('object');
+                    setState(() {
+                      showingImagePickerDialog = true;
+                    });
+                  },
+                  child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
                       ClipOval(
                         child: CircleAvatar(
                           radius: 60,
-                          child: _image!=null?Image.file(_image,width: 200,height:200):getProfileProvider(context).profileModel.image ==
-                                    null ||
-                                getProfileProvider(context).profileModel.image ==
-                                    "no_image.jpg" ||
-                                getProfileProvider(context).profileModel.image ==
-                                    'file://noimage.jpg'
-                            ? Image.asset(
-                                'assets/images/woman-cooking.png',
-                              )
-                            : Image.network(Endpoint.imageBaseUrl+
-                                getProfileProvider(context).profileModel.image),
-                      ),
+                          child: _image != null
+                              ? Image.file(_image, width: 200, height: 200)
+                              : getProfileProvider(context)
+                                              .profileModel
+                                              .image ==
+                                          null ||
+                                      getProfileProvider(context)
+                                              .profileModel
+                                              .image ==
+                                          "no_image.jpg" ||
+                                      getProfileProvider(context)
+                                              .profileModel
+                                              .image ==
+                                          'file://noimage.jpg'
+                                  ? Image.asset(
+                                      'assets/images/woman-cooking.png',
+                                    )
+                                  : Image.network(Endpoint.imageBaseUrl +
+                                      getProfileProvider(context)
+                                          .profileModel
+                                          .image),
                         ),
+                      ),
                       Center(
-                        child:
-                            Icon(Icons.add_a_photo, color: Colors.white, size: 23.0),
+                        child: Icon(Icons.add_a_photo,
+                            color: Colors.white, size: 23.0),
                       ),
                     ],
                   ),
@@ -124,7 +132,8 @@ class _EditProfileState extends State<EditProfile> {
                     _phoneNumber = str;
                   });
                 },
-                validator: (str) => str.isEmpty ? 'Phone cannot be empty' : null,
+                validator: (str) =>
+                    str.isEmpty ? 'Phone cannot be empty' : null,
                 controller: _phoneNumberController,
               ),
 
@@ -137,7 +146,8 @@ class _EditProfileState extends State<EditProfile> {
                       _email = str;
                     });
                   },
-                  validator: (str) => str.isEmpty ? 'Email cannot be empty' : null,
+                  validator: (str) =>
+                      str.isEmpty ? 'Email cannot be empty' : null,
                   controller: _emailController),
 
               SizedBox(height: 40.0),
@@ -150,27 +160,28 @@ class _EditProfileState extends State<EditProfile> {
                       _emailController.text +
                       _nameController.text);
                   // try {
-                    dynamic response = await ProfileService.setCurrentUserProfile(
-                        phone: _phoneNumberController.text,
-                        email: _emailController.text,
-                        name: _nameController.text,
-                        image: _image,
-                        authToken: await authToken(context));
-                    if (response is ErrorType) {
-                      await PaysmosmoAlert.showError(
-                          context: context,
-                          message: GateManHelpers.errorTypeMap(response));
+                  dynamic response = await ProfileService.setCurrentUserProfile(
+                      phone: _phoneNumberController.text,
+                      email: _emailController.text,
+                      name: _nameController.text,
+                      image: _image,
+                      authToken: await authToken(context));
+                  if (response is ErrorType) {
+                    await PaysmosmoAlert.showError(
+                        context: context,
+                        message: GateManHelpers.errorTypeMap(response));
 
-                      dialog.hide();
-                    } else {
-                      await PaysmosmoAlert.showSuccess(
-                          context: context, message: 'Proile Updated');
-                      print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-                      getProfileProvider(context)
-                          .profileModel.updateFromMapOrJson(response['user']);
-                      getProfileProvider(context).notifyListeners();
-                      dialog.hide();
-                    }
+                    dialog.hide();
+                  } else {
+                    await PaysmosmoAlert.showSuccess(
+                        context: context, message: 'Proile Updated');
+                    print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+                    getProfileProvider(context)
+                        .profileModel
+                        .updateFromMapOrJson(response['user']);
+                    getProfileProvider(context).notifyListeners();
+                    dialog.hide();
+                  }
                   // } catch (error) {
                   //   throw error;
                   //   await PaysmosmoAlert.showError(
@@ -182,86 +193,104 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ],
           ),
-          showingImagePickerDialog==true?
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-                        child: Container(
-                height: 80,
-                decoration: BoxDecoration(color: Colors.white),
-                          child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  
-                  children: <Widget>[
-                    InkWell(
-                      onTap: (){
-                        getImage((img){
-                          setState(() {
-                           _image = img; 
-                           showingImagePickerDialog = false;
-                          });
-
-                        },ImageSource.camera);
-                      },
-                                        child: Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width-10,
+          showingImagePickerDialog == true
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                      child: Container(
+                        height: 80,
                         decoration: BoxDecoration(color: Colors.white),
-                                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(right:8.0),
-                                              child: Icon(Icons.camera_alt),
-                                            ),
-                                            Text('Take a Picture',textAlign: TextAlign.center,style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                          ],
-                                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                getImage((img) {
+                                  setState(() {
+                                    _image = img;
+                                    showingImagePickerDialog = false;
+                                  });
+                                }, ImageSource.camera);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width - 10,
+                                decoration: BoxDecoration(color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(Icons.camera_alt),
+                                      ),
+                                      Text('Take a Picture',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                getImage((img) {
+                                  setState(() {
+                                    _image = img;
+                                    showingImagePickerDialog = false;
+                                  });
+                                }, ImageSource.gallery);
+                              },
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width - 10,
+                                decoration: BoxDecoration(color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Icon(Icons.photo),
+                                      ),
+                                      Text('Select From Gallery',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    InkWell(
-                      onTap: (){
-                        getImage((img){
-                          setState(() {
-                           _image = img; 
-                           showingImagePickerDialog = false;
-                          });
-
-                        },ImageSource.gallery);
-                      },
-                                        child: Container(
-                        height: 40,
-                        width: MediaQuery.of(context).size.width-10,
-                        decoration: BoxDecoration(color: Colors.white),
-                                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(right:8.0),
-                                              child: Icon(Icons.photo),
-                                            ),
-                                            Text('Select From Gallery',textAlign: TextAlign.center,style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                          ],
-                                        ),
-                      ),
-                    ),
-                   ],
-                ),
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade600.withOpacity(0.5),
-            
-            ),
-          ):Container(width: 0,height: 0),]
-        ), onWillPop: ()async{
-          if(showingImagePickerDialog==true){
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade600.withOpacity(0.5),
+                  ),
+                )
+              : Container(width: 0, height: 0),
+        ]),
+        onWillPop: () async {
+          if (showingImagePickerDialog == true) {
             setState(() {
               showingImagePickerDialog = false;
             });
             return false;
-            
-          } else{
+          } else {
             return true;
           }
         },
@@ -304,6 +333,4 @@ class _EditProfileState extends State<EditProfile> {
   //   }
   // }
 
- 
-              
-  }
+}

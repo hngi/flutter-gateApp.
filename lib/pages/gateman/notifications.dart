@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/gateman_residents_request.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
-import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
-import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
 import 'package:xgateapp/pages/gateman/widgets/invitationTile.dart';
 import 'package:xgateapp/utils/Loader/loader.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -17,17 +16,12 @@ class GatemanNotifications extends StatefulWidget {
 }
 
 class _GatemanNotificationsState extends State<GatemanNotifications> {
-  bool badge = true;
-  int _counter = 1;
-  bool isLoading = false;
-
   List<GatemanResidentRequest> _requests = [];
-  LoadingDialog dialog;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    dialog = LoadingDialog(context, LoadingDialogType.Normal);
     initApp();
   }
 
@@ -39,6 +33,12 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
       GatemanService.allRequests(
         authToken: await authToken(context),
       ),
+      // GatemanService.allRequests(authToken: await authToken(context)).then((alerts){
+      //   print(alerts);
+      //   setState(() {
+      //     _alerts = alerts.length;
+      //   });
+      // }),
     ]).then((res) {
       print(res);
       setState(() {
@@ -48,6 +48,19 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
       });
     });
   }
+
+  // initApp() async {
+  //   appIsConnected().then((isConn) {
+  //     if (isConn && !getUserTypeProvider(context).loggeOut) {
+  //       if (!getRequestProvider(context).isLoadedFromApi) {
+  //         loadInitRequests(context);
+  //       }
+  //     }
+  //   });
+  //   setState(() {
+  //     _requests = getRequestProvider(context).requestList;
+  //   });
+  // }
 
   var _notifications = [
     {
@@ -66,6 +79,9 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
   Widget build(BuildContext context) {
     final wv = MediaQuery.of(context).size.width / 100;
     final hv = MediaQuery.of(context).size.width / 100;
+
+    
+    // _requests = getRequestProvider(context).requestList;
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
@@ -89,6 +105,7 @@ class _GatemanNotificationsState extends State<GatemanNotifications> {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        alerts: _requests.length.toString(),
         onLeadingClicked: () {
           Navigator.pushNamed(context, '/gateman-menu');
         },

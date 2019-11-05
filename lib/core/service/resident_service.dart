@@ -19,9 +19,6 @@ static BaseOptions options = BaseOptions(
             }
             return false;
           });
-      static Dio dio = Dio(options);
-    
-      
       static dynamic addGateman({@required String authToken,
       @required int gatemanId
       }) async {

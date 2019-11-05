@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "786685708603",
+    "firebase_url": "https://gateguard-64953.firebaseio.com",
+    "project_id": "gateguard-64953",
+    "storage_bucket": "gateguard-64953.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:786685708603:android:2e2e64345cd748fde98f1e",
+        "android_client_info": {
+          "package_name": "com.example.xgateapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "786685708603-j4ihdc3il895uaj4cf80kpadjejgaabu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.xgateapp",
+            "certificate_hash": "394368a094aeb944fe7df712efe540a424a74ee5"
+          }
+        },
+        {
+          "client_id": "786685708603-d93delhvmcvp0ldu6oa3h46lfd5ct8i0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYSETZlxt9Dd1yIdOeK0u4OG-AQSAEiNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "786685708603-d93delhvmcvp0ldu6oa3h46lfd5ct8i0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

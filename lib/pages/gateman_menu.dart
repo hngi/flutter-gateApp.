@@ -1,14 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/providers/gateman_user_provider.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class GateManMenu extends StatelessWidget {
+class GateManMenu extends StatefulWidget {
+  @override
+  _GateManMenuState createState() => _GateManMenuState();
+}
+
+class _GateManMenuState extends State<GateManMenu> {
+  int _alerts = 0;
+  bool loaded = false;
+
+  @override
+  void initState(){
+    super.initState();
+    initApp();
+  }
+
+  initApp() async{
+    setState(() {
+      loaded = false;
+    });
+
+    Future.wait([
+      GatemanService.allRequests(authToken: await authToken(context)),
+    ]).then((alerts){
+      print(alerts);
+      _alerts = alerts.length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    appIsConnected().then((bool isConn)async{
+      if (isConn && !getUserTypeProvider(context).loggeOut && await getUserTypeProvider(context).getUserType == user_type.GATEMAN){
+        if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           setFCMTokenInServer(context);
+         }
+        if(getProfileProvider(context).loadedFromApi==false &&  getProfileProvider(context).loading == false){
+                loadInitialProfile(context);
+              }
+            
+      }
+    });
     Size size = MediaQuery.of(context).size;
 
     GatemanUserProvider gateManProvider =
@@ -46,7 +88,7 @@ class GateManMenu extends StatelessWidget {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: ()=>logOut(context),
                 ),
               ],
             ),
@@ -79,11 +121,19 @@ class GateManMenu extends StatelessWidget {
                     ),
                     Positioned(
                       // left: 3.0,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/gateman/Ellipse.png'),
-                        maxRadius: 32.0,
-                      ),
+                      child: ClipOval(
+                                      child: CircleAvatar(
+                                      radius: 32,
+                                      child:
+                                      getProfileProvider(context).profileModel.image!='no_image'||
+                                      getProfileProvider(context).profileModel.image!=null
+                                      ?
+                                      FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ '${getProfileProvider(context).profileModel.image}',
+                                      placeholder:'assets/images/gateman_white.png',):
+                                          AssetImage('assets/images/gateman_white.png'),
+                                      
+                                          ),
+                                        ),
                     ),
                   ],
                 ),
@@ -96,7 +146,7 @@ class GateManMenu extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: Text(gateManProvider?.gatemanUser?.fullName ?? '',
+                      child: Text(getProfileProvider(context).profileModel?.name?? 'Loading. . .',
                           style: TextStyle(
                             color: GateManColors.primaryColor,
                             fontSize: 20.0,
@@ -140,7 +190,7 @@ class GateManMenu extends StatelessWidget {
                       color: Colors.red,
                       shape: BoxShape.circle,
                     ),
-                    child: Text('1',
+                    child: Text(_alerts.toString(),
                         style: TextStyle(fontSize: 13.0, color: Colors.white)),
                   ),
                 ),
@@ -162,7 +212,8 @@ class GateManMenu extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, '/scan-qr');
+              // Navigator.pushNamed(context, '/scan-qr');
+              Navigator.pushNamed(context, '/qrReader');
             },
             leading: Icon(MdiIcons.qrcode,
                 color: GateManColors.primaryColor, size: 25.0),
@@ -191,7 +242,7 @@ class GateManMenu extends StatelessWidget {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pushNamed(context, '/residents');
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -202,9 +253,11 @@ class GateManMenu extends StatelessWidget {
         leadingText: 'Home',
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
+        alerts: _alerts.toString(),
         onLeadingClicked: () {},
+
         onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+          Navigator.pushNamed(context, '/gateman-notifications');
         },
       ),
     );

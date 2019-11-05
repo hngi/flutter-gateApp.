@@ -4,6 +4,7 @@ import 'package:xgateapp/core/service/resident_service.dart';
 import 'package:xgateapp/pages/resident/add_gateman/widgets/progress_loader.dart';
 import 'package:xgateapp/providers/resident_gateman_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/constants.dart' as prefix0;
@@ -32,6 +33,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
   TextEditingController _textEditingController;
   double angle;
   AddGateManDetailStatus loadingState = AddGateManDetailStatus.SEARCHING;
+
   @override
   void initState() {
     super.initState();
@@ -79,7 +81,9 @@ class _AddGateManDetailState extends State<AddGateManDetail>
               ),
               onPressed: () {
                 if(_textEditingController.text.length > 0){
-                  _showMaterialDialog(context, _textEditingController.text);
+                    addGateMan(_textEditingController.text, context);
+                  
+                  
                 } else {
                   PaysmosmoAlert.showWarning(context: context,message: 'Phone number cannot be empty');
                 }
@@ -101,86 +105,75 @@ class _AddGateManDetailState extends State<AddGateManDetail>
     });
   }
 
-  Future _showMaterialDialog(context, String phoneNumber) async {
+  
+
+  Future _showMaterialDialog(context, String phoneNumber,String gateManName) async {
     await showDialog(
+      barrierDismissible: false,
         context: context,
         builder: (context) {
-          AddGateManDetailStatus loadStatus = AddGateManDetailStatus.SEARCHING;
-          bool gateManAddRun = false;
-          String gateManName = 'GateApp';
-          return StatefulBuilder(
-            builder: (BuildContext context, setState) {
-              if(gateManAddRun == false){
-                addGateMan(phoneNumber,context,(status,nameFound){
-                  setState((){
-                    loadStatus = status;
-                    gateManAddRun = true;
-                    gateManName = nameFound;
-                    
-              });});
-              } else{
-
-              }
-              return AlertDialog(
-                              contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                              content: Container(
-                                width: ScreenUtil().setWidth(250),
-                                height: ScreenUtil().setHeight(350),
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: loadStatus == AddGateManDetailStatus.SEARCHING
-                                        ? <Widget>[
-                                            Text('Searching for $phoneNumber'),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:18.0),
-                                              child: ProgressLoader(
-                                                width: 30,
-                                                height: 30,
-                                              ),
-                                            )
-                                          ]
-                                        : loadStatus == AddGateManDetailStatus.MESSAGE_SENT
-                                            ? <Widget>[
-                                                Image.asset('assets/images/gateman/ok.png',
-                                                width: ScreenUtil().setWidth(50),),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top:18.0),
-                                                  child: Text('Message Sent Succesfully\nto',textAlign: TextAlign.center,style: TextStyle(color: Colors.grey),),
+          AddGateManDetailStatus loadStatus = AddGateManDetailStatus.AWAITING_CONFIRMATION;
+          return AlertDialog(contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                content: Container(
+                                  width: ScreenUtil().setWidth(250),
+                                  height: ScreenUtil().setHeight(350),
+                                  child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: loadStatus == AddGateManDetailStatus.SEARCHING
+                                          ? <Widget>[
+                                              Text('Searching for $phoneNumber'),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top:18.0),
+                                                child: ProgressLoader(
+                                                  width: 30,
+                                                  height: 30,
                                                 ),
-                                                Text(phoneNumber,style: TextStyle(fontSize: 19),)
-                                              ]
-                                            : loadStatus ==
-                                                    AddGateManDetailStatus
-                                                        .AWAITING_CONFIRMATION
-                                                ? <Widget>[
-                                                    Image.asset(
-                                                        'assets/images/gateman/ok.png',
-                                                        width: ScreenUtil().setWidth(50),
-                                                        ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(18.0),
-                                                      child: Text('Gate Man\nAdded succesfully',textAlign: TextAlign.center,
-                                                      style: TextStyle(color: Colors.grey),),
-                                                    ),
-                                                    Text('Awaiting Confirmation from',textAlign: TextAlign.center,
-                                                    style: TextStyle(fontSize: 9),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(18.0),
-                                                      child: Text(gateManName??'its null'),
-                                                    ),
+                                              )
+                                            ]
+                                          : loadStatus == AddGateManDetailStatus.MESSAGE_SENT
+                                              ? <Widget>[
+                                                  Image.asset('assets/images/gateman/ok.png',
+                                                  width: ScreenUtil().setWidth(50),),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:18.0),
+                                                    child: Text('Message Sent Succesfully\nto',textAlign: TextAlign.center,style: TextStyle(color: Colors.grey),),
+                                                  ),
+                                                  Text(phoneNumber,style: TextStyle(fontSize: 19),)
+                                                ]
+                                              : loadStatus ==
+                                                      AddGateManDetailStatus
+                                                          .AWAITING_CONFIRMATION
+                                                  ? <Widget>[
+                                                      Image.asset(
+                                                          'assets/images/gateman/ok.png',
+                                                          width: ScreenUtil().setWidth(50),
+                                                          ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(18.0),
+                                                        child: Text('Gate Man\nAdded succesfully',textAlign: TextAlign.center,
+                                                        style: TextStyle(color: Colors.grey),),
+                                                      ),
+                                                      Text('Awaiting Confirmation from',textAlign: TextAlign.center,
+                                                      style: TextStyle(fontSize: 9),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(18.0),
+                                                        child: Text(gateManName??'its null'),
+                                                      ),
 
-                                                  ]
-                                                : <Widget>[Container(width: 0, height: 0)]),
-                              ),
-                            );
-                          },
-                        );
-                      });
-                }
+                                                    ]
+                                                  : <Widget>[Container(width: 0, height: 0)]),
+                                ),
+                              );
+                            }
+          );
+                      }
+    
               
-                void addGateMan(String phoneNumber,BuildContext context,Function(AddGateManDetailStatus status,String nameFound) setLoadingStateInDialog) async {
+                void addGateMan(String phoneNumber,BuildContext context) async {
+                  LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+                  dialog.show();
                   try{
                   String token = await authToken(context);
                   dynamic response = await ResidentsGatemanRelatedService.findGateManByPhone(authToken: token, phone: phoneNumber);
@@ -189,53 +182,52 @@ class _AddGateManDetailState extends State<AddGateManDetail>
 
                     if (response == ErrorType.request_already_sent_to_gateman){
 
-                      PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(response));
+                      await PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(response));
+                      Navigator.pop(context);
 
                     } else{
                   
                       print('error in searching');
+                      
                       print(response);
-                      Navigator.of(context).pop();
-                      PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                      await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                      Navigator.pop(context);
+                      
                       //setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,'');
                       }
 
                         } else {
-                          print(response);
-                   
                    
                     if(response==null){
-                        Navigator.of(context).pop();
                         print('error in finding a match');
-                        PaysmosmoAlert.showError(context: context,message: 'Couldnt find a match for the Gateman');
+                        await PaysmosmoAlert.showError(context: context,message: 'Couldnt find a match for the Gateman');
+                        Navigator.pop(context);
                     } else{
                       print(response['id'].toString());
                     dynamic gateManRequest = await ResidentsGatemanRelatedService.addGateman(authToken: token, gatemanId: response['id']);
 
                           if (gateManRequest is ErrorType){
-                            Navigator.of(context).pop();
+                            
+                        
 
                              if (gateManRequest == ErrorType.request_already_sent_to_gateman){
+                               Navigator.pop(context);
                                print('dddddddddddddddddddd');
-                              
-
-                      PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
-
+                              await PaysmosmoAlert.showWarning(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
+                        
                     } else{
-
-                            PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
+                          Navigator.pop(context);
+                            await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(gateManRequest));
+                   
+                        
                     }
-
+                                    
                           } else {
-                            // var mapList = [gateManJson, gateManRequest['residentGateman']];
-                            // var combinedMap = mapList.reduce((map1,map2)=> map1..addAll(map2));
-
                             ResidentsGateManModel gateManModel = ResidentsGateManModel.fromJson(response);
                             getResidentsGateManProvider(context).addAwaitingResidentsGateManModel(gateManModel);
-                            prefix0.loadGateManThatArePending(context);
-                            
-                          setLoadingStateInDialog(AddGateManDetailStatus.AWAITING_CONFIRMATION,gateManModel.name);
-                            print('done');
+                            loadGateManThatArePending(context);
+                            Navigator.pop(context);
+                            _showMaterialDialog(context, phoneNumber, gateManModel.name);
                           }
 
                         }
@@ -243,6 +235,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                   }catch(error){
                     throw error;
                   }
+
 
 
                     

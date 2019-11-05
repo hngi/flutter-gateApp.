@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/models/estate.dart';
+import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
@@ -15,15 +16,6 @@ class EstateService {
   static String authTokenStr = '';
 
   static BuildContext context;
-
-  static Future<String> getAuthToken() async {
-    try {
-      String authTokenStr = await authToken(context);
-      return authTokenStr;
-    } catch (error) {
-      print('unknown error occured while getting authtoken');
-    }
-  }
 
   static Map<String, String> headers = {
     HttpHeaders.contentTypeHeader: "application/json",
@@ -114,7 +106,7 @@ class EstateService {
 
       return listOfEstates;
     } else {
-      throw Exception('Failed to load internet');
+      return [];
     }
   }
 

@@ -10,7 +10,7 @@ class GatemanResidentVisitors {
   String phoneNo;
   String purpose;
   String image;
-  int status;
+  dynamic status;
   dynamic timeIn;
   dynamic timeOut;
   int userId;
@@ -43,23 +43,23 @@ class GatemanResidentVisitors {
 
   factory GatemanResidentVisitors.fromJson(Map<String, dynamic> json) {
     return GatemanResidentVisitors(
-      arrivalDate: json['arrival_date'],
-      carPlateNo: json['car_plate_no'],
-      createdAt: json['created_at'],
-      description: json['description'],
+      arrivalDate: json['arrival_date'] ?? '',
+      carPlateNo: json['car_plate_no'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      description: json['description'] ?? '',
       id: json['id'],
-      image: json['image'],
-      name: json['name'],
-      phoneNo: json['phone_no'],
-      purpose: json['purpose'],
-      qrCode: json['qr_code'],
-      status: json['status'],
-      timeIn: json['time_in'],
-      timeOut: json['time_out'],
-      updatedAt: json['updated_at'],
+      image: json['image'] ?? '',
+      name: json['name'] ?? '',
+      phoneNo: json['phone_no'] ?? '',
+      purpose: json['purpose'] ?? '',
+      qrCode: json['qr_code'] ?? '',
+      status: json['status'] ?? '',
+      timeIn: json['time_in'] ?? '',
+      timeOut: json['time_out'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
       user: User.fromJson(json['user']),
       userId: json['user_id'],
-      visitingPeriod: json['visiting_period'],
+      visitingPeriod: json['visiting_period'] ?? '',
     );
   }
 }

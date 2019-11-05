@@ -12,12 +12,12 @@ import 'package:provider/provider.dart';
 
 class TokenConfirmation extends StatefulWidget {
   String phone;
-  String email;
+  // String email;
   bool skipSelectEstate;
   String showAlertMessage;
   TokenConfirmation(
       {this.phone = '08056664098',
-      this.email = 'winninggreat@gmail.com',
+      // this.email = 'winninggreat@gmail.com',
       this.skipSelectEstate = false,
       this.showAlertMessage});
   @override
@@ -106,7 +106,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                 children: <Widget>[
                   Text(
                     'Please enter the 4 digit verification code sent to ' +
-                        this.widget.email,
+                        this.widget.phone,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Padding(
@@ -206,6 +206,8 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                               print('bearer removed ' +
                                   response['token'].toString().split(' ')[1]);
                               print(tokenProvider.authToken);
+                                getUserTypeProvider(context).setLoggedOutStatus(false);
+
                               dialog.hide();
                               if (this.widget.skipSelectEstate == true){
                                 print(await getUserTypeProvider(context).getUserTypeRoute);
@@ -250,7 +252,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                             message: 'Verification code has been sent to ' +
                                 this
                                     .widget
-                                    .email); //' + this.widget.phone + ' and the number ' +
+                                    .phone); //' + this.widget.phone + ' and the number ' +
 
                       }
                     } catch (error) {}
