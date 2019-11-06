@@ -158,7 +158,7 @@ class _InvitationTileState extends State<InvitationTile> {
                         ),
                         Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(right: 30.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: FlatButton(
                               onPressed: toggle,
                               child: Row(
