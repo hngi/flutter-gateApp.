@@ -192,8 +192,8 @@ bool isLoading = false;
                                   phone:'${visitor.phoneNo}',
                                   description:'${visitor.description}',
                                   eta:'${visitor.createdAt}',
-                                  verification:'${visitor.qrCode}',
-                                  visitStatus:'${visitor.purpose}',
+                                  verification:'QR Code',
+                                  visitStatus:'${visitor.qrCode}',
             ),
           ),
         );
