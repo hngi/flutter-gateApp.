@@ -170,7 +170,6 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
             child: GestureDetector(
               onTap: _handleTap,
               child: Container(
-                  height: 83.0,
                   // padding: EdgeInsets.all(1.0),
                   decoration: BoxDecoration(
                       // borderRadius: BorderRadius.circular(25.0),
@@ -207,12 +206,14 @@ class ResidentExpansionTileState extends State<ResidentExpansionTile>
                                   Icon(Icons.location_on,
                                       color: Colors.black, size: 16.0),
                                   SizedBox(width: 6.0),
-                                  Text(
-                                    widget.address,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16.0,
-                                      color: GateManColors.blackColor,
+                                  Expanded(
+                                    child: Text(
+                                      widget.address,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 13.0,
+                                        color: GateManColors.blackColor,
+                                      ),
                                     ),
                                   ),
                                 ],

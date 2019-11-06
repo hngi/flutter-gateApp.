@@ -254,7 +254,9 @@ class _GateManMenuState extends State<GateManMenu> {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         alerts: _alerts.toString(),
-        onLeadingClicked: () {},
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/visitors-list');
+        },
 
         onTrailingClicked: () {
           Navigator.pushNamed(context, '/gateman-notifications');
