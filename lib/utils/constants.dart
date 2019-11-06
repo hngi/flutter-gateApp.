@@ -479,8 +479,7 @@ scheduleVisit(BuildContext context,String visiting_period,int visitorId,String a
         VisitorModel model = VisitorModel.fromJson(response['visitor']);
         getVisitorProvider(context).addVisitorModel(model);
         getVisitorProvider(context).addVisitorModelToScheduled(model);
-       String _base64 =  response['qr_image_src'].toString().split(',')[1];
-      openAlertBox(base64String: _base64, code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
+      openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
       getVisitorProvider(context).setScheduledVisitorsLoadedFromApiStatus(false);
       getVisitorProvider(context).setLoadedFromApi(false);
      
@@ -500,26 +499,27 @@ Future<dynamic> setFCMTokenToEmpty(BuildContext context) async {
   }
 }
 
-openAlertBox({@required String code,@required BuildContext context,@required String base64String,@required ScreenshotController screenshotController,@required String fullName}) {
+openAlertBox({@required String code,@required BuildContext context,@required ScreenshotController screenshotController,@required String fullName}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return Screenshot(
             controller: screenshotController,
                       child: AlertDialog(
+
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
               contentPadding: EdgeInsets.only(top: 0.0),
               titlePadding: EdgeInsets.only(top: 0),
 
               content: Container(
-                //width: 300.0,
+                width: 300.0,
                 child: Container(
                   color: GateManColors.primaryColor,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
+                  child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(

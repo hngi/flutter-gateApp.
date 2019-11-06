@@ -32,13 +32,17 @@ class _NotificationResidentState extends State<NotificationResident> {
     // });
     
     return Scaffold(
+      
       appBar: GateManHelpers.appBar(context, 'Notifications'),
-      body:RefreshIndicator(child:ListView(
-        
-        children:buildNotificationBody() == null || buildNotificationBody().isEmpty?<Widget>[Container(
+      body:RefreshIndicator(child:Container(
+        child: Column(
+          children:buildNotificationBody() == null?Container(
           width:MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/2,
-          child: Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)))]:buildNotificationBody()
-        ), 
+          child: Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),))):buildNotificationBody()
+        ),
+      )
+      
+      , 
         onRefresh: (){
           return loadResidentNotificationFromApi(context);
         }
@@ -71,38 +75,8 @@ class _NotificationResidentState extends State<NotificationResident> {
   List<Widget> buildNotificationBody(){
     List<Widget> bodyView = [];
     if(getResidentNotificationProvider(context).forVisitorModels != null && getResidentNotificationProvider(context).forVisitorModels.length > 0){
-        bodyView.add(
-
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 30.0, left: 20.0),
-                child: Text(
-                  'Visitors',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 30.0, left: 160.0),
-                child: Text(
-                  'Mark all as read',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: GateManColors.textColor,
-                  ),
-                ),
-              ),
-            ],
-          )
-
-        );
-
-      bodyView.add( Row(
-            children: <Widget>[
+        
+      bodyView.addAll( <Widget>[
               Expanded(
                 child: SizedBox(
                   height: 130.0,
@@ -125,9 +99,7 @@ class _NotificationResidentState extends State<NotificationResident> {
                 ),
               ),
             ],
-          )
-
-);
+          );
     }
 if(getResidentNotificationProvider(context).forInviteModels!= null && getResidentNotificationProvider(context).forInviteModels.length > 0){
         bodyView.add(

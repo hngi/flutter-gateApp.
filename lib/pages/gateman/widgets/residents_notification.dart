@@ -43,6 +43,7 @@ class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
           child: Row(
             children: <Widget>[
               Container(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-84),
                 padding: EdgeInsets.only(
                   top: 10.0,
                   left: 20.0,
