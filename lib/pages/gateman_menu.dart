@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/providers/gateman_user_provider.dart';
 import 'package:xgateapp/utils/colors.dart';
@@ -39,6 +40,17 @@ class _GateManMenuState extends State<GateManMenu> {
 
   @override
   Widget build(BuildContext context) {
+    appIsConnected().then((bool isConn)async{
+      if (isConn && !getUserTypeProvider(context).loggeOut && await getUserTypeProvider(context).getUserType == user_type.GATEMAN){
+        if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           setFCMTokenInServer(context);
+         }
+        if(getProfileProvider(context).loadedFromApi==false &&  getProfileProvider(context).loading == false){
+                loadInitialProfile(context);
+              }
+            
+      }
+    });
     Size size = MediaQuery.of(context).size;
 
     GatemanUserProvider gateManProvider =
@@ -109,11 +121,19 @@ class _GateManMenuState extends State<GateManMenu> {
                     ),
                     Positioned(
                       // left: 3.0,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/gateman/Ellipse.png'),
-                        maxRadius: 32.0,
-                      ),
+                      child: ClipOval(
+                                      child: CircleAvatar(
+                                      radius: 32,
+                                      child:
+                                      getProfileProvider(context).profileModel.image!='no_image'||
+                                      getProfileProvider(context).profileModel.image!=null
+                                      ?
+                                      FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ '${getProfileProvider(context).profileModel.image}',
+                                      placeholder:'assets/images/gateman_white.png',):
+                                          AssetImage('assets/images/gateman_white.png'),
+                                      
+                                          ),
+                                        ),
                     ),
                   ],
                 ),
@@ -192,7 +212,8 @@ class _GateManMenuState extends State<GateManMenu> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, '/scan-qr');
+              // Navigator.pushNamed(context, '/scan-qr');
+              Navigator.pushNamed(context, '/qrReader');
             },
             leading: Icon(MdiIcons.qrcode,
                 color: GateManColors.primaryColor, size: 25.0),
@@ -221,7 +242,7 @@ class _GateManMenuState extends State<GateManMenu> {
       ),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/residents');
+          Navigator.pushNamed(context, '/residents');
         },
         icon: MdiIcons.accountGroup,
         title: 'Residents',
@@ -233,10 +254,12 @@ class _GateManMenuState extends State<GateManMenu> {
         traillingIcon: MdiIcons.bell,
         traillingText: 'Alerts',
         alerts: _alerts.toString(),
-        onLeadingClicked: () {},
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/visitors-list');
+        },
 
         onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+          Navigator.pushNamed(context, '/gateman-notifications');
         },
       ),
     );

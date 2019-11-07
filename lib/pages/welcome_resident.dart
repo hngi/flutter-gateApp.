@@ -8,7 +8,6 @@ import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:connectivity/connectivity.dart';
 
 
 
@@ -18,24 +17,44 @@ class WelcomeResident extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-     appIsConnected().then((isConnected){
-        print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
+     appIsConnected().then((isConnected)async{
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
-         print('I have been loaded emi prfoeile ${getProfileProvider(context).loadedFromApi}');
-         if(getProfileProvider(context).loadedFromApi == false){
-           print('Loading initial profile nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
+         print('Appppppppppppppp is connected');
+         print(await authToken(context));
+        print(getFCMTokenProvider(context).fcmToken);
+        print(getFCMTokenProvider(context).loading);
+        print(getFCMTokenProvider(context).loadedToServer);
+         if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           setFCMTokenInServer(context);
+         }
+         if(getProfileProvider(context).loadedFromApi == false && getProfileProvider(context).loading != true){
                loadInitialProfile(context);
            }
-           
-           if(getVisitorProvider(context).loadedFromApi == false){
-             print('Loading initial visitor nnnnnnnnnnnnnnnnnnnnnnnnnnn\nfffffffffffffffffffffffff\n');
+           if(getVisitorProvider(context).loadedFromApi == false && getVisitorProvider(context).loading != true){
              loadInitialVisitors(context);
            }
+           if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
+                  loadResidentNotificationFromApi(context);
+           }
+           if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
+            print('trying to get initial accepted agteman');
+      loadGateManThatAccepted(context);
+     }
+     if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
+       loadGateManThatArePending(context);
+     }
+     if(getVisitorProvider(context).scheduledVisitorsLoadedFromApi == false && getVisitorProvider(context).scheduledVisitorsLoading == false){
+       loadScheduledVisitors(context);
+     }
+     if(getVisitorProvider(context).historyVisitorsLoadedFromApi == false && getVisitorProvider(context).historyVisitorsLoading == false){
+      loadResidentsVisitorHistory(context);
+     }
        }
        
      });
+     List<VisitorModel> pageModel = getVisitorProvider(context).scheduledVisitorModels;
                return Scaffold(
-                 body: getVisitorProvider(context).visitorModels.length == 0
+                 body: pageModel.length == 0
                      ? ListView(
                          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
                          children: <Widget>[
@@ -78,7 +97,7 @@ class WelcomeResident extends StatelessWidget {
                        )
                      : ListView(
                          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-                         children: getVisitors(context, size),
+                         children: getVisitors(context, size, pageModel),
                        ),
                  floatingActionButton: BottomNavFAB(
                    onPressed: () {
@@ -104,7 +123,7 @@ class WelcomeResident extends StatelessWidget {
                );
              }
            
-             getVisitors(BuildContext context, size) {
+             getVisitors(BuildContext context, size,List<VisitorModel> pageModel) {
                List<Widget> visitors = <Widget>[
                  SizedBox(height: size.height * 0.06),
                  Padding(
@@ -252,8 +271,9 @@ class WelcomeResident extends StatelessWidget {
                List usedDates = [];
            
                visitors
-                   .addAll(getVisitorProvider(context).visitorModels.map((visitorModel) {
-                 List<String> arrival_date_array = visitorModel.arrival_date.split('-');
+                   .addAll(pageModel.reversed.map((visitorModel) {
+                    
+                 List<String> arrival_date_array = visitorModel.arrival_date==null?"00-00-00".split('-'):visitorModel.arrival_date.split('-');
                  return Column(
                    children: <Widget>[
                      Row(
@@ -311,7 +331,7 @@ class WelcomeResident extends StatelessWidget {
                                                margin: EdgeInsets.symmetric(vertical: 8.0),
                                                child: InkWell(
                                                  onTap: (){
-                                             Navigator.pushNamed(context, '/visitor-profile',arguments: getVisitorProvider(context).visitorModels.indexOf(visitorModel));
+                                             Navigator.pushNamed(context, '/visitor-profile',arguments: visitorModel);
                                            },
                                                                                                 child: ListTile(
                                                    contentPadding: EdgeInsets.zero,

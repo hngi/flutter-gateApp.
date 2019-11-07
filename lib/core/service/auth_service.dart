@@ -13,10 +13,9 @@ class AuthService {
   static Future<String> getDeviceId() async{
     try{
     deviceId = await FlutterUdid.udid;
-    print(deviceId);
     return deviceId;
     } catch (error){
-      print('unknown Error occured in getting device id');
+      print(error);
     }
 
   }
@@ -53,9 +52,7 @@ class AuthService {
             "device_id": await getDeviceId()
           });
     
-          print(response.statusCode);
-          print(response.data);
-    
+          
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;
           if (response.statusCode == 404) return ErrorType.invalid_credentials;
@@ -80,7 +77,7 @@ class AuthService {
       static dynamic registerUser({
         @required String name,
         // @required String lastName,
-        @required String email,
+        // @required String email,
         @required String phone,
         @required user_type userType,
         // @required String password,
@@ -97,23 +94,21 @@ class AuthService {
             contentType: 'application/json',
           );
           //await getDeviceId();;
-          print(deviceId);
-          print([name,email,phone,deviceId].join(' '));
           var data = {
                 "name": name,
-                "email": email,
+                // "email": email,
                 "phone": phone,
                 "device_id": await getDeviceId()};//
 
-          print(data);
           Response response = await dio.post(uri,
               data: data,
               options: options);
-    
+          
+          print(response.statusCode);
           print(response.data);
     
           if (response.statusCode >= 500 && response.statusCode <= 509) {
-            return ErrorType.generic;
+            return ErrorType.server;
           } else if (response.statusCode == 400 || response.statusCode == 401) {
             final responseJson = json.decode(response.data);
             return GateManHelpers.getErrorType(responseJson);

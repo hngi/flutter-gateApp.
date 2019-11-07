@@ -70,15 +70,19 @@ class _ResidentsState extends State<Residents> {
     GatemanUserProvider gateManProvider =
         Provider.of<GatemanUserProvider>(context, listen: false);
 
-    appIsConnected().then((bool){
-      if(bool && !getUserTypeProvider(context).loggeOut && !getProfileProvider(context).loadedFromApi){
-        loadInitialProfile(context);
-      }
-    });
-
-    //ProfileProvider getProfileProvider = Provider.of<ProfileProvider>(context, listen: false);
-
-    return Scaffold(
+    // appIsConnected().then((bool isConn){
+    //   if (isConn && !getUserTypeProvider(context).loggeOut){
+    //     if(!getProfileProvider(context).loadedFromApi){
+    //             loadInitialProfile(context);
+    //           }
+              
+    //     if(!getRequestProvider(context).isLoadedFromApi){
+    //       loadInitRequests(context);
+    //     }
+    //   }
+    // });
+      
+      return Scaffold(
       body: isLoading
           ? Loader.show()
           : ListView(

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:xgateapp/pages/gateman/widgets/bottomAppbar.dart';
 import 'package:xgateapp/pages/gateman/widgets/customFab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
+import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
+
+import '../gateman_menu.dart';
 
 class ScheduledVisit extends StatefulWidget {
   final String name, phone, description, eta, verification, visitStatus;
@@ -36,9 +40,27 @@ class _ScheduledVisitState extends State<ScheduledVisit> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(),
-      floatingActionButton: CustomFAB(),
+      floatingActionButton: BottomNavFAB(
+        onPressed: () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => GateManMenu()));
+        },
+        icon: MdiIcons.accountGroup,
+        title: 'Residents',
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: CustomBottomNavBar(
+        leadingIcon: MdiIcons.apps,
+        leadingText: 'Menu',
+        traillingIcon: MdiIcons.bell,
+        traillingText: 'Alerts',
+        onLeadingClicked: () {
+          Navigator.pushNamed(context, '/gateman-menu');
+        },
+        onTrailingClicked: () {
+          Navigator.pushReplacementNamed(context, '/gateman-notifications');
+        },
+      ),
       body: ListView(
         children: <Widget>[
           Container(

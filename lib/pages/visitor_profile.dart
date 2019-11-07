@@ -5,8 +5,8 @@ import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
 
 class VisitorProfile extends StatefulWidget {
-  final int index;
-  VisitorProfile({@required this.index});
+  final VisitorModel model;
+  VisitorProfile({@required this.model});
 
   @override
   _VisitorProfileState createState() => _VisitorProfileState();
@@ -29,7 +29,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    VisitorModel model = getVisitorProvider(context).visitorModels[this.widget.index];
+    VisitorModel model = this.widget.model;
     print(model.image);
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -120,7 +120,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                               size: 14,
                             ),
                             SizedBox(width: 10),
-                            Text(getProfileProvider(context).profileModel.name,
+                            Text(getProfileProvider(context).profileModel.name??'',
                               style: Theme.of(context).textTheme.headline,
                             ),
                           ],
@@ -166,9 +166,12 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                                 .copyWith(color: Colors.green),
                           ),
                         ),
-                        Text(
-                          '056343039034',// visitor.phone,dummy no phone number from backend
-                          style: Theme.of(context).textTheme.subtitle,
+                        InkWell(
+                          onTap: (){launchCaller(context: context, phone: model.phone_no??'',);},
+                                                  child: Text(
+                            model.phone_no??'',// visitor.phone,dummy no phone number from backend
+                            style: Theme.of(context).textTheme.subtitle,
+                          ),
                         ),
                       ],
                     ),
@@ -230,6 +233,35 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                     ),
                   ),
                 ),
+                 Container(
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.description,
+                          size: 14,
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            'Description',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle
+                                .copyWith(color: Colors.green),
+                          ),
+                        ),
+                        Text(
+                          model.description??'Nil',
+                          style: Theme.of(context).textTheme.subtitle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                   child: Padding(
@@ -264,27 +296,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'View more details.',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          SizedBox(width: 10),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.green)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+               ],
             ),
           ],
         ),

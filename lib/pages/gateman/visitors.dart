@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:xgateapp/core/models/gateman_resident_visitors.dart';
+import 'package:xgateapp/core/models/user.dart';
+import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/pages/gateman/widgets/visitorTile.dart';
 import 'package:xgateapp/pages/gateman_menu.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
@@ -54,8 +58,49 @@ class _VisitorsListState extends State<VisitorsList> {
     },
   ];
   
+bool isLoading = false;
+
+  List<GatemanResidentVisitors> _residents = [];
+  LoadingDialog dialog;
+  int _alerts = 0;
+
   @override
+
+  void initState() {
+    super.initState();
+    dialog = LoadingDialog(context, LoadingDialogType.Normal);
+    initApp();
+  }
+
+  initApp() async {
+    setState(() {
+      isLoading = true;
+    });
+    Future.wait([
+      GatemanService.allResidentVisitors(
+        authToken: await authToken(context),
+      ),
+      GatemanService.allRequests(authToken: await authToken(context)).then((alerts){
+        print(alerts);
+        setState(() {
+          _alerts = alerts.length;
+        });
+      }),
+    ]).then((res) {
+      print(res);
+      
+      setState(() {
+        _residents = res[0];
+
+        isLoading = false;
+      });
+      print("$_residents jkfnkjzenfkjerznflejkrngizlegioeugoheugeriugigherughghererghierguiuhgruhierhgiuerg");
+    });
+  }
+
+
   Widget build(BuildContext context) {
+    visitorsExist ? print("$_residents jkfnkjzenfkjerznflejkrngizlegioeugoheugeriugigherughghererghierguiuhgruhierhgiuerg"): print("ok");
     final hv = MediaQuery.of(context).size.height/100;
     return Scaffold(
       body: ListView(
@@ -87,7 +132,7 @@ class _VisitorsListState extends State<VisitorsList> {
               ),
               
             ),
-            visitorsExist ? Row(
+            /*visitorsExist ? Row(
               children: <Widget>[
                 Expanded(
                   child: SizedBox(height: 400.0,
@@ -114,7 +159,49 @@ class _VisitorsListState extends State<VisitorsList> {
                 padding: const EdgeInsets.only(top:60.0),
                 child: Text('No visitors awaited', style: TextStyle(fontSize: 20.0, color: Colors.grey, fontWeight: FontWeight.w600),),
               )),
+            ),*/
+
+            _residents == null || _residents.length == 0
+                    ? Container(
+              child: Center(child: Padding(
+                padding: const EdgeInsets.only(top:60.0),
+                child: Text('No visitors awaited', style: TextStyle(fontSize: 20.0, color: Colors.grey, fontWeight: FontWeight.w600),),
+              )),
+            )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:
+                            _residents.map((GatemanResidentVisitors visitor) {
+                          User resident = visitor.user;
+
+                          return Padding(
+                            padding: const EdgeInsets.only(top:8.0, bottom:8.0),
+                            child: VisitorTile(
+                              name: '${visitor.name}',
+                              address: '${visitor.phoneNo}',
+                              time:
+                                  '${visitor.visitingPeriod}',
+                              color: Colors.blueGrey.withOpacity(0.2),
+                              func: (){
+                                Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScheduledVisit(
+              name:'${visitor.name}',
+                                  phone:'${visitor.phoneNo}',
+                                  description:'${visitor.description}',
+                                  eta:'${visitor.createdAt}',
+                                  verification:'QR Code',
+                                  visitStatus:'${visitor.qrCode}',
             ),
+          ),
+        );
+                              },
+                            ),
+                          );
+                        }).toList(),
+                      ),
 
         ],
       ),

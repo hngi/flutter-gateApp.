@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/service/visitor_service_new.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
@@ -17,6 +18,7 @@ import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomCheckBox/custom_checkbox.dart';
 import 'package:xgateapp/widgets/CustomDatePicker/custom_date_picker.dart';
+import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:xgateapp/widgets/DashedRectangle/dashed_rectangle.dart';
 import 'package:xgateapp/widgets/VisitorsBox/VisitorsBox.dart';
@@ -26,6 +28,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:screenshot/screenshot.dart';
 class AddVisitorPart extends StatefulWidget {
+  bool editMode = false;
+   int visitorId;
+  String initName,initArrivalDate,initArrivalPeriod,initCarPlateNumber,initPurpose,initVisitorsPhoneNo,initVisitorsImageLink,initialGroup,description;
+
+  AddVisitorPart({this.editMode,this.initName,this.initArrivalDate,this.initArrivalPeriod,this.initCarPlateNumber,
+  this.initPurpose,this.initVisitorsPhoneNo,this.initVisitorsImageLink,this.visitorId,this.initialGroup='none',this.description});
   @override
   _AddVisitorPartState createState() => _AddVisitorPartState();
 }
@@ -41,6 +49,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
   TextEditingController _fullNameController;
   TextEditingController _carPlateNumberController;
   TextEditingController _purposeController;
+  TextEditingController _phoneController,_descriptionController;
+
 
   String _fullname;
   
@@ -50,14 +60,35 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   ScreenshotController screenshotController;
 
+  bool saveVisitor = false;
+
+  String initialGroup = 'none';
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _fullNameController = TextEditingController(text:'');
-    _carPlateNumberController = TextEditingController(text:'');
-    _purposeController=TextEditingController(text: '');
+    _fullNameController = TextEditingController(text:this.widget.initName??'');
+    _carPlateNumberController = TextEditingController(text:this.widget.initCarPlateNumber??'');
+    _purposeController=TextEditingController(text: this.widget.initPurpose??'');
+    _phoneController = TextEditingController(text: this.widget.initVisitorsPhoneNo??'');
+    _descriptionController = TextEditingController(text: this.widget.description??'');
     screenshotController = ScreenshotController();
+    if(this.widget.initArrivalPeriod != null){
+      if(this.widget.initArrivalPeriod.toLowerCase() == 'afternoon'){
+          this
+            ..morningChecked = false
+            ..afternoonChecked = true
+            ..eveningChecked = false;
+      } else if(this.widget.initArrivalPeriod.toLowerCase() == 'evening'){
+          this
+            ..morningChecked = false
+            ..afternoonChecked = false
+            ..eveningChecked = true;
+      }
+    }
+    this.initialGroup = this.widget.initialGroup??'none';
   }
 
   @override
@@ -67,6 +98,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     _fullNameController.dispose();
     _carPlateNumberController.dispose();
     _purposeController.dispose();
+    _phoneController.dispose();
 
   }
 
@@ -89,17 +121,6 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 }).catchError((onError) {
     print(onError);
 });
-    // final ByteData bytes=await rootBundle.load('assets/images/qr.png');
-    // Uint8List bytes = base64.decode(_base64);
-    // print('sharing');
-    // await Share.file('Estate Invite',
-    //     'qr.png',
-    //     bytes.buffer.asUint8List(),
-    //     'image/png',
-    //     text: 'Show this at the security gate.');
-
-
-    //Share.text('Visitor Invite', 'This is my text to share with other applications.', 'text/plain');
   }
 
   
@@ -149,7 +170,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               Padding(
                                 padding: const EdgeInsets.only(bottom:8.0),
                                 child: Text(
-                                  'Visitor added successfully',
+                                  'Visitor ${!this.widget.editMode?"added":"updated"} successfully',
                                   style: TextStyle(fontSize: 16, color: Colors.white),
                                 ),
                               ),
@@ -198,7 +219,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Image.memory(base64.decode(_base64)),
+                                child: Image.memory(base64.decode(_base64),width: 150,height: 150,filterQuality: FilterQuality.low,),
                                 /*child: Image.network(
                                     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
                                 ),*/
@@ -289,29 +310,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
 
   List<Widget> _moreDetail() {
     return [
-      // GestureDetector(
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Text(
-      //         'Add more details',
-      //         style: TextStyle(
-      //             color: GateManColors.primaryColor,
-      //             fontSize: 12,
-      //             fontWeight: FontWeight.w600),
-      //       ),
-      //       Icon(
-      //         Icons.keyboard_arrow_up,
-      //         size: 20,
-      //         color: GateManColors.primaryColor,
-      //       )
-      //     ],
-      //   ),
-      //   onTap: () {
-      //     toggleShowingMoreDetail();
-      //   },
-      // ),
-      Padding(
+     Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
         child: Text(
           'Arrival Date',
@@ -321,12 +320,6 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               fontWeight: FontWeight.w600),
         ),
       ),
-      // CustomInputField(
-      //   textEditingController: textEditingController,
-      //   hint: 'Enter arrival date',
-      //   prefix: Icon(Icons.calendar_today),
-      //   keyboardType: TextInputType.datetime,
-      // ),
       CustomDatePicker(
         dateController: _arrivalDateController,
         onChanged: (date){
@@ -395,6 +388,20 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         keyboardType: TextInputType.text,
         textEditingController: _carPlateNumberController,
       ),
+      CustomDropdownButton(hintText: "Visitor's Group",
+      label: "Visitor's Group",
+      value: initialGroup??'none',onChanged: (f){
+        setState(() {
+         initialGroup = f; 
+        });
+      },
+      items: ['none'
+      ,'Families','Friends'].map((String f){
+        return DropdownMenuItem(
+          value: f,
+          child: Text(f),
+        );
+      }).toList(),),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 15),
         child: Text(
@@ -410,6 +417,37 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         hint: 'Purpose',
         keyboardType: TextInputType.text,
         textEditingController: _purposeController, prefix: Icon(Icons.assignment_ind),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
+          "Visitor's Description",
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+      CustomInputField(
+        hint: 'Description',
+        keyboardType: TextInputType.text,
+        textEditingController: _descriptionController, prefix: Icon(Icons.assignment_ind),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 20.0, bottom: 15),
+        child: Text(
+          "Visitor's phone number",
+          style: TextStyle(
+              color: GateManColors.textColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+
+      CustomInputField(
+        hint: "Visitor's phone number",
+        keyboardType: TextInputType.text,
+        textEditingController: _phoneController, prefix: Icon(Icons.contact_phone),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 20.0, bottom: 16),
@@ -437,7 +475,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                image==null?
+                image==null?this.widget.initVisitorsImageLink!=null?Image.network(Endpoint.imageBaseUrl+this.widget.initVisitorsImageLink,height: 102,width: 400):
                 Image.asset('assets/images/ei-image.png'):Image.file(image,height: 102,width: 400,),
                 Visibility(
                   visible: image==null,
@@ -453,7 +491,25 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
             ),
           ),
         ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          
+          onTap: (){
+
+            setState(() {
+             saveVisitor = !saveVisitor; 
+            });
+          },
+                  child: CustomCheckBox(
+                    checked: saveVisitor,
+            text: 'Save Visitor',
+            
+          ),
+        ),
       )
+
     ];
   }
 
@@ -487,6 +543,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               onSaved: (str) => _fullname = str,
               validator: (str) =>
                 str.isEmpty ? 'Full name cannot be empty.' : null,
+              enabled: !this.widget.editMode,
             ),
             SizedBox(
               height: 20,
@@ -495,43 +552,16 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
               child: AnimatedSize(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:_moreDetail() //showingMoreDetail
-                      // ? _moreDetail()
-                      // : <Widget>[
-                      //     GestureDetector(
-                      //         child: Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           children: <Widget>[
-                      //             Text(
-                      //               'Add more details',
-                      //               style: TextStyle(
-                      //                   color: GateManColors.primaryColor,
-                      //                   fontSize: 12,
-                      //                   fontWeight: FontWeight.w600),
-                      //             ),
-                      //             Icon(
-                      //               Icons.keyboard_arrow_down,
-                      //               size: 20,
-                      //               color: GateManColors.primaryColor,
-                      //             )
-                      //           ],
-                      //         ),
-                      //         onTap: () {
-                      //           toggleShowingMoreDetail();
-                      //         })
-                      //   ],
-                ),
+                  children:_moreDetail()),
                 duration: Duration(milliseconds: 1000), vsync: this,
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: ActionButton(
-                buttonText: 'Add',
+                buttonText: this.widget.editMode==true?'Update':'Add',
                 onPressed: () async {
                   print(_arrivalDateController.text);
-                  // commented out because it was buggy
-                  // final date=DateFormat('yyyy-MM-dd').format(DateFormat().add_yMd().parse(_arrivalDateController.text));
                   final date=_arrivalDateController.text.split('/').reversed.join('-');
                   
                   print(date);
@@ -539,6 +569,8 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                   print('FULL NAME '+_fullNameController.text);
                   print('CAR PLATE: '+_carPlateNumberController.text);
                   print('PURPOSE: '+_purposeController.text);
+                  print('GROUP: '+ initialGroup);
+                  print('PHONE: ' + _phoneController.text);
                   print('ARRIVAL DATE: $date');
                   print('IMAGE PATH: $image');
                   print(this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening');
@@ -556,73 +588,163 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         //authToken: await authToken(context),
                     );*/
                     // openAlertBox();
-                    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-                    dialog.show();
-                    dynamic response = await NewVisitorService.addVisitor(
-                      name: _fullNameController.text,
-                      arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
-                      carPlateNo: _carPlateNumberController.text,
-                      purpose: _purposeController.text.isEmpty? 'none':_purposeController.text,
-                      status: '8',
-                      estateId: '7',//image: image==null?null:image.path.toString(),
-                      authToken: await authToken(context),
-                      image: image??null,
-                      visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening'
-                    );
+                    if (this.widget.editMode == false || this.widget.editMode == null){
+                                          LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+                                          dialog.show();
+                                          print(date);
+                                          dynamic response = await NewVisitorService.addVisitor(
+                                            name: _fullNameController.text,
+                                            arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
+                                            carPlateNo: _carPlateNumberController.text,
+                                            purpose: _purposeController.text.isEmpty? 'none':_purposeController.text,
+                                            phone: _phoneController.text.isEmpty?null:_phoneController.text,
+                                            status: '8',
+                                            estateId: '7',//image: image==null?null:image.path.toString(),
+                                            authToken: await authToken(context),
+                                            image: image??null,
+                                            visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening',
+                                            visitorsGroup: initialGroup,
+                                            description: _descriptionController.text
+                                          );
+                      
+                                          print(response);
+                                          if (response is ErrorType){
+                                            Navigator.pop(context);
+                      
+                      
+                                            PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                                          
+                                          } else{
+                                              // print(response);
+                                              dialog.hide();
+                                              VisitorModel model = VisitorModel.fromJson(response['visitor']);
+                                              getVisitorProvider(context).addVisitorModel(model);
+                                              if (saveVisitor){
+                                                    if (await saveVisitorToPref(context,model) == false){
+                                                      PaysmosmoAlert.showWarning(context: context,message: 'You already have this Visitor Saved');
+                                                    } else{
+                                                       PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                                             
+                                                    }
+                                          }
+                                             loadInitialVisitors(context,skipAlert:true);
+                                             getVisitorProvider(context).addVisitorModelToScheduled(model);
+                                             loadScheduledVisitors(context);
+                                               PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been updated');
+                                             
+                                              print("qt image");
+                                              print(response['qr_image_src']);
+                                              setState(() {
+                                               _base64 =  response['qr_image_src'].toString().split(',')[1];
+                                              });
+                                              openAlertBox(response['visitor']['qr_code']??'Nil');
+                                          }
 
-                    print(response);
-                    if (response is ErrorType){
-                      Navigator.pop(context);
+                    } else {
+                         LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+                                          dialog.show();
+                                          print(date);
+                                          print('${this.widget.visitorId} ::::::::::');
+                                          dynamic response = await NewVisitorService.updateVisitor(
+                                            name: _fullNameController.text,
+                                            arrivalDate: date.isEmpty? DateFormat('yyyy-MM-dd').format(DateTime.now()):date,
+                                            carPlateNo: _carPlateNumberController.text,
+                                            purpose: _purposeController.text.isEmpty? 'none':_purposeController.text,
+                                            phone: _phoneController.text.isEmpty?null:_phoneController.text,
+                                            status: '8',
+                                            estateId: '7',//image: image==null?null:image.path.toString(),
+                                            authToken: await authToken(context),
+                                            image: image??null,
+                                            visitingPeriod: this.morningChecked?'morning':this.afternoonChecked?'afternoon':'Evening',
+                                            visitorsGroup: initialGroup, visitorId: this.widget.visitorId,
+                                            description: _descriptionController.text
+                                          );
+                      
+                                          print(response);
+                                          if (response is ErrorType){
+                                            Navigator.pop(context);
+                      
+                      
+                                            PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+                                          
+                                          } else{
+                                              // print(response);
+                                              
+                                              VisitorModel model = VisitorModel.fromJson(response['visitor']);
+                                              if(await getVisitorProvider(context).addVisitorModel(model,update: true)){
+                                                PaysmosmoAlert.showWarning(context: context,message: 'Visitor Updated Succesfully');
+                                                   
 
+                                              }else{
 
-                      PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
-                    
-                    } else{
-                        // print(response);
-                        dialog.hide();
-                        getVisitorProvider(context).addVisitorModel(VisitorModel.fromJson(response['visitor']));
-                       loadInitialVisitors(context,skipAlert:true);
-                        
-                        PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
-                        print("qt image");
-                        print(response['qr_image_src']);
-                        setState(() {
-                         _base64 =  response['qr_image_src'].toString().split(',')[1];
-                        });
-                        openAlertBox(response['visitor']['qr_code']??'Nil');
+                                              }
+                                              if (saveVisitor){
+                                                    if (await saveVisitorToPref(context,model) == false){
+                                                      PaysmosmoAlert.showWarning(context: context,message: 'You already have this Visitor Saved');
+                                                    }
+                                          }
+                                             loadInitialVisitors(context,skipAlert:true);
+                                             getVisitorProvider(context).addVisitorModelToScheduled(model);
+                                             loadScheduledVisitors(context);
+                                              
+                                              PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                                              print("qt image");
+                                              print(response['qr_image_src']);
+                                              print('${model.id} ::::::::id:::here');
+                                              dynamic qr_image_src = await NewVisitorService.getQrImageSrcForVisitor(authToken: await authToken(context), visitorId: model.id);
+
+                                              if (qr_image_src is ErrorType){
+                                                await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(qr_image_src)}\ncould not retrieve qr image');
+                                                Navigator.pop(context);
+                                              } else{
+                                                Navigator.pop(context);
+                                                setState(() {
+                                               _base64 =  qr_image_src['qr_image'].toString().split(',')[1];
+                                              });
+                                              openAlertBox(qr_image_src['qr_code']??'Nil');
+                                              }
+                                              
+                                          }
+
                     }
-
                     
-                  }
-
-                },
-                horizontalPadding: 0,
-              ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            // Text(
-            //   'Visitors',
-            //   style: TextStyle(
-            //       color: GateManColors.primaryColor,
-            //       fontSize: 12,
-            //       fontWeight: FontWeight.w600),
-            // ),
-            // SizedBox(
-            //   height: 10,
-            // ),
-            // VisitorsBox(
-            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            // VisitorsBox(
-            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-            // VisitorsBox(
-            //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
-          ],
-        ),
-      ),
-    );
-  }
+                                          
+                      
+                                          
+                                        }
+                      
+                                      },
+                                      horizontalPadding: 0,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  // Text(
+                                  //   'Visitors',
+                                  //   style: TextStyle(
+                                  //       color: GateManColors.primaryColor,
+                                  //       fontSize: 12,
+                                  //       fontWeight: FontWeight.w600),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: 10,
+                                  // ),
+                                  // VisitorsBox(
+                                  //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+                                  // VisitorsBox(
+                                  //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+                                  // VisitorsBox(
+                                  //     visitorsName: 'Michael Raggae', visitorsNumber: '09087675434',visitorsCategory: 'Family',),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                      
+                        Future<bool> saveVisitorToPref(BuildContext context,VisitorModel model) {
+                          return getVisitorProvider(context).addVisitorModelToSaved(model);
+                        }
 
 }
 

@@ -7,8 +7,6 @@ import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/core/models/service_provider.dart';
 import 'package:xgateapp/utils/constants.dart';
 
-import 'package:xgateapp/utils/constants.dart';
-
 class ServiceProviderService {
   static String authTokenStr = '';
 

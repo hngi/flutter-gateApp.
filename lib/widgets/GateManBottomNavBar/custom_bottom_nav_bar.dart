@@ -39,9 +39,25 @@ class CustomBottomNavBar extends StatelessWidget {
           backgroundColor: GateManColors.primaryColor,
           showSelectedLabels: true,
           showUnselectedLabels: true,
+          onTap:(int index){
+            switch (index) {
+              case 0:
+                onLeadingClicked();
+                break;
+              case 2:
+                onTrailingClicked();
+                break;
+
+                
+                break;
+              default:
+              break;
+            }
+          },
           items: [
             BottomNavigationBarItem(
-              icon: InkWell(child: Icon(leadingIcon, color: Colors.white, size: 35.0),onTap: onLeadingClicked,),
+              
+              icon: Icon(leadingIcon, color: Colors.white, size: 35.0),
               title: Text(leadingText,
                   style: TextStyle(
                     color: Colors.white,
@@ -55,15 +71,13 @@ class CustomBottomNavBar extends StatelessWidget {
               title: Text(''),
             ),
             BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: onTrailingClicked,
-                              child: Stack(
+              icon: Stack(
                   children: <Widget>[
                     Icon(traillingIcon, color: Colors.white, size: 35.0),
                     Positioned(
                       right: 1.0,
                       top: 1.0,
-                      child: Container(
+                      child:alerts==null||alerts.isEmpty?Container(width: 0,height: 0,): Container(
                         height: 16.0,
                         width: 16.0,
                         alignment: Alignment.center,
@@ -73,12 +87,11 @@ class CustomBottomNavBar extends StatelessWidget {
                         ),
                         child: Text(alerts??' ',
                             style:
-                                TextStyle(fontSize: 13.0, color: Colors.white)),
+                TextStyle(fontSize: 13.0, color: Colors.white)),
                       ),
                     ),
                   ],
                 ),
-              ),
               title: Text(traillingText,
                   style: TextStyle(
                     color: Colors.white,
@@ -87,7 +100,6 @@ class CustomBottomNavBar extends StatelessWidget {
                   )),
             )
           ],
-          onTap: (index) {},
         ),
       ),
     );

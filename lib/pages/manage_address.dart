@@ -8,7 +8,6 @@ import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
-import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
@@ -76,6 +75,7 @@ class _ManageAddressState extends State<ManageAddress> {
       PaysmosmoAlert.showSuccess(
               context: context, message: 'Estate Successfully Selected')
           .then((_) {
+            if(getProfileProvider(context).profileModel==null) getProfileProvider(context).setProfileModel(ProfileModel());
             getProfileProvider(context).profileModel.homeModel.houseBlock = result['user_details']['house_block'];
             if(getProfileProvider(context).profileModel.homeModel.estateId != result['user_details']['estate']['id']){
                 getProfileProvider(context).profileModel.homeModel.estateId = result['user_details']['estate']['id'];

@@ -33,21 +33,17 @@ class _SplashScreenState extends State<SplashScreen> {
         user_type routeString = await userType(context);
         getProfileProvider(context).setProfileModelFromPrefs();
         if (routeString == user_type.RESIDENT) {
-          // await loadGateManThatAccepted(context);
          getVisitorProvider(context).setVisitorModelsFromPrefs();
-         getResidentsGateManProvider(context).setResidentsGateManAwaitingModelsFromPrefs();
-          getResidentsGateManProvider(context).setResidentsGateManModelsFromPrefs();
-        }
+         getResidentsGateManProvider(context)
+                                      ..setResidentsGateManAwaitingModelsFromPrefs()
+                                      ..setResidentsGateManModelsFromPrefs();
+          getVisitorProvider(context)
+                              ..setScheduledVisitorFromPrefs()
+                              ..setSavedVisitorFromPrefs()
+                              ..setHistoryVisitorFromPrefs();
+                              
 
-       /* if (routeString == user_type.GATEMAN) {
-          // await loadGateManThatAccepted(context);
-          getVisitorProvider(context).setVisitorModelsFromPrefs();
-          getResidentsGateManProvider(context).setResidentsGateManAwaitingModelsFromPrefs();
-          getResidentsGateManProvider(context).setResidentsGateManModelsFromPrefs();
         }
-*/
-        print("initial route: " + mapUserTypeToPage[routeString]);
-
         getUserTypeProvider(context).setFirstRunStatus(false);
         Navigator.pushReplacementNamed(context, mapUserTypeToPage[routeString]);
       }
@@ -56,10 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.white, //top bar color
-    // ));
-
     return Scaffold(
       body: Container(
         height: double.infinity,

@@ -120,6 +120,8 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
                     context, '/user-type');
                       }else{
                         await PaysmosmoAlert.showWarning(context: context,message: 'Location Inaccessible');
+                        return Navigator.pushReplacementNamed(
+                    context, '/user-type');
                           
                       }
                         }
