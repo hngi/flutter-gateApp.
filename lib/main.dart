@@ -215,10 +215,11 @@ class _GateManState extends State<GateMan> {
     String type = message['data']['type'];
     print(type);
     getResidentNotificationProvider(context).setLoadedFromApi(false);
+    getResidentsGateManProvider(context)
+            .setLoadedFromApi(stat: false, pendingStat: false);
+     
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:
-        getResidentsGateManProvider(context)
-            .setLoadedFromApi(stat: false, pendingStat: false);
            if (ModalRoute.of(navigatorKey.currentContext)?.settings?.name != '/manage-gateman'){
               
        if (viewWhen != 'onMessage'){
@@ -235,7 +236,6 @@ class _GateManState extends State<GateMan> {
         break;
 
       case GateGuardNotificationType.visitorArrivalNotification:
-      
            if (ModalRoute.of(context)?.settings?.name != '/resident-notifications'){
              if (viewWhen != 'onMessage'){
                print('should push');
@@ -256,6 +256,9 @@ class _GateManState extends State<GateMan> {
         print('unknown notiication type');
         break;
     }
+    setState(() {
+      
+    });
   }
 
   void handleOnNotiicationReceivedForGateman(message,{String viewWhen}) {

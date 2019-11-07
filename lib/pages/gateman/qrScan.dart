@@ -314,9 +314,13 @@ class _ScanQRCode2State extends State<ScanQRCode2> {
                                                     ),
                           ),
                           FlatButton(
-                            color: GateManColors.primaryColor,
+                            
+                            color: _isScanning || _isValidating?Colors.grey:GateManColors.primaryColor,
                             child:Text('Validate',style:TextStyle(color: Colors.white),),
                             onPressed: (){
+                              if (_isScanning || _isValidating){
+                                return;
+                              }
                               if(_qrTextField.text.length != 6){
                                 PaysmosmoAlert.showError(context: context,message: 'Code must be Six characters');
                               } else{

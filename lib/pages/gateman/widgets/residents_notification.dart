@@ -53,7 +53,8 @@ class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: GateManColors.textColor,
+                    color: this.widget.model.read != null && this.widget.model.read == true?
+                    Colors.grey:GateManColors.textColor,
                   ),
                 ),
               ),

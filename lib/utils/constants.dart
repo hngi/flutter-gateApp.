@@ -292,6 +292,8 @@ void logOut(context)async {
                                 ..setLoadedFromApi(false)
                                 ..setScheduledVisitorFromApi([],fromApi:false)
                                 ..setScheduledVisitorsLoadedFromApiStatus(false);
+  Provider.of<ResidentNotificationProvider>(context)
+                                          .clear();
   Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
   Provider.of<ResidentsGateManProvider>(context).clear();
   getFCMTokenProvider(context).clear();

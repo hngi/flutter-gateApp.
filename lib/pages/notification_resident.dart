@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
+import 'package:xgateapp/core/service/notification_service/resident_notification_service.dart';
 import 'package:xgateapp/pages/gateman/widgets/residents_notification.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
@@ -35,10 +36,24 @@ class _NotificationResidentState extends State<NotificationResident> {
       
       appBar: GateManHelpers.appBar(context, 'Notifications'),
       body:RefreshIndicator(child:Container(
-        child: Column(
-          children:buildNotificationBody() == null?Container(
+        child: buildNotificationBody() == null || buildNotificationBody().isEmpty?
+        Container(
           width:MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/2,
-          child: Center(child: Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),))):buildNotificationBody()
+          child: ListView(children: [
+            Center(child:
+            Padding(
+              
+              child:
+            
+            Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),), 
+            padding: EdgeInsets.only(
+              top:MediaQuery.of(context).size.height/2
+            ),))]
+            )
+        )
+        :
+        Column(
+          children:buildNotificationBody()
         ),
       )
       
@@ -74,43 +89,19 @@ class _NotificationResidentState extends State<NotificationResident> {
 
   List<Widget> buildNotificationBody(){
     List<Widget> bodyView = [];
-    if(getResidentNotificationProvider(context).forVisitorModels != null && getResidentNotificationProvider(context).forVisitorModels.length > 0){
+    List<ResidentNotificationModel> total  = [];
+    if(getResidentNotificationProvider(context).forInviteModels != null) total.addAll(getResidentNotificationProvider(context).forInviteModels);
+    if(getResidentNotificationProvider(context).forVisitorModels != null) total.addAll(getResidentNotificationProvider(context).forVisitorModels);
+    if(total != null && total.length > 0){
         
       bodyView.addAll( <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 130.0,
-                  child: ListView.builder(
-                    itemCount: getResidentNotificationProvider(context).forVisitorModels.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: ResidentsNotificationList(
-                          name: getResidentNotificationProvider(context).forVisitorModels[index].notificationData['body'],
-                          time: getResidentNotificationProvider(context).forVisitorModels[index].createdAt.toString()??'',
-                          notificationId: getResidentNotificationProvider(context).forVisitorModels[index].id,
-                          model: getResidentNotificationProvider(context).forVisitorModels[index],
-                          
-                        ),
-                      );
-                    
-                    },
-                  ),
-                ),
-              ),
-            ],
-          );
-    }
-if(getResidentNotificationProvider(context).forInviteModels!= null && getResidentNotificationProvider(context).forInviteModels.length > 0){
-        bodyView.add(
-
-          Row(
+                Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(top: 30.0, left: 20.0),
                 child: Text(
-                  'Invites',
+                  'Notifications',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
@@ -120,34 +111,46 @@ if(getResidentNotificationProvider(context).forInviteModels!= null && getResiden
               ),
               Container(
                 padding: EdgeInsets.only(top: 30.0,right:20.0),
-                child: Text(
-                  'Mark all as read',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: GateManColors.textColor,
+                child: InkWell(
+                  onTap: ()async{
+                    dynamic response = await ResidentNotificationService.markselectedNotificationAsRead(
+                      notificationIds: total.where((ResidentNotificationModel test){
+                        return test.read == false;
+                    }).map((ResidentNotificationModel model){
+                      return model.id;
+                    }).toList()
+                    ) ;
+                    print(response);
+
+                    loadResidentNotificationFromApi(context);
+
+                  },
+                     child: Text(
+                    'Mark all as read',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: GateManColors.textColor,
+                    ),
                   ),
                 ),
               ),
             ],
           )
 
-        );
-
-      bodyView.add(Row(
-            children: <Widget>[
+        ,
               Expanded(
                 child: SizedBox(
                   height: 130.0,
                   child: ListView.builder(
-                    itemCount: getResidentNotificationProvider(context).forInviteModels.length,
+                    itemCount: total.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: ResidentsNotificationList(
-                          name: getResidentNotificationProvider(context).forInviteModels[index].notificationData['body']??'',
-                          time: getResidentNotificationProvider(context).forInviteModels[index].createdAt.toString()??'',
-                          notificationId: getResidentNotificationProvider(context).forInviteModels[index].id??'',
-                          model: getResidentNotificationProvider(context).forInviteModels[index],
+                          name: total[index].notificationData['body'],
+                          time: total[index].createdAt.toString()??'',
+                          notificationId: total[index].id,
+                          model: total[index],
                           
                         ),
                       );
@@ -157,9 +160,9 @@ if(getResidentNotificationProvider(context).forInviteModels!= null && getResiden
                 ),
               ),
             ],
-          )
           );
     }
+
     return bodyView;
 
   }

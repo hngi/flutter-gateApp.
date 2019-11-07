@@ -250,7 +250,7 @@ return ListView.builder(
                 return AlertDialog(
                   title: Text('Are you sure you want to remove visitor ?'),
                   content: Text(
-                      'Visitor will no longer be in your scheduled liste.'),
+                      'Visitor will no longer be in your scheduled list.'),
                   actions: <Widget>[
                     FlatButton(
                         onPressed: () {
@@ -408,7 +408,7 @@ return ListView.builder(
                 return AlertDialog(
                   title: Text('Are you sure you want to remove visitor ?'),
                   content: Text(
-                      'Visitor will no longer be in your scheduled liste.'),
+                      'Visitor will no longer be in your saved list.'),
                   actions: <Widget>[
                     FlatButton(
                         onPressed: () {

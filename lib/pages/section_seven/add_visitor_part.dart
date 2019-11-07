@@ -643,9 +643,9 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                              
                                               print("qt image");
                                               print(response['qr_image_src']);
-                                              setState(() {
-                                               _base64 =  response['qr_image_src'].toString().split(',')[1];
-                                              });
+                                              // setState(() {
+                                              //  _base64 =  response['qr_image_src'].toString().split(',')[1];
+                                              // });
                                               openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: _fullNameController.text, screenshotController: screenshotController,);
                                           }
 
@@ -696,7 +696,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                              getVisitorProvider(context).addVisitorModelToScheduled(model);
                                              loadScheduledVisitors(context);
                                               
-                                              PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                                              await PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                                               print("qt image");
                                               print(response['qr_image_src']);
                                               print('${model.id} ::::::::id:::here');
@@ -707,9 +707,6 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                                 Navigator.pop(context);
                                               } else{
                                                 Navigator.pop(context);
-                                                setState(() {
-                                               _base64 =  qr_image_src['qr_image'].toString().split(',')[1];
-                                              });
                                               openAlertBox(code:qr_image_src['qr_code']??'Nil', context: context, fullName: _fullNameController.text, screenshotController: screenshotController);
                                               }
                                               

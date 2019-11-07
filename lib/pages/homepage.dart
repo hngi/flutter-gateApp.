@@ -11,7 +11,8 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    int notifications = getResidentNotificationProvider(context).getTotalNumberOfNotifications;
+    int notifications = getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications;
+    print(':::::::::::::::::::::::::::::::::::::::$notifications');
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
@@ -114,12 +115,26 @@ class Homepage extends StatelessWidget {
                                               fontWeight: FontWeight.w800,
                                             )),
                                       ),
-                                      Text(getProfileProvider(context).profileModel.homeModel?.houseBlock !=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'not set',
-                                          style: TextStyle(
-                                            color: GateManColors.grayColor,
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.w500,
-                                          )),
+                                      InkWell(
+                                        onTap: (){
+                                          if (getProfileProvider(context).profileModel.homeModel ==null || getProfileProvider(context).profileModel.homeModel.houseBlock ==null
+                                          || (getProfileProvider(context).profileModel.homeModel !=null && getProfileProvider(context).profileModel.homeModel.houseBlock !=null &&
+                                          getProfileProvider(context).profileModel.homeModel.houseBlock.isEmpty)){
+                                            Navigator.pushNamed(context,'/manage-address');
+                                          } else{
+                                            Navigator.pushNamed(context,'/manage-address',arguments: getProfileProvider(context).profileModel.homeModel.houseBlock);
+                                          }
+
+                                        },
+                                        child: Text(getProfileProvider(context).profileModel.homeModel !=null && getProfileProvider(context).profileModel.homeModel.houseBlock !=null?getProfileProvider(context).profileModel.homeModel.houseBlock:'set address',
+                                        
+                                            style: TextStyle(
+                                              fontStyle: getProfileProvider(context).profileModel.homeModel?.houseBlock !=null?null:FontStyle.italic,
+                                              color: GateManColors.grayColor,
+                                              fontSize: 18.0,
+                                              fontWeight: FontWeight.w500,
+                                            )),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -220,7 +235,7 @@ class Homepage extends StatelessWidget {
                           leadingText: 'Home',
                           traillingIcon: MdiIcons.bell,
                           traillingText: 'Alerts',
-                          alerts: getResidentNotificationProvider(context).getTotalNumberOfNotifications == null?null:getResidentNotificationProvider(context).getTotalNumberOfNotifications.toString(),
+                          alerts: getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications == null?null:getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications.toString(),
                           onLeadingClicked: () {
                             Navigator.pop(context);
                           },

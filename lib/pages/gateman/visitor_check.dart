@@ -70,7 +70,8 @@ class _VisitorCheckoutState extends State<VisitorCheckout> {
     );
     dialog.hide();
 if(result is ErrorType == false){
-  if (result.length > 0) {
+  if (result != null) {
+    print(result);
       await PaysmosmoAlert.showSuccess(
               context: context, message: 'Visitor admitted successfully')
           .then((_) {

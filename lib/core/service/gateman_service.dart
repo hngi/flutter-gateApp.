@@ -267,18 +267,15 @@ class GatemanService {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
 
-      if (!mapResponse.containsKey('visitor') ||
-          mapResponse['visitor'].length == 0) {
+      if (!mapResponse.containsKey('Visitor details')) {
         return ErrorType.no_visitor_with_code;
       }
-      final items = mapResponse['visitor'].cast<String, dynamic>();
+      final items = mapResponse['Visitor details'].cast<String, dynamic>();
       GatemanResidentVisitors visitor =GatemanResidentVisitors.fromJson(items);
 
       return visitor;
     }
-    if(response.statusCode == 202){
-      print('I am in 202');
-    }
+  
     if(response.statusCode != 200 && response.statusCode != 202){
       print('Errrror ');
       return ErrorType.generic;
