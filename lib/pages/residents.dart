@@ -4,21 +4,17 @@ import 'package:xgateapp/core/models/user.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
 import 'package:xgateapp/pages/gateman_menu.dart';
 import 'package:xgateapp/providers/gateman_user_provider.dart';
-import 'package:xgateapp/providers/profile_provider.dart';
 import 'package:xgateapp/utils/Loader/loader.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
-import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart';
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:xgateapp/widgets/ResidentExpansionTile/resident_expansion_tile.dart';
-import 'package:xgateapp/widgets/ResidentInfoCard/resident_info_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'gateman/menu.dart';
 
 class Residents extends StatefulWidget {
   @override

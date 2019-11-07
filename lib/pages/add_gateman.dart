@@ -10,7 +10,7 @@ class AddGateman extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Gateman',
+        title: Text('Add a Gate Guard',
             style: TextStyle(
               fontSize: 22.0,
               color: GateManColors.primaryColor,
@@ -28,7 +28,7 @@ class AddGateman extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.symmetric(vertical: size.height * 0.28),
-                child: Text('You do not have any gateman\n added to your list',
+                child: Text('You do not have any gate guards\n added to your list',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0,
@@ -36,7 +36,7 @@ class AddGateman extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
               ),
               ActionButton(
-                buttonText: 'Add Gateman',
+                buttonText: 'Add a Gate Guard',
                 onPressed: () {
 
 

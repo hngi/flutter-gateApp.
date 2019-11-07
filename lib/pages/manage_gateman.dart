@@ -63,7 +63,7 @@ class _ManageGatemanState extends State<ManageGateman> {
     AddGateman()
     :*/
     Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Manage Gateman'),
+      appBar: GateManHelpers.appBar(context, 'Manage Gate Guard'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom:18.0),
@@ -96,7 +96,7 @@ class _ManageGatemanState extends State<ManageGateman> {
             ):Center(
               child:Padding(
                 padding: const EdgeInsets.only(top:60.0, bottom:60.0),
-                child: Text("You do not have any gateman\nadded to your list", style: TextStyle(color: Colors.grey, fontSize: 19.0, fontWeight:FontWeight.w600 ), textAlign: TextAlign.center,),
+                child: Text("You do not have any gate guards\nadded to your list", style: TextStyle(color: Colors.grey, fontSize: 19.0, fontWeight:FontWeight.w600 ), textAlign: TextAlign.center,),
               )
               ),
               Padding(
@@ -147,7 +147,7 @@ class _ManageGatemanState extends State<ManageGateman> {
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
        onSmsPressed: (String smss){
          print('heyyyy sms'); 
-         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         _sendSMS("Message from Gate Guard by $nameProfile:\n.smss", ["${model.phone}"]);},
          smsController: smsController,);
        }).toList();
 
@@ -163,7 +163,7 @@ class _ManageGatemanState extends State<ManageGateman> {
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
        onSmsPressed: (String smss){
          print('heyyyy sms'); 
-         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         _sendSMS("Message from Gate Guard by $nameProfile:\n.smss", ["${model.phone}"]);},
          smsController: smsController,/*smsController: ManageGateman._smsController,*/);
 
 

@@ -159,7 +159,7 @@ class Homepage extends StatelessWidget {
                             ListTile(
                               leading: Icon(MdiIcons.watch,
                                   color: GateManColors.primaryColor, size: 25.0),
-                              title: Text("Manage Gateman",
+                              title: Text("Manage Gate Guard",
                                   style: TextStyle(
                                     color: GateManColors.grayColor,
                                     fontSize: 18.0,
