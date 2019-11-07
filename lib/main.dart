@@ -50,9 +50,25 @@ class _GateManState extends State<GateMan> {
     new Timer.periodic(Duration(minutes: 10), (Timer t)async{
       if(await getUserTypeProvider(context).getUserType != null && await appIsConnected() == true && await authToken(context) != null){
           loadInitialProfile(context);
-      if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading != true){
-        print(':::::::::::::::::::::::::FCM TOKEN NOT SENT FOR SOME WEIRD REASON RESETTING NOW');
-        setFCMTokenInServer(context);
+      if(getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading != true){
+        print(':::::::::::::::::::::::::FCM TOKEN NOT SET FOR SOME WEIRD REASON RESETTING NOW');
+        if (getFCMTokenProvider(context).fcmToken != null){
+          setFCMTokenInServer(context);
+        } else {
+          if (_firebaseMessaging != null){
+             _firebaseMessaging.getToken().then((token) async{
+            print('fcm Token is $token');
+          getFCMTokenProvider(context).setFCMToken(fcmToken: token);
+          appIsConnected().then((isConnected)async{
+            if (isConnected == true && getFCMTokenProvider(context).loading !=true && await authToken(context) != null){
+              setFCMTokenInServer(context);
+      }
+    });
+    
+    });
+          }
+        }
+        
       }
       if (await getUserTypeProvider(context).getUserType == user_type.RESIDENT){
         loadGateManThatAccepted(context);
@@ -199,10 +215,11 @@ class _GateManState extends State<GateMan> {
     String type = message['data']['type'];
     print(type);
     getResidentNotificationProvider(context).setLoadedFromApi(false);
+    getResidentsGateManProvider(context)
+            .setLoadedFromApi(stat: false, pendingStat: false);
+     
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:
-        getResidentsGateManProvider(context)
-            .setLoadedFromApi(stat: false, pendingStat: false);
            if (ModalRoute.of(navigatorKey.currentContext)?.settings?.name != '/manage-gateman'){
               
        if (viewWhen != 'onMessage'){
@@ -219,7 +236,6 @@ class _GateManState extends State<GateMan> {
         break;
 
       case GateGuardNotificationType.visitorArrivalNotification:
-      
            if (ModalRoute.of(context)?.settings?.name != '/resident-notifications'){
              if (viewWhen != 'onMessage'){
                print('should push');
@@ -240,6 +256,9 @@ class _GateManState extends State<GateMan> {
         print('unknown notiication type');
         break;
     }
+    setState(() {
+      
+    });
   }
 
   void handleOnNotiicationReceivedForGateman(message,{String viewWhen}) {

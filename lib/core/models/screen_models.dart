@@ -13,7 +13,6 @@ AddEditVisitorScreenModel({
 });
 
 factory AddEditVisitorScreenModel.fromVisitorModel(VisitorModel model){
-  print('visitors id is right here::::::::::::::::::::::::::::${model.id}');
   return AddEditVisitorScreenModel(editMode: 
   true,
   initName: model.name??'',

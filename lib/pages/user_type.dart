@@ -44,7 +44,7 @@ class _TypeOfUser extends State<TypeOfUser> {
             child: Padding(
               padding: EdgeInsets.only(top: 120.0),
               child: Text(
-                'How do you intend to use\n\t\t\t\t\t\t\t\t\t\t\t GatePass?',
+                'How do you intend to use\n\t\t\t\t\t\t\t\t\t\t\t GateGuard?',
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 18.0, color: Colors.black),
               ),

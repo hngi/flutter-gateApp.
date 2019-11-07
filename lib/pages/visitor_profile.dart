@@ -136,7 +136,9 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                             ),
                             SizedBox(width: 10),
                             Text(
-                              'Residents Address',// toSee.address,
+                              getProfileProvider(context).profileModel.homeModel !=null && 
+                              getProfileProvider(context).profileModel.homeModel.houseBlock!=null?
+                              getProfileProvider(context).profileModel.homeModel.houseBlock:'Residents Address',// toSee.address,
                               style: Theme.of(context).textTheme.subtitle,
                             ),
                           ],

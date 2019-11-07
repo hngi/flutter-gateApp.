@@ -72,6 +72,13 @@ class _MyVisitorsState extends State<MyVisitors> {
   static Color savedColor = Colors.grey;
   static Color historyColor = Colors.grey;
 
+  PageController _pageController = PageController();
+
+  List<bool> selectedScheduleState = [];
+  List<bool> selectedSavedState = [];
+  List<bool> selectedHistoryState = [];
+
+
    Map<int, Widget> icons(BuildContext context) => <int, Widget>{
     0: Center(
       child: scheduledTab(context),
@@ -86,10 +93,34 @@ class _MyVisitorsState extends State<MyVisitors> {
 
   int sharedValue = 0;
 
+  List<bool> getPage(int current){
+    if (current == 0) return selectedScheduleState;
+    if (current == 1) return selectedSavedState;
+    if (current == 2) return selectedHistoryState;
+    else return [];
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Visitors'),
+      appBar: GateManHelpers.appBar(context, 'Visitors',actions: getPage(sharedValue.toInt()).where((test){
+        return test==true;
+        }).length>0?[
+        IconButton(icon: Icon(Icons.delete,color: Colors.white,), onPressed: () {
+          if(_pageController.page.toInt() == 1){
+            int index = 0;
+            selectedSavedState.forEach((f){
+              if(f){
+                getVisitorProvider(context).removeVisitorModelFromSaved(index,notify: false);
+              }
+
+            });
+            getVisitorProvider(context).notifyListeners();
+            
+          }
+        },tooltip: 'Delete Selected',)
+      ]:[],),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
           Navigator.pushNamed(context, '/add_visitor');
@@ -130,26 +161,7 @@ class _MyVisitorsState extends State<MyVisitors> {
                         children: children,
                         onValueChanged: (int newValue) {
                           setState(() {
-                            sharedValue = newValue;
-                            /*if(newValue == 0){
-                          setState(() {
-                           scheduledColor = Colors.green; 
-                           savedColor = Colors.grey; 
-                           historyColor = Colors.grey; 
-                          });
-                        }else if(newValue == 1){
-                          setState(() {
-                           scheduledColor = Colors.grey; 
-                           savedColor = Colors.green; 
-                           historyColor = Colors.grey; 
-                          });
-                        } else {
-                          setState(() {
-                           scheduledColor = Colors.grey; 
-                           savedColor = Colors.grey; 
-                           historyColor = Colors.green; 
-                          });
-                        }*/
+                            _pageController.jumpToPage(newValue);
                           });
 
                           print('$newValue');
@@ -166,7 +178,21 @@ class _MyVisitorsState extends State<MyVisitors> {
                           horizontal: 12.0,
                         ),
                         child: Container(
-                          child: icons(context)[sharedValue],
+                          child: PageView(
+                            onPageChanged: (newValue){
+                              setState(() {
+                                sharedValue = newValue;
+                              });
+                              
+                            },
+                            controller: _pageController,
+                            children: <Widget>[
+                              icons(context)[0],
+                              icons(context)[1],
+                              icons(context)[2]
+
+                            ],)
+                            // child: icons(context)[sharedValue]),
                         ),
                       ),
                     ),
@@ -179,16 +205,28 @@ class _MyVisitorsState extends State<MyVisitors> {
       ),
     );
   }
-}
+
 
 Widget scheduledTab(BuildContext context) {
 List<VisitorModel> _visitors = getVisitorProvider(context).scheduledVisitorModels;
 return ListView.builder(
   itemCount:_visitors.length,
   itemBuilder: (BuildContext context, int index) {
+    if (selectedScheduleState.length - 1 == index-1){
+      selectedScheduleState.add(false);
+    }
+    
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: VisitorTile(
+        selected: selectedScheduleState[index],
+        onSelectionchange: (bool selected){
+          selectedScheduleState[index] = selected;
+          print(selectedScheduleState);
+          setState(() {
+            
+          });
+        },
         model: _visitors[index],
         name: _visitors[index].name,
         phone: _visitors[index].phone_no,
@@ -212,7 +250,7 @@ return ListView.builder(
                 return AlertDialog(
                   title: Text('Are you sure you want to remove visitor ?'),
                   content: Text(
-                      'Visitor will no longer be in your scheduled liste.'),
+                      'Visitor will no longer be in your scheduled list.'),
                   actions: <Widget>[
                     FlatButton(
                         onPressed: () {
@@ -232,19 +270,11 @@ return ListView.builder(
               });
         },
         buttonFunc3: ()async{
-          LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
-          dialog.show();
-          dynamic qr_image_src = await NewVisitorService.getQrImageSrcForVisitor(authToken: await authToken(context),visitorId: _visitors[index].id);
-
-          if (qr_image_src is ErrorType){
-            await PaysmosmoAlert.showError(context: context,message: '${GateManHelpers.errorTypeMap(qr_image_src)}\ncould not retrieve qr image');
-            Navigator.pop(context);
-          } else{
-            Navigator.pop(context);
+         
             ScreenshotController screenShotController = ScreenshotController();
-          openAlertBox(base64String: qr_image_src['qr_image'].toString().split(',')[1], code: qr_image_src['qr_code']??'Nil',
+          openAlertBox(code: _visitors[index].qr_code??'Nil',
             context: context, fullName: _visitors[index].name, screenshotController: screenShotController);
-          }
+          
           
         },
       ),
@@ -260,9 +290,20 @@ Widget savedTab(BuildContext context){
 return ListView.builder(
   itemCount: _visitors.length,
   itemBuilder: (BuildContext context, int index) {
+    if (selectedSavedState.length - 1 == index-1){
+      selectedSavedState.add(false);
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: VisitorTile(
+        selected: selectedSavedState[index],
+        onSelectionchange: (bool selected){
+          selectedSavedState[index] = selected;
+          print(selectedSavedState);
+          setState(() {
+            
+          });
+        },
         model: _visitors[index],
         name: _visitors[index].name??'',
         phone: _visitors[index]?.phone_no??'',
@@ -367,7 +408,7 @@ return ListView.builder(
                 return AlertDialog(
                   title: Text('Are you sure you want to remove visitor ?'),
                   content: Text(
-                      'Visitor will no longer be in your scheduled liste.'),
+                      'Visitor will no longer be in your saved list.'),
                   actions: <Widget>[
                     FlatButton(
                         onPressed: () {
@@ -377,7 +418,7 @@ return ListView.builder(
                     FlatButton(
                       onPressed: ()async{
                         String name  = _visitors[index].name??'';
-                        getVisitorProvider(context).removeVisitorModelFromSaved(_visitors[index],index);
+                        getVisitorProvider(context).removeVisitorModelFromSaved(index);
                         await PaysmosmoAlert.showSuccess(context: context,message: 'You deleted $name from your Visitors List');
                         Navigator.pop(context);
 
@@ -396,15 +437,25 @@ return ListView.builder(
       );
   }
 
-
 Widget historyTab(BuildContext context){
   List<VisitorModel> _visitorsHistory = getVisitorProvider(context).historyVisitorModels;
   return ListView.builder(
     itemCount: _visitorsHistory.length,
      itemBuilder: (BuildContext context, int index) {
        VisitorModel visitor = _visitorsHistory[index];
+       if (selectedHistoryState.length - 1 == index-1){
+      selectedHistoryState.add(false);
+    }
        return VisitorTile(
-      model: _visitors[index],
+         selected: selectedHistoryState[index],
+         onSelectionchange: (bool selected){
+          selectedHistoryState[index] = selected;
+          print(selectedHistoryState);
+          setState(() {
+            
+          });
+        },
+      model: visitor,
       avatarLink: visitor.image=='noimage.jpg' || visitor.image == null?null:visitor.image,
       name: visitor.name??'',
       group: visitor.visitor_group??'',
@@ -424,3 +475,8 @@ Widget historyTab(BuildContext context){
 );
 
 }
+
+}
+
+
+

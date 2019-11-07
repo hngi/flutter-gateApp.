@@ -12,7 +12,6 @@ import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
-import 'package:xgateapp/utils/constants.dart' as prefix0;
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
@@ -21,7 +20,7 @@ import 'package:xgateapp/widgets/CustomDatePicker/custom_date_picker.dart';
 import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:xgateapp/widgets/DashedRectangle/dashed_rectangle.dart';
-import 'package:xgateapp/widgets/VisitorsBox/VisitorsBox.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -131,182 +130,187 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
     });
   }
 
-  openAlertBox(String code) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Screenshot(
-            controller: screenshotController,
-                      child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0))),
-              contentPadding: EdgeInsets.only(top: 0.0),
-              titlePadding: EdgeInsets.only(top: 0),
+  // openAlertBox(String code) {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return Screenshot(
+  //           controller: screenshotController,
+  //                     child: AlertDialog(
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
+  //             contentPadding: EdgeInsets.only(top: 0.0),
+  //             titlePadding: EdgeInsets.only(top: 0),
 
-              content: Container(
-                //width: 300.0,
-                child: Container(
-                  color: GateManColors.primaryColor,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: GateManColors.primaryColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.0),
-                                topRight: Radius.circular(8.0)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.only(top: 15.0, bottom: 5),
-                                child: Image.asset('assets/images/success.png'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom:8.0),
-                                child: Text(
-                                  'Visitor ${!this.widget.editMode?"added":"updated"} successfully',
-                                  style: TextStyle(fontSize: 16, color: Colors.white),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5.0,
-                              ),
-                            ],
-                          ),
-                        ),
+  //             content: Container(
+  //               //width: 300.0,
+  //               child: Container(
+  //                 color: GateManColors.primaryColor,
+  //                 child: Column(
+  //                     mainAxisAlignment: MainAxisAlignment.start,
+  //                     crossAxisAlignment: CrossAxisAlignment.stretch,
+  //                     mainAxisSize: MainAxisSize.min,
+  //                     children: <Widget>[
+  //                       Container(
+  //                         decoration: BoxDecoration(
+  //                           color: GateManColors.primaryColor,
+  //                           borderRadius: BorderRadius.only(
+  //                               topLeft: Radius.circular(8.0),
+  //                               topRight: Radius.circular(8.0)),
+  //                         ),
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.center,
+  //                           children: <Widget>[
+  //                             Padding(
+  //                               padding:
+  //                               const EdgeInsets.only(top: 15.0, bottom: 5),
+  //                               child: Image.asset('assets/images/success.png'),
+  //                             ),
+  //                             Padding(
+  //                               padding: const EdgeInsets.only(bottom:8.0),
+  //                               child: Text(
+  //                                 'Visitor ${!this.widget.editMode?"added":"updated"} successfully',
+  //                                 style: TextStyle(fontSize: 16, color: Colors.white),
+  //                               ),
+  //                             ),
+  //                             SizedBox(
+  //                               height: 5.0,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
 
-                        Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: Text(
-                                  'Send Invitation',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF466446)),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Visitor : ',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF4f4f4f)),
-                                    ),
-                                    Text(
-                                      _fullNameController.text,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF4f4f4f)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Image.memory(base64.decode(_base64),width: 150,height: 150,filterQuality: FilterQuality.low,),
-                                /*child: Image.network(
-                                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
-                                ),*/
-                                ),
+  //                       Container(
+  //                         color: Colors.white,
+  //                         child: Column(
+  //                           children: <Widget>[
+  //                             Padding(
+  //                               padding: const EdgeInsets.only(top: 15.0),
+  //                               child: Text(
+  //                                 'Send Invitation',
+  //                                 style: TextStyle(
+  //                                     fontSize: 18,
+  //                                     fontWeight: FontWeight.w600,
+  //                                     color: Color(0xFF466446)),
+  //                               ),
+  //                             ),
+  //                             Padding(
+  //                               padding: const EdgeInsets.only(top: 5.0),
+  //                               child: Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: <Widget>[
+  //                                   Text(
+  //                                     'Visitor : ',
+  //                                     style: TextStyle(
+  //                                         fontSize: 15,
+  //                                         fontWeight: FontWeight.w600,
+  //                                         color: Color(0xFF4f4f4f)),
+  //                                   ),
+  //                                   Text(
+  //                                     _fullNameController.text,
+  //                                     style: TextStyle(
+  //                                         fontSize: 15,
+  //                                         fontWeight: FontWeight.w400,
+  //                                         color: Color(0xFF4f4f4f)),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                             Padding(
+  //                               padding: EdgeInsets.symmetric(vertical: 15),
+  //                               child: QrImage(
+  //                                           data: code,
+  //                                           version: QrVersions.auto,
+  //                                           size: 200.0,
+  //                                         ),
+  //                               // Image.memory(base64.decode(_base64),width: 150,height: 150,filterQuality: FilterQuality.low,),
+  //                               /*child: Image.network(
+  //                                   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
+  //                               ),*/
+  //                               ),
 
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 30),
-                                child: RaisedButton(
-                                  color: Color(0xFFffa700),
-                                  onPressed: () {},
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: Container(
-                                    height: 50.0,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      code,
-                                      style: TextStyle(
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'Show this at the security gate',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF49A347)),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  shareInvite();
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 16,horizontal: 16
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                        border: Border.all(
-                                            width: 1,
-                                            style: BorderStyle.solid,
-                                            color: GateManColors.primaryColor)),
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Image.asset('assets/images/share.png'),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'Share',
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(0xFF49A347)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+  //                             Padding(
+  //                               padding: EdgeInsets.symmetric(
+  //                                   vertical: 20, horizontal: 30),
+  //                               child: RaisedButton(
+  //                                 color: Color(0xFFffa700),
+  //                                 onPressed: () {},
+  //                                 shape: RoundedRectangleBorder(
+  //                                   borderRadius: BorderRadius.circular(5.0),
+  //                                 ),
+  //                                 child: Container(
+  //                                   height: 50.0,
+  //                                   alignment: Alignment.center,
+  //                                   child: Text(
+  //                                     code,
+  //                                     style: TextStyle(
+  //                                       fontSize: 25.0,
+  //                                       fontWeight: FontWeight.w600,
+  //                                       color: Colors.white,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                             Text(
+  //                               'Show this at the security gate',
+  //                               style: TextStyle(
+  //                                   fontSize: 15,
+  //                                   fontWeight: FontWeight.w300,
+  //                                   color: Color(0xFF49A347)),
+  //                             ),
+  //                             GestureDetector(
+  //                               onTap: (){
+  //                                 shareInvite();
+  //                               },
+  //                               child: Padding(
+  //                                 padding: EdgeInsets.symmetric(
+  //                                     vertical: 16,horizontal: 16
+  //                                 ),
+  //                                 child: Container(
+  //                                   decoration: BoxDecoration(
+  //                                       borderRadius:
+  //                                       BorderRadius.all(Radius.circular(5)),
+  //                                       border: Border.all(
+  //                                           width: 1,
+  //                                           style: BorderStyle.solid,
+  //                                           color: GateManColors.primaryColor)),
+  //                                   child: Padding(
+  //                                     padding:
+  //                                     const EdgeInsets.symmetric(vertical: 5.0),
+  //                                     child: Row(
+  //                                       mainAxisAlignment: MainAxisAlignment.center,
+  //                                       crossAxisAlignment: CrossAxisAlignment.center,
+  //                                       children: <Widget>[
+  //                                         Image.asset('assets/images/share.png'),
+  //                                         SizedBox(
+  //                                           width: 10,
+  //                                         ),
+  //                                         Text(
+  //                                           'Share',
+  //                                           style: TextStyle(
+  //                                               fontSize: 25,
+  //                                               fontWeight: FontWeight.w600,
+  //                                               color: Color(0xFF49A347)),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
 
-                ),
-              ),
-            ),
-          );
-        });
-  }
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   List<Widget> _moreDetail() {
     return [
@@ -580,7 +584,12 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                     PaysmosmoAlert.showError(context: context,message: 'Full name field cannot be empty');
 
 
-                  }else{
+                  } else if (validateRegExpPattern(_fullNameController.text, r'^([a-zA-Z]+)(\s[a-zA-Z]+)*$')==false){
+                     PaysmosmoAlert.showError(context: context,message: 'Invalid Name Input');
+                  }
+            
+
+                  else{
                     /*VisitorService.addVisitor(
                         name: _fullNameController.text, arrivalDate: DateFormat('MM-dd-yyyy').format(DateFormat().add_yMd().parse(arrivalDate)) as DateFormat,
                         carPlateNo: _carPlateNumberController.text, purpose: null,
@@ -634,10 +643,10 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                              
                                               print("qt image");
                                               print(response['qr_image_src']);
-                                              setState(() {
-                                               _base64 =  response['qr_image_src'].toString().split(',')[1];
-                                              });
-                                              openAlertBox(response['visitor']['qr_code']??'Nil');
+                                              // setState(() {
+                                              //  _base64 =  response['qr_image_src'].toString().split(',')[1];
+                                              // });
+                                              openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: _fullNameController.text, screenshotController: screenshotController,);
                                           }
 
                     } else {
@@ -687,7 +696,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                              getVisitorProvider(context).addVisitorModelToScheduled(model);
                                              loadScheduledVisitors(context);
                                               
-                                              PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
+                                              await PaysmosmoAlert.showSuccess(context: context,message: _fullNameController.text + ' as been added to your visitors list');
                                               print("qt image");
                                               print(response['qr_image_src']);
                                               print('${model.id} ::::::::id:::here');
@@ -698,10 +707,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                                                 Navigator.pop(context);
                                               } else{
                                                 Navigator.pop(context);
-                                                setState(() {
-                                               _base64 =  qr_image_src['qr_image'].toString().split(',')[1];
-                                              });
-                                              openAlertBox(qr_image_src['qr_code']??'Nil');
+                                              openAlertBox(code:qr_image_src['qr_code']??'Nil', context: context, fullName: _fullNameController.text, screenshotController: screenshotController);
                                               }
                                               
                                           }
@@ -745,6 +751,17 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
                         Future<bool> saveVisitorToPref(BuildContext context,VisitorModel model) {
                           return getVisitorProvider(context).addVisitorModelToSaved(model);
                         }
+
+                        
+                      validateRegExpPattern(String text,String pattern) {
+                            RegExp regExp = RegExp(pattern);
+                            if (regExp.hasMatch(text)){
+                              return true;
+                            } else{
+                              return false;
+                            }
+
+                      }
 
 }
 

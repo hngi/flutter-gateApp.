@@ -27,7 +27,7 @@ class GateManHelpers {
   }
 
   //default app bar
-  static AppBar appBar(BuildContext context, String title) {
+  static AppBar appBar(BuildContext context, String title,{List<Widget> actions}) {
     return AppBar(
       title: Text(title,
           style: TextStyle(
@@ -35,13 +35,14 @@ class GateManHelpers {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           )),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {},
-          color: Colors.white,
-        ),
-      ],
+      actions: actions
+      //  <Widget>[
+      //   IconButton(
+      //     icon: Icon(Icons.more_vert),
+      //     onPressed: () {},
+      //     color: Colors.white,
+      //   ),
+      // ],
     );
   }
 

@@ -249,35 +249,53 @@ class GatemanService {
       headers: {'Authorization': 'Bearer $authToken'},
     );
 
-    Response response = await dio.put(uri, options: options);
+     try {
+
+    Response response = await dio.put(uri,data: {
+      'qr_code': qrCode
+    }, options: options);
+    print(response.statusCode);
+    print(response.data);
 
     if (response.statusCode == 403) {
       //no permission
       return ErrorType.cannot_check_visitor;
     }
 
-    if (response.statusCode == 200) {
+
+    if (response.statusCode == 202) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
 
-      if (!mapResponse.containsKey('visitor') ||
-          mapResponse['visitor'].length == 0) {
+      if (!mapResponse.containsKey('Visitor details')) {
         return ErrorType.no_visitor_with_code;
       }
-      final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
-      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
-          items.map<GatemanResidentVisitors>((json) {
-        return GatemanResidentVisitors.fromJson(json);
-      }).toList();
+      final items = mapResponse['Visitor details'].cast<String, dynamic>();
+      GatemanResidentVisitors visitor =GatemanResidentVisitors.fromJson(items);
 
-      return listOfGatemanResidentRequests;
-    } else {
-      throw Exception('Failed to load internet');
+      return visitor;
     }
+  
+    if(response.statusCode != 200 && response.statusCode != 202){
+      print('Errrror ');
+      return ErrorType.generic;
+ } 
+  } on DioError catch (exception) {
+          if (exception == null ||
+              exception.toString().contains('SocketException')) {
+            return ErrorType.network;
+          } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+              exception.type == DioErrorType.CONNECT_TIMEOUT) {
+            return ErrorType.timeout;
+          } else {
+            return ErrorType.generic;
+          }
+        }
+  
   }
 
   //Gateman checkout visitors.
-  static Future<List<GatemanResidentVisitors>> admitVisitor({
+  static Future<dynamic> admitVisitor({
     @required String authToken,
     @required String qrCode,
   }) async {
@@ -287,26 +305,38 @@ class GatemanService {
       contentType: 'application/x-www-form-urlencoded',
       headers: {'Authorization': 'Bearer $authToken'},
     );
+    try{
 
-    Response response = await dio.put(uri, options: options);
-
-    if (response.statusCode == 200) {
+    Response response = await dio.put(uri,
+    data: {
+      'qr_code':qrCode
+    }, options: options);
+    print(response.statusCode);
+    print(response.data);
+    if (response.statusCode == 202) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
 
-      if (!mapResponse.containsKey('visitor') ||
-          mapResponse['visitor'].length == 0) {
+      if (!mapResponse.containsKey('Visitor details') ||
+          mapResponse['Visitor details'].length == 0) {
         return [];
       }
-      final items = mapResponse['visitor'].cast<Map<String, dynamic>>();
-      List<GatemanResidentVisitors> listOfGatemanResidentRequests =
-          items.map<GatemanResidentVisitors>((json) {
-        return GatemanResidentVisitors.fromJson(json);
-      }).toList();
-
-      return listOfGatemanResidentRequests;
-    } else {
-      throw Exception('Failed to load internet');
+      final item = mapResponse['Visitor details'];
+      GatemanResidentVisitors visitorVerified = GatemanResidentVisitors.fromJson(item);
+      return visitorVerified;
     }
+    if (response.statusCode != 202) return ErrorType.cannot_check_visitor;
   }
+  on DioError catch (exception) {
+          if (exception == null ||
+              exception.toString().contains('SocketException')) {
+            return ErrorType.network;
+          } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+              exception.type == DioErrorType.CONNECT_TIMEOUT) {
+            return ErrorType.timeout;
+          } else {
+            return ErrorType.generic;
+          }
+        }
+}
 }

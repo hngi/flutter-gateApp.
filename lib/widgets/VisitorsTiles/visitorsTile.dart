@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
+import 'package:xgateapp/utils/colors.dart';
 
 class VisitorTile extends StatefulWidget {
   final String name,
@@ -16,9 +17,12 @@ class VisitorTile extends StatefulWidget {
       backUpAvatarLink = 'assets/images/avatar2.jpg';
   final Function buttonFunc1, buttonFunc2,buttonFunc3;
   final VisitorModel model;
+  final Function(bool) onSelectionchange;
+  final bool selected;
 
-  const VisitorTile(
+  VisitorTile(
       {Key key,
+      @required this.selected,
       @required this.name,
       @required this.group,
       @required this.phone,
@@ -31,6 +35,7 @@ class VisitorTile extends StatefulWidget {
       this.buttonFunc3,
       this.buttonText3,
       @required this.model,
+      this.onSelectionchange,
       this.avatarLink = 'assets/images/avatar2.jpg'})
       : super(key: key);
 
@@ -40,14 +45,25 @@ class VisitorTile extends StatefulWidget {
 
 class _VisitorTileState extends State<VisitorTile> {
   bool drag = false;
+  
   void toggle() {
     setState(() {
       drag = !drag;
     });
   }
 
+  void toggleSelection(selected){
+    setState(() {
+     if(this.widget.onSelectionchange != null){
+       this.widget.onSelectionchange(selected);
+     }
+     
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool selected = this.widget.selected;
     return Padding(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       child: Container(
@@ -57,10 +73,15 @@ class _VisitorTileState extends State<VisitorTile> {
         child: Column(
           children: <Widget>[
             ListTile(
-              leading: CircleAvatar(
+              leading: InkWell(
+                onTap: (){toggleSelection(!selected);},
+                child:selected?CircleAvatar(
+                radius: 30.0,
+                child: Center(child: Icon(Icons.check_circle,color: GateManColors.primaryColor,),
+              )):CircleAvatar(
                 backgroundImage: this.widget.avatarLink==null || this.widget.avatarLink == 'noimage.jpg'?AssetImage(this.widget.backUpAvatarLink):NetworkImage(Endpoint.imageBaseUrl+this.widget.avatarLink),
                 radius: 30.0,
-              ),
+              )),
               title: InkWell(
                 onLongPress: (){
                   Navigator.pushNamed(context, '/visitor-profile',arguments: this.widget.model);

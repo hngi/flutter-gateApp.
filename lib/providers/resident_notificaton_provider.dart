@@ -13,12 +13,37 @@ class ResidentNotificationProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  int get getTotalNumberOfNotifications{
-    int total = forVisitorModels!=null && forInviteModels != null?forVisitorModels.length + forInviteModels.length
+  clear(){
+
+    forVisitorModels =null;
+ forInviteModels = null;
+ loadedFromApi = false;
+
+ loading = false;
+ notifyListeners();
+
+  }
+
+  int get getTotalNumberOfUnreadNotifications{
+    int total = forVisitorModels!=null && forInviteModels != null?forVisitorModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length + forInviteModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length
     :
-    forVisitorModels!=null?forVisitorModels.length
+    forVisitorModels!=null?forVisitorModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length + forInviteModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length
     :
-    forInviteModels!=null?forInviteModels.length
+    forInviteModels!=null?forInviteModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length + forInviteModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length + forInviteModels.where((ResidentNotificationModel model){
+      return model.read == null || model.read == false;
+    }).length
     :
     null;
     return total==null || total ==0 ?null:total;

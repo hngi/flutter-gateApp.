@@ -38,10 +38,16 @@ class VisitorProvider extends ChangeNotifier {
     String jsonString = prefs.getString('scheduled_visitors');
     if(jsonString!=null){
        List<VisitorModel> models = [];
+       print('From Hhhhhhhhhhhhhhhhhhhhhhh');
+       print(jsonString);
        dynamic decoded = json.decode(jsonString);
        if (decoded !=null){
          decoded.forEach((jsonObject){
-        models.add(VisitorModel.fromJson(jsonObject['visitor']));
+           print(jsonObject);
+          if(jsonObject['visitor']!=null){
+            models.add(VisitorModel.fromJson(jsonObject['visitor']));
+          }
+        
       });
        }
       
@@ -90,11 +96,14 @@ class VisitorProvider extends ChangeNotifier {
     }
     return shouldSave;
      }
-    removeVisitorModelFromSaved(VisitorModel model,int index)async{
+    removeVisitorModelFromSaved(int index,{bool notify = true})async{
       savedVisitorModels.removeAt(index);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('saved_visitors', convertVisitorModelsToString(savedVisitorModels));
-      notifyListeners();
+      if (notify !=false){
+        notifyListeners();
+      }
+      
     }
 
 
@@ -285,6 +294,10 @@ class VisitorModel {
       });
 
   factory VisitorModel.fromJson(dynamic jsonModel) {
+    print(jsonModel);
+    if (jsonModel==null){
+      return null;
+    }
     return VisitorModel(
         id: jsonModel['id'],
         name: jsonModel['name'],
