@@ -244,28 +244,11 @@ class _SelectAddressState extends State<SelectAddress> {
                                       fontWeight: FontWeight.w600)),
                             ),
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddEstate()),
-                              );
-                            },
-                          ),
-                          InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 240),
-                              child: Text('Add New',
-                                  style: TextStyle(
-                                      fontSize: 13.0,
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w700)),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddEstate()),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => AddEstate()),
+                              // );
                             },
                           ),
                         ],

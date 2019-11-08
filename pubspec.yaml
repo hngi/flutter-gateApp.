@@ -53,6 +53,7 @@ dependencies:
   location_permissions: ^2.0.3
   flutter_local_notifications: ^0.8.4
   screenshot: ^0.1.1
+  qr_flutter: ^3.0.1
   image_picker:
     path: ./image_picker
   json_annotation: ^3.0.0

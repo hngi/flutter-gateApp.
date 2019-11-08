@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:show_qrcode/show_qrcode.dart';
 import 'package:xgateapp/core/models/gateman_resident_visitors.dart';
 import 'package:xgateapp/core/service/gateman_service.dart';
@@ -8,6 +9,7 @@ import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/widgets/ResidentExpansionTile/resident_expansion_tile.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 
@@ -38,7 +40,7 @@ class VisitorCheckout extends StatefulWidget {
 }
 
 class _VisitorCheckoutState extends State<VisitorCheckout> {
-  File qrFile;
+  // File qrFile;
   bool isLoading = false;
   LoadingDialog dialog;
   List<GatemanResidentVisitors> _visitors;
@@ -47,39 +49,48 @@ class _VisitorCheckoutState extends State<VisitorCheckout> {
   void initState() {
     super.initState();
     dialog = LoadingDialog(context, LoadingDialogType.Normal);
-    initQRCode();
+    // initQRCode();
   }
 
-  initQRCode() async {
-    setState(() => isLoading = true);
-    var file = await Qrcode.generateQRCode(widget.qrCode);
-    setState(() {
-      qrFile = file;
-      isLoading = false;
-    });
-  }
+  // initQRCode() async {
+  //   setState(() => isLoading = true);
+  //   var file = await Qrcode.generateQRCode(widget.qrCode);
+  //   setState(() {
+  //     qrFile = file;
+  //     isLoading = false;
+  //   });
+  // }
 
   onFinishTapped() async {
     dialog.show();
 
-    List<GatemanResidentVisitors> result = await GatemanService.admitVisitor(
+    dynamic result = await GatemanService.checkVisitors(
       qrCode: widget.qrCode,
       authToken: await authToken(context),
     );
     dialog.hide();
-
-    if (result.length > 0) {
-      await PaysmosmoAlert.showError(
-          context: context, message: 'Could not admit visitor');
-    } else {
-      await PaysmosmoAlert.showError(
+if(result is ErrorType == false){
+  if (result != null) {
+    print(result);
+      await PaysmosmoAlert.showSuccess(
               context: context, message: 'Visitor admitted successfully')
           .then((_) {
         Navigator.of(context).pushReplacementNamed('/gateman-menu');
       });
-    }
+    
+      
+    } else {
+      await PaysmosmoAlert.showError(
+          context: context, message: 'Error Checking out please try again');
   }
+      
 
+} else {
+  await PaysmosmoAlert.showError(
+          context: context, message: 'Error Checking out please try again');
+  }
+}
+    
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -95,18 +106,16 @@ class _VisitorCheckoutState extends State<VisitorCheckout> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                qrFile == null
+                this.widget.qrCode == null
                     ? Icon(Icons.broken_image, size: 33.0)
                     : Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 9.0, horizontal: 2.0),
-                        height: size.height * 0.3,
-                        width: size.width * 0.6,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                          image: FileImage(qrFile),
-                        )),
+                        padding: EdgeInsets.all(2.0),
+                       child: Center(
+                                                child: QrImage(data: this.widget.qrCode,
+                                              version: QrVersions.auto,
+                                              size: 200.0,
+                                            ),
+                       ),
                       ),
                 Divider(
                   color: Colors.grey,
@@ -127,12 +136,22 @@ class _VisitorCheckoutState extends State<VisitorCheckout> {
                           color: Colors.grey,
                         ),
                       ),
-                      Text(
-                        'Approved',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15.0,
+                      Container(
+                        decoration: BoxDecoration(
                           color: GateManColors.primaryColor,
+                          borderRadius: BorderRadius.circular(3)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top:2,bottom: 2,left: 10,right: 10),
+                          child: Text(
+                            'Approved',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15.0,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -177,7 +196,7 @@ class _VisitorCheckoutState extends State<VisitorCheckout> {
                   title: 'Phone Number',
                   text: widget.phoneNumber ?? '',
                 ),
-                TextRow(title: 'Address', text: 'Block 4A'),
+                TextRow(title: 'Address', text:this.widget.houseAddr),
               ],
             ),
           ),

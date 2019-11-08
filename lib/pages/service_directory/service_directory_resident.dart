@@ -92,7 +92,7 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
                 itemBuilder: (BuildContext context, int index) {
                   return ServiceDirectoryResidentGridTile(
                     directoryName: _categories[index].title,
-                    directoryImg: 'assets/images/cook-img.png',
+                    directoryImg: index>data.length-1?data[index][1]:data[index]['image'],
                     isOdd: index < 1 ? true : index % 2 == 0,
                     category: _categories[index],
                   );

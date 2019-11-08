@@ -336,7 +336,7 @@ class WelcomeResident extends StatelessWidget {
                                                                                                 child: ListTile(
                                                    contentPadding: EdgeInsets.zero,
                                                    title: Text(
-                                                     visitorModel.name,
+                                                     visitorModel.name??'',
                                                      style: TextStyle(
                                                        fontWeight: FontWeight.w700,
                                                        fontSize: 18.0,
@@ -344,7 +344,7 @@ class WelcomeResident extends StatelessWidget {
                                                      ),
                                                    ),
                                                    subtitle: Text(
-                                                     visitorModel.purpose,
+                                                     visitorModel.purpose??'',
                                                      style: TextStyle(
                                                        fontWeight: FontWeight.w500,
                                                        fontSize: 15.0,

@@ -162,8 +162,7 @@ class _ManageGatemanState extends State<ManageGateman> {
       phoneNumber: model.phone??'not set', onDeletePressed: (){deleteGateMan(context, model);}, onMessagePressed: null,//will change when implemented in backend
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
        onSmsPressed: (String smss){
-         print('heyyyy sms'); 
-         _sendSMS("Message from GateGuard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         _sendSMS("Message from GateGuard by $nameProfile:\n.$context", ["${model.phone}"]);},
          smsController: smsController,/*smsController: ManageGateman._smsController,*/);
 
 
