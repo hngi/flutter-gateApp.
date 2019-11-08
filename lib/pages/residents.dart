@@ -43,17 +43,12 @@ class _ResidentsState extends State<Residents> {
       GatemanService.allResidentVisitors(
         authToken: await authToken(context),
       ),
-      GatemanService.allRequests(authToken: await authToken(context)).then((alerts){
-        print(alerts);
-        setState(() {
-          _alerts = alerts.length;
-        });
-      }),
+      GatemanService.allRequests(authToken: await authToken(context))
     ]).then((res) {
       print(res);
       setState(() {
         _residents = res[0];
-
+        _alerts = res[1].length;
         isLoading = false;
       });
     });
@@ -142,7 +137,8 @@ class _ResidentsState extends State<Residents> {
 
                           return ResidentExpansionTile(
                             fullName: '${resident.name}',
-                            address: 'Block 3A, Dele Adebayo Estate',
+                            address: resident.home != null && resident.home.houseBlock != null && resident.home.estate != null?
+                            '${resident.home.houseBlock}, ${resident.home.estate}':'',
                             phoneNumber: resident.phone,
                             visitText: 'Scheduled Visit',
                             numberCount: '1',

@@ -27,7 +27,7 @@ class GateManHelpers {
   }
 
   //default app bar
-  static AppBar appBar(BuildContext context, String title) {
+  static AppBar appBar(BuildContext context, String title,{List<Widget> actions}) {
     return AppBar(
       title: Text(title,
           style: TextStyle(
@@ -35,13 +35,14 @@ class GateManHelpers {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           )),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {},
-          color: Colors.white,
-        ),
-      ],
+      actions: actions
+      //  <Widget>[
+      //   IconButton(
+      //     icon: Icon(Icons.more_vert),
+      //     onPressed: () {},
+      //     color: Colors.white,
+      //   ),
+      // ],
     );
   }
 
@@ -127,8 +128,8 @@ class MyBullet extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(0.0),
-      height: 15.0,
-      width: 15.0,
+      height: 12.0,
+      width: 12.0,
       decoration: new BoxDecoration(
         color: Colors.black,
         shape: BoxShape.circle,

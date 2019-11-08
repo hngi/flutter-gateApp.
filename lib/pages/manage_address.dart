@@ -73,7 +73,7 @@ class _ManageAddressState extends State<ManageAddress> {
 
     if (result is ErrorType==false) {
       PaysmosmoAlert.showSuccess(
-              context: context, message: 'Estate Successfully Selected')
+              context: context, message: 'Address Updated')
           .then((_) {
             if(getProfileProvider(context).profileModel==null) getProfileProvider(context).setProfileModel(ProfileModel());
             getProfileProvider(context).profileModel.homeModel.houseBlock = result['user_details']['house_block'];
@@ -88,7 +88,7 @@ class _ManageAddressState extends State<ManageAddress> {
       });
     } else {
       PaysmosmoAlert.showError(
-          context: context, message: 'Could not select an Estate');
+          context: context, message: 'Could not Update address, please try again');
       //     .then((_) {
       //   Navigator.pushReplacementNamed(context, mapUserTypeToPage[getUserType]);
       // });
@@ -198,37 +198,22 @@ class _ManageAddressState extends State<ManageAddress> {
                   children: <Widget>[
                     InkWell(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 80),
-                        child: Text('Could not find my Estate?',
+                        padding: const EdgeInsets.all(4),
+                        child: Text('Could not find my Estate?, Please contact the admin',
+                        textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 13.0,
                                 color: GateManColors.textColor,
                                 fontWeight: FontWeight.w600)),
                       ),
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AddEstate()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => AddEstate()),
+                        // );
                       },
                     ),
-                    InkWell(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 240),
-                        child: Text('Add New',
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700)),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AddEstate()),
-                        );
-                      },
-                    ),
-                  ],
+                 ],
                 )
               : SizedBox(),
           Padding(

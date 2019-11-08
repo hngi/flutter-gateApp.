@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:xgateapp/core/models/estate.dart';
 import 'package:xgateapp/core/models/notification/resident_notification_model.dart';
@@ -291,6 +292,8 @@ void logOut(context)async {
                                 ..setLoadedFromApi(false)
                                 ..setScheduledVisitorFromApi([],fromApi:false)
                                 ..setScheduledVisitorsLoadedFromApiStatus(false);
+  Provider.of<ResidentNotificationProvider>(context)
+                                          .clear();
   Provider.of<ResidentsGateManProvider>(context).loadedFromApi = false;
   Provider.of<ResidentsGateManProvider>(context).clear();
   getFCMTokenProvider(context).clear();
@@ -478,8 +481,7 @@ scheduleVisit(BuildContext context,String visiting_period,int visitorId,String a
         VisitorModel model = VisitorModel.fromJson(response['visitor']);
         getVisitorProvider(context).addVisitorModel(model);
         getVisitorProvider(context).addVisitorModelToScheduled(model);
-       String _base64 =  response['qr_image_src'].toString().split(',')[1];
-      openAlertBox(base64String: _base64, code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
+      openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
       getVisitorProvider(context).setScheduledVisitorsLoadedFromApiStatus(false);
       getVisitorProvider(context).setLoadedFromApi(false);
      
@@ -499,26 +501,27 @@ Future<dynamic> setFCMTokenToEmpty(BuildContext context) async {
   }
 }
 
-openAlertBox({@required String code,@required BuildContext context,@required String base64String,@required ScreenshotController screenshotController,@required String fullName}) {
+openAlertBox({@required String code,@required BuildContext context,@required ScreenshotController screenshotController,@required String fullName}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return Screenshot(
             controller: screenshotController,
                       child: AlertDialog(
+
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
               contentPadding: EdgeInsets.only(top: 0.0),
               titlePadding: EdgeInsets.only(top: 0),
 
               content: Container(
-                //width: 300.0,
+                width: 300.0,
                 child: Container(
                   color: GateManColors.primaryColor,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
+                  child: ListView(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      // mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
@@ -587,7 +590,12 @@ openAlertBox({@required String code,@required BuildContext context,@required Str
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Image.memory(base64.decode(base64String),width: 150,height: 150,filterQuality: FilterQuality.low,),
+                                child: QrImage(
+                                            data: code,
+                                            version: QrVersions.auto,
+                                            size: 200.0,
+                                          )
+                                // Image.memory(base64.decode(base64String),width: 150,height: 150,filterQuality: FilterQuality.low,),
                                 /*child: Image.network(
                                     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
                                 ),*/

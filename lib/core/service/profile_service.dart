@@ -99,9 +99,10 @@ BaseOptions formOption = BaseOptions(
           Response response = await dio.post(uri,data: data);
     
           print(response.statusCode);
-          print(response.data);
+          dynamic jsonData = json.decode(response.data);
     
           if (response == null) return ErrorType.generic;
+          if(response.statusCode == 422 && jsonData.containsKey('errors') && jsonData['errors'].containsKey('email') && jsonData['errors']['email'].toString().toLowerCase().contains('The email has already been taken'.toLowerCase())?true:false) return ErrorType.email_taken;
           if(response.statusCode == 401) return ErrorType.unauthorized;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);

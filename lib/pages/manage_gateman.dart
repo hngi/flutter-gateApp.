@@ -163,7 +163,7 @@ class _ManageGatemanState extends State<ManageGateman> {
        onPhonePressed:(){ launchCaller(context: context, phone: model.phone);}, 
        onSmsPressed: (String smss){
          print('heyyyy sms'); 
-         _sendSMS("Message from Gate Guard by $nameProfile:\n.smss", ["${model.phone}"]);},
+         _sendSMS("Message from a Gate Guard by $nameProfile:\n.smss", ["${model.phone}"]);},
          smsController: smsController,/*smsController: ManageGateman._smsController,*/);
 
 

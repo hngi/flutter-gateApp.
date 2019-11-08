@@ -43,6 +43,7 @@ class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
           child: Row(
             children: <Widget>[
               Container(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-84),
                 padding: EdgeInsets.only(
                   top: 10.0,
                   left: 20.0,
@@ -52,7 +53,8 @@ class _ResidentsNotificationListState extends State<ResidentsNotificationList> {
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w600,
-                    color: GateManColors.textColor,
+                    color: this.widget.model.read != null && this.widget.model.read == true?
+                    Colors.grey:GateManColors.textColor,
                   ),
                 ),
               ),
