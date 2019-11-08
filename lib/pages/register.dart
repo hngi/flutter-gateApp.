@@ -117,7 +117,8 @@ class _RegisterState extends State<Register> {
                                     child: DropdownButton<String>(
                                       underline: Container(width: 0,height: 0,),
                         iconEnabledColor: GateManColors.primaryColor,
-                        items:<String>['+234','+233','+232','+235',].map<DropdownMenuItem<String>>((String str){
+                        items:<String>['+234','+233','+232','+235',
+                                      '+247','+236','+237'].map<DropdownMenuItem<String>>((String str){
                         return DropdownMenuItem<String>(
                           value: str,
                           child: Text(str)

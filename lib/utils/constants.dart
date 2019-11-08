@@ -100,7 +100,6 @@ Future loadInitialProfile(BuildContext context,{bool showAlert = false}) async {
             
           }else{
             //await PaysmosmoAlert.showSuccess(context: context, message: 'Profile Updated')
-            print(':::::::::::::::::::::\n::::::::::::::::::::::::::::::::::\::::::::::::::::::::::;;;;');
             print(response);
                             print('Initial Profile Loaded');
                             print(ProfileModel.fromJson(response));

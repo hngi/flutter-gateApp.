@@ -5,9 +5,7 @@ class Endpoint {
   static String imageBaseUrl =
       'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
-  static String baseUrl = 'http://52.40.191.249/api/v1/';
-  //'https://gateappapi.herokuapp.com/api/v1/'; // http://52.200.161.52/api/v1/';
-//'https://707850b7.ngrok.io/api/v1/';//// 'https://4c85a6ea.ngrok.io/api/v1/';//'https://4c85a6ea.ngrok.io/api/v1/';//'https://707850b7.ngrok.io/api/v1/'; //
+  static String baseUrl ='https://gateappapi.herokuapp.com/api/v1/'; // 'http://52.40.191.249/api/v1/';
   //Auth
   static String login = '/login';
   static String adminRegister = '/register/admin';
