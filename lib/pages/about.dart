@@ -160,7 +160,7 @@ class _AboutState extends State<About> {
                primary: false,
                shrinkWrap: true,
                children: <Widget>[
-                 InkWell(child: _ShareOption('assets/images/icon-gmail.png', 'Gmail'), onTap: (){Share.share('Checkout this great app for visitor management : google.com');},),
+                 InkWell(child: _ShareOption('assets/images/icon-gmail.png', 'Gmail'), onTap: (){},),
                  InkWell(child: _ShareOption('assets/images/icon-hangouts.png', 'Hangout'), onTap: (){},),
                  InkWell(child: _ShareOption('assets/images/icon-gplus.png', 'Google+'), onTap: (){},),
                  InkWell(child: _ShareOption('assets/images/icon-mail.png', 'Mail'), onTap: (){},),
