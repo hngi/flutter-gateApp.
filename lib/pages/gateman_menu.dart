@@ -76,7 +76,7 @@ class _GateManMenuState extends State<GateManMenu> {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w700,
                           color: GateManColors.grayColor)),
-                  onPressed: () {},
+                  onPressed: () {Navigator.pushNamed(context, '/support');},
                 ),
 
                 //Logout
@@ -153,7 +153,7 @@ class _GateManMenuState extends State<GateManMenu> {
                             fontWeight: FontWeight.w800,
                           )),
                     ),
-                    Text("GateMan",
+                    Text("Gate Guard",
                         style: TextStyle(
                           color: GateManColors.grayColor,
                           fontSize: 18.0,
