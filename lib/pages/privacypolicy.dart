@@ -36,7 +36,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 ),
                 Container(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 15.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 8.0, 0.0),
                     child: FirstParagraph(18.0),
                   ),
                 ),
@@ -79,8 +79,8 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 ),
                 Container(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 15.0, 10.0),
-                    child: RichText(
+                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 8.0, 10.0),
+                    child: RichText(textAlign: TextAlign.justify,
                         text: TextSpan(
                             children: [
                               new TextSpan(
@@ -123,7 +123,7 @@ class FirstParagraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: RichText(
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.justify,
         text: TextSpan(
           children: [
             new TextSpan(
@@ -139,25 +139,10 @@ class FirstParagraph extends StatelessWidget {
               recognizer: new TapGestureRecognizer()
                 ..onTap = () {
                   launch(
-                      'https://api.flutter.dev/flutter/painting/TextSpan-class.html');
+                      'https://gateguard.co/termsandconditions.html');
                 },
             ),
-            new TextSpan(
-              text: ' and ',
-              style: TextStyle(color: Colors.black, fontSize: fontSize),
-            ),
-            new TextSpan(
-              text: 'Terms of Service',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.green[500],
-                  fontSize: fontSize),
-              recognizer: new TapGestureRecognizer()
-                ..onTap = () {
-                  launch(
-                      'https://api.flutter.dev/flutter/painting/TextSpan-class.html');
-                },
-            ),
+            
             new TextSpan(
               text:
               ' in full, but we know you\'re busy so here are the highlights:',

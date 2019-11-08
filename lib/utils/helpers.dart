@@ -128,8 +128,8 @@ class MyBullet extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(0.0),
-      height: 15.0,
-      width: 15.0,
+      height: 12.0,
+      width: 12.0,
       decoration: new BoxDecoration(
         color: Colors.black,
         shape: BoxShape.circle,
