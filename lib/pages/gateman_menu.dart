@@ -153,7 +153,7 @@ class _GateManMenuState extends State<GateManMenu> {
                             fontWeight: FontWeight.w800,
                           )),
                     ),
-                    Text("GateMan",
+                    Text("Gate Guard",
                         style: TextStyle(
                           color: GateManColors.grayColor,
                           fontSize: 18.0,

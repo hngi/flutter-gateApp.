@@ -46,7 +46,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
 
     ScreenUtil.instance = ScreenUtil(width: 360, height: 780)..init(context);
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Add Gateman'),
+      appBar: GateManHelpers.appBar(context, 'Add a Gate Guard'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -151,7 +151,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                                                           ),
                                                       Padding(
                                                         padding: const EdgeInsets.all(18.0),
-                                                        child: Text('Gate Man\nAdded succesfully',textAlign: TextAlign.center,
+                                                        child: Text('Gate Guard\nAdded succesfully',textAlign: TextAlign.center,
                                                         style: TextStyle(color: Colors.grey),),
                                                       ),
                                                       Text('Awaiting Confirmation from',textAlign: TextAlign.center,

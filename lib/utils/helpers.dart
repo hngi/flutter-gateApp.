@@ -102,7 +102,7 @@ class GateManHelpers {
       case ErrorType.username_at_least_2_char:
         return 'Name must be at least two characters';
       case ErrorType.no_gateman_found:
-        return 'No GateMan Found with this number in your estate';
+        return 'No Gate Guards Found with this number in your estate';
       case ErrorType.unauthorized:
         return 'Unauthorized';
       case ErrorType.request_already_sent_to_gateman:
