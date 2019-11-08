@@ -16,7 +16,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'About GatePass'),
+      appBar: GateManHelpers.appBar(context, 'About GateGuard'),
       body: Builder(
         builder: (context) => Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -44,9 +44,9 @@ class _AboutState extends State<About> {
                           color: GateManColors.primaryColor,*/
               width: double.infinity,
               child: Text(
-                'GatePass is a visitor management system for small to large estates. It\'s a fast'
+                'GateGuard is a visitor management system for small to large estates. It\'s a fast'
                     ', convenient and cost-effective answer to access control.\n\n'
-                    'With GatePass you can:\n - Verify authenticity of visitors\'s information\n'
+                    'With GateGuard you can:\n - Verify authenticity of visitors\'s information\n'
                     ' - Track time spent on premises\n - Load and save regular visitors\n - Receive'
                     ' visitor arrival notifications',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11.0),
@@ -85,7 +85,7 @@ class _AboutState extends State<About> {
     return showDialog(context: context,
       builder: (context){
         return AlertDialog(
-          title: Text('Love GatePass?',
+          title: Text('Love GateGuard?',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,

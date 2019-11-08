@@ -28,16 +28,18 @@ class _SupportPageState extends State<SupportPage> {
   String issues;
 
   Future send(BuildContext context) async {
-    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-    dialog.show();
+   
     final form = _supportKey.currentState;
-    if(form.validate()){
+    if(form.validate()){ 
+      LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+      dialog.show();
       Dio dio = new Dio();
       Response response;
       try{
          response = await dio.post("${Endpoint.baseUrl}support/send", data: {"subject": subject, "email": email, "message":issues});
          print(response.data['message'].toString());
          if (response.data['message'].toString() == "Thanks for contacting us!"){
+           Navigator.pop(context);
            showDialog(
       context: context,
       builder: (BuildContext context) => CustomDialog(
@@ -47,6 +49,7 @@ class _SupportPageState extends State<SupportPage> {
           func: () {
             // Navigator.pushNamed(context, '/residents-gate');
            Navigator.pop(context);
+
           }),
            );
           //  setState(() {

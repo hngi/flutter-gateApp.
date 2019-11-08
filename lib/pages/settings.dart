@@ -133,7 +133,7 @@ class _SettingState extends State<Settings> {
                   children: <Widget>[
                     Container(
                       child: BottomMenu(
-                          'About GatePass',
+                          'About GateGuard',
                           () => Navigator.pushReplacementNamed(context, '/about'),
                           Border(bottom: BorderSide(color: Colors.grey[300]))),
                     ),
