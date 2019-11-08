@@ -64,7 +64,7 @@ static BaseOptions options = BaseOptions(
       {
       "name": name,
       "phone":phone,
-      "email":email,
+      "email":email.isEmpty?null:email,
  }
     );
 if(image!=null){

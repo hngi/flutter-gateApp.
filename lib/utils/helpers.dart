@@ -102,7 +102,7 @@ class GateManHelpers {
       case ErrorType.username_at_least_2_char:
         return 'Name must be at least two characters';
       case ErrorType.no_gateman_found:
-        return 'No GateMan Found with this number in your estate';
+        return 'No Gate Guards Found with this number in your estate';
       case ErrorType.unauthorized:
         return 'Unauthorized';
       case ErrorType.request_already_sent_to_gateman:
@@ -116,7 +116,7 @@ class GateManHelpers {
       case ErrorType.no_visitor_with_code:
         return 'No visitor with such code';
       case ErrorType.visitior_has_not_checked_out: return 'Visitor is yet to be Checked Out';
-
+      case ErrorType.no_records_found: return 'Visitor history not found';
       default:
         return 'Unknown Error Occurred';
     }

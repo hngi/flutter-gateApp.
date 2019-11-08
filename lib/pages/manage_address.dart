@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/models/estate.dart';
 import 'package:xgateapp/core/service/estate_service.dart';
-import 'package:xgateapp/pages/Add_Estate.dart';
-import 'package:xgateapp/pages/about.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
@@ -11,9 +9,7 @@ import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
-import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
-import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 
 class ManageAddress extends StatefulWidget {
 
@@ -84,6 +80,7 @@ class _ManageAddressState extends State<ManageAddress> {
             }
             // ProfileModel model = getProfileProvider(context).profileModel;
             getProfileProvider(context).notifyListeners();
+            loadInitialProfile(context);
         Navigator.pop(context);
       });
     } else {

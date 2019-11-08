@@ -104,20 +104,36 @@ class _MyVisitorsState extends State<MyVisitors> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Visitors',actions: getPage(sharedValue.toInt()).where((test){
+      appBar: GateManHelpers.appBar(context, 'Visitors',actions: sharedValue.toInt() != 0 && getPage(sharedValue.toInt()).where((test){
         return test==true;
         }).length>0?[
         IconButton(icon: Icon(Icons.delete,color: Colors.white,), onPressed: () {
           if(_pageController.page.toInt() == 1){
-            int index = 0;
+            int ind = 0;
             selectedSavedState.forEach((f){
               if(f){
-                getVisitorProvider(context).removeVisitorModelFromSaved(index,notify: false);
+                getVisitorProvider(context).removeVisitorModelFromSaved(selectedSavedState.indexOf(f),notify: false);
               }
+              ind+=1;
 
             });
             getVisitorProvider(context).notifyListeners();
             
+          } else if (_pageController.page.toInt() == 2){
+            List<int> indexes = [];
+            List<String> ids = [];
+            int ind = 0;
+            selectedHistoryState.forEach((f){
+              if(f){
+                indexes.add(ind);
+                ids.add(getVisitorProvider(context).historyVisitorModels[ind].id.toString());
+              }
+              ind+=1;
+            });
+            
+          
+            deleteVistorHistories(context, ids.reversed.toList(), indexes.reversed.toList());
+
           }
         },tooltip: 'Delete Selected',)
       ]:[],),
@@ -260,7 +276,7 @@ return ListView.builder(
                     FlatButton(
                       onPressed: () async{
                         print(':::::u wanna remove from schedule:::::${ _visitors[index].id}');
-                        await deleteVisitors(context, _visitors[index].id, from: 'scheduled', index: index);
+                        await deleteScheduledVisitors(context, _visitors[index].id, from: 'scheduled', index: index);
                         Navigator.pop(context);
                       },
                       child: Text('Remove'),
@@ -438,11 +454,11 @@ return ListView.builder(
   }
 
 Widget historyTab(BuildContext context){
-  List<VisitorModel> _visitorsHistory = getVisitorProvider(context).historyVisitorModels;
+  List<VisitorHistoryModel> _visitorsHistory = getVisitorProvider(context).historyVisitorModels;
   return ListView.builder(
     itemCount: _visitorsHistory.length,
      itemBuilder: (BuildContext context, int index) {
-       VisitorModel visitor = _visitorsHistory[index];
+       VisitorModel visitor = _visitorsHistory[index].visitorModel;
        if (selectedHistoryState.length - 1 == index-1){
       selectedHistoryState.add(false);
     }
@@ -467,7 +483,7 @@ Widget historyTab(BuildContext context){
       buttonFunc1: () {},
       buttonFunc2: ()async{
         print(':::::u wanna remove:::::${ _visitorsHistory[index].id}');
-        deleteVisitors(context, _visitorsHistory[index].id, from: 'history', index: index);
+        deleteVistorHistories(context, ['${_visitorsHistory[index].id}'],[index]);
 
       },
     );

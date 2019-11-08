@@ -382,5 +382,46 @@ class VisitorService {
     }
   }
 
+  static deleteVisitorHistories({
+    @required String authToken, 
+    @required List<String> ids,
+  }) async {
+    var uri = Endpoint.deleteVisitorHistories(ids);
+    print(uri);
+    // var data = {
+    //   "name": 
+    // };
+    try {
+
+      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+      Dio dio = Dio(options);
+      Response response = await dio.delete(uri);
+
+      print(response.statusCode);
+      print(response.data);
+
+      if ((response.statusCode == 404)) {
+        return ErrorType.no_records_found;
+      } else if
+         ((response.statusCode == 401)) {
+          return ErrorType.unauthorized;
+        }else if(response.statusCode >= 500 && response.statusCode <= 509) return ErrorType.server;
+         else if
+        (response.statusCode == 200){
+                  return json.decode(response.data);
+        }
+      
+    } on DioError catch (exception) {
+      if (exception == null ||
+          exception.toString().contains('SocketException')) {
+        return ErrorType.network;
+      } else if (exception.type == DioErrorType.RECEIVE_TIMEOUT ||
+          exception.type == DioErrorType.CONNECT_TIMEOUT) {
+        return ErrorType.timeout;
+      } else {
+        return ErrorType.generic;
+      }
+    }
+  }
 
 }
