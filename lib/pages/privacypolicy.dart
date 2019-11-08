@@ -47,7 +47,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       ListTile(
                         leading: MyBullet(),
                         title: Text(
-                          'We only collect personal data that\'s essential for GatePass'
+                          'We only collect personal data that\'s essential for GateGuard'
                               ' functionality - like your name and phone number, for example.',
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.black),
@@ -57,7 +57,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       ListTile(
                         leading: MyBullet(),
                         title: Text(
-                          'We collect aggregated and anonymous data on how people use GatePass'
+                          'We collect aggregated and anonymous data on how people use GateGuard'
                               ' in order to improve the app.',
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.black),
@@ -67,7 +67,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                       ListTile(
                         leading: MyBullet(),
                         title: Text(
-                          'We own GatePass, but everything you put in it is 100% your own.'
+                          'We own GateGuard, but everything you put in it is 100% your own.'
                               ' We\'ll never share it with 3rd parties without your express permission.',
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.black),
@@ -92,7 +92,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                                 style: TextStyle(color: Colors.black, fontSize: 18.0),
                               ),
                               new TextSpan(
-                                text: ' GatePass ',
+                                text: ' GateGuard ',
                                 style: TextStyle(color: Colors.black, fontSize: 18.0, fontWeight: FontWeight.bold),
                               ),
                               new TextSpan(

@@ -20,7 +20,7 @@ class VisitorProvider extends ChangeNotifier {
   List<VisitorModel> savedVisitorModels = [];
   bool savedLoadedFromPrefs = false;
 
-  List<VisitorModel> historyVisitorModels = [];
+  List<VisitorHistoryModel> historyVisitorModels = [];
   bool historyVisitorsLoadedFromApi = false;
   bool historyVisitorsLoading = false;
   bool historyVisitorsLoadedFromPrefs = false;
@@ -113,10 +113,13 @@ class VisitorProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    removeVisitorFromHistory({@required int visitorId, @required int index}){
+    removeVisitorFromHistory({@required int historyId, @required int index,notify=true}){
       historyVisitorModels.removeAt(index);
       historyVisitorsLoadedFromApi = false;
-      notifyListeners();
+      if(notify){
+        notifyListeners();
+      }
+      
     }
     
     
@@ -139,11 +142,11 @@ class VisitorProvider extends ChangeNotifier {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String jsonString = prefs.getString('history_visitors');
         if(jsonString!=null){
-           List<VisitorModel> models = [];
+           List<VisitorHistoryModel> models = [];
            dynamic decoded = json.decode(jsonString);
            if(decoded != null){
               decoded.forEach((jsonObject){
-            models.add(VisitorModel.fromJson(jsonObject['visitor']));
+            models.add(VisitorHistoryModel.fromJson(jsonObject));
           });
            }
           historyVisitorModels = models;
@@ -153,7 +156,7 @@ class VisitorProvider extends ChangeNotifier {
         notifyListeners();
       }
     
-       setHistoryVisitorFromApi(List<VisitorModel> models,{String jsonString})async{
+       setHistoryVisitorFromApi(List<VisitorHistoryModel> models,{String jsonString})async{
         historyVisitorModels = models;
         if (jsonString != null){
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -342,5 +345,37 @@ class VisitorModel {
 
     };
 
+  }
+}
+
+class VisitorHistoryModel{
+  VisitorModel visitorModel;
+  int id,visitor_id;
+  String visit_date;
+  VisitorHistoryModel({
+    this.id,
+    this.visitor_id,
+    this.visit_date,
+    this.visitorModel
+
+
+  });
+
+  factory VisitorHistoryModel.fromJson(dynamic json){
+    return VisitorHistoryModel(
+        id: json['id'],
+        visitor_id: json['visitor_id'],
+        visit_date: json['visit_date'],
+        visitorModel:VisitorModel.fromJson(json['visitor'])
+    );
+  }
+
+  Map<String,dynamic> toJson(VisitorHistoryModel model){
+    return {
+      'id': model.id,
+      'visitor_id':model.visitor_id,
+      'visit_date':model.visit_date,
+      'visitor': VisitorModel.fromJson(model.visitorModel)
+    };
   }
 }

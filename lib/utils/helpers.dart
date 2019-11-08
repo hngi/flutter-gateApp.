@@ -116,7 +116,7 @@ class GateManHelpers {
       case ErrorType.no_visitor_with_code:
         return 'No visitor with such code';
       case ErrorType.visitior_has_not_checked_out: return 'Visitor is yet to be Checked Out';
-
+      case ErrorType.no_records_found: return 'Visitor history not found';
       default:
         return 'Unknown Error Occurred';
     }

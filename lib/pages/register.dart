@@ -117,7 +117,8 @@ class _RegisterState extends State<Register> {
                                     child: DropdownButton<String>(
                                       underline: Container(width: 0,height: 0,),
                         iconEnabledColor: GateManColors.primaryColor,
-                        items:<String>['+234','+233','+232','+235',].map<DropdownMenuItem<String>>((String str){
+                        items:<String>['+234','+233','+232','+235',
+                                      '+247','+236','+237'].map<DropdownMenuItem<String>>((String str){
                         return DropdownMenuItem<String>(
                           value: str,
                           child: Text(str)
@@ -182,7 +183,7 @@ class _RegisterState extends State<Register> {
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
                                 dialog.hide();
                                 
-                                Navigator.pushNamed(context, '/token-conirmation',arguments: {
+                                Navigator.pushReplacementNamed(context, '/token-conirmation',arguments: {
                                   'phone':countryCode+_phoneController.text,
                                   // 'email':_emailController.text,
                                   'skip_estate':response['app-hint']!=null && response['app-hint'].toString().toLowerCase() == 'This is an existing user!'.toLowerCase()?true:false

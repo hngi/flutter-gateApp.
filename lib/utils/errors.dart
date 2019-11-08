@@ -25,5 +25,6 @@ enum ErrorType {
   server,
   cannot_check_visitor,
   no_visitor_with_code,
-  visitior_has_not_checked_out
+  visitior_has_not_checked_out,
+  no_records_found
 }
