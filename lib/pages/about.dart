@@ -130,7 +130,7 @@ class _AboutState extends State<About> {
     );
   }
 
-   Future _shareIt() async{
+   void _shareIt() async{
 
 
     //Capture Done
@@ -141,40 +141,3 @@ class _AboutState extends State<About> {
  }
 
 
-
-Widget _ShareOption (String img, String text) {
-  return Padding(
-    padding: EdgeInsets.only(left : 5.0, top: 10.0),
-
-    child: Container(
-      child: Stack(
-        children: <Widget>[
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(img),
-                      )
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 35.0,  top: 15.0),
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 15.0
-                    ),
-                  ),
-                ),
-              ]
-          )
-        ],
-      ),
-    ),
-
-  );
-}
