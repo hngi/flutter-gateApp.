@@ -199,8 +199,8 @@ Future loadInitialVisitors(BuildContext context,{bool skipAlert = true}) async {
 
       }
       else {
-        PaysmosmoAlert.showError(
-            context: context, message: GateManHelpers.errorTypeMap(response));
+        // PaysmosmoAlert.showError(
+        //     context: context, message: GateManHelpers.errorTypeMap(response));
       }
     } else {
       if (response== null || (response.containsKey('visitor') && response['visitor'] == 0)) {
@@ -261,9 +261,9 @@ Future loadResidentsVisitorHistory(BuildContext context)async{
   if(response is ErrorType == false){
     //update visitors provider
     if (response.containsKey('visitor_details') && response['visitor_details'].length != 0){
-      List<VisitorModel> models = [];
+      List<VisitorHistoryModel> models = [];
       response['visitor_details'].forEach((jsonObject){
-        models.add(VisitorModel.fromJson(jsonObject['visitor']));
+        models.add(VisitorHistoryModel.fromJson(jsonObject));
       }
       );
 
@@ -430,7 +430,35 @@ void setFCMTokenInServer(BuildContext context)async{
 }
 
 
-Future<dynamic> deleteVisitors(BuildContext context,int visitorId,{@required String from,@required int index})async{
+Future<dynamic> deleteVistorHistories(BuildContext context, List<String> ids,List<int> indexes) async {
+  print(indexes);
+  LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+  dialog.show();
+
+  dynamic response = await VisitorService.deleteVisitorHistories(authToken: await authToken(context), ids: ids);
+
+  if (response is ErrorType == false){
+    int ind = 0;
+    ids.forEach((String ids){
+      getVisitorProvider(context).removeVisitorFromHistory(historyId:int.parse(ids),index: ind, notify:false);
+      ind +=1;
+    } );
+    getVisitorProvider(context).notifyListeners();
+    loadResidentsVisitorHistory(context);
+      
+    
+
+    await PaysmosmoAlert.showSuccess(context: context,message: 'Deleted ${ids.length} records');
+    Navigator.pop(context);
+
+  }else{
+    await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response));
+  }
+  Navigator.pop(context);
+}
+
+
+Future<dynamic> deleteScheduledVisitors(BuildContext context,int visitorId,{@required String from,@required int index})async{
   print('::::::::starting deletion::::;;');
   LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
   dialog.show();
@@ -445,7 +473,6 @@ Future<dynamic> deleteVisitors(BuildContext context,int visitorId,{@required Str
     getVisitorProvider(context).removeVisitorFromScheduled(visitorId: visitorId,index:index);
     } else if (from == 'history'){
 
-      getVisitorProvider(context).removeVisitorFromHistory(visitorId: visitorId,index: index);
 
     }
     Navigator.pop(context);

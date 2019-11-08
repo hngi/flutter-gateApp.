@@ -174,8 +174,7 @@ class _EditProfileState extends State<EditProfile> {
                     dialog.hide();
                   } else {
                     await PaysmosmoAlert.showSuccess(
-                        context: context, message: 'Proile Updated');
-                    print('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+                        context: context, message: 'Profile Updated');
                     getProfileProvider(context)
                         .profileModel
                         .updateFromMapOrJson(response['user']);

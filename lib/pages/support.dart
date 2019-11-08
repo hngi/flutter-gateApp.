@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/core/endpoints/endpoints.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
@@ -25,13 +27,15 @@ class _SupportPageState extends State<SupportPage> {
   String subject;
   String issues;
 
-  Future send() async {
+  Future send(BuildContext context) async {
+    LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+    dialog.show();
     final form = _supportKey.currentState;
     if(form.validate()){
       Dio dio = new Dio();
       Response response;
       try{
-         response = await dio.post("http://gateappapi.herokuapp.com/api/v1/support/send", data: {"subject": subject, "email": email, "message":issues});
+         response = await dio.post("${Endpoint.baseUrl}support/send", data: {"subject": subject, "email": email, "message":issues});
          print(response.data['message'].toString());
          if (response.data['message'].toString() == "Thanks for contacting us!"){
            showDialog(
@@ -42,25 +46,29 @@ class _SupportPageState extends State<SupportPage> {
           buttonText: "okay",
           func: () {
             // Navigator.pushNamed(context, '/residents-gate');
-            Navigator.pop(context);
+           Navigator.pop(context);
           }),
            );
-           setState(() {
-             _emailController.text = "";
-             _subjectController.text = "";
-             _msgController.text = "";
-           });
+          //  setState(() {
+          //    _emailController.text = "";
+          //    _subjectController.text = "";
+          //    _msgController.text = "";
+          //  });
 
            print("yeah");
          }
          else {
            print("failed");
+           Navigator.pop(context);
          }
          
       }
       catch(e){
         print(e);
+        Navigator.pop(context);
       }
+       
+      
       
       print("valid form: $email $subject $issues");
 
@@ -122,7 +130,9 @@ class _SupportPageState extends State<SupportPage> {
                 
                 ActionButton(
                   buttonText: 'SAVE',
-                  onPressed: send,
+                  onPressed:(){
+                     send(context);
+                  },
                 )
               ]),
             ),
