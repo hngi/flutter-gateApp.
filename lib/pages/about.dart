@@ -1,3 +1,4 @@
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
@@ -129,50 +130,15 @@ class _AboutState extends State<About> {
     );
   }
 
- void _shareIt() {
-   showModalBottomSheet(
-       context: context,
-       builder: (BuildContext buildContext) {
-         return Column(
-           mainAxisAlignment: MainAxisAlignment.start,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: <Widget>[
-             Align(
-               alignment: Alignment.topLeft,
-               child: Padding(
-                 padding: EdgeInsets.only(top: 10.0, left: 20.0),
+   Future _shareIt() async{
 
-                 child: Text(
-                   'Share via...',
-                   style: TextStyle(
-                     fontSize: 16.0,
-                     color: Colors.blue,
-                   ),
-                 ),
-               ),
-             ),
-             SizedBox(height: 15.0),
 
-             GridView.count(
-               crossAxisCount: 3,
-               primary: false,
-               shrinkWrap: true,
-               children: <Widget>[
-                 _ShareOption('assets/images/icon-gmail.png', 'Gmail'),
-                 _ShareOption('assets/images/icon-hangouts.png', 'Hangout'),
-                 _ShareOption('assets/images/icon-gplus.png', 'Google+'),
-                 _ShareOption('assets/images/icon-mail.png', 'Mail'),
-                 _ShareOption('assets/images/icon-message.png', 'Message'),
-                 _ShareOption('assets/images/icon-more.png', 'More'),
-               ],
-             ),
+    //Capture Done
+    print('sharing');
+    Share.text('GateGuard','wwww.gateguard.co','text/plain');
+  }
 
-           ],
-         );
-       }
-   );
  }
-}
 
 
 

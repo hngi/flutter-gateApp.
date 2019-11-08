@@ -17,7 +17,7 @@ class Endpoint {
 
   //Service Categories
   static String serviceProvider = '/service-provider';
-  static String serviceProviderCategory = '/sp-category';
+  static String serviceProviderCategory = '/public/sp-categories';
   //Esate
   //static String estate = '/estate';
   static String resendOTPtoken = '/resend/token';
