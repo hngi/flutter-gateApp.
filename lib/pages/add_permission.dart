@@ -30,14 +30,16 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Spacer(),
-          Container(
-            height: size.height * 0.4,
-            width: double.infinity,
-            child: Image.asset('assets/images/addLocationBg.png'),
+          Padding(
+            padding: const EdgeInsets.only(top:25.0),
+            child: Container(
+              height: size.height * 0.4,
+              width: double.infinity,
+              child: Image.asset('assets/images/addLocationBg.png'),
+            ),
           ),
           Container(
-            padding: EdgeInsets.all(20.0),
-            height: size.height * 0.4,
+            padding: EdgeInsets.only(top:40.0, right: 20.0, left: 20.0, bottom: 20.0),
             width: double.infinity,
 
             child: Column(
@@ -52,15 +54,14 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
                   ),
                   textAlign: TextAlign.left,
                 ),
-                SizedBox(height: 50.0),
+                SizedBox(height: 20.0),
                 Text(
                   'Your location permission will be required for easy accessibility ',
                     style: TextStyle(
-                      fontSize: 15.0,
+                      fontSize: 16.0,
                       color: Colors.grey,
 //                    fontWeight: FontWeight.w600,
                     ),
-                    textAlign: TextAlign.left,
                   ),
               ],
             ),
@@ -68,7 +69,7 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
 
 
           Container(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.only(left:10.0, right: 10.0, bottom: 25.0, top: 10.0),
               child: ActionButton(
                 buttonText: 'Ok, turn on permission',
                 onPressed: () async{

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
+import 'package:share/share.dart';
 
 class About extends StatefulWidget {
   @override
@@ -130,7 +131,8 @@ class _AboutState extends State<About> {
   }
 
  void _shareIt() {
-   showModalBottomSheet(
+   Share.share('Check out this great app for managing your visitors as easily as a game :\n gateguard.co');
+   /*showModalBottomSheet(
        context: context,
        builder: (BuildContext buildContext) {
          return Column(
@@ -158,19 +160,19 @@ class _AboutState extends State<About> {
                primary: false,
                shrinkWrap: true,
                children: <Widget>[
-                 _ShareOption('assets/images/icon-gmail.png', 'Gmail'),
-                 _ShareOption('assets/images/icon-hangouts.png', 'Hangout'),
-                 _ShareOption('assets/images/icon-gplus.png', 'Google+'),
-                 _ShareOption('assets/images/icon-mail.png', 'Mail'),
-                 _ShareOption('assets/images/icon-message.png', 'Message'),
-                 _ShareOption('assets/images/icon-more.png', 'More'),
+                 InkWell(child: _ShareOption('assets/images/icon-gmail.png', 'Gmail'), onTap: (){Share.share('Checkout this great app for visitor management : google.com');},),
+                 InkWell(child: _ShareOption('assets/images/icon-hangouts.png', 'Hangout'), onTap: (){},),
+                 InkWell(child: _ShareOption('assets/images/icon-gplus.png', 'Google+'), onTap: (){},),
+                 InkWell(child: _ShareOption('assets/images/icon-mail.png', 'Mail'), onTap: (){},),
+                 InkWell(child: _ShareOption('assets/images/icon-message.png', 'Message'), onTap: (){},),
+                 InkWell(child: _ShareOption('assets/images/icon-more.png', 'More'), onTap: (){},),
                ],
              ),
 
            ],
          );
        }
-   );
+   );*/
  }
 }
 
