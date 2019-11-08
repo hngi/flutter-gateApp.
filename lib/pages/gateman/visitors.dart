@@ -184,19 +184,7 @@ bool isLoading = false;
                                   '${visitor.visitingPeriod}',
                               color: Colors.blueGrey.withOpacity(0.2),
                               func: (){
-                                Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ScheduledVisit(
-              name:'${visitor.name}',
-                                  phone:'${visitor.phoneNo}',
-                                  description:'${visitor.description}',
-                                  eta:'${visitor.createdAt}',
-                                  verification:'QR Code',
-                                  visitStatus:'${visitor.qrCode}',
-            ),
-          ),
-        );
+                                Navigator.pushNamed(context, '/scan-qr');
                               },
                             ),
                           );
