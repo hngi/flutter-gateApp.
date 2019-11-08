@@ -72,7 +72,7 @@ class _SettingState extends State<Settings> {
             Container(
               padding: EdgeInsets.only(top: 20.0, left: 30.0),
               child: Text(
-                'Nofications & Tracking',
+                'Notifications & Tracking',
                 style: TextStyle(
                   fontSize: 16.0,
                   color: GateManColors.textColor,
