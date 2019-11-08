@@ -60,7 +60,7 @@ class _RegisterState extends State<Register> {
           Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 26.0),
             child: Text(
-                'Welcome to a peaceful a safe way to manage your visitors',
+                'Welcome to a peaceful and safe way to manage your visitors',
                 style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600,
