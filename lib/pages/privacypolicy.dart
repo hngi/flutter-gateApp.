@@ -79,7 +79,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 ),
                 Container(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 15.0, 10.0),
+                    padding: EdgeInsets.fromLTRB(0.0, 10.0, 8.0, 10.0),
                     child: RichText(textAlign: TextAlign.justify,
                         text: TextSpan(
                             children: [
@@ -139,7 +139,7 @@ class FirstParagraph extends StatelessWidget {
               recognizer: new TapGestureRecognizer()
                 ..onTap = () {
                   launch(
-                      'https://gateguard.co/aboutus.html');
+                      'https://gateguard.co/termsandconditions.html');
                 },
             ),
             
