@@ -5,7 +5,7 @@ class Endpoint {
   static String imageBaseUrl =
       'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
-  static String baseUrl ='https://gateappapi.herokuapp.com/api/v1/'; // 'http://52.40.191.249/api/v1/';
+  static String baseUrl ='http://52.40.191.249/api/v1/'; // 'http://52.40.191.249/api/v1/';
   //Auth
   static String login = '/login';
   static String adminRegister = '/register/admin';
