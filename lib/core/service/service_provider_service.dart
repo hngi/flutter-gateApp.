@@ -137,7 +137,8 @@ class ServiceProviderService {
     );
 
     Response response = await dio.get(uri, options: options);
-
+    print(response.statusCode);
+    print(response.data);
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);

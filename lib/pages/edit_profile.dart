@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 import 'package:xgateapp/core/service/profile_service.dart';
 import 'package:xgateapp/providers/profile_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
@@ -155,157 +156,179 @@ class _EditProfileState extends State<EditProfile> {
               ActionButton(
                 buttonText: 'Save',
                 onPressed: () async {
-                  dialog.show();
-                  print(_phoneNumberController.text +
-                      _emailController.text +
-                      _nameController.text);
-                  // try {
-                  dynamic response = await ProfileService.setCurrentUserProfile(
-                      phone: _phoneNumberController.text,
-                      email: _emailController.text,
-                      name: _nameController.text,
-                      image: _image,
-                      authToken: await authToken(context));
-                  if (response is ErrorType) {
-                    await PaysmosmoAlert.showError(
-                        context: context,
-                        message: GateManHelpers.errorTypeMap(response));
-
-                    dialog.hide();
-                  } else {
-                    await PaysmosmoAlert.showSuccess(
-                        context: context, message: 'Profile Updated');
-                    getProfileProvider(context)
-                        .profileModel
-                        .updateFromMapOrJson(response['user']);
-                    getProfileProvider(context).notifyListeners();
-                    dialog.hide();
-                  }
-                  // } catch (error) {
-                  //   throw error;
-                  //   await PaysmosmoAlert.showError(
-                  //       context: context,
-                  //       message: GateManHelpers.errorTypeMap(ErrorType.generic));
-                  //   dialog.hide();
-                  // }
-                },
-              ),
-            ],
-          ),
-          showingImagePickerDialog == true
-              ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 14.0, right: 14.0),
-                      child: Container(
-                        height: 80,
-                        decoration: BoxDecoration(color: Colors.white),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                                getImage((img) {
-                                  setState(() {
-                                    _image = img;
-                                    showingImagePickerDialog = false;
-                                  });
-                                }, ImageSource.camera);
-                              },
-                              child: Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width - 10,
-                                decoration: BoxDecoration(color: Colors.white),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(Icons.camera_alt),
-                                      ),
-                                      Text('Take a Picture',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
+                  if(validated()){
+                  
+                                   
+                                    dialog.show();
+                                    print(_phoneNumberController.text +
+                                        _emailController.text +
+                                        _nameController.text);
+                                    // try {
+                                    dynamic response = await ProfileService.setCurrentUserProfile(
+                                        phone: _phoneNumberController.text,
+                                        email: _emailController.text,
+                                        name: _nameController.text,
+                                        image: _image,
+                                        authToken: await authToken(context));
+                                    if (response is ErrorType) {
+                                      await PaysmosmoAlert.showError(
+                                          context: context,
+                                          message: GateManHelpers.errorTypeMap(response));
+                  
+                                      dialog.hide();
+                                    } else {
+                                      await PaysmosmoAlert.showSuccess(
+                                          context: context, message: 'Profile Updated');
+                                      getProfileProvider(context)
+                                          .profileModel
+                                          .updateFromMapOrJson(response['user']);
+                                      getProfileProvider(context).notifyListeners();
+                                      dialog.hide();
+                                    }
+                                    // } catch (error) {
+                                    //   throw error;
+                                    //   await PaysmosmoAlert.showError(
+                                    //       context: context,
+                                    //       message: GateManHelpers.errorTypeMap(ErrorType.generic));
+                                    //   dialog.hide();
+                                    // }
+                                     }else{
+                                       await PaysmosmoAlert.showError(context: context,message: 'Please enter valid data for all inputs');
+                                     }
+                                  },
                                 ),
-                              ),
+                              ],
                             ),
-                            InkWell(
-                              onTap: () {
-                                getImage((img) {
-                                  setState(() {
-                                    _image = img;
-                                    showingImagePickerDialog = false;
-                                  });
-                                }, ImageSource.gallery);
-                              },
-                              child: Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width - 10,
-                                decoration: BoxDecoration(color: Colors.white),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: Icon(Icons.photo),
+                            showingImagePickerDialog == true
+                                ? Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 14.0, right: 14.0),
+                                        child: Container(
+                                          height: 80,
+                                          decoration: BoxDecoration(color: Colors.white),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  getImage((img) {
+                                                    setState(() {
+                                                      _image = img;
+                                                      showingImagePickerDialog = false;
+                                                    });
+                                                  }, ImageSource.camera);
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  width: MediaQuery.of(context).size.width - 10,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left:10.0),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(right: 8.0),
+                                                          child: Icon(Icons.camera_alt),
+                                                        ),
+                                                        Text('Take a Picture',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.bold)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  getImage((img) {
+                                                    setState(() {
+                                                      _image = img;
+                                                      showingImagePickerDialog = false;
+                                                    });
+                                                  }, ImageSource.gallery);
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  width: MediaQuery.of(context).size.width - 10,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left:10.0),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(right: 8.0),
+                                                          child: Icon(Icons.photo),
+                                                        ),
+                                                        Text('Select From Gallery',
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.bold)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      Text('Select From Gallery',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade600.withOpacity(0.5),
+                                    ),
+                                  )
+                                : Container(width: 0, height: 0),
+                          ]),
+                          onWillPop: () async {
+                            if (showingImagePickerDialog == true) {
+                              setState(() {
+                                showingImagePickerDialog = false;
+                              });
+                              return false;
+                            } else {
+                              return true;
+                            }
+                          },
                         ),
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade600.withOpacity(0.5),
-                  ),
-                )
-              : Container(width: 0, height: 0),
-        ]),
-        onWillPop: () async {
-          if (showingImagePickerDialog == true) {
-            setState(() {
-              showingImagePickerDialog = false;
-            });
-            return false;
-          } else {
-            return true;
-          }
-        },
-      ),
-    );
-  }
-
-  void setInitBuildControllers(BuildContext context) {
-    ProfileModel model = getProfileProvider(context).profileModel;
-    _nameController.text = model.name;
-    _phoneNumberController.text = model.phone;
-    _emailController.text = model.email;
-    this.setState(() {
-      controllerLoaded = true;
-    });
-  }
+                      );
+                    }
+                  
+                    void setInitBuildControllers(BuildContext context) {
+                      ProfileModel model = getProfileProvider(context).profileModel;
+                      _nameController.text = model.name;
+                      _phoneNumberController.text = model.phone;
+                      _emailController.text = model.email;
+                      this.setState(() {
+                        controllerLoaded = true;
+                      });
+                    }
+                  
+                    bool validated() {
+                      bool valid = false,emailValid = false,phoneValid = false,nameValid = false;
+                      String message = '';
+                      if (_nameController.text.isEmpty == false && isAlpha(_nameController.text)){
+                          nameValid = true;
+                      }
+                      if (_emailController.text.isEmpty == false && isEmail(_emailController.text)){
+                        emailValid = true;
+                      }
+                      if (_phoneNumberController.text.isEmpty == false){
+                        phoneValid = true;
+                      }
+                      if(emailValid&&phoneValid&&nameValid) return true;
+                      else return false;
+                    }
 
   // Future loadInitialProfile(BuildContext context) async {
   //   try {

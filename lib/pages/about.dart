@@ -1,7 +1,7 @@
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
-import 'package:share/share.dart';
 
 class About extends StatefulWidget {
   @override
@@ -130,87 +130,14 @@ class _AboutState extends State<About> {
     );
   }
 
- void _shareIt() {
-   Share.share('Check out this great app for managing your visitors as easily as a game :\n gateguard.co');
-   /*showModalBottomSheet(
-       context: context,
-       builder: (BuildContext buildContext) {
-         return Column(
-           mainAxisAlignment: MainAxisAlignment.start,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: <Widget>[
-             Align(
-               alignment: Alignment.topLeft,
-               child: Padding(
-                 padding: EdgeInsets.only(top: 10.0, left: 20.0),
+   void _shareIt() async{
 
-                 child: Text(
-                   'Share via...',
-                   style: TextStyle(
-                     fontSize: 16.0,
-                     color: Colors.blue,
-                   ),
-                 ),
-               ),
-             ),
-             SizedBox(height: 15.0),
 
-             GridView.count(
-               crossAxisCount: 3,
-               primary: false,
-               shrinkWrap: true,
-               children: <Widget>[
-                 InkWell(child: _ShareOption('assets/images/icon-gmail.png', 'Gmail'), onTap: (){},),
-                 InkWell(child: _ShareOption('assets/images/icon-hangouts.png', 'Hangout'), onTap: (){},),
-                 InkWell(child: _ShareOption('assets/images/icon-gplus.png', 'Google+'), onTap: (){},),
-                 InkWell(child: _ShareOption('assets/images/icon-mail.png', 'Mail'), onTap: (){},),
-                 InkWell(child: _ShareOption('assets/images/icon-message.png', 'Message'), onTap: (){},),
-                 InkWell(child: _ShareOption('assets/images/icon-more.png', 'More'), onTap: (){},),
-               ],
-             ),
+    //Capture Done
+    print('sharing');
+    Share.text('GateGuard','wwww.gateguard.co','text/plain');
+  }
 
-           ],
-         );
-       }
-   );*/
  }
-}
 
 
-
-Widget _ShareOption (String img, String text) {
-  return Padding(
-    padding: EdgeInsets.only(left : 5.0, top: 10.0),
-
-    child: Container(
-      child: Stack(
-        children: <Widget>[
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(img),
-                      )
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 35.0,  top: 15.0),
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 15.0
-                    ),
-                  ),
-                ),
-              ]
-          )
-        ],
-      ),
-    ),
-
-  );
-}

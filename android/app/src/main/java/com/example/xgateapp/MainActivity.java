@@ -1,4 +1,4 @@
-package com.example.xgateapp;
+package com.hng.xgateapp;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
