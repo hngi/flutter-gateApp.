@@ -30,7 +30,8 @@ class _ServiceDirectoryResidentState extends State<ServiceDirectoryResident> {
     Future.wait([
       ServiceProviderService.getServiceProviderCategories(
           authToken: await authToken(context))
-    ]).then((res) {
+    ]).then((res) { 
+      print(res);
       setState(() {
         isLoading = false;
         _categories = res[0];

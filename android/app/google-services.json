@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:786685708603:android:2e2e64345cd748fde98f1e",
         "android_client_info": {
-          "package_name": "com.example.xgateapp"
+          "package_name": "com.hng.xgateapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "786685708603-j4ihdc3il895uaj4cf80kpadjejgaabu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.xgateapp",
+            "package_name": "com.hng.xgateapp",
             "certificate_hash": "394368a094aeb944fe7df712efe540a424a74ee5"
           }
         },

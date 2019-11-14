@@ -478,9 +478,11 @@ Widget historyTab(BuildContext context){
       timeline: visitor.arrival_date??'',
       phone: visitor.phone_no??'',
       date: visitor.arrival_date??'',
-      buttonText1: '',
+      buttonText1: 'View',
       buttonText2: 'Remove',
-      buttonFunc1: () {},
+      buttonFunc1: () {
+         Navigator.pushNamed(context, '/visitor-profile',arguments: visitor);
+      },
       buttonFunc2: ()async{
         print(':::::u wanna remove:::::${ _visitorsHistory[index].id}');
         deleteVistorHistories(context, ['${_visitorsHistory[index].id}'],[index]);
