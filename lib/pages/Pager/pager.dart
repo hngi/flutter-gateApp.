@@ -28,7 +28,7 @@ class _MainPagerState extends State<MainPager> {
 
   final List<String> pagerSubMessages = [
     'Save them the embarrassment of waiting needlessly for permission',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit,.'
+    'Get some gate guards to help you as easily as it should be,.'
   ];
 
   final List<String> pagerImages = [
