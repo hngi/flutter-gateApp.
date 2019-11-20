@@ -116,7 +116,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         'qr.png',
        image.readAsBytesSync(),
         'image/png',
-        text: 'Show this at the security gate.');
+        text: 'Kindly share this with your visitor and inform them to show the security at the gate.');
 }).catchError((onError) {
     print(onError);
 });

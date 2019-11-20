@@ -26,92 +26,108 @@ class _SupportPageState extends State<SupportPage> {
   String email;
   String subject;
   String issues;
+  bool buttonState = true;
 
-  Future send(BuildContext context) async {
-   
+  Future send() async {
     final form = _supportKey.currentState;
-    if(form.validate()){ 
-      LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
-      dialog.show();
+    if (form.validate()) {
+      setState(() {
+        buttonState = false;
+      });
       Dio dio = new Dio();
       Response response;
-      try{
-         response = await dio.post("${Endpoint.baseUrl}support/send", data: {"subject": subject, "email": email, "message":issues});
-         print(response.data['message'].toString());
-         if (response.data['message'].toString() == "Thanks for contacting us!"){
-           Navigator.pop(context);
-           showDialog(
-      context: context,
-      builder: (BuildContext context) => CustomDialog(
-          title: "",
-          description: "Your request have been successfully received",
-          buttonText: "okay",
-          func: () {
-            // Navigator.pushNamed(context, '/residents-gate');
-           Navigator.pop(context);
+      try {
+        response = await dio.post("${Endpoint.baseUrl2}support/send",
+            data: {"subject": subject, "email": email, "message": issues});
+        print(response.data['message'].toString());
+        if (response.data['message'].toString() ==
+            "Thanks for contacting us!") {
+          setState(() {
+            buttonState = true;
+          });
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => CustomDialog(
+                title: "",
+                description: "Your request have been successfully received",
+                buttonText: "okay",
+                func: () {
+                  // Navigator.pushNamed(context, '/residents-gate');
+                  Navigator.pop(context);
+                }),
+          );
+          setState(() {
+            _emailController.text = "";
+            _subjectController.text = "";
+            _msgController.text = "";
+          });
 
-          }),
-           );
-          //  setState(() {
-          //    _emailController.text = "";
-          //    _subjectController.text = "";
-          //    _msgController.text = "";
-          //  });
-
-           print("yeah");
-         }
-         else {
-           print("failed");
-           Navigator.pop(context);
-         }
-         
-      }
-      catch(e){
+          print("yeah");
+        } else if (response.data['message'].toString() !=
+            "Thanks for contacting us!") {
+          setState(() {
+            buttonState = true;
+          });
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => CustomDialog(
+                title: "",
+                description: "Sorry, couldn't send request",
+                buttonText: "okay",
+                func: () {
+                  // Navigator.pushNamed(context, '/residents-gate');
+                  Navigator.pop(context);
+                }),
+          );
+        } else {
+          setState(() {
+            buttonState = true;
+          });
+          print("failed");
+        }
+      } catch (e) {
         print(e);
-        Navigator.pop(context);
       }
-       
-      
-      
+
       print("valid form: $email $subject $issues");
-
-
-    }
-    else {
+    } else {
       print("not valid");
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: GateManHelpers.appBar(context, 'Support'),
-        body: ListView(          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+        body: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
           children: <Widget>[
-            Form(key: _supportKey,
-              child: Column(
-              children: <Widget>[
-
-                CustomTextFormField(onChanged: (s)=> setState(()=>email = s),
+            Form(
+              key: _supportKey,
+              child: Column(children: <Widget>[
+                CustomTextFormField(
+                  onChanged: (s) => setState(() => email = s),
                   controller: _emailController,
                   labelName: 'Email',
                   onSaved: (str) => _email = str,
                   validator: (str) =>
-                      str.isEmpty ? 'Email cannot be empty' : null,
+                      !RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(str)
+                          ? "Enter Valid Email address"
+                          : null,
                 ),
-
-                CustomTextFormField(onChanged: (s)=> setState(()=>subject = s),
-                  controller: _subjectController,
-                  labelName: 'Subject',
-                  onSaved: (str) => _subject = str,
-                  validator: (str) =>
-                      str.isEmpty ? 'Subject cannot be empty' : null,
-                ),
-
-                CustomTextFormField(onChanged: (s)=> setState(()=>issues = s),
+                CustomTextFormField(
+                    onChanged: (s) => setState(() => subject = s),
+                    controller: _subjectController,
+                    keyboardType: TextInputType.emailAddress,
+                    labelName: 'Subject',
+                    onSaved: (str) => _subject = str,
+                    validator: (str) {
+                      str.isEmpty ? 'Subject cannot be empty' : null;
+                    }),
+                CustomTextFormField(
+                  onChanged: (s) => setState(() => issues = s),
                   maxLines: 4,
                   controller: _msgController,
                   labelName: 'Issues',
@@ -119,28 +135,25 @@ class _SupportPageState extends State<SupportPage> {
                   validator: (str) =>
                       str.isEmpty ? 'Message cannot be empty' : null,
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 26.0),
                   child: Text(
                       'Please describe the issue with as much details as possible to enable our support staff get a clear picture and offer solutions to the problem',
                       style: TextStyle(
-                          fontSize: 12.0,
-                          color: GateManColors.grayColor)),
+                          fontSize: 12.0, color: GateManColors.grayColor)),
                 ),
-               
                 SizedBox(height: 40.0),
-                
-                ActionButton(
-                  buttonText: 'SAVE',
-                  onPressed:(){
-                     send(context);
-                  },
-                )
+                buttonState
+                    ? ActionButton(
+                        buttonText: 'SAVE',
+                        onPressed: () {
+                          send();
+                        },
+                      )
+                    : CircularProgressIndicator()
               ]),
             ),
           ],
         ));
-    }
-              
+  }
 }
