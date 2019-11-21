@@ -135,7 +135,7 @@ class _AboutState extends State<About> {
 
     //Capture Done
     print('sharing');
-    Share.text('GateGuard','wwww.gateguard.co','text/plain');
+    Share.text('GateGuard','https://play.google.com/store/apps/details?id=com.hng.xgateapp','text/plain');
   }
 
  }
