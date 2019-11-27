@@ -3,6 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
 
 class VisitorTile extends StatefulWidget {
   final String name,
@@ -14,15 +15,16 @@ class VisitorTile extends StatefulWidget {
       buttonText2,
       buttonText3,
       avatarLink,
-      backUpAvatarLink = 'assets/images/avatar2.jpg';
+      backUpAvatarLink = 'assets/images/avatar.png';
   final Function buttonFunc1, buttonFunc2,buttonFunc3;
   final VisitorModel model;
   final Function(bool) onSelectionchange;
-  final bool selected;
+  final bool selected, showCheckBox;
 
   VisitorTile(
       {Key key,
       @required this.selected,
+      this.showCheckBox,
       @required this.name,
       @required this.group,
       @required this.phone,
@@ -75,16 +77,14 @@ class _VisitorTileState extends State<VisitorTile> {
             ListTile(
               leading: InkWell(
                 onTap: (){toggleSelection(!selected);},
-                child:selected?CircleAvatar(
-                radius: 30.0,
-                child: Center(child: Icon(Icons.check_circle,color: GateManColors.primaryColor,),
-              )):CircleAvatar(
+                child:CircleAvatar(
                 backgroundImage: this.widget.avatarLink==null || this.widget.avatarLink == 'noimage.jpg'?AssetImage(this.widget.backUpAvatarLink):NetworkImage(Endpoint.imageBaseUrl+this.widget.avatarLink),
                 radius: 30.0,
               )),
               title: InkWell(
                 onLongPress: (){
-                  Navigator.pushNamed(context, '/visitor-profile',arguments: this.widget.model);
+                  // Navigator.pushNamed(context, '/visitor-profile',arguments: this.widget.model);
+                  toggleSelection(!selected);
                 },
                 onTap: toggle,
                 child: Column(
@@ -121,6 +121,13 @@ class _VisitorTileState extends State<VisitorTile> {
                                 : Container(),
                           ],
                         ),
+                        selected || (this.widget.showCheckBox != null && this.widget.showCheckBox)?
+                        Checkbox(onChanged: (bool value) {
+                          toggleSelection(value);
+                        }, value: selected,
+
+                        )
+                        :
                         IconButton(
                             icon: Icon(
                                 drag
@@ -133,9 +140,9 @@ class _VisitorTileState extends State<VisitorTile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        drag
+                        drag && widget.group !=null && widget.group.toLowerCase() != 'none'
                             ? Text(
-                                widget.group,
+                                'Visitors Group: ${widget.group}',
                                 style: TextStyle(
                                     fontSize: 14.0, color: Colors.grey),
                               )
@@ -168,94 +175,96 @@ class _VisitorTileState extends State<VisitorTile> {
                           )),
                           Expanded(
                             child: Text(
-                              widget.date,
-                              overflow: TextOverflow.fade,
-                              style:
-                                  TextStyle(fontSize: 12.0, color: Colors.grey),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[this.widget.buttonText3!=null?
-                           InkWell(
-                            onTap: widget.buttonFunc3,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.green),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3.0))),
-                              padding: widget.buttonText3.length < 5
-                                  ? EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 2.0,
-                                      bottom: 2.0)
-                                  : EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      top: 2.0,
-                                      bottom: 2.0),
-                              child: Text(widget.buttonText3,
-                                  style: TextStyle(color: Colors.green)),
-                            ),
-                          ):Container(width: 0,height: 0,),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          InkWell(
-                            onTap: widget.buttonFunc1,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.green),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3.0))),
-                              padding: widget.buttonText1.length < 5
-                                  ? EdgeInsets.only(
-                                      left: 15.0,
-                                      right: 15.0,
-                                      top: 2.0,
-                                      bottom: 2.0)
-                                  : EdgeInsets.only(
-                                      left: 5.0,
-                                      right: 5.0,
-                                      top: 2.0,
-                                      bottom: 2.0),
-                              child: Text(widget.buttonText1,
-                                  style: TextStyle(color: Colors.green)),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          InkWell(
-                            onTap: widget.buttonFunc2,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  border: Border.all(color: Colors.green),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3.0))),
-                              padding: EdgeInsets.only(
-                                  left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
-                              child: Text(widget.buttonText2,
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 8.0),
-                    ])
-                  : Container(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+                              prettifyDate(widget.date),
+                                                            overflow: TextOverflow.fade,
+                                                            style:
+                                                                TextStyle(fontSize: 12.0, color: Colors.grey),
+                                                            textAlign: TextAlign.right,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 15.0),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: <Widget>[this.widget.buttonText3!=null?
+                                                         InkWell(
+                                                          onTap: widget.buttonFunc3,
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                border: Border.all(color: Colors.green),
+                                                                borderRadius:
+                                                                    BorderRadius.all(Radius.circular(3.0))),
+                                                            padding: widget.buttonText3.length < 5
+                                                                ? EdgeInsets.only(
+                                                                    left: 15.0,
+                                                                    right: 15.0,
+                                                                    top: 2.0,
+                                                                    bottom: 2.0)
+                                                                : EdgeInsets.only(
+                                                                    left: 5.0,
+                                                                    right: 5.0,
+                                                                    top: 2.0,
+                                                                    bottom: 2.0),
+                                                            child: Text(widget.buttonText3,
+                                                                style: TextStyle(color: Colors.green)),
+                                                          ),
+                                                        ):Container(width: 0,height: 0,),
+                                                        SizedBox(
+                                                          width: 10.0,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: widget.buttonFunc1,
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                border: Border.all(color: Colors.green),
+                                                                borderRadius:
+                                                                    BorderRadius.all(Radius.circular(3.0))),
+                                                            padding: widget.buttonText1.length < 5
+                                                                ? EdgeInsets.only(
+                                                                    left: 15.0,
+                                                                    right: 15.0,
+                                                                    top: 2.0,
+                                                                    bottom: 2.0)
+                                                                : EdgeInsets.only(
+                                                                    left: 5.0,
+                                                                    right: 5.0,
+                                                                    top: 2.0,
+                                                                    bottom: 2.0),
+                                                            child: Text(widget.buttonText1,
+                                                                style: TextStyle(color: Colors.green)),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 10.0,
+                                                        ),
+                                                        InkWell(
+                                                          onTap: widget.buttonFunc2,
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors.green,
+                                                                border: Border.all(color: Colors.green),
+                                                                borderRadius:
+                                                                    BorderRadius.all(Radius.circular(3.0))),
+                                                            padding: EdgeInsets.only(
+                                                                left: 5.0, right: 5.0, top: 2.0, bottom: 2.0),
+                                                            child: Text(widget.buttonText2,
+                                                                style: TextStyle(color: Colors.white)),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 8.0),
+                                                  ])
+                                                : Container(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                              
+                               
 }

@@ -77,7 +77,6 @@ class Routes {
 
       case '/user-type':
         return MaterialPageRoute(builder: (context) => UserType());
-
       case '/add-estate':
         return MaterialPageRoute(builder: (context) => AddEstate());
 

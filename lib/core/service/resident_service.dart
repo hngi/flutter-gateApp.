@@ -28,9 +28,6 @@ static BaseOptions options = BaseOptions(
         try {
           Response response = await dio.post(uri);
     
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 405) return ErrorType.request_already_sent_to_gateman;
           if (response.statusCode != 200) return ErrorType.generic;
@@ -52,16 +49,11 @@ static BaseOptions options = BaseOptions(
        static dynamic findGateManByPhone({
         @required String phone,@required authToken, gatemanId,
       }) async {
-        print(authToken);
         var uri = Endpoint.searchGatemanByPhone(gatemanPhone: phone);
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
-    
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 404) return ErrorType.no_gateman_found;
           if (response.statusCode != 200) return ErrorType.generic;
@@ -85,16 +77,11 @@ static BaseOptions options = BaseOptions(
     static dynamic findGateManByName({
         @required String name,@required authToken,
       }) async {
-        print(authToken);
         var uri = Endpoint.searchGatemanByName(gatemanName: name);
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
-    
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
@@ -116,15 +103,11 @@ static BaseOptions options = BaseOptions(
 
       static dynamic getGateManThatAccepted({@required authToken,
       }) async {
-        print(authToken);
         var uri = Endpoint.viewGatemanThatAccepted;
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
-    
-          print(response.statusCode);
-          print(response.data);
     
           if (response == null) return ErrorType.generic;
           if (response.statusCode != 200) return ErrorType.generic;
@@ -146,16 +129,11 @@ static BaseOptions options = BaseOptions(
     
     static dynamic getGateManThatArePending({@required authToken,
       }) async {
-        print(authToken);
         var uri = Endpoint.viewGatemanYetToAccept;
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.get(uri);
-    
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if (response.statusCode != 200) return ErrorType.generic;
           if (response.statusCode == 200) return json.decode(response.data);
@@ -178,15 +156,11 @@ static BaseOptions options = BaseOptions(
       static dynamic removeGateman({@required authToken,
       @required int gatemanId
       }) async {
-        print(authToken);
         var uri = Endpoint.deleteGateman(gatemanId: gatemanId);
         options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
         Dio dio = Dio(options);
         try {
           Response response = await dio.delete(uri);
-    
-          print(response.statusCode);
-          print(response.data);
     
           if (response == null) return ErrorType.generic;
           if (response.statusCode != 200) return ErrorType.generic;

@@ -34,7 +34,7 @@ class ResidentNotificationService {
     Dio dio = new Dio(option);
         try {
           Response response = await dio.delete(uri);
-          print(response.data);
+          //print(response.data);
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;
           if (response.statusCode != 200) return ErrorType.generic;
@@ -184,8 +184,8 @@ static markselectedNotificationAsRead({String authToken,List<String> notificatio
     try {
           Response response = await dio.patch(uri);
     
-          print(response.statusCode);
-          print(json.decode(response.data));
+          //print(response.statusCode);
+          //print(json.decode(response.data));
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;

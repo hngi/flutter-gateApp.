@@ -15,11 +15,11 @@ class Homepage extends StatelessWidget {
     print(':::::::::::::::::::::::::::::::::::::::$notifications');
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         children: <Widget>[
-          SizedBox(height: size.height * 0.05),
+          // SizedBox(height: size.height * 0.05),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            padding: const EdgeInsets.only(bottom: 28.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,18 +66,18 @@ class Homepage extends StatelessWidget {
                                   child: Stack(
                                     alignment: Alignment.topLeft,
                                     children: <Widget>[
-                                       Positioned(
-                                        right: 25.0,
-                                        child: Container(
-                                          height: 68.0,
-                                          width: 67.0,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: GateManColors.primaryColor,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                      ),
+                                      //  Positioned(
+                                      //   right: 25.0,
+                                      //   child: Container(
+                                      //     height: 68.0,
+                                      //     width: 67.0,
+                                      //     alignment: Alignment.center,
+                                      //     decoration: BoxDecoration(
+                                      //       color: GateManColors.primaryColor,
+                                      //       shape: BoxShape.circle,
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Positioned(
                                         // left: 3.0,
                                         
@@ -85,12 +85,12 @@ class Homepage extends StatelessWidget {
                                                                                   child: CircleAvatar(
                                             radius: 32,
                                             child:
-                                            getProfileProvider(context).profileModel.image!='no_image'||
+                                            getProfileProvider(context).profileModel.image!='noimage.jpg' &&
                                             getProfileProvider(context).profileModel.image!=null
                                             ?
                                             FadeInImage.assetNetwork(image: Endpoint.imageBaseUrl+ '${getProfileProvider(context).profileModel.image}',
                                             placeholder:'assets/images/gateman_white.png',):
-                                                AssetImage('assets/images/gateman_white.png'),
+                                                Image.asset('assets/images/avatar.png'),
                                             
                                           ),
                                         ),

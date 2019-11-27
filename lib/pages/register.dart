@@ -104,7 +104,7 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(right: 3),
+                    padding: const EdgeInsets.only(right: 8),
                     child: Container(
                       width: 80,
                       height: 38,
@@ -121,7 +121,7 @@ class _RegisterState extends State<Register> {
                                       '+247','+236','+237'].map<DropdownMenuItem<String>>((String str){
                         return DropdownMenuItem<String>(
                           value: str,
-                          child: Text(str)
+                          child: Text(str, style: TextStyle(color: GateManColors.blackColor),)
                         );
                       }).toList(),
                       value: countryCode,
@@ -136,6 +136,7 @@ class _RegisterState extends State<Register> {
                   ),
                   Expanded(
                                   child: CustomTextFormField(
+                                    hintText: '8156664098',
                       controller: _phoneController,
                       onSaved: (str) => _phone = str,
                       onChanged: (str) {
@@ -170,11 +171,7 @@ class _RegisterState extends State<Register> {
                               dynamic response = await AuthService.registerUser(userType: userTypeProvider.type, /*email: _emailController.text,*/ phone: countryCode.replaceFirst('+', '')+_phoneController.text, name: _fullNameController.text,)
                               ;
                               
-                              print('printing eesponse');
-                              print(response);
-                                
                                 if (response is ErrorType){
-                                    print(GateManHelpers.errorTypeMap(response));
                                    
                                   await PaysmosmoAlert.showError(context: context,message: GateManHelpers.errorTypeMap(response),);
                                 dialog.hide();
@@ -182,7 +179,7 @@ class _RegisterState extends State<Register> {
 
                                 await PaysmosmoAlert.showSuccess(context: context,message: response['message'],);
                                 dialog.hide();
-                                
+                                print(response);
                                 Navigator.pushReplacementNamed(context, '/token-conirmation',arguments: {
                                   'phone':countryCode+_phoneController.text,
                                   // 'email':_emailController.text,
@@ -193,23 +190,11 @@ class _RegisterState extends State<Register> {
                                     
                                 
                               }catch(error){
-                                    print(error);
-                                    
-                                    
-                                    PaysmosmoAlert.showError(context: context,message: error.toString());
-                                    dialog.hide();
+                                    // PaysmosmoAlert.showError(context: context,message: error.toString());
+                           dialog.hide();
                               }
                               
               }
-                            // if (userTypeProvider.type == user_type.RESIDENT) {
-                            //   print("jjjjjjjjjj" + _fullName);
-                            //   residentUserModelProvider.setResidentFullName(
-                            //       residentFullName: _fullName);
-                            //   Navigator.pushNamed(context, '/welcome-resident');
-                            // } else {
-                            //   gateManProvider.setFullName(fullName: _fullName);
-                            //   Navigator.pushNamed(context, '/residents');
-                            // }
                           },
                         ),
                       ],

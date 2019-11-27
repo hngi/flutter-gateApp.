@@ -15,6 +15,7 @@ import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
+import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:provider/provider.dart';
 import 'package:xgateapp/utils/constants.dart';
@@ -42,6 +43,9 @@ class _SelectAddressState extends State<SelectAddress> {
   List<Estate> _estates = [];
   List<Estate> _filteredEstates = <Estate>[];
   LoadingDialog dialog;
+  bool showingHomeAdressInput = false;
+  final _homeAddressController = 
+  TextEditingController(text: '');
 
   Map<user_type, String> mapUserTypeToPage = {
     user_type.RESIDENT: '/welcome-resident',
@@ -78,6 +82,7 @@ class _SelectAddressState extends State<SelectAddress> {
     dynamic result = await EstateService.selectEstate(
       estateId: selectedEstateId,
       authToken: await authToken(context),
+      houseBlock: _homeAddressController.text
     );
     dialog.hide();
 
@@ -93,6 +98,7 @@ class _SelectAddressState extends State<SelectAddress> {
           .then((_) async {
             print('pushing to page');
             print(await getUserTypeProvider(context).getUserTypeRoute);
+            prefix0.loadInitialProfile(context);
         Navigator.pushReplacementNamed(context, await getUserTypeProvider(context).getUserTypeRoute);
       });
     } else {
@@ -132,11 +138,11 @@ class _SelectAddressState extends State<SelectAddress> {
                           fontWeight: FontWeight.w600)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 50.0),
+                  padding: const EdgeInsets.only(right: 50.0,top: 10,bottom: 30),
                   child: Text(
                     'Input your current location and estate to set you up',
                     style: TextStyle(
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                       color: Colors.grey,
                     ),
                   ),
@@ -191,25 +197,31 @@ class _SelectAddressState extends State<SelectAddress> {
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            '${_filteredEstates[index].estateName}, ${_filteredEstates[index].city}, ${_filteredEstates[index].country}'),
+                                    Estate est = _filteredEstates[index];
+                                    return Container(
+                                      color: selectedEstateId == est.estateId? GateManColors.primaryColor:Colors.white,
+                                      child: InkWell(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                              '${_filteredEstates[index].estateName}, ${_filteredEstates[index].city}, ${_filteredEstates[index].country}',
+                                              style: TextStyle(color: selectedEstateId == est.estateId?Colors.white:GateManColors.blackColor),),
+                                        ),
+                                        onTap: () {
+                                          
+                                          //set estate id to controller
+                                          setState(() {
+                                            searchEstateController.text =
+                                                est.estateName +
+                                                    ', ' +
+                                                    est.city +
+                                                    ', ' +
+                                                    est.country;
+                                            selectedEstateId = est.estateId;
+                                            showingHomeAdressInput = true;
+                                          });
+                                        },
                                       ),
-                                      onTap: () {
-                                        Estate est = _filteredEstates[index];
-                                        //set estate id to controller
-                                        setState(() {
-                                          searchEstateController.text =
-                                              est.estateName +
-                                                  ', ' +
-                                                  est.city +
-                                                  ', ' +
-                                                  est.country;
-                                          selectedEstateId = est.estateId;
-                                        });
-                                      },
                                     );
                                   },
                                   itemCount: _filteredEstates.length,
@@ -230,37 +242,63 @@ class _SelectAddressState extends State<SelectAddress> {
                                 ),
                               )
                     : SizedBox(),
-
-                _filteredEstates == null || _filteredEstates.length < 1
-                    ? Stack(
+                    // _filteredEstates == null || _filteredEstates.length < 1?
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.end,
+                       mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 80),
-                              child: Text('Could not find my Estate?',
-                                  style: TextStyle(
-                                      fontSize: 13.0,
-                                      color: GateManColors.textColor,
-                                      fontWeight: FontWeight.w600)),
+                            child: Row(
+                              children: <Widget>[
+                                Text('Could not find my Estate?',
+                                    style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: GateManColors.textColor,
+                                        fontWeight: FontWeight.w600)),
+                                         Text('Add Estate',
+                                    style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: GateManColors.primaryColor,
+                                        fontWeight: FontWeight.w600)),
+                              ],
                             ),
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => AddEstate()),
-                              // );
+                              Navigator.pushNamed(
+                                context,
+                               '/add-estate'
+                              );
                             },
                           ),
+                          FlatButton(
+                            padding: EdgeInsets.all(0),
+                            child: Text('Add New', style: TextStyle(color: GateManColors.primaryColor),), onPressed: (){
+
+                          },
+                          )
                         ],
-                      )
-                    : SizedBox(),
+                      ),
+                    // : SizedBox(),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: showingHomeAdressInput?
+                  CustomTextFormField(labelName: 'Enter Apartment/Flat Number',
+                  controller: _homeAddressController,
+                  keyboardType: TextInputType.text, onSaved: (String ) {}, validator: (String ) {
+
+                  },
+                  hintText: 'Apartment Block, Apartment Number',
+                  ):Container(width: 0,height: 0,),
+                ),
+
+              
 
                 SizedBox(height: 90.0),
 
                 //Save Button
                 ActionButton(
                   buttonText: 'Continue',
-                  onPressed: selectedEstateId != null ? _onSave : null,
+                  onPressed: selectedEstateId != null && _homeAddressController.text.length > 0 ? _onSave : null,
                 ),
               ],
             ),

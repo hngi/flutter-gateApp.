@@ -19,6 +19,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+
+  final _formKey = GlobalKey<FormState>();
   File _image;
 
   String _name, _phoneNumber, _email;
@@ -76,6 +78,7 @@ class _EditProfileState extends State<EditProfile> {
                     children: <Widget>[
                       ClipOval(
                         child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
                           radius: 60,
                           child: _image != null
                               ? Image.file(_image, width: 200, height: 200)
@@ -86,13 +89,13 @@ class _EditProfileState extends State<EditProfile> {
                                       getProfileProvider(context)
                                               .profileModel
                                               .image ==
-                                          "no_image.jpg" ||
+                                          "noimage.jpg" ||
                                       getProfileProvider(context)
                                               .profileModel
                                               .image ==
                                           'file://noimage.jpg'
                                   ? Image.asset(
-                                      'assets/images/woman-cooking.png',
+                                      'assets/images/avatar.png',
                                     )
                                   : Image.network(Endpoint.imageBaseUrl +
                                       getProfileProvider(context)
@@ -111,7 +114,10 @@ class _EditProfileState extends State<EditProfile> {
 
               SizedBox(height: 23.0),
 
-              //Name
+             Form(
+               key: _formKey,
+               child: Column(children: <Widget>[
+                //Name
               CustomTextFormField(
                 labelName: 'Name',
                 //onChanged: (str) => _nameController.text = str,
@@ -120,7 +126,13 @@ class _EditProfileState extends State<EditProfile> {
                     _name = str;
                   });
                 },
-                validator: (str) => str.isEmpty ? 'Name cannot be empty' : null,
+                validator: (str) {
+                 if( str.isEmpty ){
+                  return  'Name cannot be empty';
+                 }
+                 
+                  return null;
+                },
                 controller: _nameController,
               ),
 
@@ -133,8 +145,14 @@ class _EditProfileState extends State<EditProfile> {
                     _phoneNumber = str;
                   });
                 },
-                validator: (str) =>
-                    str.isEmpty ? 'Phone cannot be empty' : null,
+                validator: (str){
+                   if (str.isEmpty){
+                     return 'Phone cannot be empty';
+                      } 
+                    return null;
+                    
+                },
+                   
                 controller: _phoneNumberController,
               ),
 
@@ -147,16 +165,30 @@ class _EditProfileState extends State<EditProfile> {
                       _email = str;
                     });
                   },
-                  validator: (str) =>
-                      str.isEmpty ? 'Email cannot be empty' : null,
+                  validator: (str) {
+                    if(str.isEmpty){
+                      return 'Email cannot be empty';
+
+                    }
+
+                    if (isEmail(_emailController.text) == false){
+                        return 'Enter a valid Email Address';
+                      }
+                   return null;
+                  },
+                       
                   controller: _emailController),
 
               SizedBox(height: 40.0),
 
-              ActionButton(
+              
+             ],),
+
+             ),
+             ActionButton(
                 buttonText: 'Save',
                 onPressed: () async {
-                  if(validated()){
+                  if(_formKey.currentState.validate()){
                   
                                    
                                     dialog.show();

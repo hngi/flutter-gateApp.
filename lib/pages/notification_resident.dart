@@ -17,6 +17,18 @@ class NotificationResident extends StatefulWidget {
 }
 
 class _NotificationResidentState extends State<NotificationResident> {
+  List<ResidentNotificationModel> total= [];
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero,(){
+      markAllAsRead();
+    });
+  }
+
 
  
 
@@ -38,16 +50,21 @@ class _NotificationResidentState extends State<NotificationResident> {
       body:RefreshIndicator(child:Container(
         child: buildNotificationBody() == null || buildNotificationBody().isEmpty?
         Container(
-          width:MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height/2,
+          width:MediaQuery.of(context).size.width,
+          // height: MediaQuery.of(context).size.height/2,
           child: ListView(children: [
             Center(child:
             Padding(
-              
-              child:
-            
-            Text('No Notification Available',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),), 
+              child: Column(
+
+              children: <Widget>[ Image.asset(
+                'assets/images/no_notification_icon.png',scale: 2,
+              ),
+                Text('You do not have any notification',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+              ],
+            ), 
             padding: EdgeInsets.only(
-              top:MediaQuery.of(context).size.height/2
+              top:MediaQuery.of(context).size.height/4
             ),))]
             )
         )
@@ -89,7 +106,6 @@ class _NotificationResidentState extends State<NotificationResident> {
 
   List<Widget> buildNotificationBody(){
     List<Widget> bodyView = [];
-    List<ResidentNotificationModel> total  = [];
     if(getResidentNotificationProvider(context).forInviteModels != null) total.addAll(getResidentNotificationProvider(context).forInviteModels);
     if(getResidentNotificationProvider(context).forVisitorModels != null) total.addAll(getResidentNotificationProvider(context).forVisitorModels);
     if(total != null && total.length > 0){
@@ -113,7 +129,53 @@ class _NotificationResidentState extends State<NotificationResident> {
                 padding: EdgeInsets.only(top: 30.0,right:20.0),
                 child: InkWell(
                   onTap: ()async{
-                    dynamic response = await ResidentNotificationService.markselectedNotificationAsRead(
+                   markAllAsRead();
+                   
+                                     },
+                                        child: Text(
+                                       'Mark all as read',
+                                       style: TextStyle(
+                                         fontSize: 14.0,
+                                         color: GateManColors.textColor,
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             )
+                   
+                           ,
+                                 Expanded(
+                                   child: SizedBox(
+                                     height: 130.0,
+                                     child: ListView.builder(
+                                       itemCount: total.length,
+                                       itemBuilder: (BuildContext context, int index) {
+                                         return Padding(
+                                           padding: const EdgeInsets.only(bottom: 15.0),
+                                           child: ResidentsNotificationList(
+                                             name: total[index].notificationData['body'],
+                                             time: total[index].createdAt.toString()??'',
+                                             notificationId: total[index].id,
+                                             model: total[index],
+                                             
+                                           ),
+                                         );
+                                       
+                                       },
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             );
+                       }
+                   
+                       return bodyView;
+                   
+                     }
+                   
+                     void markAllAsRead() async{
+                        dynamic response = await ResidentNotificationService.markselectedNotificationAsRead(
                       notificationIds: total.where((ResidentNotificationModel test){
                         return test.read == false;
                     }).map((ResidentNotificationModel model){
@@ -123,49 +185,7 @@ class _NotificationResidentState extends State<NotificationResident> {
                     print(response);
 
                     loadResidentNotificationFromApi(context);
-
-                  },
-                     child: Text(
-                    'Mark all as read',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: GateManColors.textColor,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )
-
-        ,
-              Expanded(
-                child: SizedBox(
-                  height: 130.0,
-                  child: ListView.builder(
-                    itemCount: total.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 15.0),
-                        child: ResidentsNotificationList(
-                          name: total[index].notificationData['body'],
-                          time: total[index].createdAt.toString()??'',
-                          notificationId: total[index].id,
-                          model: total[index],
-                          
-                        ),
-                      );
-                    
-                    },
-                  ),
-                ),
-              ),
-            ],
-          );
-    }
-
-    return bodyView;
-
-  }
+                     }
   
 
   
