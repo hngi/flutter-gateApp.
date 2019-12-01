@@ -22,13 +22,13 @@ class _MainPagerState extends State<MainPager> {
   List<Color> pageIndicatorColors = [Color(0xFFFFDA58), Colors.white];
   final PageController _controller = PageController();
   final List<String> pagerMessages = [
-    'Manage your Visitors peacefully',
-    'Deny access to unwanted visitors'
+    'Manage your Visitors in a friendly and secured manner',
+    'Prevent unwanted visitors from your home. Your privacy is our concern'
   ];
 
   final List<String> pagerSubMessages = [
-    'Save them the embarrassment of waiting needlessly for permission',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit,.'
+    'Avoid visitor harassment at the gate. Grant access to your visitor anywhere with ease.',
+    'Deny Access to uninvited vistors right from your phone.'
   ];
 
   final List<String> pagerImages = [

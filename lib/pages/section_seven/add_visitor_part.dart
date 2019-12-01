@@ -123,7 +123,7 @@ class _AddVisitorPartState extends State<AddVisitorPart> with TickerProviderStat
         'qr.png',
        image.readAsBytesSync(),
         'image/png',
-        text: 'Show this at the security gate.');
+        text: 'Kindly share this with your visitor and inform them to show the security at the gate.');
 }).catchError((onError) {
     print(onError);
 });
@@ -382,7 +382,7 @@ toggleCalendarOptions(int index){
                     child: buildCalendarOption(
                        iconImageSrc: 'assets/images/icons/calendar_tomorrow.png',
                       day: 'Tomorrow',
-                      dayInString: weeks[DateTime.now().weekday +1 > 6?0:DateTime.now().weekday + 1],
+                      dayInString: weeks[DateTime.now().weekday > 6?0:DateTime.now().weekday],
                       onPressed: (){
                         toggleCalendarOptions(1);
                       }

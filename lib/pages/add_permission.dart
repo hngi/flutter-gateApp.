@@ -56,7 +56,7 @@ class _AddLocationPermissionState extends State<AddLocationPermission> {
                 ),
                 SizedBox(height: 20.0),
                 Text(
-                  'Your location permission will be required for easy accessibility ',
+                  'Your location will be required for easy accessibility ',
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Colors.grey,

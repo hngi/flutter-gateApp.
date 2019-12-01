@@ -5,6 +5,7 @@ import 'package:xgateapp/utils/FlushAlert/flush_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
+import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 // import 'package:xgateapp/core/service/estate_service.dart';
 
@@ -138,111 +139,113 @@ class _AddEstateState extends State<AddEstate> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Form(
-              key: _formKey,
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Text(
-                      'Add New Estate',
-                      style: TextStyle(
-                          fontSize: 32.0,
-                          color: Colors.green,
-                          fontWeight: FontWeight.w600),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Text(
+                    'Add New Estate',
+                    style: TextStyle(
+                        fontSize: 32.0,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 50.0),
+                  child: Text(
+                    'Input the current location and estate you are adding',
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      color: Colors.grey,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 50.0),
-                    child: Text(
-                      'Input the current location and estate you are adding',
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
+                ),
 
-                  //Enter Country
-                  CustomTextFormField(
-                    labelName: 'Country',
-                    hintText: 'Enter Country',
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Country is empty';
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      _country = value;
-                    },
-                  ),
+                //Enter Estate name
+                CustomTextFormField(
+                  labelName: ' Estate Name',
+                  hintText: 'Enter Estate Name',
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Estate name is empty';
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    _estateName = value;
+                  },
+                ),
 
-                  //Enter Address
-                  CustomTextFormField(
-                    controller: addressController,
-                    labelName: 'City',
-                    hintText: 'Enter City',
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'City is empty';
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      _city = value;
-                    },
-                  ),
+                 //Enter Address
+                CustomTextFormField(
+                  controller: addressController,
+                  labelName: ' Estate Address',
+                  hintText: 'Enter Estate Address',
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return 'Estate Address is empty';
+                    }
+                    return null;
+                  },
+                  onSaved: (String value) {
+                    _address = value;
+                  },
+                ),
 
-                  //Enter Estate name
-                  CustomTextFormField(
-                    labelName: ' Estate Name',
-                    hintText: 'Enter Estate Name',
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Estate name is empty';
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      _estateName = value;
-                    },
-                  ),
+                CustomDropdownButton(
+                  label: 'Select City',
+                  value: _city,
+                  hintText: 'Enter City',
+                  items: [
+                    'Lagos','Abuja','Port Harcourt','Enugu'
+                  ].map((String val){
+                    return DropdownMenuItem(child: Text(val),value: val,);
+                  }).toList(),
+                  onChanged: (val){
+                      setState((){
+                        _city = val;
+                      });
+                  },
+                ),
 
-                  //Enter Address
-                  CustomTextFormField(
-                    controller: addressController,
-                    labelName: ' Estate Address',
-                    hintText: 'Enter Estate Address',
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return 'Estate Address is empty';
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      _address = value;
-                    },
-                  ),
+                //Enter Country
+               CustomDropdownButton(
+                  label: 'Select Country',
+                  value: _country,
+                  hintText: 'Enter Country',
+                  items: [
+                    'Nigeria','India','Ghana','Mali'
+                  ].map((String val){
+                    return DropdownMenuItem(child: Text(val),value: val,);
+                  }).toList(),
+                  onChanged: (val){
+                      setState((){
+                        _country = val;
+                      });
+                  },
+                ),
 
-                  SizedBox(height: 51.0),
+                //Enter Address
+                
 
-                  //Save Button
-                  ActionButton(
-                    buttonText: 'Add',
-                    onPressed: _onSaved,
-                  ),
-                ],
-              ),
+                SizedBox(height: 51.0),
+
+                //Save Button
+                ActionButton(
+                  buttonText: 'Add',
+                  onPressed: _onSaved,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

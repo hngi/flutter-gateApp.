@@ -219,6 +219,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                                     est.country;
                                             selectedEstateId = est.estateId;
                                             showingHomeAdressInput = true;
+                                            _filteredEstates.clear();
                                           });
                                         },
                                       ),
@@ -269,12 +270,6 @@ class _SelectAddressState extends State<SelectAddress> {
                               );
                             },
                           ),
-                          FlatButton(
-                            padding: EdgeInsets.all(0),
-                            child: Text('Add New', style: TextStyle(color: GateManColors.primaryColor),), onPressed: (){
-
-                          },
-                          )
                         ],
                       ),
                     // : SizedBox(),

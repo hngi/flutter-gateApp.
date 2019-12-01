@@ -60,11 +60,14 @@ class _NotificationResidentState extends State<NotificationResident> {
               children: <Widget>[ Image.asset(
                 'assets/images/no_notification_icon.png',scale: 2,
               ),
-                Text('You do not have any notification',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                Padding(
+                  padding: const EdgeInsets.only(top:20),
+                  child: Text('You do not have any notification',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                ),
               ],
             ), 
             padding: EdgeInsets.only(
-              top:MediaQuery.of(context).size.height/4
+              top:MediaQuery.of(context).size.height/6
             ),))]
             )
         )
