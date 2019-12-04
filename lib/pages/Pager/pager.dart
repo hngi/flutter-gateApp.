@@ -169,7 +169,7 @@ class _MainPagerState extends State<MainPager> {
                         Text(
                   pagerMessages[index],
                   style: TextStyle(
-                        fontSize: 30.0,
+                        fontSize: 26.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                   ),
@@ -179,7 +179,7 @@ class _MainPagerState extends State<MainPager> {
                   child: Text(
                     pagerSubMessages[index],
                     style: TextStyle(
-                      fontSize: 12.0,
+                      fontSize: 15.0,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),

@@ -123,7 +123,7 @@ class _InvitationTileState extends State<InvitationTile> {
                 padding:
                     const EdgeInsets.only(left: 25.0, top: 20.0, bottom: 3.0),
                 child: Text(
-                  '${widget.rname} invited you as a gate guard',
+                  '${widget.rname} invited you as a Security Guard',
                   style: TextStyle(color: Color(0xff2A2E43), fontSize: 14.0),
                 ),
               ),

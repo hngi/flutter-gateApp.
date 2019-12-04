@@ -44,7 +44,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
 
     ScreenUtil.instance = ScreenUtil(width: 360, height: 780)..init(context);
     return Scaffold(
-      appBar: GateManHelpers.appBar(context, 'Add a Gate Guard'),
+      appBar: GateManHelpers.appBar(context, 'Add a Security Guard'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +162,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                                 ),
                                 child: InkWell(
                                   onTap: () {
-                                    Share.text('GateGuard', '', 'text/plain');
+                                    Share.text('GateGuard', 'Hey there, Download GateGuard(https://play.google.com/store/apps/details?id=com.hng.xgateapp)! \n The best and secure community management solutions for estates', 'text/plain');
                                   },
                                   child: Center(
                                       child: Padding(
@@ -201,7 +201,7 @@ class _AddGateManDetailState extends State<AddGateManDetail>
                                   Padding(
                                     padding: const EdgeInsets.all(18.0),
                                     child: Text(
-                                      'Gate Guard\nAdded succesfully',
+                                      'Security Guard\nAdded succesfully',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Colors.grey),
                                     ),
