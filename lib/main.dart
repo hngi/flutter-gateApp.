@@ -16,7 +16,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 
-void main() {
+void main() async{
   var gateMan = MultiProvider(
     child: GateMan(),
     providers: providers,
@@ -48,13 +48,11 @@ class _GateManState extends State<GateMan> {
       if(await getUserTypeProvider(context).getUserType != null && await appIsConnected() == true && await authToken(context) != null){
           loadInitialProfile(context);
       if(getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading != true){
-        print(':::::::::::::::::::::::::FCM TOKEN NOT SET FOR SOME WEIRD REASON RESETTING NOW');
         if (getFCMTokenProvider(context).fcmToken != null){
           setFCMTokenInServer(context);
         } else {
           if (_firebaseMessaging != null){
              _firebaseMessaging.getToken().then((token) async{
-            print('fcm Token is $token');
           getFCMTokenProvider(context).setFCMToken(fcmToken: token);
           appIsConnected().then((isConnected)async{
             if (isConnected == true && getFCMTokenProvider(context).loading !=true && await authToken(context) != null){
@@ -106,7 +104,6 @@ class _GateManState extends State<GateMan> {
         });
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          // print(message);
           handleOnNotificationReceived(message,viewWhen: 'onMessage');
           
           
@@ -123,7 +120,6 @@ class _GateManState extends State<GateMan> {
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.getToken().then((token) async{
-      print('fcm Token is $token');
     getFCMTokenProvider(context).setFCMToken(fcmToken: token);
     appIsConnected().then((isConnected)async{
       if (isConnected == true && getFCMTokenProvider(context).loading !=true && await authToken(context) != null){
@@ -141,12 +137,8 @@ class _GateManState extends State<GateMan> {
     ));
     appIsConnected().then((isConnected)async{
       if (isConnected == true){
-        print(await authToken(context));
-        print(getFCMTokenProvider(context).fcmToken);
-        print(getFCMTokenProvider(context).loading);
-        print(getFCMTokenProvider(context).loadedToServer);
         if(await authToken(context) !=null && getFCMTokenProvider(context).fcmToken !=null && getFCMTokenProvider(context).loading !=true && getFCMTokenProvider(context).loadedToServer != true){
-          print('trying to setup fcm');
+          
           setFCMTokenInServer(context);
         }
       }
@@ -191,11 +183,7 @@ class _GateManState extends State<GateMan> {
 
   Future handleOnNotificationReceived(dynamic message,{String viewWhen}) async {
     String authTokenStr = await authToken(context);
-    // print(authTokenStr);
     if (authTokenStr != null) {
-      //handle common notifications
-      // print(authTokenStr);
-      // print('on message to Gateman $message');
       if (await getUserTypeProvider(context).getUserType ==
           user_type.RESIDENT) {
         //handle resident notifications
@@ -210,13 +198,18 @@ class _GateManState extends State<GateMan> {
 
   void handleOnNotiicationReceivedForResident(Map<String, dynamic> message,{String viewWhen}) {
     String type = message['data']['type'];
-    print(type);
     getResidentNotificationProvider(context).setLoadedFromApi(false);
     getResidentsGateManProvider(context)
             .setLoadedFromApi(stat: false, pendingStat: false);
-     
+    
+      print(':::::::::::::::::::::::::::::::::::::::::;;');
+
+      print(':::::::::::;;;;;;;;;;;;;;;:;');
+      print(type);
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:
+      
+      moveGateManToAccepted(context: context, gateman_id: message['data']['gateman_id'] is String?int.parse( message['data']['gateman_id']): message['data']['gateman_id']);
            if (ModalRoute.of(navigatorKey.currentContext)?.settings?.name != '/manage-gateman'){
               
        if (viewWhen != 'onMessage'){
@@ -232,10 +225,34 @@ class _GateManState extends State<GateMan> {
         }
         break;
 
+      case GateGuardNotificationType.visitorCheckedOutNotification:
+      
+
+          if (ModalRoute.of(context)?.settings?.name != '/resident-notifications'){
+             if (viewWhen != 'onMessage'){
+              navigatorKey.currentState.pushNamed('/resident-notifications');
+
+           }else {
+             showNotification(message.cast<String,dynamic>(),payload:{"route":"/resident-notifications"});
+           }
+        } else{
+          if (viewWhen == 'onMessage'){
+          showNotification(message.cast<String,dynamic>());
+          }
+
+        }
+        break;
+
+
+    
+
       case GateGuardNotificationType.visitorArrivalNotification:
+      print(message['data']);
+      Map<String,dynamic> vd = json.decode(message['data']['visitor_details']);
+      print(vd['id']);
+      removeVisitorFromScheduled(context: context, visitor_id: vd['id'] is String?int.parse(vd['id']):vd['id'],);
            if (ModalRoute.of(context)?.settings?.name != '/resident-notifications'){
              if (viewWhen != 'onMessage'){
-               print('should push');
               navigatorKey.currentState.pushNamed('/resident-notifications');
 
            }else {
@@ -250,7 +267,6 @@ class _GateManState extends State<GateMan> {
         break;
 
       default:
-        print('unknown notiication type');
         break;
     }
     setState(() {

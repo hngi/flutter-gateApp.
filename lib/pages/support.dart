@@ -37,7 +37,7 @@ class _SupportPageState extends State<SupportPage> {
       Dio dio = new Dio();
       Response response;
       try {
-        response = await dio.post("${Endpoint.baseUrl2}support/send",
+        response = await dio.post("${Endpoint.baseUrl}support/send",
             data: {"subject": subject, "email": email, "message": issues});
         print(response.data['message'].toString());
         if (response.data['message'].toString() ==

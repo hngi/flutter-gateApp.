@@ -15,7 +15,6 @@ class AuthService {
     deviceId = await FlutterUdid.udid;
     return deviceId;
     } catch (error){
-      print(error);
     }
 
   }
@@ -104,9 +103,6 @@ class AuthService {
               data: data,
               options: options);
           
-          print(response.statusCode);
-          print(response.data);
-    
           if (response.statusCode >= 500 && response.statusCode <= 509) {
             return ErrorType.server;
           } else if (response.statusCode == 400 || response.statusCode == 401) {
@@ -142,10 +138,6 @@ class AuthService {
             "verifycode": verificationCode,
             "device_id": await getDeviceId()
           });
-    
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;
           if (response.statusCode == 401) return ErrorType.verify_code_not_found;
@@ -178,10 +170,6 @@ class AuthService {
           Response response = await dio.post(uri, data: {
             "email": email,
           });
-    
-          print(response.statusCode);
-          print(response.data);
-    
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;
           if (response.statusCode == 404) return ErrorType.email_not_found;
@@ -215,8 +203,6 @@ class AuthService {
             "password_confirmation": passowrdConfirmation,
           });
     
-          print(response.statusCode);
-          print(response.data);
     
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;
@@ -248,9 +234,6 @@ class AuthService {
           Response response = await dio.put(uri, data: {
             "phone":phone,
           });
-    
-          print(response.statusCode);
-          print(response.data);
     
           if (response == null) return ErrorType.generic;
           if (response.statusCode == 500) return ErrorType.generic;

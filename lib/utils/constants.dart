@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:xgateapp/core/models/estate.dart';
@@ -507,7 +509,7 @@ scheduleVisit(BuildContext context,String visiting_period,int visitorId,String a
         VisitorModel model = VisitorModel.fromJson(response['visitor']);
         getVisitorProvider(context).addVisitorModel(model);
         getVisitorProvider(context).addVisitorModelToScheduled(model);
-      openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController);
+      openAlertBox(code: response['visitor']['qr_code']??'Nil', context: context, fullName: fullName, screenshotController: screenshotController, arrival_date: model.arrival_date);
       getVisitorProvider(context).setScheduledVisitorsLoadedFromApiStatus(false);
       getVisitorProvider(context).setLoadedFromApi(false);
      
@@ -527,183 +529,227 @@ Future<dynamic> setFCMTokenToEmpty(BuildContext context) async {
   }
 }
 
-openAlertBox({@required String code,@required BuildContext context,@required ScreenshotController screenshotController,@required String fullName}) {
+openAlertBox({@required String code,@required BuildContext context,@required ScreenshotController screenshotController,@required String fullName, @required String arrival_date}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return Screenshot(
             controller: screenshotController,
-                      child: AlertDialog(
+                      child: Dialog(
 
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
-              contentPadding: EdgeInsets.only(top: 0.0),
-              titlePadding: EdgeInsets.only(top: 0),
+              // contentPadding: EdgeInsets.only(top: 0.0),
+              // titlePadding: EdgeInsets.only(top: 0),
 
-              content: Container(
+              child: Container(
                 width: 300.0,
-                child: Container(
-                  color: GateManColors.primaryColor,
-                  child: ListView(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
-                      // mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: GateManColors.primaryColor,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.0),
-                                topRight: Radius.circular(8.0)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.only(top: 15.0, bottom: 5),
-                                child: Image.asset('assets/images/success.png'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom:8.0),
-                                child: Text(
-                                  'Visitor Scheduled successfully',
-                                  style: TextStyle(fontSize: 16, color: Colors.white),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5.0,
-                              ),
-                            ],
-                          ),
+                height: 550,
+                child: ListView(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                     Column(
+                       mainAxisSize: MainAxisSize.min,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget>[
+                          Container(
+                            width: 300,
+                            
+                        decoration: BoxDecoration(
+                          color: GateManColors.primaryColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8.0),
+                              topRight: Radius.circular(8.0)),
                         ),
-
-                        Container(
-                          color: Colors.white,
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: Text(
-                                  'Send Invitation',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF466446)),
-                                ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 15.0, bottom: 5),
+                              child: Image.asset('assets/images/success.png'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom:8.0),
+                              child: Text(
+                                'Visitor Scheduled successfully',
+                                style: TextStyle(fontSize: 16, color: Colors.white),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Visitor : ',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFF4f4f4f)),
-                                    ),
-                                    Text(
-                                      fullName,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xFF4f4f4f)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: QrImage(
-                                            data: code,
-                                            version: QrVersions.auto,
-                                            size: 200.0,
-                                          )
-                                // Image.memory(base64.decode(base64String),width: 150,height: 150,filterQuality: FilterQuality.low,),
-                                /*child: Image.network(
-                                    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB6klEQVR4nO2b0WrDMAwA17D//+Swt1Dw5ukkETv07rFpbHNIKLHi13meXxLjWL2AJ6EsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC6AsgLIAygIoC/Cdu+04SpbH7dlrwOvSOMXkUnH2IEYWQFmAZBpeoJAe0yeSUJMpirNTjCyAsgDVNLyYBHmu+oy1bzJO++y/z9I10CegLEBbGuaYPGdGsu9mjCyAsgCL03CSa6ga3oORBVAWoC0N23MEvcrdk6FGFkBZgGoa1vc9/howsi/aPvscIwugLMBr7ZPehiVvgpEFUBagrW8YeZVDrcDivigaMIiRBVAWoL9hUey/t3c3rl/qWz1GFkBZgLb2faT6THIE1b5IHqF3zCBGFkBZgGQaRrIm13HIPZ1O+h2RcYIYWQBlAfp3SiPPh5E/j1OgkSMrpBhZAGUBHrBT2rVC3w1vRVmAXU5YFMtiblKKkQVQFmDxCYtcVyK3DKvhrSgLsN0Ji1xZvAcjC6AswL6fdk8ofhiQxsgCKAuw70Gn3Gc54yX7hmtQFmDxCYtINSymanGF7xhZAGUBdjlh0dW5KH488M/gxfs/CmUBFvcNn4WRBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAWQFkAZQGUBVAW4AetVgW+JxZo9QAAAABJRU5ErkJggg=='
-                                ),*/
-                                ),
+                            ),
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                          ],
+                        ),
+                      ),
 
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 30),
-                                child: RaisedButton(
-                                  color: Color(0xFFffa700),
-                                  onPressed: () {},
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: Container(
-                                    height: 50.0,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      code,
-                                      style: TextStyle(
-                                        fontSize: 25.0,
+                      Container(
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 15.0),
+                              child: Text(
+                                'Send Invitation',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF466446)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Visitor : ',
+                                    style: TextStyle(
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
+                                        color: Color(0xFF4f4f4f)),
+                                  ),
+                                  Text(
+                                    fullName,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF4f4f4f)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: ScreenUtil().setWidth(100),
+                              height: ScreenUtil().setWidth(100),
+                              child: QrImage(
+                                          data: code,
+                                          version: QrVersions.auto,
+                                          size: 200.0,
+                                        ),
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 30),
+                              child: RaisedButton(
+                                color: Color(0xFFffa700),
+                                onPressed: () {},
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                child: Container(
+                                  height: 50.0,
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    code,
+                                    style: TextStyle(
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
-                              Text(
-                                'Show this at the security gate',
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left:24.0,right: 24),
+                              child: Text(
+                                'Kindly share this with your visitor and inform them to show the security at the gate',
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w300,
                                     color: Color(0xFF49A347)),
+                                    textAlign: TextAlign.center,
                               ),
-                              GestureDetector(
-                                onTap: (){
-                                  shareInvite(screenshotController: screenshotController);
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 16,horizontal: 16
-                                  ),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                        border: Border.all(
-                                            width: 1,
-                                            style: BorderStyle.solid,
-                                            color: GateManColors.primaryColor)),
-                                    child: Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Image.asset('assets/images/share.png'),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            'Share',
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(0xFF49A347)),
-                                          ),
-                                        ],
-                                      ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                shareInvite(screenshotController: screenshotController);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16,horizontal: 16
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                      border: Border.all(
+                                          width: 1,
+                                          style: BorderStyle.solid,
+                                          color: GateManColors.primaryColor)),
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset('assets/images/share.png'),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Share',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xFF49A347)),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                              ),
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                            child: Row(children: <Widget>[
 
-                ),
+                              InkWell(
+                                onTap: (){
+                                   launchCaller(context: context,phone:'');
+                                 },
+                                child: Row(children: <Widget>[
+                                  ImageIcon(AssetImage('assets/images/call-icon.png'),color: GateManColors.primaryColor,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:8.0),
+                                    child: Text(
+                                      'Call Guard'
+                                    ),
+                                  )
+                                ],),
+                              ),
+                               InkWell(
+                                 onTap: (){
+                                   sendSMS("I, ${getProfileProvider(context).profileModel.name} would be expecting $fullName on ${prettifyDate(arrival_date)} details. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", ['']);
+                                 },
+                                 
+
+                                child: Row(children: <Widget>[
+                                  ImageIcon(AssetImage('assets/images/sms_guard.png'),color: GateManColors.primaryColor,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:8.0),
+                                    child: Text(
+                                      'SMS Guard'
+                                    ),
+                                  )
+                                ],),
+                              )
+
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,),
+                          )
+                          ],
+                        ),
+                      ),
+                   
+                       ],
+                     )],
+                  ),
               ),
             ),
           );
@@ -726,6 +772,58 @@ openAlertBox({@required String code,@required BuildContext context,@required Scr
     print(onError);
 });
   }
+
+   ordinal_suffix_of(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i.toString() + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i.toString() + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i.toString() + "rd";
+    }
+    return i.toString() + "th";
+}
+
+List<String> months = ['January','Feburary','March','April','May','June','July',
+  'August','September','October','November','December'];
+
+void sendSMS(String message, List<String> recipents) async {
+    String _result = await FlutterSms
+        .sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+  print(_result);
+  }
+
+
+
   
+ String prettifyDate(String date) {
+                                  List<String> dateArr = date.split('-');
+                                  String day = ordinal_suffix_of(int.parse(dateArr[2]));
+                                  String mon = months[int.parse(dateArr[1])-1];
+                                  String monShow = mon.replaceRange(3, mon.length, '');
+
+                                  return '$day $monShow ${dateArr[0]}';
+
+                                }
 
 
+moveGateManToAccepted({@required int gateman_id,@required BuildContext context}){
+
+  getResidentsGateManProvider(context).addResidentsGateManModel(getResidentsGateManProvider(context).residentsGManModelsAwaiting.firstWhere((ResidentsGateManModel test)=>test.id == gateman_id));
+  getResidentsGateManProvider(context).deleteResidentsGateManFromPending(getResidentsGateManProvider(context).residentsGManModelsAwaiting.firstWhere((ResidentsGateManModel test)=>test.id == gateman_id));
+}
+
+removeVisitorFromScheduled({@required int visitor_id, @required BuildContext context}){
+
+  getVisitorProvider(context).removeVisitorFromScheduled(visitorId: visitor_id, index: getVisitorProvider(context).scheduledVisitorModels.indexOf(getVisitorProvider(context).scheduledVisitorModels.firstWhere((test)=>test.id == visitor_id)));
+
+
+
+}

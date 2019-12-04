@@ -30,6 +30,11 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     VisitorModel model = this.widget.model;
+    DateTime now = DateTime.now();
+    List<String> modelArrivalDateArray = model.arrival_date.split('-');
+    DateTime visitorsArrivalDateTime = DateTime(int.parse(modelArrivalDateArray[0]),
+    int.parse(modelArrivalDateArray[1]), int.parse(modelArrivalDateArray[2]));
+    Duration diff = visitorsArrivalDateTime.difference(now);
     print(model.image);
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -138,7 +143,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                             Text(
                               getProfileProvider(context).profileModel.homeModel !=null && 
                               getProfileProvider(context).profileModel.homeModel.houseBlock!=null?
-                              getProfileProvider(context).profileModel.homeModel.houseBlock:'Residents Address',// toSee.address,
+                              getProfileProvider(context).profileModel.homeModel.houseBlock:'',// toSee.address,
                               style: Theme.of(context).textTheme.subtitle,
                             ),
                           ],
@@ -148,6 +153,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                   ),
                 ),
                 SizedBox(height: 20),
+                model.phone_no != null && model.phone_no.length > 0?
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                   child: Padding(
@@ -178,7 +184,8 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                       ],
                     ),
                   ),
-                ),
+                ):Container(width: 0,height: 0,),
+                model.car_plate_no != null && model.car_plate_no.length > 0?
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                   child: Padding(
@@ -206,7 +213,8 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                       ],
                     ),
                   ),
-                ),
+                ):Container(width: 0,height: 0,),
+                
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                   child: Padding(
@@ -228,13 +236,14 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                           ),
                         ),
                         Text(
-                          model.purpose??'Nil',
+                          model.purpose != null? model.purpose.toLowerCase() == 'none'?'Not Specified':model.purpose:'Not Specified',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
                     ),
                   ),
                 ),
+                model.description !=null && model.description.length>0?
                  Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                   child: Padding(
@@ -262,7 +271,7 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                       ],
                     ),
                   ),
-                ),
+                ):Container(width: 0,height: 0,),
                 
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
@@ -285,13 +294,14 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                           ),
                         ),
                         Text(
-                          DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
-                          DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
-                          DateTime.now().day < int.parse(model.arrival_date.split('-')[2])?'1day+':
-                          DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
-                          DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
-                          DateTime.now().day > int.parse(model.arrival_date.split('-')[2])?
-                          'Should have arrived':'12hour+',
+                          diff.inDays<1?diff.inHours<11?diff.inMinutes<1?diff.inSeconds<1?diff.inSeconds<0?'Should have Arrived':'Arriving today':'${diff.inSeconds} sec':'${diff.inMinutes} min':'${diff.inHours} hours':'${diff.inDays} days',
+                          // DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
+                          // DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
+                          // DateTime.now().day < int.parse(model.arrival_date.split('-')[2])?'1day+':
+                          // DateTime.now().year == int.parse(model.arrival_date.split('-')[0]) &&
+                          // DateTime.now().month == int.parse(model.arrival_date.split('-')[1])&&
+                          // DateTime.now().day > int.parse(model.arrival_date.split('-')[2])?
+                          // 'Should have arrived':'12hour+',
                           style: Theme.of(context).textTheme.subtitle,
                         ),
                       ],
