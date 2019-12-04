@@ -116,9 +116,8 @@ class VisitorProvider extends ChangeNotifier {
     removeVisitorFromHistory({@required int historyId, @required int index,notify=true}){
       historyVisitorModels.removeAt(index);
       historyVisitorsLoadedFromApi = false;
-      if(notify){
+      // if(notify){
         notifyListeners();
-      }
       
     }
     

@@ -58,7 +58,7 @@ static BaseOptions options = BaseOptions(
         @required String phone,@required String email,@required String name,@required authToken,
         File image
       }) async {
-        print(authToken);
+        ////print(authToken);
         var uri = Endpoint.editCurrentuser;
         FormData data = FormData.fromMap(
       {
@@ -68,7 +68,7 @@ static BaseOptions options = BaseOptions(
  }
     );
 if(image!=null){
-  print(image.path);
+  //print(image.path);
    data.files.add(MapEntry("image",await MultipartFile.fromFile(
         image.path,
         filename:basename(image.path),
@@ -98,7 +98,7 @@ BaseOptions formOption = BaseOptions(
         try {
           Response response = await dio.post(uri,data: data);
     
-          print(response.statusCode);
+          //print(response.statusCode);
           dynamic jsonData = json.decode(response.data);
     
           if (response == null) return ErrorType.generic;

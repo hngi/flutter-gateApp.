@@ -31,7 +31,7 @@ class CustomTextFormField extends StatefulWidget {
     this.onChanged,
     @required this.validator,
     this.isPassword = false,
-    this.maxLines = 1,
+    this.maxLines = 1, String hint,
   }) : super(key: key);
 
   @override

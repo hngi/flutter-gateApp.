@@ -196,7 +196,7 @@ class _ManageAddressState extends State<ManageAddress> {
                     InkWell(
                       child: Padding(
                         padding: const EdgeInsets.all(4),
-                        child: Text('Could not find my Estate?, Please contact the admin',
+                        child: Text('Could not find my Estate?, Add Estate',
                         textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 13.0,
@@ -204,10 +204,7 @@ class _ManageAddressState extends State<ManageAddress> {
                                 fontWeight: FontWeight.w600)),
                       ),
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => AddEstate()),
-                        // );
+                        Navigator.pushNamed(context, '/add-estate');
                       },
                     ),
                  ],

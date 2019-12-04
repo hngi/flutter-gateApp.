@@ -37,8 +37,8 @@ class FCMTokenService{
             'fcm_token':fcmToken
           });
     
-          print(response.statusCode);
-          print(response.data);
+          //print(response.statusCode);
+          ////print(response.data);
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;

@@ -8,14 +8,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:786685708603:android:2e2e64345cd748fde98f1e",
+        "mobilesdk_app_id": "1:786685708603:android:7c473e84cfa4447ae98f1e",
         "android_client_info": {
           "package_name": "com.hng.xgateapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "786685708603-j4ihdc3il895uaj4cf80kpadjejgaabu.apps.googleusercontent.com",
+          "client_id": "786685708603-5hqf6i6ki3ngf6vev7dutkskhfbc74d6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hng.xgateapp",
