@@ -5,6 +5,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:xgateapp/core/models/screen_models.dart';
 import 'package:xgateapp/core/service/visitor_service_new.dart';
 import 'package:xgateapp/core/service/visitor_sevice.dart';
+import 'package:xgateapp/main.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
 import 'package:xgateapp/utils/GateManAlert/gateman_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
@@ -50,7 +51,7 @@ List _visitors = [
 ];
 
 class _MyVisitorsState extends State<MyVisitors> {
-  final Map<int, Widget> children = <int, Widget>{
+  Map<int, Widget> children = <int, Widget>{
     0: Padding(
       child: Text(
         'Scheduled',
@@ -68,9 +69,12 @@ class _MyVisitorsState extends State<MyVisitors> {
     ),
   };
 
+
+
   static Color scheduledColor = Colors.grey;
   static Color savedColor = Colors.grey;
   static Color historyColor = Colors.grey;
+  List<Color> barColors = [scheduledColor,savedColor,historyColor];
 
   PageController _pageController = PageController();
 
@@ -101,13 +105,32 @@ class _MyVisitorsState extends State<MyVisitors> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    children = <int, Widget>{
+    0: Padding(
+      child: Text(
+        'Scheduled',
+        style: TextStyle(color: barColors[0]),
+      ),
+      padding: EdgeInsets.all(10.0),
+    ),
+    1: Padding(
+      child: Text('Saved', style: TextStyle(color: barColors[1])),
+      padding: EdgeInsets.all(10.0),
+    ),
+    2: Padding(
+      child: Text('History', style: TextStyle(color: barColors[2])),
+      padding: EdgeInsets.all(10.0),
+    ),
+  };
     return Scaffold(
       appBar: GateManHelpers.appBar(context, 'Visitors',actions: sharedValue.toInt() != 0 && getPage(sharedValue.toInt()).where((test){
         return test==true;
         }).length>0?[
-        IconButton(icon: Icon(Icons.delete,color: Colors.white,), onPressed: () {
+        FlatButton(child: Center(child: Text('Delete', style: TextStyle(fontSize: 20,color: Colors.white),),), onPressed: () {
           if(_pageController.page.toInt() == 1){
             int ind = 0;
             selectedSavedState.forEach((f){
@@ -135,7 +158,7 @@ class _MyVisitorsState extends State<MyVisitors> {
             deleteVistorHistories(context, ids.reversed.toList(), indexes.reversed.toList());
 
           }
-        },tooltip: 'Delete Selected',)
+        },)
       ]:[],),
       floatingActionButton: BottomNavFAB(
         onPressed: () {
@@ -178,6 +201,11 @@ class _MyVisitorsState extends State<MyVisitors> {
                         onValueChanged: (int newValue) {
                           setState(() {
                             _pageController.jumpToPage(newValue);
+                            for (var i in [0,1,2]){
+                              barColors[i] = scheduledColor;
+                            }
+                            barColors[newValue] = GateManColors.primaryColor;
+
                           });
 
                           print('$newValue');
@@ -198,6 +226,10 @@ class _MyVisitorsState extends State<MyVisitors> {
                             onPageChanged: (newValue){
                               setState(() {
                                 sharedValue = newValue;
+                                for (var i in [0,1,2]){
+                              barColors[i] = scheduledColor;
+                            }
+                            barColors[newValue] = GateManColors.primaryColor;
                               });
                               
                             },
@@ -236,12 +268,13 @@ return ListView.builder(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: VisitorTile(
         selected: selectedScheduleState[index],
+        showCheckBox: selectedScheduleState.where((test)=>test==true).length >0,
         onSelectionchange: (bool selected){
-          selectedScheduleState[index] = selected;
-          print(selectedScheduleState);
+          
           setState(() {
-            
+            selectedScheduleState[index] = selected;
           });
+          print(selectedScheduleState);
         },
         model: _visitors[index],
         name: _visitors[index].name,
@@ -275,7 +308,6 @@ return ListView.builder(
                         child: Text('Cancel')),
                     FlatButton(
                       onPressed: () async{
-                        print(':::::u wanna remove from schedule:::::${ _visitors[index].id}');
                         await deleteScheduledVisitors(context, _visitors[index].id, from: 'scheduled', index: index);
                         Navigator.pop(context);
                       },
@@ -289,7 +321,8 @@ return ListView.builder(
          
             ScreenshotController screenShotController = ScreenshotController();
           openAlertBox(code: _visitors[index].qr_code??'Nil',
-            context: context, fullName: _visitors[index].name, screenshotController: screenShotController);
+            context: context, fullName: _visitors[index].name, screenshotController: screenShotController,
+            arrival_date: _visitors[index].arrival_date);
           
           
         },
@@ -463,6 +496,7 @@ Widget historyTab(BuildContext context){
       selectedHistoryState.add(false);
     }
        return VisitorTile(
+         showCheckBox: selectedHistoryState.where((test)=>test==true).length >0,
          selected: selectedHistoryState[index],
          onSelectionchange: (bool selected){
           selectedHistoryState[index] = selected;
@@ -475,7 +509,7 @@ Widget historyTab(BuildContext context){
       avatarLink: visitor.image=='noimage.jpg' || visitor.image == null?null:visitor.image,
       name: visitor.name??'',
       group: visitor.visitor_group??'',
-      timeline: visitor.arrival_date??'',
+      timeline: 'Last Visit',
       phone: visitor.phone_no??'',
       date: visitor.arrival_date??'',
       buttonText1: 'View',

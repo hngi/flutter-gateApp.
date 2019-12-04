@@ -106,7 +106,7 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                 children: <Widget>[
                   Text(
                     'Please enter the 4 digit verification code sent to ' +
-                        this.widget.phone,
+                        this.widget.phone.replaceRange(6, 12, '*****'),
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Padding(
@@ -117,8 +117,8 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: getControllers.map((controller) {
                             return Container(
-                                width: 50,
-                                height: 50,
+                                width: 70,
+                                height: 70,
                                 child: Center(
                                   child: TextField(
                                     keyboardType: TextInputType.number,
@@ -161,10 +161,10 @@ class _TokenConfirmationState extends State<TokenConfirmation> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: FlatButton(
                     child: Text(
-                      'Verify',
+                      'Verify Now',
                       style: TextStyle(color: Colors.white),
                     ),
                     shape: RoundedRectangleBorder(

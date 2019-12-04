@@ -60,8 +60,8 @@ class EstateService {
         "address": address,
       });
 
-      print(response.statusCode);
-      print(response.data);
+      //print(response.statusCode);
+      //print(response.data);
 
       return (response.statusCode == 404)
           ? ErrorType.invalid_credentials
@@ -98,7 +98,7 @@ class EstateService {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
-      print(mapResponse);
+      //print(mapResponse);
       final items = mapResponse["estates"].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = items.map<Estate>((json) {
         return Estate.fromJson(json);
@@ -127,7 +127,7 @@ class EstateService {
     if (response.statusCode == 200) {
       // Map<String, dynamic> mapResponse = json.decode(response.data);
       var mapResponse = json.decode(response.data);
-      print(mapResponse);
+      //print(mapResponse);
       // final items = mapResponse[].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = mapResponse.map<Estate>((json) {
         return Estate.fromJson(json);
@@ -156,7 +156,7 @@ class EstateService {
     if (response.statusCode == 200) {
       // Map<String, dynamic> mapResponse = json.decode(response.data);
       var mapResponse = json.decode(response.data);
-      print(mapResponse);
+      //print(mapResponse);
       // final items = mapResponse[].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = mapResponse.map<Estate>((json) {
         return Estate.fromJson(json);
@@ -185,7 +185,7 @@ class EstateService {
     if (response.statusCode == 200) {
       // Map<String, dynamic> mapResponse = json.decode(response.data);
       var mapResponse = json.decode(response.data);
-      print(mapResponse);
+      //print(mapResponse);
 
       return mapResponse.first;
     } else {
@@ -203,15 +203,15 @@ class EstateService {
     try {
       Response response = await dio.delete(uri);
 
-      print(response.statusCode);
-      print(response.data);
+      //print(response.statusCode);
+      //print(response.data);
 
       if (response.statusCode == 200) {
         return true;
       }
       return false;
     } on DioError catch (exception) {
-      print(exception);
+      //print(exception);
       return false;
     }
   }
@@ -237,8 +237,8 @@ class EstateService {
       response = await dio.post(uri,data:{'house_block':houseBlock}, options: options);
       }
 
-      print(response.statusCode);
-      print(response.data);
+      //print(response.statusCode);
+      //print(response.data);
 
       // if (response == null) return ErrorType.generic;
       // if (response.statusCode == 500) return ErrorType.generic;
@@ -281,7 +281,7 @@ class EstateService {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
-      print(mapResponse);
+      //print(mapResponse);
       final items = mapResponse["estates"].cast<Map<String, dynamic>>();
       List<Estate> listOfEstates = items.map<Estate>((json) {
         return Estate.fromJson(json);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xgateapp/main.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,8 @@ class CustomDatePicker extends StatefulWidget {
 
   List<int> selectedDayFull;
 
+  bool useSelectedDate = true;
+
   List<String> months = ['January','Feburary','March','April','May','June','July',
   'August','September','October','November','December'];
 
@@ -48,7 +51,7 @@ class CustomDatePicker extends StatefulWidget {
 
   bool includeInput;
   bool showingDetail = true;
-
+  
   List<int> selectedDate;
  CustomDatePicker({this.selectedDate,this.showingDetail,this.includeInput = false,@required this.onChanged,@required this.onSaved,this.now,this.minimumAllowedDate,this.maximumAllowedDate,@required this.dateController}):assert(minimumAllowedDate==null&&maximumAllowedDate==null?true:minimumAllowedDate!=null&&maximumAllowedDate!=null?minimumAllowedDate.compareTo(maximumAllowedDate)<1:
 minimumAllowedDate==null&&maximumAllowedDate!=null?DateTime.now().compareTo(maximumAllowedDate)<1:minimumAllowedDate!=null&&maximumAllowedDate==null?minimumAllowedDate.compareTo(DateTime.now())<1:true){
@@ -92,7 +95,12 @@ this.currentDayFull = [this.currentDay, this.currentMonthValue, this.currentYear
 
 class _CustomDatePickerState extends State<CustomDatePicker> with TickerProviderStateMixin{
 
-
+@override
+void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
 void toggleShowingDetail(){
   setState(() {
    this.widget.showingDetail = !this.widget.showingDetail; 
@@ -111,12 +119,14 @@ void nextMonth(){
   if (run){
   if (this.widget.calendarCurrentViewMonth + 1 > 12){
     setState(() {
+      this.widget.useSelectedDate = false;
    this.widget.calendarCurrentViewMonth = 1;
    this.widget.calendarCurrentViewYear = this.widget.calendarCurrentViewYear + 1;
   this.widget.weekIndexOfFirstDayOfSelectedMonth = DateTime(this.widget.calendarCurrentViewYear,this.widget.calendarCurrentViewMonth,1).weekday -1;
   });
   } else{
   setState(() {
+    this.widget.useSelectedDate = false;
     this.widget.calendarCurrentViewMonth = this.widget.calendarCurrentViewMonth+1;
     this.widget.weekIndexOfFirstDayOfSelectedMonth = DateTime(this.widget.calendarCurrentViewYear,this.widget.calendarCurrentViewMonth,1).weekday -1;
     
@@ -142,12 +152,14 @@ void prevMonth(){
 
     if (this.widget.calendarCurrentViewMonth - 1 < 1){
         setState(() {
+          this.widget.useSelectedDate = false;
    this.widget.calendarCurrentViewMonth = 12;
     this.widget.calendarCurrentViewYear = this.widget.calendarCurrentViewYear-1;
     this.widget.weekIndexOfFirstDayOfSelectedMonth = DateTime(this.widget.calendarCurrentViewYear,this.widget.calendarCurrentViewMonth,1).weekday -1;
   });
     }else{
   setState(() {
+    this.widget.useSelectedDate = false;
    this.widget.calendarCurrentViewMonth = this.widget.calendarCurrentViewMonth-1;
     this.widget.weekIndexOfFirstDayOfSelectedMonth = DateTime(this.widget.calendarCurrentViewYear,this.widget.calendarCurrentViewMonth,1).weekday -1;
   });
@@ -254,6 +266,9 @@ void buildDateItemsWithChangeState(){
     void _onSubmitted() {
       if (this.widget.onChanged != null) {
         this.widget.onChanged(this.widget.selectedDayFull.join('/'));
+        if (this.widget.selectedDate != null){
+          this.widget.onSaved(this.widget.selectedDayFull.join('/'));
+        }
       }
       this.widget.dateController.text = this.widget.selectedDayFull.join('/');
       toggleShowingDetail();
@@ -381,9 +396,14 @@ void buildDateItemsWithChangeState(){
               child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: this.widget.selectedDayFull[0] == value[0] &&
+                      color: (this.widget.selectedDayFull[0] == value[0] &&
                               this.widget.selectedDayFull[1] == value[1] &&
-                              this.widget.selectedDayFull[2] == value[2] &&
+                              this.widget.selectedDayFull[2] == value[2]) || (
+                                this.widget.selectedDate != null &&
+                                this.widget.selectedDate[0] == value[0] &&
+                                this.widget.selectedDate[1] == value[1] &&
+                                this.widget.selectedDate[2] == value[2]
+                              ) &&
                               this.widget.colorPos == index
                           ? GateManColors.primaryColor
                           : this.widget.currentDayFull[0] == value[0] &&
@@ -398,9 +418,14 @@ void buildDateItemsWithChangeState(){
                     value[0].toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: this.widget.selectedDayFull[0] == value[0] &&
+                        color: (this.widget.selectedDayFull[0] == value[0] &&
                               this.widget.selectedDayFull[1] == value[1] &&
-                              this.widget.selectedDayFull[2] == value[2] &&
+                              this.widget.selectedDayFull[2] == value[2] ) || (
+                                this.widget.selectedDate != null &&
+                                this.widget.selectedDate[0] == value[0] &&
+                                this.widget.selectedDate[1] == value[1] &&
+                                this.widget.selectedDate[2] == value[2]
+                              )  &&
                               this.widget.colorPos == index
                             ? Colors.white
                             : this.widget.currentDayFull[0] == value[0] &&
@@ -417,6 +442,13 @@ void buildDateItemsWithChangeState(){
     @override
     Widget build(BuildContext context) {
       this.widget.dateController.text = this.widget.selectedDayFull.join('/');
+      if(this.widget.selectedDate != null && this.widget.useSelectedDate){
+      print('selected dare us not null');
+      print(this.widget.selectedDate);
+      this.widget.calendarCurrentViewMonth = this.widget.selectedDate[1];
+      this.widget.calendarCurrentViewYear = this.widget.selectedDate[2];
+    }
+    this.widget.useSelectedDate = true;
       if (this.widget.includeInput){
       return AnimatedSize(
               child: Column(
@@ -484,6 +516,7 @@ void buildDateItemsWithChangeState(){
                         style: TextStyle(color: GateManColors.primaryColor)),
                     onPressed: () {
                       _onSubmitted();
+                      
                     },
                   )
             ],
@@ -500,102 +533,3 @@ void buildDateItemsWithChangeState(){
      
 }
 
-// class DisabledNode extends FocusNode {
-//   @override
-//   bool get hasFocus => false;
-// }
-
-// /// A custom textfield that serves as a date picker
-// class CustomDatePickerFormField extends StatefulWidget {
-//   ///[isRow] to check if the date picker will be in a row of two elements
-//   /// [dateController] for saving and setting the readable version of the date
-//   /// [selectDate] a function that gets called when the calendar icon is clicked, the function that shows the main calendar
-//   /// [label] The name the current date picker
-//   /// [type] The type of the current date picker
-
-//   final bool isRow;
-//   final Function selectDate;
-//   final String label;
-//   final String type;
-//   final String initialValue;
-//   Function(String) onSaved;
-//   String Function(String) validator;
-
-//   CustomDatePickerFormField({
-//     Key key,
-//     this.isRow = false,
-//     this.selectDate,
-//     this.label,
-//     this.type,
-//     this.initialValue,
-//     this.onSaved,
-//     this.validator,
-//   }) : super(key: key);
-
-//   @override
-//   _CustomDatePickerFormFieldState createState() =>
-//       _CustomDatePickerFormFieldState();
-// }
-
-// class _CustomDatePickerFormFieldState extends State<CustomDatePickerFormField> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       flex: widget.isRow ? 3 : 0,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: <Widget>[
-//           Text(
-//             widget.label,
-//             style: TextStyle(
-//               color: Color(0xFF103366),
-//               fontSize: 12,
-//             ),
-//           ),
-//           TextFormField(
-//             enabled: true,
-//             initialValue: widget.initialValue,
-//             onSaved: widget.onSaved,
-//             validator: widget.validator,
-//             focusNode: DisabledNode(),
-//             style: TextStyle(
-//                 color: Color(0xFF103366),
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.bold),
-//             decoration: InputDecoration(
-//               suffixIcon: IconButton(
-//                 onPressed: () {
-//                   widget.selectDate();
-//                 },
-//                 icon: Icon(
-//                   Icons.calendar_today,
-//                   size: 20.0,
-//                   color: Color(0xFF103366),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           SizedBox(
-//             height: screenAwareSize(4.0, context),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Future<Null> _selectDate(BuildContext context, String startDate,
-//       DateTime initialDate, String type) async {
-//     final DateTime picked = await showDatePicker(
-//         context: context,
-//         initialDate: initialDate,
-//         firstDate: DateTime(2015, 8),
-//         lastDate: DateTime(2101));
-
-//     String formatted = DateFormat('y/MM/dd').format(picked);
-//     if (picked != null && picked != initialDate) {
-//       setState(() {
-//         startDate = formatted;
-//       });
-//     }
-//   }
-// }

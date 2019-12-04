@@ -343,13 +343,26 @@ class WelcomeResident extends StatelessWidget {
                                                        color: GateManColors.blackColor,
                                                      ),
                                                    ),
-                                                   subtitle: Text(
-                                                     visitorModel.purpose??'',
-                                                     style: TextStyle(
-                                                       fontWeight: FontWeight.w500,
-                                                       fontSize: 15.0,
-                                                       color: Colors.grey,
-                                                     ),
+                                                   subtitle: Row(
+                                                     children: <Widget>[
+                                                       Text("Visitor's Group: ",
+                                                         style: TextStyle(
+                                                           fontWeight: FontWeight.bold,
+                                                           fontSize: 15.0,
+                                                           color: GateManColors.blackColor
+
+                                                         ),
+                                                       ),
+                                                        Text(
+                                                         visitorModel.visitor_group??'',
+                                                         style: TextStyle(
+                                                           fontWeight: FontWeight.w500,
+                                                           fontSize: 15.0,
+                                                           color: Colors.grey,
+                                                         ),
+                                                       ),
+
+                                                     ],
                                                    ),
                                                    trailing: //Add Button
                                                        Container(
@@ -423,7 +436,7 @@ class WelcomeResident extends StatelessWidget {
                          
                            getHeadText(List<dynamic> usedDates,VisitorModel visitorModel) {
                              usedDates.add(visitorModel.arrival_date);
-                             return Text(visitorModel.arrival_date.toString(),
+                             return Text(prettifyDate(visitorModel.arrival_date.toString()),
                              textAlign: TextAlign.left,
                                  style: TextStyle(
                                    color: Colors.grey,
