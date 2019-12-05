@@ -2,6 +2,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/utils/helpers.dart';
 import 'package:xgateapp/widgets/BottomMenu/bottom_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatefulWidget {
   @override
@@ -83,7 +84,8 @@ class _AboutState extends State<About> {
 
   //on-click event for rate app..
   Future<String> rateGatePass(BuildContext context) {
-    return showDialog(context: context,
+    launch('https://play.google.com/store/apps/details?id=com.hng.xgateapp');
+    /*return showDialog(context: context,
       builder: (context){
         return AlertDialog(
           title: Text('Love GateGuard?',
@@ -127,7 +129,7 @@ class _AboutState extends State<About> {
           ],
         );
       },
-    );
+    );*/
   }
 
    void _shareIt() async{
@@ -135,7 +137,7 @@ class _AboutState extends State<About> {
 
     //Capture Done
     print('sharing');
-    Share.text('GateGuard','wwww.gateguard.co','text/plain');
+    Share.text('GateGuard','Hey, Download GateGuard(https://play.google.com/store/apps/details?id=com.hng.xgateapp)! \n The best and secure community management solutions for your estate','text/plain');
   }
 
  }

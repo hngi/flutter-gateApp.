@@ -108,7 +108,7 @@ class _MenuState extends State<Menu> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.w700,
                 )),
-            subtitle: Text("Gate Guard",
+            subtitle: Text("Security Guard",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 15.0,

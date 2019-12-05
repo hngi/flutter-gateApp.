@@ -123,7 +123,7 @@ class _TypeOfUser extends State<TypeOfUser> {
                       child: Padding(
                         padding: EdgeInsets.all(10.0),
                         child: Text(
-                          'Gate Guard',
+                          'Security Guard',
                           style: TextStyle(
                             fontSize: 18.0,
                             color: this.type == user_type.RESIDENT
@@ -145,7 +145,7 @@ class _TypeOfUser extends State<TypeOfUser> {
               child: Text(
                 this.type == user_type.RESIDENT ? 
                 'Sign in as a Resident to enjoy unlimited access in \nmanaging your visitor'
-                : 'Sign in as a Gate Guard to help residents properly\nmanage their visitor',
+                : 'Sign in as a Security Guard to help residents properly manage their visitor',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 14.0, color: Colors.grey),
               ),

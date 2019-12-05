@@ -725,7 +725,7 @@ openAlertBox({@required String code,@required BuildContext context,@required Scr
                               ),
                                InkWell(
                                  onTap: (){
-                                   sendSMS("I, ${getProfileProvider(context).profileModel.name} would be expecting $fullName on ${prettifyDate(arrival_date)} details. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", ['']);
+                                   sendSMS("I, ${getProfileProvider(context).profileModel.name} would be expecting $fullName on ${prettifyDate(arrival_date)}. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", ['']);
                                  },
                                  
 
