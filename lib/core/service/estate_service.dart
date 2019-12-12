@@ -45,6 +45,7 @@ class EstateService {
 
   //Add new Estate
   static addEstate({
+    @required String authToken,
     @required String estateName,
     @required String city,
     @required String country,
@@ -52,22 +53,27 @@ class EstateService {
   }) async {
     var uri = Endpoint.estate;
 
+    Options options = Options(
+      contentType: 'application/json',
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
     try {
-      Response response = await dio.post(uri, data: {
+      Response response = await dio.post(uri, options: options, data: {
         "estate_name": estateName,
         "city": city,
         "country": country,
-        "address": address,
+        "address": address
       });
 
-      //print(response.statusCode);
-      //print(response.data);
+      print(response.statusCode);
+      print(response.data);
 
       return (response.statusCode == 404)
           ? ErrorType.invalid_credentials
           : (response.statusCode == 401)
               ? ErrorType.account_not_confimrmed
-              : (response.statusCode == 200)
+              : (response.statusCode == 200 || response.statusCode == 201)
                   ? json.decode(response.data)
                   : ErrorType.generic;
     } on DioError catch (exception) {
@@ -217,11 +223,8 @@ class EstateService {
   }
 
   //Add new Estate
-  static Future selectEstate({
-    @required int estateId,
-    @required String authToken,
-    houseBlock
-  }) async {
+  static Future selectEstate(
+      {@required int estateId, @required String authToken, houseBlock}) async {
     var uri = Endpoint.estate + '/choose/$estateId';
 
     Options options = Options(
@@ -231,10 +234,11 @@ class EstateService {
 
     try {
       Response response;
-      if(houseBlock==null){
-      response = await dio.post(uri, options: options);
+      if (houseBlock == null) {
+        response = await dio.post(uri, options: options);
       } else {
-      response = await dio.post(uri,data:{'house_block':houseBlock}, options: options);
+        response = await dio.post(uri,
+            data: {'house_block': houseBlock}, options: options);
       }
 
       //print(response.statusCode);
@@ -247,7 +251,7 @@ class EstateService {
       //   return GateManHelpers.getErrorType(responseJson);
       // }
       if (response.statusCode == 200) return json.decode(response.data);
-      if(response.statusCode >=500 && response.statusCode < 600) return false;
+      if (response.statusCode >= 500 && response.statusCode < 600) return false;
 
       return false;
 

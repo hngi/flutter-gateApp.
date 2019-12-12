@@ -5,7 +5,8 @@ class Endpoint {
   static String imageBaseUrl =
       'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
-  static String baseUrl =  'https://api.gateguard.co/api/v1/'; //'https://707208ed.ngrok.io/api/v1/'; //
+  static String baseUrl =
+      'https://api.gateguard.co/api/v1'; //'https://707208ed.ngrok.io/api/v1/'; //
   //Auth
   static String login = '/login';
   static String adminRegister = '/register/admin';
@@ -30,14 +31,18 @@ class Endpoint {
   static String estates = '/estates';
   static String deleteEstate = '/estate/delete';
   static String visitor = '/visitor';
-  static String editVisitor({@required int visitorId}) => visitor + '/edit/$visitorId';
+  static String editVisitor({@required int visitorId}) =>
+      visitor + '/edit/$visitorId';
   static String scheduledVisitors = visitor + '/allScheduled';
   static String historyVisitors = 'visitorHistory';
-  static String deleteVisitorHistories(List<String> ids) => '/visit_histories/delete/${ids.join(',')}';
+  static String deleteVisitorHistories(List<String> ids) =>
+      '/visit_histories/delete/${ids.join(',')}';
   static String showVisitors = 'gateman/visitors';
-  static String deleteScheduledVisitors({int visitorId}) => '$visitor/deleteScheduled/$visitorId';
+  static String deleteScheduledVisitors({int visitorId}) =>
+      '$visitor/deleteScheduled/$visitorId';
   static String scheduleAVisit({int visitorId}) => 'visitor/$visitorId?';
-  static String getQRImageSrc(int visitorId) => visitor+'/getQrImage/$visitorId';
+  static String getQRImageSrc(int visitorId) =>
+      visitor + '/getQrImage/$visitorId';
   static String showRequests = '/gateman/requests';
   static String gatemanRequests = '/gateman/requests';
   static String gateman = '/gateman';
@@ -57,14 +62,15 @@ class Endpoint {
   static String deleteGateman({@required int gatemanId}) =>
       'resident/removeGateman/$gatemanId';
 
-
   //Notifications
   static String allNotifications = 'notifications';
-  static String markNotificationAsRead({String notificationId}) => allNotifications + '/$notificationId';
-  static String deleteNotification({String notificationId}) => allNotifications + '/$notificationId';
-  static String markSelectedNotificationAsRead({List<String> notificationIds}) => allNotifications + '/read/${notificationIds.join(',')}';
+  static String markNotificationAsRead({String notificationId}) =>
+      allNotifications + '/$notificationId';
+  static String deleteNotification({String notificationId}) =>
+      allNotifications + '/$notificationId';
+  static String markSelectedNotificationAsRead(
+          {List<String> notificationIds}) =>
+      allNotifications + '/read/${notificationIds.join(',')}';
   //FCM Token Id enpoint
   static String editFCMToken = 'user/edit-fcm';
-
-
 }
