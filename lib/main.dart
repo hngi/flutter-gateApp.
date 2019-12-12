@@ -201,10 +201,6 @@ class _GateManState extends State<GateMan> {
     getResidentNotificationProvider(context).setLoadedFromApi(false);
     getResidentsGateManProvider(context)
             .setLoadedFromApi(stat: false, pendingStat: false);
-    
-      print(':::::::::::::::::::::::::::::::::::::::::;;');
-
-      print(':::::::::::;;;;;;;;;;;;;;;:;');
       print(type);
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:

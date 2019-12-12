@@ -1,3 +1,4 @@
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:xgateapp/core/endpoints/endpoints.dart';
 import 'package:xgateapp/providers/visitor_provider.dart';
@@ -308,6 +309,31 @@ class _VisitorProfileState extends State<VisitorProfile> with SingleTickerProvid
                     ),
                   ),
                 ),
+
+                InkWell(
+                  onTap: (){
+                                   Share.text('GateGuard',"I, ${getProfileProvider(context).profileModel.name} would be expecting ${model.name} on ${prettifyDate(model.arrival_date)}. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", 'text/plain');
+                                 },
+                                  child: Container(
+                    margin: EdgeInsets.all(28),
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: <Widget>[
+                      Text('Send Visitor to Guard',style: TextStyle(fontSize: 20,color: GateManColors.primaryColor),),
+                      Padding(
+                        padding: const EdgeInsets.only(left:18.0),
+                        child: Icon(Icons.send,color: GateManColors.primaryColor,size: 40,),
+                      )
+                    ],),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(color: GateManColors.primaryColor,)
+                    ),
+                  ),
+                )
                ],
             ),
           ],

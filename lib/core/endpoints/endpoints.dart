@@ -66,5 +66,8 @@ class Endpoint {
   //FCM Token Id enpoint
   static String editFCMToken = 'user/edit-fcm';
 
+  //notification settings
+  static String togglePushNotification = '';
+
 
 }

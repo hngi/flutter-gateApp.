@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'package:provider/provider.dart';
+import 'package:xgateapp/core/streams/settings_stream.dart';
 import 'package:xgateapp/providers/faqBloc.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
@@ -14,6 +17,46 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
+  
+   Future<bool> _togglePushNotifications({@required BuildContext context,bool newVal})async{
+     LoadingDialog dialog = LoadingDialog(context,LoadingDialogType.Normal);
+     dialog.show();
+     print(newVal);
+     bool result;
+    if (!newVal){
+      bool value = await setFCMTokenToEmpty(context);
+      Navigator.pop(context);
+        if(!value){
+          result =  false;
+       
+        }else {
+          print('switched off');
+        NotificationStream.pushNotificationController.sink.add(false);
+        }
+        
+ 
+    }
+    else{
+      bool onValue = await setFCMTokenInServer(context);
+      Navigator.pop(context);
+         if(!onValue){
+           result =  false;
+         } else{
+           print('switched on');
+         NotificationStream.pushNotificationController.sink.add(true);
+         }
+         
+       
+    }
+       if(result == null){
+         result = true;
+       }
+       
+       return result;
+    
+    
+  
+}
   @override
   Widget build(BuildContext context) {
     // print(getProfileProvider(context).profileModel.homeModel.houseBlock);
@@ -91,19 +134,38 @@ class _SettingState extends State<Settings> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      child: _NotifAndTracking(
-                          'In-app Notification',
-                          Border(bottom: BorderSide(color: Colors.grey[300])),
-                          true),
+                      child: StreamBuilder<Object>(
+                        stream: NotificationStream.inAppNotificationController.stream,
+                        builder: (context, snapshot) {
+                          return _NotifAndTracking(
+                              'In-app Notification',
+                              Border(bottom: BorderSide(color: Colors.grey[300])),
+                              snapshot.data??true,switchButton: (bool switchedState){
+
+                              },
+                              );
+                        }
+                      ),
                     ),
                     Container(
-                        child: _NotifAndTracking(
-                            'Push Notification',
-                            Border(bottom: BorderSide(color: Colors.grey[300])),
-                            true)),
-                    Container(
-                      child: _NotifAndTracking('Location Tracking',
-                          Border(bottom: BorderSide.none), false),
+                        child: StreamBuilder<Object>(
+                          stream: NotificationStream.pushNotificationController.stream,
+                          builder: (context, snapshot) {
+                            return _NotifAndTracking(
+                                'Push Notification',
+                                Border(bottom: BorderSide(color: Colors.grey[300])),
+                                snapshot.data??true, switchButton: (bool nV)async{return _togglePushNotifications(context: context,newVal: nV);},);
+                          }
+                        )),
+                        Container(
+                      child: StreamBuilder<Object>(
+                        stream: LocationStream.locationSwitchController.stream,
+                        builder: (context, snapshot) {
+                           return _NotifAndTracking('Location Tracking',
+                              Border(bottom: BorderSide.none), snapshot.data??true,switchButton: (bool switchedState){
+                              });
+                                                }
+                      ),
                     ),
                   ],
                 )),
@@ -111,7 +173,6 @@ class _SettingState extends State<Settings> {
 //           Help & Support
 
             Container(
-              padding: EdgeInsets.only(top: 20.0, left: 30.0),
               child: Text(
                 'Help & Support',
                 style: TextStyle(
@@ -174,17 +235,19 @@ class _SettingState extends State<Settings> {
 
 class _NotifAndTracking extends StatelessWidget {
   String text;
-  Function _setState;
   Border decoration;
   bool isSwitched = false;
-
-  void _onchanged(bool value) {
-    _setState(() {
-      isSwitched = value;
-    });
+ Function (bool) switchButton;
+  void _onchanged(bool value) async{
+    bool success = await switchButton(value);
+    // if(success)
+    // // {_setState(() {
+    // //   isSwitched = value;
+    // // });
+    // }
   }
 
-  _NotifAndTracking(this.text, this.decoration, this.isSwitched);
+  _NotifAndTracking(this.text, this.decoration, this.isSwitched,{@required this.switchButton});
 
   @override
   Widget build(BuildContext context) {
@@ -213,4 +276,6 @@ class _NotifAndTracking extends StatelessWidget {
       ),
     );
   }
+
+ 
 }
