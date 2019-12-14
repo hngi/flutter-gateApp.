@@ -59,6 +59,9 @@ dependencies:
   json_annotation: ^3.0.0
   flutter_sms: ^1.0.1
   # flutter_dotenv: ^2.1.0
+  rave_flutter:
+    git:
+      url: https://github.com/JonathanJude/rave_flutter.git
 dependency_overrides:
   path: ^1.6.4
 dev_dependencies:
@@ -105,4 +108,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages                        
+  # see https://flutter.dev/custom-fonts/#from-packages
