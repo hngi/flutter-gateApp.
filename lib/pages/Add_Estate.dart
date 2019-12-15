@@ -3,6 +3,7 @@ import 'package:xgateapp/core/models/old_user.dart';
 import 'package:xgateapp/core/service/estate_service.dart';
 import 'package:xgateapp/utils/FlushAlert/flush_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/errors.dart';
 import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomDropdownButton/custom_dropdown_button.dart';
@@ -36,6 +37,7 @@ class _AddEstateState extends State<AddEstate> {
       dialog.show();
 
       var res = await EstateService.addEstate(
+        authToken: await authToken(context),
         city: _city,
         country: _country,
         estateName: _estateName,
@@ -100,7 +102,8 @@ class _AddEstateState extends State<AddEstate> {
           message: 'Estate added successfully',
           isError: false,
         ).then((_) {
-          Navigator.of(context).pushReplacementNamed('/select-estate');
+          // Navigator.of(context).pushReplacementNamed('/select-estate');
+          Navigator.of(context).pop();
         });
       }
     }
@@ -183,7 +186,7 @@ class _AddEstateState extends State<AddEstate> {
                   },
                 ),
 
-                 //Enter Address
+                //Enter Address
                 CustomTextFormField(
                   controller: addressController,
                   labelName: ' Estate Address',
@@ -203,37 +206,40 @@ class _AddEstateState extends State<AddEstate> {
                   label: 'Select City',
                   value: _city,
                   hintText: 'Enter City',
-                  items: [
-                    'Lagos','Abuja','Port Harcourt','Enugu'
-                  ].map((String val){
-                    return DropdownMenuItem(child: Text(val),value: val,);
+                  items: ['Lagos', 'Abuja', 'Port Harcourt', 'Enugu']
+                      .map((String val) {
+                    return DropdownMenuItem(
+                      child: Text(val),
+                      value: val,
+                    );
                   }).toList(),
-                  onChanged: (val){
-                      setState((){
-                        _city = val;
-                      });
+                  onChanged: (val) {
+                    setState(() {
+                      _city = val;
+                    });
                   },
                 ),
 
                 //Enter Country
-               CustomDropdownButton(
+                CustomDropdownButton(
                   label: 'Select Country',
                   value: _country,
                   hintText: 'Enter Country',
-                  items: [
-                    'Nigeria','India','Ghana','Mali'
-                  ].map((String val){
-                    return DropdownMenuItem(child: Text(val),value: val,);
+                  items:
+                      ['Nigeria', 'India', 'Ghana', 'Mali'].map((String val) {
+                    return DropdownMenuItem(
+                      child: Text(val),
+                      value: val,
+                    );
                   }).toList(),
-                  onChanged: (val){
-                      setState((){
-                        _country = val;
-                      });
+                  onChanged: (val) {
+                    setState(() {
+                      _country = val;
+                    });
                   },
                 ),
 
                 //Enter Address
-                
 
                 SizedBox(height: 51.0),
 
