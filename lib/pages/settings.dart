@@ -157,16 +157,6 @@ class _SettingState extends State<Settings> {
                                 snapshot.data??true, switchButton: (bool nV)async{return _togglePushNotifications(context: context,newVal: nV);},);
                           }
                         )),
-                        Container(
-                      child: StreamBuilder<Object>(
-                        stream: LocationStream.locationSwitchController.stream,
-                        builder: (context, snapshot) {
-                           return _NotifAndTracking('Location Tracking',
-                              Border(bottom: BorderSide.none), snapshot.data??true,switchButton: (bool switchedState){
-                              });
-                                                }
-                      ),
-                    ),
                   ],
                 )),
 
