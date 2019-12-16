@@ -7,6 +7,8 @@ import 'package:xgateapp/widgets/GateManBottomNavBar/custom_bottom_nav_bar.dart'
 import 'package:xgateapp/widgets/GateManBottomNavFAB/bottom_nav_fab.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'estate_payment/estate_payments.dart';
+
 class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -202,6 +204,25 @@ class Homepage extends StatelessWidget {
                               leading: Icon(MdiIcons.hammer,
                                   color: GateManColors.primaryColor, size: 25.0),
                               title: Text("Service Directory",
+                                  style: TextStyle(
+                                    color: GateManColors.grayColor,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                            ),
+
+                            ListTile(
+                              onTap: () {
+                                Navigator
+                                .of(context)
+                                .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+                                return new EstatePayments();
+                                }));
+                                // Navigator.pushNamed(context, '/estate_payments');
+                              },
+                              leading: Icon(MdiIcons.creditCard,
+                                  color: GateManColors.primaryColor, size: 25.0),
+                              title: Text("Estate Payments",
                                   style: TextStyle(
                                     color: GateManColors.grayColor,
                                     fontSize: 18.0,

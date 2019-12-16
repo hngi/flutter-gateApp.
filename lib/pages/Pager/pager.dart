@@ -107,18 +107,18 @@ class _MainPagerState extends State<MainPager> {
                           ],),
                            FlatButton(
                             onPressed: () async{
-                              GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
-                              if (geolocationStatus == GeolocationStatus.denied || geolocationStatus == GeolocationStatus.disabled || geolocationStatus == GeolocationStatus.restricted){
-                                return Navigator.pushReplacementNamed(
-                                context, '/add-location');
-                              } else {
+                              // GeolocationStatus geolocationStatus  = await Geolocator().checkGeolocationPermissionStatus();
+                              // if (geolocationStatus == GeolocationStatus.denied || geolocationStatus == GeolocationStatus.disabled || geolocationStatus == GeolocationStatus.restricted){
+                              //   return Navigator.pushReplacementNamed(
+                              //   context, '/add-location');
+                              // } else {
                                 return Navigator.pushReplacementNamed(
                                 context, '/user-type');
-                              }
+                              // }
                               
                             },
                             child: Text(
-                              'SKIP',
+                               _currentPageIndex == 0?'SKIP':'CONTINUE',
                               style: TextStyle(color: Colors.white),
                             ),
                             padding: EdgeInsets.symmetric(

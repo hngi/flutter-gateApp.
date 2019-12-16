@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:xgateapp/core/models/notification/notification_types.dart';
+import 'package:xgateapp/pages/payment/payment_method.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/routes/routes.dart';
@@ -147,7 +148,8 @@ class _GateManState extends State<GateMan> {
 
     return MaterialApp(
       title: 'GateMan App',
-      initialRoute: '/',
+      // initialRoute: '/',
+      // initialRoute: '/',
       navigatorKey: navigatorKey,
       onGenerateRoute: Routes.generateRoute,
       theme: ThemeData(
@@ -158,7 +160,7 @@ class _GateManState extends State<GateMan> {
             ),
         fontFamily: 'OpenSans',
       ),
-      // home: Register(),
+      // home: PaymentMethod(),
       debugShowCheckedModeBanner: false
     );
   }
@@ -201,10 +203,6 @@ class _GateManState extends State<GateMan> {
     getResidentNotificationProvider(context).setLoadedFromApi(false);
     getResidentsGateManProvider(context)
             .setLoadedFromApi(stat: false, pendingStat: false);
-    
-      print(':::::::::::::::::::::::::::::::::::::::::;;');
-
-      print(':::::::::::;;;;;;;;;;;;;;;:;');
       print(type);
     switch (type) {
       case GateGuardNotificationType.gateManAcceptedRequest:

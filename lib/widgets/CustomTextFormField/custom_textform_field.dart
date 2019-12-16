@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/helpers.dart';
 
@@ -17,6 +18,8 @@ class CustomTextFormField extends StatefulWidget {
   final bool isPassword;
   final int maxLines;
 
+  final List<TextInputFormatter> inputFormatters;
+
   const CustomTextFormField({
     Key key,
     this.labelName,
@@ -32,6 +35,7 @@ class CustomTextFormField extends StatefulWidget {
     @required this.validator,
     this.isPassword = false,
     this.maxLines = 1, String hint,
+    this.inputFormatters
   }) : super(key: key);
 
   @override
@@ -56,6 +60,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.0)),
           ):Container(width: 0,height: 0,),
           TextFormField(
+            inputFormatters: widget.inputFormatters,
             maxLines: widget.maxLines,
             onChanged: widget.onChanged,
             onSaved: widget.onSaved,
