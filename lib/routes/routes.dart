@@ -9,6 +9,7 @@ import 'package:xgateapp/pages/add_visitor.dart';
 import 'package:xgateapp/pages/estate_payment/estate_payments.dart';
 import 'package:xgateapp/pages/gateman/qrScan.dart';
 import 'package:xgateapp/pages/notification_resident.dart';
+import 'package:xgateapp/pages/payment/payment_method.dart';
 import 'package:xgateapp/pages/registration/token_confirmation.dart';
 import 'package:xgateapp/pages/resident/add_gateman/add_gateman_detail.dart';
 import 'package:xgateapp/pages/support.dart';
@@ -212,6 +213,9 @@ class Routes {
 
       case '/estate-payments':
         return MaterialPageRoute(builder: (context) => EstatePayments());
+
+      case '/payment-method':
+        return MaterialPageRoute(builder: (context) => PaymentMethod());
 
       default:
         return MaterialPageRoute(

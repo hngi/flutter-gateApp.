@@ -124,25 +124,28 @@ class BillsToPayCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5.0)),
                   ),
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                  margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                  alignment: Alignment.center,
-                  child: Text('Pay Now',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  decoration: BoxDecoration(
-                      color: Color(0xFF49A347),
-                      // border: Border.all(
-                      //   color: Color(0xFF49A347),
-                      //   style: BorderStyle.solid,
-                      //   width: 1.0,
-                      // ),
-                      borderRadius: BorderRadius.circular(5.0)),
+                InkWell(
+                  onTap: (){Navigator.pushNamed(context, '/payment-method');},
+                                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+                    margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    alignment: Alignment.center,
+                    child: Text('Pay Now',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    decoration: BoxDecoration(
+                        color: Color(0xFF49A347),
+                        // border: Border.all(
+                        //   color: Color(0xFF49A347),
+                        //   style: BorderStyle.solid,
+                        //   width: 1.0,
+                        // ),
+                        borderRadius: BorderRadius.circular(5.0)),
+                  ),
                 ),
               ],
             ),
