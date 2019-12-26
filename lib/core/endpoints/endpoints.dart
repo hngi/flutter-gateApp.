@@ -77,5 +77,8 @@ class Endpoint {
   //notification settings
   static String togglePushNotification = '';
 
+  //payment service
+  static String payWithCard = 'begin_card_pay';
+
 
 }

@@ -4,15 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rave_flutter/src/ui/fields/card_number_field.dart';
+import 'package:xgateapp/core/service/payment_service.dart';
 import 'package:xgateapp/pages/payment/widgets/rave_logo.dart';
+import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
-import 'package:xgateapp/utils/helpers.dart';
-import 'package:xgateapp/widgets/CustomInputField/custom_input_field.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
-import 'package:rave_flutter/src/ui/common/input_formatters.dart';
 import 'package:rave_flutter/src/ui/common/card_utils.dart';
 
 class PaymentMethod extends StatefulWidget {
+  String billId;
+
+  PaymentMethod({@required this.billId});
+
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
 }
@@ -115,7 +118,9 @@ class _PaymentMethodState extends State<PaymentMethod>
                   height: selected != PaymentOptionSelect.card
                       ? null
                       : MediaQuery.of(context).size.height -
-                          (50 + MediaQuery.of(context).padding.top+MediaQuery.of(context).viewInsets.bottom),
+                          (50 +
+                              MediaQuery.of(context).padding.top +
+                              MediaQuery.of(context).viewInsets.bottom),
                   child: Column(
                     children: <Widget>[
                       payWithTile(
@@ -146,7 +151,14 @@ class _PaymentMethodState extends State<PaymentMethod>
                                           _cardNumber = numb;
                                         });
                                       },
-                                      validator: (String) {},
+                                      validator: (String numb){
+                                          if(numb.length > 22){
+                                            return "Card number should be 16 digits";
+                                          }
+                                          return null;
+                                      },
+                                      autovalidate: true,
+                                      
                                       inputFormatters: [
                                         CardNumberInputFormatterGateApp(),
                                         LengthLimitingTextInputFormatter(22),
@@ -239,8 +251,8 @@ class _PaymentMethodState extends State<PaymentMethod>
                                   Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: GestureDetector(
-                                      onTap: () {
-                                        print('tapped');
+                                      onTap: () async {
+                                        await payWithCard();
                                       },
                                       child: Container(
                                           decoration: BoxDecoration(
@@ -272,76 +284,109 @@ class _PaymentMethodState extends State<PaymentMethod>
               ),
               AnimatedSize(
                 child: Container(
-                  height:selected != PaymentOptionSelect.account
-                      ? null
-                      : MediaQuery.of(context).size.height -
-                          (50 + MediaQuery.of(context).padding.top+MediaQuery.of(context).viewInsets.bottom),
+                    height: selected != PaymentOptionSelect.account
+                        ? null
+                        : MediaQuery.of(context).size.height -
+                            (50 +
+                                MediaQuery.of(context).padding.top +
+                                MediaQuery.of(context).viewInsets.bottom),
                     child: Column(
                       children: <Widget>[
                         payWithTile(
-                            title: 'Pay from Account', isCollapsed: !(selected==PaymentOptionSelect.account),onTapped: (){
+                            title: 'Pay from Account',
+                            isCollapsed:
+                                !(selected == PaymentOptionSelect.account),
+                            onTapped: () {
                               setState(() {
-                                selected = selected == PaymentOptionSelect.account?PaymentOptionSelect.none:PaymentOptionSelect.account;
+                                selected =
+                                    selected == PaymentOptionSelect.account
+                                        ? PaymentOptionSelect.none
+                                        : PaymentOptionSelect.account;
                               });
                             }),
-                            selected == PaymentOptionSelect.account?Expanded(
-                                                          child: ListView(
-                                padding: EdgeInsets.only(top: 20),
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:16.0,right: 16.0),
-                                    child: CustomTextFormField(onSaved: (String s) {}, validator: (String s)=>null,
-                                    labelName: 'Phone Number',
-                                    keyboardType: TextInputType.phone,
-
+                        selected == PaymentOptionSelect.account
+                            ? Expanded(
+                                child: ListView(
+                                  padding: EdgeInsets.only(top: 20),
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0, right: 16.0),
+                                      child: CustomTextFormField(
+                                        onSaved: (String s) {},
+                                        validator: (String s) => null,
+                                        labelName: 'Phone Number',
+                                        keyboardType: TextInputType.phone,
+                                      ),
                                     ),
-                                  ),
-                                   Padding(
-                                    padding: const EdgeInsets.only(left:16.0,right: 16.0),
-                                    child: CustomTextFormField(onSaved: (String s) {}, validator: (String s)=>null,
-                                    labelName: 'Account Number',
-                                    keyboardType: TextInputType.number,
-
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0, right: 16.0),
+                                      child: CustomTextFormField(
+                                        onSaved: (String s) {},
+                                        validator: (String s) => null,
+                                        labelName: 'Account Number',
+                                        keyboardType: TextInputType.number,
+                                      ),
                                     ),
-                                    
-                                  
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only(left:16.0,top: 10.0,right:16.0,bottom: 8),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 16.0,
+                                          top: 10.0,
+                                          right: 16.0,
+                                          bottom: 8),
                                       child: Text('Bank'),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 16,right:16),
-                                    padding: EdgeInsets.only(left: 8.0,right:8.0),
-                      width: 80,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: GateManColors.primaryColor),
-                        borderRadius: BorderRadius.circular(6)
-                      )
-,                child:
-                    DropdownButtonHideUnderline(
-                                                                        child: DropdownButton<String>(
-                                                                          hint: Text('Select Your Bank',),
-                          iconEnabledColor: GateManColors.primaryColor,
-                          items:<String>['GTB','ACCESS','FIRSTBANK'].map<DropdownMenuItem<String>>((String str){
-                          return DropdownMenuItem<String>(
-                            value: str,
-                            child: Text(str, style: TextStyle(color: GateManColors.blackColor),)
-                          );
-                        }).toList(),
-                        value: _bank,
-                        onChanged: (String newValue){
-                          setState(() {
-                             _bank = newValue;
-                          });
-                         
-                        },
-                        ),
-                    )),
-                    Padding(
-                      padding: const EdgeInsets.only(top:24.0,left: 16,bottom: 16,right: 16),
-                      child: GestureDetector(
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 16),
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        width: 80,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color:
+                                                    GateManColors.primaryColor),
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            hint: Text(
+                                              'Select Your Bank',
+                                            ),
+                                            iconEnabledColor:
+                                                GateManColors.primaryColor,
+                                            items: <String>[
+                                              'GTB',
+                                              'ACCESS',
+                                              'FIRSTBANK'
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String str) {
+                                              return DropdownMenuItem<String>(
+                                                  value: str,
+                                                  child: Text(
+                                                    str,
+                                                    style: TextStyle(
+                                                        color: GateManColors
+                                                            .blackColor),
+                                                  ));
+                                            }).toList(),
+                                            value: _bank,
+                                            onChanged: (String newValue) {
+                                              setState(() {
+                                                _bank = newValue;
+                                              });
+                                            },
+                                          ),
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 24.0,
+                                          left: 16,
+                                          bottom: 16,
+                                          right: 16),
+                                      child: GestureDetector(
                                         onTap: () {
                                           print('tapped');
                                         },
@@ -359,13 +404,15 @@ class _PaymentMethodState extends State<PaymentMethod>
                                                         fontSize: 10,
                                                         color: Colors.white)))),
                                       ),
-                    ),
-                               
-                                  raveLogo
-                 
-                                ],
-                              ),
-                            ):Container(width: 0,height: 0,)
+                                    ),
+                                    raveLogo
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                width: 0,
+                                height: 0,
+                              )
                       ],
                     )),
                 duration: Duration(milliseconds: 300),
@@ -394,6 +441,21 @@ class _PaymentMethodState extends State<PaymentMethod>
       default:
         return 'assets/images/card-unknown.png';
     }
+  }
+
+  payWithCard() async {
+    dynamic response = await PaymentService.payBillWithCard(
+        amount: null,
+        authToken: null,
+        billId: null,
+        cardNo: null,
+        country: null,
+        currency: null,
+        cvv: null,
+        email: null,
+        expirymonth: null,
+        expiryyear: null);
+  print(response);
   }
 }
 
