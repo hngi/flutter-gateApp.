@@ -63,7 +63,6 @@ class _EstatePaymentsState extends State<EstatePayments> {
               ),
             ),
             PayBillsGrid(),
-            SliverToBoxAdapter(child: SizedBox(height: 10.0)),
             SliverToBoxAdapter(
               child: Padding(
                 padding:
@@ -89,14 +88,14 @@ class _EstatePaymentsState extends State<EstatePayments> {
                   style: TextStyle(
                     color: Color(0xFF878787),
                     fontSize: 14.0,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 title: Text(
                   'Electricity',
                   style: TextStyle(
                     color: Color(0xFF878787),
-                    fontSize: 18.0,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -105,7 +104,7 @@ class _EstatePaymentsState extends State<EstatePayments> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 28.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

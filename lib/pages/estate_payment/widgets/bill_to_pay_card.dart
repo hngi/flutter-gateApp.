@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xgateapp/pages/estate_payment/payment_methods.dart';
 import 'package:xgateapp/pages/estate_payment/proof_of_payment.dart';
 
 class BillsToPayCard extends StatelessWidget {
@@ -126,17 +125,14 @@ class BillsToPayCard extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute<Null>(
-                        builder: (BuildContext context) {
-                      return new PaymentMethods();
-                    }));
+                    Navigator.pushNamed(context, '/payment-method');
                   },
-                                  child: Container(
+                  child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-                    margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     alignment: Alignment.center,
                     child: Text('Pay Now',
                         style: TextStyle(
