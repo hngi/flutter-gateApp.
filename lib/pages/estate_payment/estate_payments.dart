@@ -63,6 +63,7 @@ class _EstatePaymentsState extends State<EstatePayments> {
               ),
             ),
             PayBillsGrid(),
+            SliverToBoxAdapter(child: SizedBox(height: 10.0)),
             SliverToBoxAdapter(
               child: Padding(
                 padding:
@@ -79,21 +80,23 @@ class _EstatePaymentsState extends State<EstatePayments> {
             ),
             SliverToBoxAdapter(
               child: ListTile(
-                leading:
-                    Icon(MdiIcons.cash, color: Color(0xFF49A347), size: 24.0),
+                leading: Align(
+                    alignment: Alignment.center,
+                    child: Icon(MdiIcons.cash,
+                        color: Color(0xFF49A347), size: 30.0)),
                 trailing: Text(
                   '11/11',
                   style: TextStyle(
                     color: Color(0xFF878787),
                     fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 title: Text(
                   'Electricity',
                   style: TextStyle(
                     color: Color(0xFF878787),
-                    fontSize: 14.0,
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -102,7 +105,7 @@ class _EstatePaymentsState extends State<EstatePayments> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 28.0,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
