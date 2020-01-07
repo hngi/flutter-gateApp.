@@ -12,6 +12,7 @@ import 'package:xgateapp/pages/notification_resident.dart';
 import 'package:xgateapp/pages/payment/payment_method.dart';
 import 'package:xgateapp/pages/registration/token_confirmation.dart';
 import 'package:xgateapp/pages/resident/add_gateman/add_gateman_detail.dart';
+import 'package:xgateapp/pages/resident_main_page.dart';
 import 'package:xgateapp/pages/support.dart';
 import 'package:xgateapp/pages/visitor_profile.dart';
 import 'package:xgateapp/pages/edit_info.dart';
@@ -216,6 +217,9 @@ class Routes {
 
       case '/payment-method':
         return MaterialPageRoute(builder: (context) => PaymentMethod());
+
+      case '/resident-main-page':
+        return MaterialPageRoute(builder: (context) => ResidentMainPage()); 
 
       default:
         return MaterialPageRoute(

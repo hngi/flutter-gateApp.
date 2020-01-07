@@ -21,7 +21,7 @@ class UserTypeProvider extends ChangeNotifier {
   };
 
   Map<String,String> userRouteMapToStr = {
-    'RESIDENT':'/welcome-resident',
+    'RESIDENT':'/resident-main-page',
     'GATEMAN':'/gateman-menu',
     'ADMIN':null
   };

@@ -60,6 +60,7 @@ dependencies:
   flutter_sms: ^1.0.1
   rave_flutter: ^0.0.8-alpha+1
   # flutter_dotenv: ^2.1.0
+  flutter_statusbar_manager: ^1.0.2
 dependency_overrides:
   path: ^1.6.4
 dev_dependencies:

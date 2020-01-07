@@ -48,7 +48,7 @@ class _SelectAddressState extends State<SelectAddress> {
   TextEditingController(text: '');
 
   Map<user_type, String> mapUserTypeToPage = {
-    user_type.RESIDENT: '/welcome-resident',
+    user_type.RESIDENT: '/resident-main-page',
     user_type.GATEMAN: '/gateman-menu',
   };
   user_type routeString;
@@ -88,7 +88,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
     dynamic getUserType = await userType(context);
     Map<String, String> mapUserTypeToPage = {
-      'RESIDENT': '/welcome-resident',
+      'RESIDENT': '/resident-main-page',
       'GATEMAN': '/gateman-menu',
     };
 

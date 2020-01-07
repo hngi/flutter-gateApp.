@@ -20,27 +20,29 @@ class WelcomeResident extends StatelessWidget {
      appIsConnected().then((isConnected)async{
        if (isConnected == true && getUserTypeProvider(context).loggeOut==false){
          print('Appppppppppppppp is connected');
-         print(await authToken(context));
-        print(getFCMTokenProvider(context).fcmToken);
-        print(getFCMTokenProvider(context).loading);
-        print(getFCMTokenProvider(context).loadedToServer);
          if(getFCMTokenProvider(context).fcmToken != null && getFCMTokenProvider(context).loadedToServer == false && getFCMTokenProvider(context).loading == false){
+           print('setting fcm token');
            setFCMTokenInServer(context);
+           
          }
          if(getProfileProvider(context).loadedFromApi == false && getProfileProvider(context).loading != true){
+           print('loadinf initial profile');
                loadInitialProfile(context);
            }
            if(getVisitorProvider(context).loadedFromApi == false && getVisitorProvider(context).loading != true){
+             print('loading initial visitors list');
              loadInitialVisitors(context);
            }
            if(getResidentNotificationProvider(context).loadedFromApi == false && getResidentNotificationProvider(context).loading != true){
+             print('loading resident notification');
                   loadResidentNotificationFromApi(context);
            }
            if(getResidentsGateManProvider(context).loadedFromApi==false && getResidentsGateManProvider(context).loadingAccepted !=true){
-            print('trying to get initial accepted agteman');
+            print('loading accepted gateman');
       loadGateManThatAccepted(context);
      }
      if(getResidentsGateManProvider(context).pendingloadedFromApi == false && getResidentsGateManProvider(context).loadingPending != true){
+       print('loading pending gateman');
        loadGateManThatArePending(context);
      }
      if(getVisitorProvider(context).scheduledVisitorsLoadedFromApi == false && getVisitorProvider(context).scheduledVisitorsLoading == false){
@@ -99,27 +101,7 @@ class WelcomeResident extends StatelessWidget {
                          padding: EdgeInsets.symmetric(horizontal: 28.0, vertical: 20.0),
                          children: getVisitors(context, size, pageModel),
                        ),
-                 floatingActionButton: BottomNavFAB(
-                   onPressed: () {
-                     Navigator.pushNamed(context, '/add_visitor');
-                   },
-                   icon: MdiIcons.account,
-                   title: 'Visitors',
-                 ),
-                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                 bottomNavigationBar: CustomBottomNavBar(
-                   leadingIcon: MdiIcons.apps,
-                   leadingText: 'Menu',
-                   traillingIcon: MdiIcons.bell,
-                   traillingText: 'Alerts',
-                   onLeadingClicked: () {
-                     print("leading clicked");
-                     Navigator.pushNamed(context, '/homepage');
-                   },
-                   onTrailingClicked: () {
-                     Navigator.pushNamed(context, '/resident-notifications');
-                   },
-                 ),
+                
                );
              }
            
