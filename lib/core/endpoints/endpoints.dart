@@ -77,5 +77,13 @@ class Endpoint {
   //notification settings
   static String togglePushNotification = '';
 
+  //Payment
+  static String bills = '/bills';
+  static String pendingBills = '/bills/pending';
+  static String paidBills = '/bills/paid';
+  static String estateBill({@required int estateId}) =>
+      bills + '/estate/$estateId';
 
+  static String subscribeBill({@required int billId}) =>
+      bills + '/subscribe/$billId';
 }

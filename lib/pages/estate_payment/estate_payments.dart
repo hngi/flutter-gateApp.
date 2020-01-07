@@ -79,10 +79,8 @@ class _EstatePaymentsState extends State<EstatePayments> {
             ),
             SliverToBoxAdapter(
               child: ListTile(
-                leading: Align(
-                    alignment: Alignment.center,
-                    child: Icon(MdiIcons.cash,
-                        color: Color(0xFF49A347), size: 30.0)),
+                leading: Icon(MdiIcons.cash,
+                        color: Color(0xFF49A347), size: 30.0),
                 trailing: Text(
                   '11/11',
                   style: TextStyle(
