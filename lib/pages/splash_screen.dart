@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Map<user_type, String> mapUserTypeToPage = {
-    user_type.RESIDENT: '/welcome-resident',
+    user_type.RESIDENT: '/resident-main-page',
     user_type.GATEMAN: '/gateman-menu',
   };
 

@@ -62,7 +62,7 @@ class ResidentNotificationService {
 
 
   static getAllNotifications({String authToken})async{
-    String uri = Endpoint.baseUrl + Endpoint.allNotifications;
+    String uri = Endpoint.allNotifications;
     BaseOptions formOption = BaseOptions(
       
       baseUrl: Endpoint.baseUrl,
@@ -84,6 +84,8 @@ class ResidentNotificationService {
     Dio dio = Dio(formOption);
     try {
           Response response = await dio.get(uri);
+          print(response.data);
+          print(response.statusCode);
     
           if (response == null) return ErrorType.generic;
           if(response.statusCode == 400) return ErrorType.invalid_credentials;

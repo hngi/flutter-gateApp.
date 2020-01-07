@@ -103,7 +103,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
     dynamic getUserType = await userType(context);
     Map<user_type, String> mapUserTypeToPage = {
-      user_type.RESIDENT: '/welcome-resident',
+      user_type.RESIDENT:'/resident-main-page',
       user_type.GATEMAN: '/gateman_menu',
     };
 

@@ -17,6 +17,7 @@ class CustomTextFormField extends StatefulWidget {
   final String Function(String) validator;
   final bool isPassword;
   final int maxLines;
+  final bool autovalidate;
 
   final List<TextInputFormatter> inputFormatters;
 
@@ -35,7 +36,8 @@ class CustomTextFormField extends StatefulWidget {
     @required this.validator,
     this.isPassword = false,
     this.maxLines = 1, String hint,
-    this.inputFormatters
+    this.inputFormatters,
+    this.autovalidate
   }) : super(key: key);
 
   @override
@@ -84,6 +86,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               // labelText: labelName,
               // labelStyle: TextStyle(color: GateManColors.primaryColor),
             ),
+            autovalidate: widget.autovalidate??false,
           ),
         ],
       ),
