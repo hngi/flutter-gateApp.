@@ -78,6 +78,11 @@ class Endpoint {
   static String togglePushNotification = '';
 
   //Payment
+  static String payment = '/payment';
+  static String userPayment({@required int userId}) =>
+      payment + '/user/$userId';
+
+  //Bills
   static String bills = '/bills';
   static String pendingBills = '/bills/pending';
   static String paidBills = '/bills/paid';

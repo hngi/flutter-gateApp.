@@ -23,15 +23,15 @@ class Bill {
 
   factory Bill.fromJson(Map<String, dynamic> json) {
     return Bill(
-      id: json['id'],
-      usersId: json['users_id'],
-      estateBillsId: json['estate_bills_id'],
-      usageDuration: json['usage_duration'],
-      amount: json['amount'],
-      status: json['status'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-    );
+        id: json['id'],
+        usersId: json['users_id'],
+        estateBillsId: json['estate_bills_id'],
+        usageDuration: json['usage_duration'],
+        amount: json['amount'],
+        status: json['status'],
+        createdAt: json['created_at'],
+        updatedAt: json['updated_at'],
+        billInfo: BillInfo.fromJson(json['bill_info']));
   }
 }
 
