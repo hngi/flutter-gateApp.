@@ -58,7 +58,7 @@ dependencies:
     path: ./image_picker
   json_annotation: ^3.0.0
   flutter_sms: ^1.0.1
- rave_flutter: ^0.0.8-alpha+1
+  rave_flutter: ^0.0.8-alpha+1
   # flutter_dotenv: ^2.1.0
 dependency_overrides:
   path: ^1.6.4
