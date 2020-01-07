@@ -247,9 +247,9 @@ packages:
   flutter_statusbar_manager:
     dependency: "direct main"
     description:
-      name: flutter_statusbar_manager
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: flutter_statusbar_manager
+      relative: true
+    source: path
     version: "1.0.2"
   flutter_svg:
     dependency: transitive
