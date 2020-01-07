@@ -415,18 +415,20 @@ FCMTokenProvider getFCMTokenProvider(BuildContext context){
   return Provider.of<FCMTokenProvider>(context);
 }
 
-void setFCMTokenInServer(BuildContext context)async{
+Future<bool> setFCMTokenInServer(BuildContext context)async{
   getFCMTokenProvider(context).setLoadingState(true);
   dynamic response = await FCMTokenService.editFCMToken(authToken: await authToken(context), fcmToken: getFCMTokenProvider(context).fcmToken);
   print('I am printing token response');
   print(response);
   if (response is ErrorType){
     print(response);
+    return false;
   } else {
     getFCMTokenProvider(context).setFCMTokenLoadedToServerStatus(true);
 
   }
   getFCMTokenProvider(context).setLoadingState(false);
+  return true;
 
 }
 
@@ -533,9 +535,7 @@ openAlertBox({@required String code,@required BuildContext context,@required Scr
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Screenshot(
-            controller: screenshotController,
-                      child: Dialog(
+          return Dialog(
 
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0))),
@@ -550,209 +550,212 @@ openAlertBox({@required String code,@required BuildContext context,@required Scr
                     // crossAxisAlignment: CrossAxisAlignment.stretch,
                     // mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                     Column(
-                       mainAxisSize: MainAxisSize.min,
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: <Widget>[
-                          Container(
-                            width: 300,
-                            
-                        decoration: BoxDecoration(
-                          color: GateManColors.primaryColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0)),
+                     Screenshot(
+                       controller: screenshotController,
+                                            child: Column(
+           mainAxisSize: MainAxisSize.min,
+           mainAxisAlignment: MainAxisAlignment.center,
+           children: <Widget>[
+              Container(
+                width: 300,
+                
+            decoration: BoxDecoration(
+              color: GateManColors.primaryColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding:
+                  const EdgeInsets.only(top: 15.0, bottom: 5),
+                  child: Image.asset('assets/images/success.png'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom:8.0),
+                  child: Text(
+                    'Visitor Scheduled successfully',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+              ],
+            ),
+          ),
+
+          Container(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Send Invitation',
+                    style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF466446)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                        Text(
+                          'Visitor : ',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF4f4f4f)),
                         ),
-                        child: Column(
+                        Text(
+                          fullName,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF4f4f4f)),
+                        ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: ScreenUtil().setWidth(100),
+                  height: ScreenUtil().setWidth(100),
+                  child: QrImage(
+                                data: code,
+                                version: QrVersions.auto,
+                                size: 200.0,
+                              ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 30),
+                  child: RaisedButton(
+                    color: Color(0xFFffa700),
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Container(
+                        height: 50.0,
+                        alignment: Alignment.center,
+                        child: Text(
+                          code,
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+                   
+           ],
+                       ),
+                     ) , Padding(
+                  padding: const EdgeInsets.only(left:24.0,right: 24),
+                  child: Text(
+                    'Kindly share this with your visitor and inform them to show the security at the gate',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                        color: Color(0xFF49A347)),
+                        textAlign: TextAlign.center,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    shareInvite(screenshotController: screenshotController);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 16,horizontal: 16
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(
+                              width: 1,
+                              style: BorderStyle.solid,
+                              color: GateManColors.primaryColor)),
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Padding(
-                              padding:
-                              const EdgeInsets.only(top: 15.0, bottom: 5),
-                              child: Image.asset('assets/images/success.png'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom:8.0),
-                              child: Text(
-                                'Visitor Scheduled successfully',
-                                style: TextStyle(fontSize: 16, color: Colors.white),
-                              ),
-                            ),
+                            Image.asset('assets/images/share.png'),
                             SizedBox(
-                              height: 5.0,
+                              width: 10,
+                            ),
+                            Text(
+                              'Share',
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF49A347)),
                             ),
                           ],
                         ),
                       ),
+                    ),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                child: Row(children: <Widget>[
 
-                      Container(
-                        color: Colors.white,
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Text(
-                                'Send Invitation',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF466446)),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Visitor : ',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF4f4f4f)),
-                                  ),
-                                  Text(
-                                    fullName,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xFF4f4f4f)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: ScreenUtil().setWidth(100),
-                              height: ScreenUtil().setWidth(100),
-                              child: QrImage(
-                                          data: code,
-                                          version: QrVersions.auto,
-                                          size: 200.0,
-                                        ),
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                              child: RaisedButton(
-                                color: Color(0xFFffa700),
-                                onPressed: () {},
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                child: Container(
-                                  height: 50.0,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    code,
-                                    style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left:24.0,right: 24),
-                              child: Text(
-                                'Kindly share this with your visitor and inform them to show the security at the gate',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w300,
-                                    color: Color(0xFF49A347)),
-                                    textAlign: TextAlign.center,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: (){
-                                shareInvite(screenshotController: screenshotController);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16,horizontal: 16
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                      border: Border.all(
-                                          width: 1,
-                                          style: BorderStyle.solid,
-                                          color: GateManColors.primaryColor)),
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.asset('assets/images/share.png'),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Share',
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xFF49A347)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          Padding(
-                            padding: const EdgeInsets.only(top:10.0,bottom: 10),
-                            child: Row(children: <Widget>[
-
-                              InkWell(
-                                onTap: (){
-                                   launchCaller(context: context,phone:'');
-                                 },
-                                child: Row(children: <Widget>[
-                                  ImageIcon(AssetImage('assets/images/call-icon.png'),color: GateManColors.primaryColor,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:8.0),
-                                    child: Text(
-                                      'Call Guard'
-                                    ),
-                                  )
-                                ],),
-                              ),
-                               InkWell(
-                                 onTap: (){
-                                   sendSMS("I, ${getProfileProvider(context).profileModel.name} would be expecting $fullName on ${prettifyDate(arrival_date)}. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", ['']);
-                                 },
-                                 
-
-                                child: Row(children: <Widget>[
-                                  ImageIcon(AssetImage('assets/images/sms_guard.png'),color: GateManColors.primaryColor,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:8.0),
-                                    child: Text(
-                                      'SMS Guard'
-                                    ),
-                                  )
-                                ],),
-                              )
-
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,),
-                          )
-                          ],
+                  InkWell(
+                    onTap: (){
+                       launchCaller(context: context,phone:'');
+                     },
+                    child: Row(children: <Widget>[
+                      ImageIcon(AssetImage('assets/images/call-icon.png'),color: GateManColors.primaryColor,),
+                      Padding(
+                        padding: const EdgeInsets.only(left:8.0),
+                        child: Text(
+                          'Call Guard'
                         ),
-                      ),
-                   
-                       ],
-                     )],
+                      )
+                    ],),
+                  ),
+                   InkWell(
+                     onTap: (){
+                       sendSMS("I, ${getProfileProvider(context).profileModel.name} would be expecting $fullName on ${prettifyDate(arrival_date)}. Kindly grant them access.Download GateGuard https://play.google.com/store/apps/details?id=com.hng.xgateapp", ['']);
+                     },
+                     
+
+                    child: Row(children: <Widget>[
+                      ImageIcon(AssetImage('assets/images/sms_guard.png'),color: GateManColors.primaryColor,),
+                      Padding(
+                        padding: const EdgeInsets.only(left:8.0),
+                        child: Text(
+                          'SMS Guard'
+                        ),
+                      )
+                    ],),
+                  )
+
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceAround,),
+              )
+              ],
                   ),
               ),
-            ),
-          );
+            );
         });
   }
 

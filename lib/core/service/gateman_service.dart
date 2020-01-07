@@ -108,6 +108,9 @@ class GatemanService {
 
     Response response = await dio.get(uri, options: options);
 
+    print(response.statusCode);
+    print(response.data);
+
     if (response.statusCode == 200) {
       Map<String, dynamic> mapResponse = json.decode(response.data);
       print(mapResponse);
@@ -210,7 +213,7 @@ class GatemanService {
     String uri = Endpoint.gateman + '/visitors';
 
     Options options = Options(
-      contentType: 'application/x-www-form-urlencoded',
+      contentType: 'application/json',
       headers: {'Authorization': 'Bearer $authToken'},
     );
 

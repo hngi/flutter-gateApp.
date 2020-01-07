@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+11
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -58,6 +58,7 @@ dependencies:
     path: ./image_picker
   json_annotation: ^3.0.0
   flutter_sms: ^1.0.1
+  rave_flutter: ^0.0.8-alpha+1
   # flutter_dotenv: ^2.1.0
 dependency_overrides:
   path: ^1.6.4
@@ -83,7 +84,6 @@ flutter:
     - assets/images/gateman/
     - assets/gateman_spinner.gif
     - assets/images/icons/
-    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

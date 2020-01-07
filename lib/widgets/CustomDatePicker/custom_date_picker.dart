@@ -199,7 +199,7 @@ void buildDateItemsWithChangeState(){
    daysRowCC[0][this.widget.weekIndexOfFirstDayOfSelectedMonth][2] = workingYear;
    
    calculatedIndex.add(this.widget.weekIndexOfFirstDayOfSelectedMonth);
-   int lastMonthControlDay = getMonthRange(this.widget.calendarCurrentViewMonth)[1];
+   int lastMonthControlDay = getMonthRange(this.widget.calendarCurrentViewMonth-1)[1];
    selectedMonthControlDay += 1;
    for(var i=this.widget.weekIndexOfFirstDayOfSelectedMonth-1;i>=0;i--){
      daysRowCC[0][i][0] = lastMonthControlDay;

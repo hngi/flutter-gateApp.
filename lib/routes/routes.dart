@@ -6,8 +6,10 @@ import 'package:xgateapp/pages/Add_Estate.dart';
 import 'package:xgateapp/pages/Pager/pager.dart';
 import 'package:xgateapp/pages/add_gateman.dart';
 import 'package:xgateapp/pages/add_visitor.dart';
+import 'package:xgateapp/pages/estate_payment/estate_payments.dart';
 import 'package:xgateapp/pages/gateman/qrScan.dart';
 import 'package:xgateapp/pages/notification_resident.dart';
+import 'package:xgateapp/pages/payment/payment_method.dart';
 import 'package:xgateapp/pages/registration/token_confirmation.dart';
 import 'package:xgateapp/pages/resident/add_gateman/add_gateman_detail.dart';
 import 'package:xgateapp/pages/support.dart';
@@ -94,22 +96,26 @@ class Routes {
                 ));
 
       case '/add_visitor':
-        AddEditVisitorScreenModel screenModel= settings.arguments;
-        return MaterialPageRoute(builder: (context) => AddVisitor(
-          description: screenModel?.description,
-          visitorId: screenModel?.visitorId,
-          editMode: screenModel?.editMode,
-          initName: screenModel?.initName,
-          initArrivalDate: screenModel?.initArrivalDate,
-          initArrivalPeriod: screenModel?.initArrivalPeriod,
-          initCarPlateNumber: screenModel?.initCarPlateNumber,
-          initPurpose: screenModel?.initPurpose,
-          initVisitorsImageLink: screenModel?.initVisitorsImageLink,
-          initVisitorsPhoneNo: screenModel?.initVisitorsPhoneNo,
-        ));
+        AddEditVisitorScreenModel screenModel = settings.arguments;
+        return MaterialPageRoute(
+            builder: (context) => AddVisitor(
+                  description: screenModel?.description,
+                  visitorId: screenModel?.visitorId,
+                  editMode: screenModel?.editMode,
+                  initName: screenModel?.initName,
+                  initArrivalDate: screenModel?.initArrivalDate,
+                  initArrivalPeriod: screenModel?.initArrivalPeriod,
+                  initCarPlateNumber: screenModel?.initCarPlateNumber,
+                  initPurpose: screenModel?.initPurpose,
+                  initVisitorsImageLink: screenModel?.initVisitorsImageLink,
+                  initVisitorsPhoneNo: screenModel?.initVisitorsPhoneNo,
+                ));
 
       case '/visitor-profile':
-        return MaterialPageRoute(builder: (context) => VisitorProfile(model: settings.arguments,));
+        return MaterialPageRoute(
+            builder: (context) => VisitorProfile(
+                  model: settings.arguments,
+                ));
 
       case '/add-gateman':
         return MaterialPageRoute(builder: (context) => AddGateman());
@@ -133,9 +139,12 @@ class Routes {
         return MaterialPageRoute(builder: (context) => IncomingVisitorsList());
 
       case '/manage-address':
-      print('printing manage address arguments');
-      print(settings.arguments);
-        return MaterialPageRoute(builder: (context) => ManageAddress(houseBlock: settings.arguments,));
+        print('printing manage address arguments');
+        print(settings.arguments);
+        return MaterialPageRoute(
+            builder: (context) => ManageAddress(
+                  houseBlock: settings.arguments,
+                ));
 
       case '/manage-gateman':
         return MaterialPageRoute(builder: (context) => ManageGateman());
@@ -152,9 +161,10 @@ class Routes {
       case '/token-conirmation':
         dynamic info = settings.arguments;
         return MaterialPageRoute(
-            builder: (context) =>
-                TokenConfirmation(phone: info['phone'], /*email: info['email']*/
-                skipSelectEstate:info['skip_estate']));
+            builder: (context) => TokenConfirmation(
+                phone: info['phone'],
+                /*email: info['email']*/
+                skipSelectEstate: info['skip_estate']));
 
       case '/welcome-resident':
         return MaterialPageRoute(builder: (context) => WelcomeResident());
@@ -197,9 +207,15 @@ class Routes {
 
       case '/add-gateman-detail':
         return MaterialPageRoute(builder: (context) => AddGateManDetail());
-      
+
       case '/my-visitors':
         return MaterialPageRoute(builder: (context) => MyVisitors());
+
+      case '/estate-payments':
+        return MaterialPageRoute(builder: (context) => EstatePayments());
+
+      case '/payment-method':
+        return MaterialPageRoute(builder: (context) => PaymentMethod());
 
       default:
         return MaterialPageRoute(
