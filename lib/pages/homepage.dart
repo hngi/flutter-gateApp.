@@ -14,7 +14,6 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     int notifications = getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications;
-    print(':::::::::::::::::::::::::::::::::::::::$notifications');
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -242,27 +241,6 @@ class Homepage extends StatelessWidget {
                                   onTap: (){Navigator.pushNamed(context, '/resident-settings');},
                             ),
                           ],
-                        ),
-                        floatingActionButton: BottomNavFAB(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: MdiIcons.account,
-                          title: 'Visitors',
-                        ),
-                        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                        bottomNavigationBar: CustomBottomNavBar(
-                          leadingIcon: MdiIcons.home,
-                          leadingText: 'Home',
-                          traillingIcon: MdiIcons.bell,
-                          traillingText: 'Alerts',
-                          alerts: getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications == null?null:getResidentNotificationProvider(context).getTotalNumberOfUnreadNotifications.toString(),
-                          onLeadingClicked: () {
-                            Navigator.pop(context);
-                          },
-                          onTrailingClicked: () {
-                            Navigator.pushReplacementNamed(context, '/resident-notifications');
-                          },
                         ),
                       );
                     }

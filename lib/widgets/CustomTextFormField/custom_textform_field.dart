@@ -86,7 +86,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               // labelText: labelName,
               // labelStyle: TextStyle(color: GateManColors.primaryColor),
             ),
-            autovalidate: widget.autovalidate,
+            autovalidate: widget.autovalidate??false,
           ),
         ],
       ),

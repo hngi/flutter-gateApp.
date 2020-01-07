@@ -29,10 +29,11 @@ static BaseOptions options = BaseOptions(
       @required String country, @required String currency,@required String amount, @required String email, @required String billId
       }) async {
         var uri = Endpoint.payWithCard;
-      options.headers['Authorization'] = 'Bearer' + ' ' + authToken;
+        print(options.baseUrl + uri);
+      options.headers['Authorization'] = 'Bearer $authToken';
         Dio dio = Dio(options);
         try {
-          Response response = await dio.post(uri,data: {
+          Map data ={
             "cardno": cardNo,
 	"cvv": cvv,
 	"expiryyear": expiryyear,
@@ -41,8 +42,12 @@ static BaseOptions options = BaseOptions(
 	"currency": currency,
 	"amount": amount,
 	"email": email,
-  "billid":billId
-          });
+  "bill_id":billId
+          };
+          print(data);
+          Response response = await dio.post(uri,data: data);
+
+          print(response.data);
    
     
           if (response == null) return ErrorType.generic;

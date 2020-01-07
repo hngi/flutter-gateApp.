@@ -6,7 +6,7 @@ class Endpoint {
       'https://res.cloudinary.com/getfiledata/image/upload/w_200,c_fill,ar_1:1,g_auto,r_max/';
   //Base URL
   static String baseUrl =
-      'https://api.gateguard.co/api/v1'; //'https://707208ed.ngrok.io/api/v1/'; //
+      'https://api.gateguard.co/api/v1/'; //'https://707208ed.ngrok.io/api/v1/'; //
   //Auth
   static String login = '/login';
   static String adminRegister = '/register/admin';
@@ -63,7 +63,7 @@ class Endpoint {
       'resident/removeGateman/$gatemanId';
 
   //Notifications
-  static String allNotifications = 'notifications';
+  static String allNotifications = '/notifications';
   static String markNotificationAsRead({String notificationId}) =>
       allNotifications + '/$notificationId';
   static String deleteNotification({String notificationId}) =>
@@ -78,7 +78,7 @@ class Endpoint {
   static String togglePushNotification = '';
 
   //payment service
-  static String payWithCard = 'begin_card_pay';
+  static String payWithCard = '/begin_card_pay';
 
 
 }

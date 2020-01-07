@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
 import 'package:rave_flutter/src/ui/fields/card_number_field.dart';
 import 'package:xgateapp/core/service/payment_service.dart';
 import 'package:xgateapp/pages/payment/widgets/rave_logo.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
+import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:rave_flutter/src/ui/common/card_utils.dart';
 
@@ -25,6 +27,8 @@ enum PaymentOptionSelect { none, card, account }
 class _PaymentMethodState extends State<PaymentMethod>
     with TickerProviderStateMixin {
   String _cardNumber;
+  String _cvvNumber;
+  String _expiry;
   StreamController<String> _cardNumberController;
   PaymentOptionSelect selected = PaymentOptionSelect.none;
 
@@ -35,12 +39,14 @@ class _PaymentMethodState extends State<PaymentMethod>
     // TODO: implement initState
     super.initState();
     _cardNumberController = StreamController<String>.broadcast();
+    FlutterStatusbarManager.setColor(GateManColors.primaryColor,animated: true);
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    FlutterStatusbarManager.setColor(Colors.transparent,animated: true);
   }
 
   @override
@@ -145,6 +151,7 @@ class _PaymentMethodState extends State<PaymentMethod>
                                       labelName: 'Card Number',
                                       onChanged: (String nS) {
                                         _cardNumberController.sink.add(nS);
+                                        _cardNumber = nS;
                                       },
                                       onSaved: (String numb) {
                                         setState(() {
@@ -201,8 +208,17 @@ class _PaymentMethodState extends State<PaymentMethod>
                                               0.5,
                                           child: CustomTextFormField(
                                             labelName: 'Valid till MM/YY',
-                                            onSaved: (String) {},
-                                            validator: (String) {},
+                                            onChanged:  (String numb) {
+                                              setState(() {
+                                          _expiry = numb;
+                                        });
+                                            },
+                                            onSaved: (String numb) {
+                                              setState(() {
+                                          _expiry = numb;
+                                        });
+                                            },
+                                            validator: (String)=>null,
                                             inputFormatters: [
                                               CardMonthInputFormatterGateApp(),
                                               LengthLimitingTextInputFormatter(
@@ -221,8 +237,17 @@ class _PaymentMethodState extends State<PaymentMethod>
                                               0.35,
                                           child: CustomTextFormField(
                                             labelName: 'CVV/CVV2',
-                                            onSaved: (String) {},
-                                            validator: (String) {},
+                                            onChanged: (String numb) {
+                                              setState(() {
+                                          _cvvNumber = numb;
+                                        });
+                                            },
+                                            onSaved: (String numb) {
+                                              setState(() {
+                                          _cvvNumber = numb;
+                                        });
+                                            },
+                                            validator: (String)=>null,
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
                                                   3)
@@ -252,7 +277,10 @@ class _PaymentMethodState extends State<PaymentMethod>
                                     padding: const EdgeInsets.all(16.0),
                                     child: GestureDetector(
                                       onTap: () async {
+                                        LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+                                        dialog.show();
                                         await payWithCard();
+                                        Navigator.pop(context);
                                       },
                                       child: Container(
                                           decoration: BoxDecoration(
@@ -445,16 +473,16 @@ class _PaymentMethodState extends State<PaymentMethod>
 
   payWithCard() async {
     dynamic response = await PaymentService.payBillWithCard(
-        amount: null,
-        authToken: null,
-        billId: null,
-        cardNo: null,
-        country: null,
-        currency: null,
-        cvv: null,
-        email: null,
-        expirymonth: null,
-        expiryyear: null);
+        amount: "1000",
+        authToken: await authToken(context),
+        billId: "3",
+        cardNo: _cardNumber.replaceAll(' ', ''),
+        country: 'NG',
+        currency: 'NGN',
+        cvv: _cvvNumber,
+        email: getProfileProvider(context).profileModel.email,
+        expirymonth: _expiry.split('/')[0],
+        expiryyear: _expiry.split('/')[1]);
   print(response);
   }
 }
@@ -487,10 +515,23 @@ class CardMonthInputFormatterGateApp extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
+
+    if(oldValue.text.length > newValue.text.length){
+        return newValue;
+    }
+    
     if (newValue.text.length < 2 ||
         oldValue.text.length > newValue.text.length) {
       return newValue;
     }
+
+    if(newValue.text.length == 1 && (newValue.text != '0' || newValue.text != '1' )){
+      newValue =  newValue.copyWith(
+        text: '0'+newValue.text, selection: TextSelection.collapsed(offset: 2));
+  }
+    
+
+    
     String acting = newValue.text.replaceAll('/', '');
     String newS = '';
     int count = 0;
