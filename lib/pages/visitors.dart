@@ -160,27 +160,6 @@ class _MyVisitorsState extends State<MyVisitors> {
           }
         },)
       ]:[],),
-      floatingActionButton: BottomNavFAB(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_visitor');
-        },
-        icon: MdiIcons.account,
-        title: 'Visitors',
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomNavBar(
-        leadingIcon: MdiIcons.apps,
-        leadingText: 'Menu',
-        traillingIcon: MdiIcons.bell,
-        traillingText: 'Alerts',
-        onLeadingClicked: () {
-          print("leading clicked");
-          Navigator.pop(context);
-        },
-        onTrailingClicked: () {
-          Navigator.pushReplacementNamed(context, '/resident-notifications');
-        },
-      ),
       body: RefreshIndicator(
         onRefresh: ()async{
           await loadScheduledVisitors(context);
