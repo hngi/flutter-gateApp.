@@ -216,9 +216,11 @@ class Routes {
         return MaterialPageRoute(builder: (context) => EstatePayments());
 
       case '/payment-method':
+        dynamic info = settings.arguments;
         return MaterialPageRoute(
             builder: (context) => PaymentMethod(
-                  billId: settings.arguments,
+                  billId: info['billId'],
+                  amount: info['amount'],
                 ));
 
       case '/resident-main-page':
