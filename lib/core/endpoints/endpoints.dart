@@ -81,7 +81,12 @@ class Endpoint {
   static String payment = '/payment';
   static String userPayment({@required int userId}) =>
       payment + '/user/$userId';
+  static String singlePayment({@required int paymentId}) =>
+      payment + '/$paymentId';
   static String payWithCard = '/begin_card_pay';
+  static String insertCardPin = '/insert_card_pin';
+  static String otpConfirmation = '/otp_confirmation';
+  //otpConfirmation
 
   //Bills
   static String bills = '/bills';
@@ -92,4 +97,7 @@ class Endpoint {
 
   static String subscribeBill({@required int billId}) =>
       bills + '/subscribe/$billId';
+
+  static String proofBill({@required int billId}) =>
+      bills + '/proof/$billId';
 }

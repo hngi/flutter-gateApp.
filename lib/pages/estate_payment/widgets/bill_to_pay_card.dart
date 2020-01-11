@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:xgateapp/pages/estate_payment/proof_of_payment.dart';
 
 class BillsToPayCard extends StatelessWidget {
+  final int billId;
   final String billType;
-  final String amount;
+  final int billNo;
+  final String billDate;
+  final String dueDate;
+  final int amount;
 
   const BillsToPayCard(
-      {Key key, @required this.billType, @required this.amount})
+      {Key key,
+      @required this.billType,
+      @required this.amount,
+      @required this.billId,
+      @required this.billNo,
+      @required this.billDate,
+      @required this.dueDate})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,14 +41,14 @@ class BillsToPayCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  'Bill No: 190100',
+                  'Bill No: $billNo',
                   style: TextStyle(
                     fontSize: 11.0,
                     color: Color(0xFF878787),
                   ),
                 ),
                 Text(
-                  'Bill Date: 25 Oct 2019',
+                  'Bill Date: $billDate',
                   style: TextStyle(
                     fontSize: 11.0,
                     color: Color(0xFF878787),
@@ -67,7 +77,7 @@ class BillsToPayCard extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 13.0, vertical: 5.0),
             child: Text(
-              'N' + this.amount,
+              'N ${this.amount}',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 28.0,
@@ -80,7 +90,7 @@ class BillsToPayCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 7.0, vertical: 3.0),
             child: Text(
-              'Due Date: 5 Nov 2019',
+              'Due Date: $dueDate',
               style: TextStyle(
                 color: Color(0xFF49A347),
                 fontSize: 14.0,

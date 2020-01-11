@@ -5,7 +5,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:xgateapp/core/models/notification/notification_types.dart';
-import 'package:xgateapp/pages/payment/payment_method.dart';
 import 'package:xgateapp/pages/resident_main_page.dart';
 import 'package:xgateapp/utils/constants.dart';
 import 'package:xgateapp/utils/colors.dart';
@@ -107,10 +106,6 @@ class _GateManState extends State<GateMan> {
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           handleOnNotificationReceived(message,viewWhen: 'onMessage');
-          
-          
-          
-          
         },
         onResume: (Map<String, dynamic> message) {
           handleOnNotificationReceived(message);

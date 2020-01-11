@@ -6,17 +6,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
 import 'package:rave_flutter/src/ui/fields/card_number_field.dart';
 import 'package:xgateapp/core/service/payment_service.dart';
-import 'package:xgateapp/pages/payment/widgets/rave_logo.dart';
+import 'package:xgateapp/pages/estate_payment/card_pin.dart';
+import 'package:xgateapp/pages/estate_payment/widgets/rave_logo.dart';
+import 'package:xgateapp/utils/FlushAlert/flush_alert.dart';
 import 'package:xgateapp/utils/LoadingDialog/loading_dialog.dart';
 import 'package:xgateapp/utils/colors.dart';
 import 'package:xgateapp/utils/constants.dart';
+import 'package:xgateapp/utils/errors.dart';
+import 'package:xgateapp/utils/helpers.dart';
+import 'package:xgateapp/widgets/ActionButton/action_button.dart';
 import 'package:xgateapp/widgets/CustomTextFormField/custom_textform_field.dart';
 import 'package:rave_flutter/src/ui/common/card_utils.dart';
 
 class PaymentMethod extends StatefulWidget {
   String billId;
+  int amount;
 
-  PaymentMethod({@required this.billId});
+  PaymentMethod({@required this.billId, @required amount});
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
@@ -31,22 +37,73 @@ class _PaymentMethodState extends State<PaymentMethod>
   String _expiry;
   StreamController<String> _cardNumberController;
   PaymentOptionSelect selected = PaymentOptionSelect.none;
+  GlobalKey<FormState> _cardPaymentFormKey = GlobalKey<FormState>();
+
+  String _country = 'NG', _currency = 'NGN';
 
   String _bank;
+
+  _onPay() async {
+    var form = _cardPaymentFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+
+      LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
+      dialog.show();
+
+      var res = await PaymentService.payBillWithCard(
+        authToken: await authToken(context),
+        amount: widget.amount,
+        billId: widget.billId,
+        cardNo: _cardNumber.replaceAll(' ', ''),
+        country: _country,
+        currency: _currency,
+        cvv: _cvvNumber,
+        email: getProfileProvider(context).profileModel.email,
+        expirymonth: _expiry.split('/')[0],
+        expiryyear: _expiry.split('/')[1],
+      );
+
+      dialog.hide();
+
+      if (res is ErrorType) {
+        FlushAlert.show(
+          context: context,
+          message: GateManHelpers.errorTypeMap(res),
+          isError: true,
+        );
+      } else {
+        Navigator.of(context)
+            .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
+          return new CardPin(
+            amount: widget.amount,
+            cardNo: _cardNumber,
+            country: _country,
+            currency: _currency,
+            cvv: _cvvNumber,
+            email: getProfileProvider(context).profileModel.email,
+            expiryMonth: _expiry.split('/')[0],
+            expiryYear: _expiry.split('/')[1],
+          );
+        }));
+      }
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _cardNumberController = StreamController<String>.broadcast();
-    FlutterStatusbarManager.setColor(GateManColors.primaryColor,animated: true);
+    FlutterStatusbarManager.setColor(GateManColors.primaryColor,
+        animated: true);
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    FlutterStatusbarManager.setColor(Colors.transparent,animated: true);
+    FlutterStatusbarManager.setColor(Colors.transparent, animated: true);
   }
 
   @override
@@ -74,13 +131,13 @@ class _PaymentMethodState extends State<PaymentMethod>
                                   children: <Widget>[
                                     Icon(
                                       Icons.lock,
-                                      size: 10,
+                                      size: 13,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Text('SECURED FLUTTERWAVE',
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 13,
                                               color: Colors.grey)),
                                     ),
                                   ],
@@ -141,164 +198,177 @@ class _PaymentMethodState extends State<PaymentMethod>
                           }),
                       selected == PaymentOptionSelect.card
                           ? Expanded(
-                              child: ListView(
-                                padding: EdgeInsets.only(top: 20),
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 16.0, right: 16.0),
-                                    child: CustomTextFormField(
-                                      labelName: 'Card Number',
-                                      onChanged: (String nS) {
-                                        _cardNumberController.sink.add(nS);
-                                        _cardNumber = nS;
-                                      },
-                                      onSaved: (String numb) {
-                                        setState(() {
-                                          _cardNumber = numb;
-                                        });
-                                      },
-                                      validator: (String numb){
-                                          if(numb.length > 22){
+                              child: Form(
+                                key: _cardPaymentFormKey,
+                                child: ListView(
+                                  padding: EdgeInsets.only(top: 20),
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0, right: 16.0),
+                                      child: CustomTextFormField(
+                                        labelName: 'Card Number',
+                                        onChanged: (String nS) {
+                                          _cardNumberController.sink.add(nS);
+                                          _cardNumber = nS;
+                                        },
+                                        onSaved: (String numb) {
+                                          setState(() {
+                                            _cardNumber = numb;
+                                          });
+                                        },
+                                        validator: (String numb) {
+                                          if (numb.length > 22) {
                                             return "Card number should be 16 digits";
                                           }
                                           return null;
-                                      },
-                                      autovalidate: true,
-                                      
-                                      inputFormatters: [
-                                        CardNumberInputFormatterGateApp(),
-                                        LengthLimitingTextInputFormatter(22),
-                                      ],
-                                      keyboardType: TextInputType.number,
-                                      suffixIcon: StreamBuilder<String>(
-                                          stream: _cardNumberController.stream,
-                                          builder: (context, snapshot) {
-                                            getCardImage(
-                                                CardUtils.getTypeForIIN(
-                                                    snapshot.data));
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Image.asset(
-                                                snapshot == null ||
-                                                        snapshot.data == null ||
-                                                        snapshot.data.length ==
-                                                            0
-                                                    ? 'assets/images/card-unknown.png'
-                                                    : getCardImage(
-                                                        CardUtils.getTypeForIIN(
-                                                            snapshot.data)),
-                                                scale: 4,
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.5,
-                                          child: CustomTextFormField(
-                                            labelName: 'Valid till MM/YY',
-                                            onChanged:  (String numb) {
-                                              setState(() {
-                                          _expiry = numb;
-                                        });
-                                            },
-                                            onSaved: (String numb) {
-                                              setState(() {
-                                          _expiry = numb;
-                                        });
-                                            },
-                                            validator: (String)=>null,
-                                            inputFormatters: [
-                                              CardMonthInputFormatterGateApp(),
-                                              LengthLimitingTextInputFormatter(
-                                                  5)
-                                            ],
-                                            keyboardType: TextInputType.number,
-                                          ),
-                                        ),
+                                        },
+                                        autovalidate: true,
+                                        inputFormatters: [
+                                          CardNumberInputFormatterGateApp(),
+                                          LengthLimitingTextInputFormatter(22),
+                                        ],
+                                        keyboardType: TextInputType.number,
+                                        suffixIcon: StreamBuilder<String>(
+                                            stream:
+                                                _cardNumberController.stream,
+                                            builder: (context, snapshot) {
+                                              getCardImage(
+                                                  CardUtils.getTypeForIIN(
+                                                      snapshot.data));
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.asset(
+                                                  snapshot == null ||
+                                                          snapshot.data ==
+                                                              null ||
+                                                          snapshot.data
+                                                                  .length ==
+                                                              0
+                                                      ? 'assets/images/card-unknown.png'
+                                                      : getCardImage(CardUtils
+                                                          .getTypeForIIN(
+                                                              snapshot.data)),
+                                                  scale: 4,
+                                                ),
+                                              );
+                                            }),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.35,
-                                          child: CustomTextFormField(
-                                            labelName: 'CVV/CVV2',
-                                            onChanged: (String numb) {
-                                              setState(() {
-                                          _cvvNumber = numb;
-                                        });
-                                            },
-                                            onSaved: (String numb) {
-                                              setState(() {
-                                          _cvvNumber = numb;
-                                        });
-                                            },
-                                            validator: (String)=>null,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(
-                                                  3)
-                                            ],
-                                            keyboardType: TextInputType.number,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: CustomTextFormField(
+                                              labelName: 'Valid till MM/YY',
+                                              onChanged: (String numb) {
+                                                setState(() {
+                                                  _expiry = numb;
+                                                });
+                                              },
+                                              onSaved: (String numb) {
+                                                setState(() {
+                                                  _expiry = numb;
+                                                });
+                                              },
+                                              validator: (String str) => null,
+                                              inputFormatters: [
+                                                CardMonthInputFormatterGateApp(),
+                                                LengthLimitingTextInputFormatter(
+                                                    5)
+                                              ],
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            ),
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('Save Card'),
-                                        Switch(
-                                          onChanged: (bool value) {},
-                                          value: false,
-                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.35,
+                                            child: CustomTextFormField(
+                                              labelName: 'CVV/CVV2',
+                                              onChanged: (String numb) {
+                                                setState(() {
+                                                  _cvvNumber = numb;
+                                                });
+                                              },
+                                              onSaved: (String numb) {
+                                                setState(() {
+                                                  _cvvNumber = numb;
+                                                });
+                                              },
+                                              validator: (String str) => null,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(
+                                                    3)
+                                              ],
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        LoadingDialog dialog = LoadingDialog(context, LoadingDialogType.Normal);
-                                        dialog.show();
-                                        await payWithCard();
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: GateManColors
-                                                  .primarySwatchColor),
-                                          height: 50,
-                                          child: Center(
-                                              child: Text('Pay',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white)))),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, right: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text('Save Card'),
+                                          Switch(
+                                            onChanged: (bool value) {},
+                                            value: false,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  raveLogo
-                                ],
+
+                                    ActionButton(
+                                      buttonText: 'Pay',
+                                      onPressed: _onPay,
+                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.all(16.0),
+                                    //   child: GestureDetector(
+                                    //     onTap: () async {
+                                    //       LoadingDialog dialog = LoadingDialog(
+                                    //           context, LoadingDialogType.Normal);
+                                    //       dialog.show();
+                                    //       await payWithCard();
+                                    //       Navigator.pop(context);
+                                    //     },
+                                    //     child: Container(
+                                    //         decoration: BoxDecoration(
+                                    //             borderRadius:
+                                    //                 BorderRadius.circular(5),
+                                    //             color: GateManColors
+                                    //                 .primarySwatchColor),
+                                    //         height: 50,
+                                    //         child: Center(
+                                    //             child: Text('Pay',
+                                    //                 textAlign: TextAlign.center,
+                                    //                 style: TextStyle(
+                                    //                     fontSize: 10,
+                                    //                     color: Colors.white)))),
+                                    //   ),
+                                    // ),
+                                    raveLogo
+                                  ],
+                                ),
                               ),
                             )
                           : Container(
@@ -471,20 +541,20 @@ class _PaymentMethodState extends State<PaymentMethod>
     }
   }
 
-  payWithCard() async {
-    dynamic response = await PaymentService.payBillWithCard(
-        amount: "1000",
-        authToken: await authToken(context),
-        billId: "3",
-        cardNo: _cardNumber.replaceAll(' ', ''),
-        country: 'NG',
-        currency: 'NGN',
-        cvv: _cvvNumber,
-        email: getProfileProvider(context).profileModel.email,
-        expirymonth: _expiry.split('/')[0],
-        expiryyear: _expiry.split('/')[1]);
-  print(response);
-  }
+  // payWithCard() async {
+  //   dynamic response = await PaymentService.payBillWithCard(
+  //       amount: "1000",
+  //       authToken: await authToken(context),
+  //       billId: "3",
+  //       cardNo: _cardNumber.replaceAll(' ', ''),
+  //       country: 'NG',
+  //       currency: 'NGN',
+  //       cvv: _cvvNumber,
+  //       email: getProfileProvider(context).profileModel.email,
+  //       expirymonth: _expiry.split('/')[0],
+  //       expiryyear: _expiry.split('/')[1]);
+  //   print(response);
+  // }
 }
 
 class CardNumberInputFormatterGateApp extends TextInputFormatter {
@@ -515,23 +585,22 @@ class CardMonthInputFormatterGateApp extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-
-    if(oldValue.text.length > newValue.text.length){
-        return newValue;
+    if (oldValue.text.length > newValue.text.length) {
+      return newValue;
     }
-    
+
     if (newValue.text.length < 2 ||
         oldValue.text.length > newValue.text.length) {
       return newValue;
     }
 
-    if(newValue.text.length == 1 && (newValue.text != '0' || newValue.text != '1' )){
-      newValue =  newValue.copyWith(
-        text: '0'+newValue.text, selection: TextSelection.collapsed(offset: 2));
-  }
-    
+    if (newValue.text.length == 1 &&
+        (newValue.text != '0' || newValue.text != '1')) {
+      newValue = newValue.copyWith(
+          text: '0' + newValue.text,
+          selection: TextSelection.collapsed(offset: 2));
+    }
 
-    
     String acting = newValue.text.replaceAll('/', '');
     String newS = '';
     int count = 0;
@@ -555,27 +624,32 @@ Widget payWithTile({bool isCollapsed = true, String title, Function onTapped}) {
         height: 0.5,
         color: Colors.white,
       ),
-      Container(
-        height: 49,
-        color: GateManColors.primaryColor,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text('$title',
-                  style: TextStyle(color: Colors.white, fontSize: 14)),
-            ),
-            IconButton(
-              icon: Icon(isCollapsed
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down),
-              onPressed: onTapped ?? () {},
-              color: Colors.white,
-            )
-          ],
+      GestureDetector(
+        onTap: onTapped ?? () {},
+        child: Container(
+          height: 49,
+          color: GateManColors.primaryColor,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('$title',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold)),
+              ),
+              Icon(
+                isCollapsed
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: Colors.white,
+              ),
+            ],
+          ),
         ),
       ),
     ],
